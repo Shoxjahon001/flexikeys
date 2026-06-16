@@ -92,7 +92,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   child: Column(
                     children: [
                       const SizedBox(height: 32),
-                      const CloudMascot(size: 140),
+                      const CloudMascot(size: 220),
                       const SizedBox(height: 20),
                       Text(
                         'Registration',

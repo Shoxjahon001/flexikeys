@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
+import '../../services/tts_service.dart';
 
 class LettersStage2Screen extends StatefulWidget {
   const LettersStage2Screen({super.key});
@@ -37,6 +38,10 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
     _tapped = [];
     _flashWrong = null;
     _generateChoices();
+    final capturedWord = _words[_wordIndex];
+    Future.delayed(const Duration(milliseconds: 350), () {
+      TtsService.instance.speak(capturedWord);
+    });
   }
 
   void _generateChoices() {
@@ -73,8 +78,9 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
     } else {
       UserService.recordAnswer(correct: false);
       setState(() => _flashWrong = letter);
-      Future.delayed(
-          const Duration(milliseconds: 400), () => setState(() => _flashWrong = null));
+      Future.delayed(const Duration(milliseconds: 400), () {
+        if (mounted) setState(() => _flashWrong = null);
+      });
     }
   }
 
@@ -84,10 +90,8 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
       _onComplete();
       return;
     }
-    setState(() {
-      _wordIndex++;
-      _resetWord();
-    });
+    _wordIndex++;
+    _resetWord();
   }
 
   Future<void> _onComplete() async {
@@ -138,6 +142,20 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.7),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                  size: 18, color: AppTheme.textDark),
+            ),
+          ),
+          const SizedBox(width: 12),
           Text(
             'Letters',
             style: GoogleFonts.nunito(
@@ -183,13 +201,13 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 104,
+            height: 104,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withValues(alpha: 0.6),
             ),
-            child: const CloudMascot(size: 70, animate: true),
+            child: const CloudMascot(size: 94, animate: true),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -280,17 +298,20 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
                   );
                 }),
                 const SizedBox(width: 8),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.volume_up_rounded,
-                    color: AppTheme.textMedium,
-                    size: 22,
+                GestureDetector(
+                  onTap: () => TtsService.instance.speak(word),
+                  child: Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.volume_up_rounded,
+                      color: AppTheme.primary,
+                      size: 22,
+                    ),
                   ),
                 ),
               ],

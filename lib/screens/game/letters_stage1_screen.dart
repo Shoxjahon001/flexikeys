@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
+import '../../services/tts_service.dart';
 
 class LettersStage1Screen extends StatefulWidget {
   const LettersStage1Screen({super.key});
@@ -53,6 +54,10 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       _selected = null;
       _answered = false;
     });
+    final capturedTarget = target;
+    Future.delayed(const Duration(milliseconds: 350), () {
+      TtsService.instance.speak(capturedTarget);
+    });
   }
 
   void _onTap(String letter) {
@@ -76,10 +81,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
     if (_current == 7) {
       Navigator.pushNamed(context, '/good_job', arguments: {
         'onContinue': () {
-          setState(() {
-            _current++;
-            _generateChoices();
-          });
+          if (!mounted) return;
+          _current++;
+          _generateChoices();
         }
       });
       return;
@@ -88,10 +92,8 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       _onComplete();
       return;
     }
-    setState(() {
-      _current++;
-      _generateChoices();
-    });
+    _current++;
+    _generateChoices();
   }
 
   Future<void> _onComplete() async {
@@ -142,6 +144,20 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
         children: [
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.7),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                  size: 18, color: AppTheme.textDark),
+            ),
+          ),
+          const SizedBox(width: 12),
           Text(
             'Letters',
             style: GoogleFonts.nunito(
@@ -186,13 +202,13 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 104,
+            height: 104,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withValues(alpha: 0.6),
             ),
-            child: const CloudMascot(size: 70, animate: true),
+            child: const CloudMascot(size: 94, animate: true),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -273,17 +289,20 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                   ),
                 ),
                 const SizedBox(width: 12),
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.15),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.volume_up_rounded,
-                    color: AppTheme.textMedium,
-                    size: 24,
+                GestureDetector(
+                  onTap: () => TtsService.instance.speak(target),
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.volume_up_rounded,
+                      color: AppTheme.primary,
+                      size: 24,
+                    ),
                   ),
                 ),
               ],
@@ -314,15 +333,22 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
 
           Color bgColor = Colors.white;
           Color borderColor = Colors.transparent;
+          Color textColor = AppTheme.textDark;
 
           if (_answered) {
             if (isCorrect) {
-              bgColor = AppTheme.cardActive;
-              borderColor = AppTheme.primary;
+              bgColor = const Color(0xFF6EE482);
+              borderColor = const Color(0xFF4AC75E);
+              textColor = Colors.white;
             } else if (isSelected) {
               bgColor = const Color(0xFFFFE0E0);
               borderColor = const Color(0xFFFF6B6B);
+              textColor = const Color(0xFFFF6B6B);
             }
+          } else if (isCorrect) {
+            bgColor = const Color(0xFFE8EEFF);
+            borderColor = AppTheme.primary;
+            textColor = AppTheme.primary;
           }
 
           return GestureDetector(
@@ -349,7 +375,7 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                   style: GoogleFonts.nunito(
                     fontSize: 44,
                     fontWeight: FontWeight.w900,
-                    color: AppTheme.textDark,
+                    color: textColor,
                   ),
                 ),
               ),

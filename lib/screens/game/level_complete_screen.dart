@@ -79,7 +79,7 @@ class _LevelCompleteScreenState extends State<LevelCompleteScreen>
               const SizedBox(height: 32),
               ScaleTransition(
                 scale: _cloudScale,
-                child: const CloudMascot(size: 220, animate: true),
+                child: const CloudMascot(size: 340, animate: true),
               ),
               const Spacer(),
               FadeTransition(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'theme/app_theme.dart';
@@ -12,6 +13,7 @@ import 'screens/game/generic_game_screen.dart';
 import 'screens/game/good_job_screen.dart';
 import 'screens/game/level_complete_screen.dart';
 import 'services/user_service.dart';
+import 'services/tts_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +28,7 @@ void main() async {
     ),
   );
   final registered = await UserService.isRegistered();
+  unawaited(TtsService.instance.init().catchError((_) {}));
   runApp(FlexiKeysApp(startRegistered: registered));
 }
 

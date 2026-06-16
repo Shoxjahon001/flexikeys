@@ -57,7 +57,7 @@ class _LanguageScreenState extends State<LanguageScreen>
             children: [
               const SizedBox(height: 32),
               // Smaller cloud on this screen
-              const CloudMascot(size: 140),
+              const CloudMascot(size: 220),
               const SizedBox(height: 24),
 
               // Title

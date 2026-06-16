@@ -13,9 +13,11 @@ class UserService {
   static const _keyLastDate = 'last_session_date';
   static const _keyRegistered = 'is_registered';
   static const _keyCompletedLevels = 'completed_levels';
+  static const _keyVolume = 'tts_volume';
 
-  static Future<SharedPreferences> get _prefs =>
-      SharedPreferences.getInstance();
+  static SharedPreferences? _cachedPrefs;
+  static Future<SharedPreferences> get _prefs async =>
+      _cachedPrefs ??= await SharedPreferences.getInstance();
 
   // ─── Registration ────────────────────────────────────────────────────────────
 
@@ -104,8 +106,10 @@ class UserService {
   static Future<void> setLettersStage(int stage) async {
     final p = await _prefs;
     await p.setInt(_keyLettersStage, stage);
-    // Mirror into the general completedLevels system
-    if (stage >= 1) await completeLevel('letters_1');
+    if (stage >= 1) {
+      await completeLevel('letters_1');
+      await completeLevel('letters');
+    }
     if (stage >= 2) await completeLevel('letters_2');
   }
 
@@ -164,6 +168,18 @@ class UserService {
     final lastDate = p.getString(_keyLastDate) ?? '';
     if (lastDate != today) return 0;
     return p.getInt(_keyTimeSpent) ?? 0;
+  }
+
+  // ─── Volume ───────────────────────────────────────────────────────────────
+
+  static Future<double> getVolume() async {
+    final p = await _prefs;
+    return p.getDouble(_keyVolume) ?? 0.7;
+  }
+
+  static Future<void> setVolume(double vol) async {
+    final p = await _prefs;
+    await p.setDouble(_keyVolume, vol);
   }
 
   // ─── Sign out ─────────────────────────────────────────────────────────────

@@ -5,6 +5,7 @@ import '../../data/level_configs.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
+import '../../services/tts_service.dart';
 
 class GenericGameScreen extends StatefulWidget {
   const GenericGameScreen({super.key});
@@ -57,6 +58,10 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       _tapped = [];
       _flashWrong = null;
       _grid = _buildGrid(_questions[_current].word, _gridSize);
+    });
+    final capturedWord = _questions[_current].word;
+    Future.delayed(const Duration(milliseconds: 350), () {
+      TtsService.instance.speak(capturedWord);
     });
   }
 
@@ -260,13 +265,13 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: 68,
-            height: 68,
+            width: 90,
+            height: 90,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white.withValues(alpha: 0.6),
             ),
-            child: const CloudMascot(size: 58, animate: true),
+            child: const CloudMascot(size: 80, animate: true),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -325,7 +330,30 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
         ),
         child: Column(
           children: [
-            _buildHint(item),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                _buildHint(item),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: () => TtsService.instance.speak(item.word),
+                  child: Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppTheme.primary.withValues(alpha: 0.12),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.volume_up_rounded,
+                      color: AppTheme.primary,
+                      size: 24,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 18),
             _buildWordBoxes(item.word),
           ],

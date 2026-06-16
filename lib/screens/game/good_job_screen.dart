@@ -65,7 +65,7 @@ class _GoodJobScreenState extends State<GoodJobScreen>
               const SizedBox(height: 40),
               ScaleTransition(
                 scale: _scaleAnim,
-                child: const CloudMascot(size: 200, animate: true),
+                child: const CloudMascot(size: 320, animate: true),
               ),
               const Spacer(),
               Padding(

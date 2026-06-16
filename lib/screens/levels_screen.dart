@@ -73,9 +73,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     if (args != null) {
       final n = args['name'] as String? ?? '';
-      if (n.isNotEmpty) setState(() => _name = n);
+      if (n.isNotEmpty && n != _name) setState(() => _name = n);
     }
-    _load();
   }
 
   Future<void> _load() async {

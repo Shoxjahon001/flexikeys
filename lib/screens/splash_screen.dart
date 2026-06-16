@@ -17,8 +17,6 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _fadeAnim;
   late AnimationController _slideController;
   late Animation<Offset> _slideAnim;
-  bool _showTip = true;
-
   @override
   void initState() {
     super.initState();
@@ -36,11 +34,6 @@ class _SplashScreenState extends State<SplashScreen>
       begin: const Offset(0, 0.3),
       end: Offset.zero,
     ).animate(CurvedAnimation(parent: _slideController, curve: Curves.easeOut));
-
-    // Hide tip after 3 seconds
-    Future.delayed(const Duration(seconds: 3), () {
-      if (mounted) setState(() => _showTip = false);
-    });
   }
 
   @override
@@ -71,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                       const SizedBox(height: 60),
                       // Cloud mascot
-                      const Center(child: CloudMascot(size: 200)),
+                      const Center(child: CloudMascot(size: 320)),
                       const SizedBox(height: 32),
                       // App name
                       Text(
@@ -97,7 +90,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const Spacer(),
                       const DotIndicator(count: 3, current: 0),
-                      const SizedBox(height: 40),
+                      const SizedBox(height: 90),
                     ],
                   ),
                 ),
@@ -108,75 +101,39 @@ class _SplashScreenState extends State<SplashScreen>
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: Column(
-                  children: [
-                    // Go! button
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: GestureDetector(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/language'),
-                        child: Container(
-                          height: 68,
-                          decoration: BoxDecoration(
-                            color: AppTheme.primaryLight,
-                            borderRadius: BorderRadius.circular(34),
-                          ),
-                          child: Center(
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(
-                                  'Go!',
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.w900,
-                                    color: AppTheme.textDark,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                const Icon(
-                                  Icons.play_circle_filled_rounded,
-                                  size: 30,
-                                  color: AppTheme.textDark,
-                                ),
-                              ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: GestureDetector(
+                    onTap: () => Navigator.pushNamed(context, '/language'),
+                    child: Container(
+                      height: 68,
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryLight,
+                        borderRadius: BorderRadius.circular(34),
+                      ),
+                      child: Center(
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Go!',
+                              style: GoogleFonts.nunito(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w900,
+                                color: AppTheme.textDark,
+                              ),
                             ),
-                          ),
+                            const SizedBox(width: 8),
+                            const Icon(
+                              Icons.play_circle_filled_rounded,
+                              size: 30,
+                              color: AppTheme.textDark,
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(height: 4),
-
-                    // Blue tip banner
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 400),
-                      child: _showTip
-                          ? Container(
-                              key: const ValueKey('tip'),
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 24, vertical: 14),
-                              decoration: const BoxDecoration(
-                                color: AppTheme.buttonBlue,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(16),
-                                  topRight: Radius.circular(16),
-                                ),
-                              ),
-                              child: Text(
-                                'Two-finger long press anywhere to open menu',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.nunito(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            )
-                          : const SizedBox(key: ValueKey('empty'), height: 0),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ],

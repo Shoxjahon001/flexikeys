@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
+import '../services/tts_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -26,20 +27,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _load() async {
-    final name = await UserService.getName();
-    final stars = await UserService.getStars();
-    final stage = await UserService.getLettersStage();
-    final correct = await UserService.getTotalCorrect();
-    final answers = await UserService.getTotalAnswers();
-    final time = await UserService.getTimeSpentToday();
+    final results = await Future.wait([
+      UserService.getName(),
+      UserService.getStars(),
+      UserService.getLettersStage(),
+      UserService.getTotalCorrect(),
+      UserService.getTotalAnswers(),
+      UserService.getTimeSpentToday(),
+      UserService.getVolume(),
+    ]);
     if (mounted) {
       setState(() {
-        _name = name;
-        _stars = stars;
-        _lettersStage = stage;
-        _totalCorrect = correct;
-        _totalAnswers = answers;
-        _timeToday = time;
+        _name = results[0] as String;
+        _stars = results[1] as int;
+        _lettersStage = results[2] as int;
+        _totalCorrect = results[3] as int;
+        _totalAnswers = results[4] as int;
+        _timeToday = results[5] as int;
+        _volume = results[6] as double;
       });
     }
   }
@@ -206,7 +211,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     Slider(
                       value: _volume,
-                      onChanged: (v) => setState(() => _volume = v),
+                      onChanged: (v) {
+                        setState(() => _volume = v);
+                        TtsService.instance.setVolume(v);
+                      },
                       activeColor: AppTheme.primary,
                       inactiveColor: AppTheme.primaryLight,
                     ),

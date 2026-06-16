@@ -18,6 +18,7 @@ class AppTheme {
   static ThemeData get theme {
     return ThemeData(
       useMaterial3: true,
+      scaffoldBackgroundColor: bgTop,
       textTheme: GoogleFonts.nunitoTextTheme(),
       colorScheme: ColorScheme.fromSeed(
         seedColor: primary,

@@ -82,7 +82,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   const Spacer(),
 
                   // Cloud mascot
-                  const CloudMascot(size: 200),
+                  const CloudMascot(size: 320),
 
                   const Spacer(),
 
