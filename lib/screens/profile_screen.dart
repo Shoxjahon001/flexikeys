@@ -13,7 +13,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   String _name = '';
-  int _stars = 0;
   int _lettersStage = 0;
   int _totalCorrect = 0;
   int _totalAnswers = 0;
@@ -29,7 +28,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Future<void> _load() async {
     final results = await Future.wait([
       UserService.getName(),
-      UserService.getStars(),
       UserService.getLettersStage(),
       UserService.getTotalCorrect(),
       UserService.getTotalAnswers(),
@@ -39,12 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (mounted) {
       setState(() {
         _name = results[0] as String;
-        _stars = results[1] as int;
-        _lettersStage = results[2] as int;
-        _totalCorrect = results[3] as int;
-        _totalAnswers = results[4] as int;
-        _timeToday = results[5] as int;
-        _volume = results[6] as double;
+        _lettersStage = results[1] as int;
+        _totalCorrect = results[2] as int;
+        _totalAnswers = results[3] as int;
+        _timeToday = results[4] as int;
+        _volume = results[5] as double;
       });
     }
   }
@@ -90,7 +87,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(width: 14),
                   Expanded(
-                      child: _statCard('Stars', '$_stars ⭐', '🎯')),
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: UserService.starsNotifier,
+                      builder: (_, stars, __) =>
+                          _statCard('Stars', '$stars ⭐', '🎯'),
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 14),
@@ -258,8 +260,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       colors: [Color(0xFFFFD6E8), Color(0xFFD6C8FF)],
                     ),
                   ),
-                  child: const Center(
-                      child: Text('☁️', style: TextStyle(fontSize: 26))),
+                  child: ValueListenableBuilder<String>(
+                    valueListenable: UserService.avatarNotifier,
+                    builder: (_, emoji, __) =>
+                        Center(child: Text(emoji, style: const TextStyle(fontSize: 26))),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -291,12 +296,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             child: Row(
               children: [
-                Text(
-                  '$_stars',
-                  style: GoogleFonts.nunito(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.textDark,
+                ValueListenableBuilder<int>(
+                  valueListenable: UserService.starsNotifier,
+                  builder: (_, stars, __) => Text(
+                    '$stars',
+                    style: GoogleFonts.nunito(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.textDark,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),

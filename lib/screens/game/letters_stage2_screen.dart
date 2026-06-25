@@ -5,6 +5,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
+import '../../services/sound_service.dart';
 
 class LettersStage2Screen extends StatefulWidget {
   const LettersStage2Screen({super.key});
@@ -21,44 +22,47 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
   ];
 
   int _wordIndex = 0;
-  int _letterIndex = 0; // which letter in current word we're targeting
-  late List<String> _tapped; // letters tapped so far
-  late List<String> _choices;
+  int _letterIndex = 0;
+  List<String> _tapped = const [];
+  List<String> _choices = const [];
   final _rng = Random();
   String? _flashWrong;
 
   @override
   void initState() {
     super.initState();
-    _resetWord();
-  }
-
-  void _resetWord() {
-    _letterIndex = 0;
+    // Initialize directly — no setState needed (safe in initState)
     _tapped = [];
-    _flashWrong = null;
-    _generateChoices();
-    final capturedWord = _words[_wordIndex];
-    Future.delayed(const Duration(milliseconds: 350), () {
-      TtsService.instance.speak(capturedWord);
+    _choices = _computeChoices();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) TtsService.instance.speak(_words[_wordIndex]);
     });
   }
 
-  void _generateChoices() {
+  /// Pure computation — returns new choice list without touching state.
+  List<String> _computeChoices() {
     final word = _words[_wordIndex];
-    // All unique letters in the word
     final wordLetters = word.split('').toSet().toList();
-    // Add distractors from alphabet
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     final pool = alphabet.split('')
       ..removeWhere((l) => wordLetters.contains(l));
     pool.shuffle(_rng);
     final distractors = pool.take(6 - wordLetters.length).toList();
     final all = [...wordLetters, ...distractors]..shuffle(_rng);
-    // Ensure exactly 6
+    return all.take(6).toList();
+  }
+
+  /// Resets all word state atomically via a single setState.
+  void _resetWord() {
     setState(() {
-      _choices = all.take(6).toList();
+      _letterIndex = 0;
+      _tapped = [];
       _flashWrong = null;
+      _choices = _computeChoices();
+    });
+    final capturedWord = _words[_wordIndex];
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (mounted) TtsService.instance.speak(capturedWord);
     });
   }
 
@@ -73,10 +77,12 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
         _flashWrong = null;
       });
       if (_letterIndex >= word.length) {
+        TtsService.instance.speak(word);
         Future.delayed(const Duration(milliseconds: 500), _advanceWord);
       }
     } else {
       UserService.recordAnswer(correct: false);
+      SoundService.instance.playWrong();
       setState(() => _flashWrong = letter);
       Future.delayed(const Duration(milliseconds: 400), () {
         if (mounted) setState(() => _flashWrong = null);

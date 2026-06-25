@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
+import '../../services/tts_service.dart';
 
 class LevelCompleteScreen extends StatefulWidget {
   const LevelCompleteScreen({super.key});
@@ -38,6 +39,9 @@ class _LevelCompleteScreenState extends State<LevelCompleteScreen>
     _cloudCtrl.forward();
     Future.delayed(const Duration(milliseconds: 500),
         () => _starsCtrl.forward());
+    Future.delayed(const Duration(milliseconds: 400), () {
+      if (mounted) TtsService.instance.speakFunny('You did it! Amazing!');
+    });
   }
 
   @override

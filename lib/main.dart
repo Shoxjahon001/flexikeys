@@ -14,6 +14,7 @@ import 'screens/game/good_job_screen.dart';
 import 'screens/game/level_complete_screen.dart';
 import 'services/user_service.dart';
 import 'services/tts_service.dart';
+import 'services/sound_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,9 @@ void main() async {
     ),
   );
   final registered = await UserService.isRegistered();
+  await UserService.loadNotifiers();
   unawaited(TtsService.instance.init().catchError((_) {}));
+  unawaited(SoundService.instance.init().catchError((_) {}));
   runApp(FlexiKeysApp(startRegistered: registered));
 }
 

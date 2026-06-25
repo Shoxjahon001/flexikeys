@@ -6,6 +6,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
+import '../../services/sound_service.dart';
 
 class GenericGameScreen extends StatefulWidget {
   const GenericGameScreen({super.key});
@@ -119,10 +120,12 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       final next = [..._tapped, letter];
       setState(() => _tapped = next);
       if (next.length >= _word.length) {
+        TtsService.instance.speak(_word);
         Future.delayed(const Duration(milliseconds: 500), _advance);
       }
     } else {
       UserService.recordAnswer(correct: false);
+      SoundService.instance.playWrong();
       setState(() => _flashWrong = letter);
       Future.delayed(const Duration(milliseconds: 350), () {
         if (mounted) setState(() => _flashWrong = null);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
+import '../services/tts_service.dart';
 
 class ShopItem {
   final String id;
@@ -29,7 +30,6 @@ class _ShopScreenState extends State<ShopScreen> {
     ShopItem('rainbow', '🌈', 50),
   ];
 
-  int _stars = 0;
   List<String> _owned = ['dino'];
   String _name = '';
 
@@ -40,12 +40,10 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 
   Future<void> _load() async {
-    final stars = await UserService.getStars();
     final owned = await UserService.getOwnedItems();
     final name = await UserService.getName();
     if (mounted) {
       setState(() {
-        _stars = stars;
         _owned = owned;
         _name = name;
       });
@@ -69,8 +67,11 @@ class _ShopScreenState extends State<ShopScreen> {
       return;
     }
     await UserService.addOwnedItem(item.id);
+    await UserService.setSelectedItem(item.id);
+    TtsService.instance.speakFunny('Hooray! You got it!');
     _load();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -137,8 +138,11 @@ class _ShopScreenState extends State<ShopScreen> {
                       colors: [Color(0xFFFFD6E8), Color(0xFFD6C8FF)],
                     ),
                   ),
-                  child: const Center(
-                      child: Text('☁️', style: TextStyle(fontSize: 26))),
+                  child: ValueListenableBuilder<String>(
+                    valueListenable: UserService.avatarNotifier,
+                    builder: (_, emoji, __) =>
+                        Center(child: Text(emoji, style: const TextStyle(fontSize: 26))),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -169,12 +173,15 @@ class _ShopScreenState extends State<ShopScreen> {
             ),
             child: Row(
               children: [
-                Text(
-                  '$_stars',
-                  style: GoogleFonts.nunito(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.textDark,
+                ValueListenableBuilder<int>(
+                  valueListenable: UserService.starsNotifier,
+                  builder: (_, stars, __) => Text(
+                    '$stars',
+                    style: GoogleFonts.nunito(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.textDark,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),

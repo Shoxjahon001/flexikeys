@@ -5,6 +5,7 @@ import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
+import '../../services/sound_service.dart';
 
 class LettersStage1Screen extends StatefulWidget {
   const LettersStage1Screen({super.key});
@@ -23,9 +24,18 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   String? _selected;
   bool _answered = false;
   final _rng = Random();
-  late List<String> _choices;
+  List<String> _choices = const [];
   late AnimationController _correctCtrl;
   late Animation<double> _correctScale;
+
+  // Retry phase state
+  final Set<String> _missedLetters = {};
+  bool _isRetryPhase = false;
+  List<String> _retryLetters = [];
+  int _retryIndex = 0;
+
+  String get _currentTarget =>
+      _isRetryPhase ? _retryLetters[_retryIndex] : _letters[_current];
 
   @override
   void initState() {
@@ -34,7 +44,10 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
         vsync: this, duration: const Duration(milliseconds: 300));
     _correctScale = Tween<double>(begin: 1.0, end: 1.12).animate(
         CurvedAnimation(parent: _correctCtrl, curve: Curves.elasticOut));
-    _generateChoices();
+    _buildChoicesDirect();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) TtsService.instance.speak(_letters[_current]);
+    });
   }
 
   @override
@@ -43,41 +56,57 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
     super.dispose();
   }
 
-  void _generateChoices() {
-    final target = _letters[_current];
+  void _buildChoicesDirect() {
+    final target = _currentTarget;
     final pool = List<String>.from(_letters)..remove(target);
     pool.shuffle(_rng);
     final wrong = pool.take(2).toList();
-    final all = [target, ...wrong]..shuffle(_rng);
-    setState(() {
-      _choices = all;
-      _selected = null;
-      _answered = false;
-    });
-    final capturedTarget = target;
+    _choices = [target, ...wrong]..shuffle(_rng);
+    _selected = null;
+    _answered = false;
+  }
+
+  void _generateChoices() {
+    _buildChoicesDirect();
+    setState(() {});
+    final capturedTarget = _currentTarget;
     Future.delayed(const Duration(milliseconds: 350), () {
-      TtsService.instance.speak(capturedTarget);
+      if (mounted) TtsService.instance.speak(capturedTarget);
     });
   }
 
   void _onTap(String letter) {
     if (_answered) return;
-    final correct = letter == _letters[_current];
+    final correct = letter == _currentTarget;
     setState(() {
       _selected = letter;
       _answered = true;
     });
     UserService.recordAnswer(correct: correct);
     if (correct) {
+      SoundService.instance.playCorrect();
       _correctCtrl.forward(from: 0);
       Future.delayed(const Duration(milliseconds: 600), _advance);
     } else {
+      SoundService.instance.playWrong();
+      if (!_isRetryPhase) _missedLetters.add(_currentTarget);
       Future.delayed(const Duration(milliseconds: 800), _advance);
     }
   }
 
   void _advance() {
     if (!mounted) return;
+
+    if (_isRetryPhase) {
+      if (_retryIndex >= _retryLetters.length - 1) {
+        _onComplete();
+        return;
+      }
+      _retryIndex++;
+      _generateChoices();
+      return;
+    }
+
     if (_current == 7) {
       Navigator.pushNamed(context, '/good_job', arguments: {
         'onContinue': () {
@@ -89,10 +118,23 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       return;
     }
     if (_current >= _letters.length - 1) {
+      if (_missedLetters.isNotEmpty) {
+        _startRetryPhase();
+        return;
+      }
       _onComplete();
       return;
     }
     _current++;
+    _generateChoices();
+  }
+
+  void _startRetryPhase() {
+    setState(() {
+      _isRetryPhase = true;
+      _retryLetters = _missedLetters.toList()..shuffle(_rng);
+      _retryIndex = 0;
+    });
     _generateChoices();
   }
 
@@ -109,7 +151,7 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
 
   @override
   Widget build(BuildContext context) {
-    final target = _letters[_current];
+    final target = _currentTarget;
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -140,6 +182,8 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   }
 
   Widget _buildHeader() {
+    final total = _isRetryPhase ? _retryLetters.length : _letters.length;
+    final current = _isRetryPhase ? _retryIndex + 1 : _current + 1;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
       child: Row(
@@ -159,7 +203,7 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
           ),
           const SizedBox(width: 12),
           Text(
-            'Letters',
+            _isRetryPhase ? 'Try Again!' : 'Letters',
             style: GoogleFonts.nunito(
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -168,7 +212,7 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
           ),
           const Spacer(),
           Text(
-            '${_current + 1}/${_letters.length}',
+            '$current/$total',
             style: GoogleFonts.nunito(
               fontSize: 16,
               fontWeight: FontWeight.w700,
@@ -181,15 +225,20 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   }
 
   Widget _buildProgressBar() {
+    final progress = _isRetryPhase
+        ? (_retryIndex + 1) / _retryLetters.length
+        : (_current + 1) / _letters.length;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: LinearProgressIndicator(
-          value: (_current + 1) / _letters.length,
+          value: progress,
           minHeight: 8,
           backgroundColor: Colors.white.withValues(alpha: 0.5),
-          valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primary),
+          valueColor: AlwaysStoppedAnimation<Color>(
+            _isRetryPhase ? const Color(0xFFFF9800) : AppTheme.primary,
+          ),
         ),
       ),
     );
@@ -231,7 +280,7 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                 ],
               ),
               child: Text(
-                'Find and tap\nthis letter',
+                _isRetryPhase ? "Let's try again!" : 'Find and tap\nthis letter',
                 style: GoogleFonts.nunito(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -273,7 +322,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                     width: 72,
                     height: 72,
                     decoration: BoxDecoration(
-                      color: AppTheme.primary,
+                      color: _isRetryPhase
+                          ? const Color(0xFFFF9800)
+                          : AppTheme.primary,
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Center(

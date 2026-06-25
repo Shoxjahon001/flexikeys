@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
+import '../../services/tts_service.dart';
 
 class GoodJobScreen extends StatefulWidget {
   const GoodJobScreen({super.key});
@@ -24,6 +25,9 @@ class _GoodJobScreenState extends State<GoodJobScreen>
     _scaleAnim = Tween<double>(begin: 0.5, end: 1.0).animate(
         CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
     _ctrl.forward();
+    Future.delayed(const Duration(milliseconds: 300), () {
+      if (mounted) TtsService.instance.speakFunny('Wow! Good job!');
+    });
   }
 
   @override

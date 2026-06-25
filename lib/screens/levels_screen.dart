@@ -56,7 +56,6 @@ class LevelsScreen extends StatefulWidget {
 }
 
 class _LevelsScreenState extends State<LevelsScreen> {
-  int _stars = 0;
   String _name = '';
   Set<String> _completed = {};
 
@@ -78,12 +77,10 @@ class _LevelsScreenState extends State<LevelsScreen> {
   }
 
   Future<void> _load() async {
-    final stars     = await UserService.getStars();
     final completed = await UserService.getCompletedLevels();
     final name      = await UserService.getName();
     if (!mounted) return;
     setState(() {
-      _stars     = stars;
       _completed = completed;
       if (widget.externalName != null && widget.externalName!.isNotEmpty) {
         _name = widget.externalName!;
@@ -250,8 +247,11 @@ class _LevelsScreenState extends State<LevelsScreen> {
                       colors: [Color(0xFFFFD6E8), Color(0xFFD6C8FF)],
                     ),
                   ),
-                  child: const Center(
-                      child: Text('☁️', style: TextStyle(fontSize: 26))),
+                  child: ValueListenableBuilder<String>(
+                    valueListenable: UserService.avatarNotifier,
+                    builder: (_, emoji, __) =>
+                        Center(child: Text(emoji, style: const TextStyle(fontSize: 26))),
+                  ),
                 ),
                 const SizedBox(width: 10),
                 Text(
@@ -283,12 +283,15 @@ class _LevelsScreenState extends State<LevelsScreen> {
             ),
             child: Row(
               children: [
-                Text(
-                  '$_stars',
-                  style: GoogleFonts.nunito(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.textDark,
+                ValueListenableBuilder<int>(
+                  valueListenable: UserService.starsNotifier,
+                  builder: (_, stars, __) => Text(
+                    '$stars',
+                    style: GoogleFonts.nunito(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppTheme.textDark,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 6),

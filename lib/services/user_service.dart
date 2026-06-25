@@ -1,6 +1,29 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserService {
+  // ─── Reactive notifiers (update all listening widgets instantly) ──────────
+  static final starsNotifier = ValueNotifier<int>(0);
+  static final avatarNotifier = ValueNotifier<String>('☁️');
+
+  static const _itemEmojis = {
+    'dino': '🦕',
+    'fries': '🍟',
+    'star': '⭐',
+    'bunny': '🐰',
+    'bear': '🧸',
+    'icecream': '🍦',
+    'robot': '🤖',
+    'rainbow': '🌈',
+  };
+
+  /// Call once at app start to seed the notifiers from persistent storage.
+  static Future<void> loadNotifiers() async {
+    starsNotifier.value = await getStars();
+    final itemId = await getSelectedItem();
+    avatarNotifier.value = _itemEmojis[itemId] ?? '☁️';
+  }
+
   static const _keyName = 'kid_name';
   static const _keyAge = 'kid_age';
   static const _keyLanguage = 'kid_language';
@@ -14,6 +37,7 @@ class UserService {
   static const _keyRegistered = 'is_registered';
   static const _keyCompletedLevels = 'completed_levels';
   static const _keyVolume = 'tts_volume';
+  static const _keySelectedItem = 'selected_item';
 
   static SharedPreferences? _cachedPrefs;
   static Future<SharedPreferences> get _prefs async =>
@@ -65,15 +89,18 @@ class UserService {
 
   static Future<void> addStars(int amount) async {
     final p = await _prefs;
-    final current = p.getInt(_keyStars) ?? 0;
-    await p.setInt(_keyStars, current + amount);
+    final newVal = (p.getInt(_keyStars) ?? 0) + amount;
+    await p.setInt(_keyStars, newVal);
+    starsNotifier.value = newVal;
   }
 
   static Future<bool> spendStars(int amount) async {
     final p = await _prefs;
     final current = p.getInt(_keyStars) ?? 0;
     if (current < amount) return false;
-    await p.setInt(_keyStars, current - amount);
+    final newVal = current - amount;
+    await p.setInt(_keyStars, newVal);
+    starsNotifier.value = newVal;
     return true;
   }
 
@@ -127,6 +154,17 @@ class UserService {
       list.add(item);
       await p.setStringList(_keyOwnedItems, list);
     }
+  }
+
+  static Future<String> getSelectedItem() async {
+    final p = await _prefs;
+    return p.getString(_keySelectedItem) ?? 'dino';
+  }
+
+  static Future<void> setSelectedItem(String itemId) async {
+    final p = await _prefs;
+    await p.setString(_keySelectedItem, itemId);
+    avatarNotifier.value = _itemEmojis[itemId] ?? '☁️';
   }
 
   // ─── Stats ────────────────────────────────────────────────────────────────
@@ -187,6 +225,9 @@ class UserService {
   static Future<void> signOut() async {
     final p = await _prefs;
     await p.clear();
+    _cachedPrefs = null;
+    starsNotifier.value = 0;
+    avatarNotifier.value = '☁️';
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
