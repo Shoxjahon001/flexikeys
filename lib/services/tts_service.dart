@@ -26,8 +26,11 @@ class TtsService {
         );
       }
 
-      // Prefer Australian accent (more melodic), fall back to US English.
-      await _setLanguageWithFallback();
+      if (Platform.isIOS) {
+        await _setIosVoice();
+      } else {
+        await _setLanguageWithFallback();
+      }
 
       await _tts.setSpeechRate(_defaultRate);
       await _tts.setPitch(_defaultPitch);
@@ -38,10 +41,26 @@ class TtsService {
     } catch (_) {}
   }
 
+  /// iOS: tries Allison (Enhanced) → Allison → any en-US voice.
+  /// Allison (Enhanced) must be downloaded: Settings → Accessibility →
+  /// Spoken Content → Voices → English (United States) → Allison → Enhanced.
+  Future<void> _setIosVoice() async {
+    // iOS may expose the enhanced voice under either name depending on version.
+    for (final name in ['Allison (Enhanced)', 'Allison']) {
+      try {
+        final r = await _tts.setVoice({'name': name, 'locale': 'en-US'});
+        if (r == 1) return;
+      } catch (_) {}
+    }
+    // Fallback: any American English voice on the device.
+    try {
+      await _tts.setLanguage('en-US');
+    } catch (_) {}
+  }
+
   Future<void> _setLanguageWithFallback() async {
     try {
       final result = await _tts.setLanguage('en-AU');
-      // flutter_tts returns 1 on success, 0 on failure (varies by platform).
       if (result == 0) throw Exception('en-AU not available');
     } catch (_) {
       try {
