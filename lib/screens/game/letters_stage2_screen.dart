@@ -71,6 +71,7 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
     final expected = word[_letterIndex];
     if (letter == expected) {
       UserService.recordAnswer(correct: true);
+      SoundService.instance.playCorrect();
       setState(() {
         _tapped = [..._tapped, letter];
         _letterIndex++;

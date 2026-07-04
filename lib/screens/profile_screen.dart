@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
+import '../services/sound_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -216,6 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       onChanged: (v) {
                         setState(() => _volume = v);
                         TtsService.instance.setVolume(v);
+                        SoundService.instance.setVolume(v);
                       },
                       activeColor: AppTheme.primary,
                       inactiveColor: AppTheme.primaryLight,

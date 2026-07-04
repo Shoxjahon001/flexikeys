@@ -25,6 +25,8 @@ class LevelConfig {
   final int questionCount;
   final String? nextLevelToUnlock;
   final int starsReward;
+  /// When true, items are shown in the original list order (no shuffle).
+  final bool ordered;
 
   const LevelConfig({
     required this.id,
@@ -34,6 +36,7 @@ class LevelConfig {
     required this.questionCount,
     this.nextLevelToUnlock,
     this.starsReward = 10,
+    this.ordered = false,
   });
 }
 
@@ -49,6 +52,7 @@ class LevelConfigs {
     title: 'Numbers',
     instruction: 'Spell this number',
     questionCount: 15,
+    ordered: true,
     nextLevelToUnlock: 'colors',
     items: [
       GameItem(id: '1',  display: '1',  label: 'ONE'),    // O,N,E  = 3

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'theme/app_theme.dart';
 import 'screens/splash_screen.dart';
 import 'screens/language_screen.dart';
@@ -12,12 +13,14 @@ import 'screens/game/letters_stage2_screen.dart';
 import 'screens/game/generic_game_screen.dart';
 import 'screens/game/good_job_screen.dart';
 import 'screens/game/level_complete_screen.dart';
+import 'screens/game/shapes_screen.dart';
 import 'services/user_service.dart';
 import 'services/tts_service.dart';
 import 'services/sound_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  GoogleFonts.config.allowRuntimeFetching = false;
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -57,6 +60,7 @@ class FlexiKeysApp extends StatelessWidget {
         '/generic_game': (context) => const GenericGameScreen(),
         '/good_job': (context) => const GoodJobScreen(),
         '/level_complete': (context) => const LevelCompleteScreen(),
+        '/shapes_game':   (context) => const ShapesScreen(),
       },
     );
   }

@@ -49,8 +49,9 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   void _initQuestions() {
     final cfg = _config!;
     final count = cfg.questionCount.clamp(1, cfg.items.length);
-    final shuffled = List<GameItem>.from(cfg.items)..shuffle(_rng);
-    _questions = shuffled.take(count).toList();
+    final list = List<GameItem>.from(cfg.items);
+    if (!cfg.ordered) list.shuffle(_rng);
+    _questions = list.take(count).toList();
     _resetWord();
   }
 
@@ -117,6 +118,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
     if (letter == _word[_letterIndex]) {
       UserService.recordAnswer(correct: true);
+      SoundService.instance.playCorrect();
       final next = [..._tapped, letter];
       setState(() => _tapped = next);
       if (next.length >= _word.length) {

@@ -1,108 +1,149 @@
 import 'dart:io';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import 'user_service.dart';
 
+/// Online TTS via Google Translate's synthesis endpoint.
+///
+/// Audio is fetched once, cached on device, and replayed instantly thereafter.
+/// The voice is generated server-side → byte-identical on every phone brand
+/// and OS version (iOS, Android, Samsung, Redmi, Xiaomi…).
 class TtsService {
   TtsService._();
   static final TtsService instance = TtsService._();
 
-  final _tts = FlutterTts();
-  bool _initialized = false;
+  final _player   = AudioPlayer();
+  Directory? _cacheDir;
+  bool   _ready       = false;
+  bool   _initializing = false;
+  double _volume      = 1.0;
+  int    _playId      = 0; // cancels stale plays when a new one is requested
 
-  static double get _defaultPitch => 1.1;
-  static double get _defaultRate => Platform.isIOS ? 0.50 : 0.42;
+  // ── Init ───────────────────────────────────────────────────────────────────
 
   Future<void> init() async {
-    if (_initialized) return;
+    if (_ready || _initializing) return;
+    _initializing = true;
     try {
-      if (Platform.isIOS) {
-        await _tts.setSharedInstance(true);
-        // playback + mixWithOthers: not silenced by Ring/Silent switch,
-        // plays alongside audioplayers sounds without interruption.
-        await _tts.setIosAudioCategory(
-          IosTextToSpeechAudioCategory.playback,
-          [IosTextToSpeechAudioCategoryOptions.mixWithOthers],
-          IosTextToSpeechAudioMode.defaultMode,
-        );
-      }
-
-      if (Platform.isIOS) {
-        await _setIosVoice();
-      } else {
-        await _setLanguageWithFallback();
-      }
-
-      await _tts.setSpeechRate(_defaultRate);
-      await _tts.setPitch(_defaultPitch);
-      await _tts.awaitSpeakCompletion(false);
-      final vol = await UserService.getVolume();
-      await _tts.setVolume(vol);
-      _initialized = true;
-    } catch (_) {}
-  }
-
-  /// iOS: tries Allison (Enhanced) → Allison → any en-US voice.
-  /// Allison (Enhanced) must be downloaded: Settings → Accessibility →
-  /// Spoken Content → Voices → English (United States) → Allison → Enhanced.
-  Future<void> _setIosVoice() async {
-    // iOS may expose the enhanced voice under either name depending on version.
-    for (final name in ['Allison (Enhanced)', 'Allison']) {
+      // iOS:     playback + mixWithOthers — not silenced by Ring/Silent switch.
+      // Android: speech/assistant — system knows this is spoken word content.
+      // Wrapped separately so a platform rejection doesn't kill the whole init.
       try {
-        final r = await _tts.setVoice({'name': name, 'locale': 'en-US'});
-        if (r == 1) return;
+        await _player.setAudioContext(AudioContext(
+          iOS: AudioContextIOS(
+            category: AVAudioSessionCategory.playback,
+            options: const {AVAudioSessionOptions.mixWithOthers},
+          ),
+          android: const AudioContextAndroid(
+            isSpeakerphoneOn: false,
+            stayAwake: false,
+            contentType: AndroidContentType.speech,
+            usageType: AndroidUsageType.assistant,
+            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
+          ),
+        ));
       } catch (_) {}
-    }
-    // Fallback: any American English voice on the device.
-    try {
-      await _tts.setLanguage('en-US');
-    } catch (_) {}
-  }
 
-  Future<void> _setLanguageWithFallback() async {
-    try {
-      final result = await _tts.setLanguage('en-AU');
-      if (result == 0) throw Exception('en-AU not available');
+      final dir = await getApplicationCacheDirectory();
+      _cacheDir = Directory('${dir.path}/tts_v1');
+      await _cacheDir!.create(recursive: true);
+
+      // Mark ready before volume setup — a volume failure must not block TTS.
+      _ready = true;
+
+      try {
+        _volume = await UserService.getVolume();
+        await _player.setVolume(_volume);
+      } catch (_) {}
     } catch (_) {
-      try {
-        await _tts.setLanguage('en-US');
-      } catch (_) {}
+    } finally {
+      _initializing = false;
     }
   }
 
-  Future<void> speak(String text) async {
-    if (!_initialized) await init();
-    if (!_initialized) return;
-    try {
-      await _tts.stop();
-      await _tts.setPitch(_defaultPitch);
-      await _tts.setSpeechRate(_defaultRate);
-      await _tts.speak(text.toLowerCase());
-    } catch (_) {}
-  }
+  // ── Public API ─────────────────────────────────────────────────────────────
 
-  /// Happy, clear celebratory voice — fun but easy for kids to understand.
-  Future<void> speakFunny(String text) async {
-    if (!_initialized) await init();
-    if (!_initialized) return;
-    try {
-      await _tts.stop();
-      await _tts.setPitch(1.6);
-      await _tts.setSpeechRate(Platform.isIOS ? 0.44 : 0.50);
-      await _tts.speak(text.toLowerCase());
-    } catch (_) {}
+  /// Speak a word or sentence at a natural reading pace.
+  Future<void> speak(String text) => _play(text, rate: 0.88);
+
+  /// Speak a short celebratory phrase — slightly brighter and more energetic.
+  Future<void> speakFunny(String text) => _play(text, rate: 1.05);
+
+  Future<void> stop() async {
+    _playId++;
+    try { await _player.stop(); } catch (_) {}
   }
 
   Future<void> setVolume(double vol) async {
-    final clamped = vol.clamp(0.0, 1.0);
-    try {
-      await _tts.setVolume(clamped);
-    } catch (_) {}
-    await UserService.setVolume(clamped);
+    _volume = vol.clamp(0.0, 1.0);
+    try { await _player.setVolume(_volume); } catch (_) {}
+    await UserService.setVolume(_volume);
   }
 
-  Future<void> stop() async {
+  // ── Internal ───────────────────────────────────────────────────────────────
+
+  Future<void> _play(String raw, {required double rate}) async {
+    final text = raw.trim().toLowerCase();
+    if (text.isEmpty) return;
+    if (!_ready) await init();
+    if (!_ready) return;
+
+    final id = ++_playId;
     try {
-      await _tts.stop();
+      await _player.stop();
+      if (id != _playId) return; // a newer speak() was called while stopping
+
+      final file = await _fetchOrCache(text);
+      if (id != _playId) return; // another word was requested while fetching
+      if (file == null) return;
+
+      await _player.setPlaybackRate(rate);
+      await _player.setVolume(_volume);
+      await _player.play(DeviceFileSource(file.path));
     } catch (_) {}
+  }
+
+  Future<File?> _fetchOrCache(String text) async {
+    final dir = _cacheDir;
+    if (dir == null) return null;
+
+    final file = File('${dir.path}/${_key(text)}.mp3');
+    if (await file.exists()) return file; // instant cache hit
+
+    // Fetch from Google Translate TTS — server-generated, identical every time.
+    try {
+      final uri = Uri.https('translate.google.com', '/translate_tts', {
+        'ie':     'UTF-8',
+        'q':      text,
+        'tl':     'en-US',
+        'client': 'gtx',
+        'sl':     'en',
+      });
+      final resp = await http.get(uri, headers: {
+        // A standard browser UA avoids rate-limiting on the public endpoint.
+        'User-Agent':
+            'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 '
+            '(KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
+        'Referer': 'https://translate.google.com/',
+        'Accept':  'audio/mpeg, audio/*',
+      }).timeout(const Duration(seconds: 7));
+
+      if (resp.statusCode == 200 && resp.bodyBytes.length > 200) {
+        await file.writeAsBytes(resp.bodyBytes);
+        return file;
+      }
+    } catch (_) {}
+
+    return null; // offline or error — caller silently skips TTS
+  }
+
+  // Stable, filesystem-safe cache key (DJB2 hash of the text).
+  String _key(String text) {
+    int h = 5381;
+    for (final c in text.codeUnits) {
+      h = ((h << 5) + h + c) & 0x7FFFFFFF;
+    }
+    return h.toRadixString(16);
   }
 }

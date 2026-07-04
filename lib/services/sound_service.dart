@@ -3,6 +3,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:path_provider/path_provider.dart';
+import 'user_service.dart';
 
 /// Plays short synthesized sound effects (ding = correct, buzz = wrong).
 /// Uses temp files (DeviceFileSource) for reliable iOS + Android playback.
@@ -14,33 +15,37 @@ class SoundService {
   String? _wrongPath;
 
   final _correctPlayer = AudioPlayer();
-  final _wrongPlayer = AudioPlayer();
+  final _wrongPlayer   = AudioPlayer();
 
-  bool _ready = false;
-  bool _initializing = false;
+  bool   _ready       = false;
+  bool   _initializing = false;
+  double _volume      = 1.0;
 
   Future<void> init() async {
     if (_ready || _initializing) return;
     _initializing = true;
     try {
-      // iOS: playback + mixWithOthers → not silenced by Ring/Silent switch,
-      //      plays alongside TTS without interrupting it.
-      // Android: sonification content, game usage, duck other audio briefly.
-      await AudioPlayer.global.setAudioContext(
-        AudioContext(
-          iOS: AudioContextIOS(
-            category: AVAudioSessionCategory.playback,
-            options: const {AVAudioSessionOptions.mixWithOthers},
-          ),
-          android: const AudioContextAndroid(
-            isSpeakerphoneOn: false,
-            stayAwake: false,
-            contentType: AndroidContentType.sonification,
-            usageType: AndroidUsageType.game,
-            audioFocus: AndroidAudioFocus.gainTransientMayDuck,
-          ),
+      // Set context per-player (not via AudioPlayer.global) so it reliably
+      // applies on Android/ExoPlayer regardless of when players were created.
+      // iOS: playback + mixWithOthers → not silenced by Ring/Silent switch.
+      // Android: sonification/game → system treats these as short game sounds.
+      final ctx = AudioContext(
+        iOS: AudioContextIOS(
+          category: AVAudioSessionCategory.playback,
+          options: const {AVAudioSessionOptions.mixWithOthers},
+        ),
+        android: const AudioContextAndroid(
+          isSpeakerphoneOn: false,
+          stayAwake: false,
+          contentType: AndroidContentType.sonification,
+          usageType: AndroidUsageType.game,
+          audioFocus: AndroidAudioFocus.gainTransientMayDuck,
         ),
       );
+      try {
+        await _correctPlayer.setAudioContext(ctx);
+        await _wrongPlayer.setAudioContext(ctx);
+      } catch (_) {}
 
       // Write WAV bytes to temp files; DeviceFileSource is reliably supported
       // on both iOS and Android, unlike BytesSource which can fail on iOS.
@@ -50,11 +55,18 @@ class SoundService {
       await correctFile.writeAsBytes(_makeDing());
       await wrongFile.writeAsBytes(_makeBuzz());
       _correctPath = correctFile.path;
-      _wrongPath = wrongFile.path;
+      _wrongPath   = wrongFile.path;
 
+      // Mark ready before volume setup — a volume failure must not block audio.
       _ready = true;
+
+      try {
+        _volume = await UserService.getVolume();
+        await _correctPlayer.setVolume(_volume);
+        await _wrongPlayer.setVolume(_volume);
+      } catch (_) {}
     } catch (_) {
-      // Silently fail — sound effects are non-critical.
+      // Core init (file I/O) failed — sound effects are non-critical.
     } finally {
       _initializing = false;
     }
@@ -75,6 +87,14 @@ class SoundService {
     if (path == null) return;
     try {
       await _wrongPlayer.play(DeviceFileSource(path));
+    } catch (_) {}
+  }
+
+  Future<void> setVolume(double vol) async {
+    _volume = vol.clamp(0.0, 1.0);
+    try {
+      await _correctPlayer.setVolume(_volume);
+      await _wrongPlayer.setVolume(_volume);
     } catch (_) {}
   }
 
