@@ -1,0 +1,233 @@
+{
+  "level": 12,
+  "slug": "clothes",
+  "version": "1.0.0",
+  "title": {
+    "en": "Clothes",
+    "uz": "Kiyimlar",
+    "ru": "Одежда"
+  },
+  "lessons": [
+    {
+      "slug": "clothes",
+      "type": "typing",
+      "title": {
+        "en": "Clothes",
+        "uz": "Kiyimlar",
+        "ru": "Одежда"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:shirt",
+          "l10n": {
+            "en": {
+              "text": "Shirt",
+              "audio": "audio/en/clothes_shirt.mp3",
+              "image": "img/clothes/shirt.webp"
+            },
+            "uz": {
+              "text": "Ko'ylak",
+              "audio": "audio/uz/clothes_shirt.mp3",
+              "image": "img/clothes/shirt.webp"
+            },
+            "ru": {
+              "text": "Рубашка",
+              "audio": "audio/ru/clothes_shirt.mp3",
+              "image": "img/clothes/shirt.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:pants",
+          "l10n": {
+            "en": {
+              "text": "Pants",
+              "audio": "audio/en/clothes_pants.mp3",
+              "image": "img/clothes/pants.webp"
+            },
+            "uz": {
+              "text": "Shim",
+              "audio": "audio/uz/clothes_pants.mp3",
+              "image": "img/clothes/pants.webp"
+            },
+            "ru": {
+              "text": "Штаны",
+              "audio": "audio/ru/clothes_pants.mp3",
+              "image": "img/clothes/pants.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:dress",
+          "l10n": {
+            "en": {
+              "text": "Dress",
+              "audio": "audio/en/clothes_dress.mp3",
+              "image": "img/clothes/dress.webp"
+            },
+            "uz": {
+              "text": "Ko'ylak kiyim",
+              "audio": "audio/uz/clothes_dress.mp3",
+              "image": "img/clothes/dress.webp"
+            },
+            "ru": {
+              "text": "Платье",
+              "audio": "audio/ru/clothes_dress.mp3",
+              "image": "img/clothes/dress.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:shoes",
+          "l10n": {
+            "en": {
+              "text": "Shoes",
+              "audio": "audio/en/clothes_shoes.mp3",
+              "image": "img/clothes/shoes.webp"
+            },
+            "uz": {
+              "text": "Oyoq kiyimi",
+              "audio": "audio/uz/clothes_shoes.mp3",
+              "image": "img/clothes/shoes.webp"
+            },
+            "ru": {
+              "text": "Обувь",
+              "audio": "audio/ru/clothes_shoes.mp3",
+              "image": "img/clothes/shoes.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:hat",
+          "l10n": {
+            "en": {
+              "text": "Hat",
+              "audio": "audio/en/clothes_hat.mp3",
+              "image": "img/clothes/hat.webp"
+            },
+            "uz": {
+              "text": "Shlyapa",
+              "audio": "audio/uz/clothes_hat.mp3",
+              "image": "img/clothes/hat.webp"
+            },
+            "ru": {
+              "text": "Шляпа",
+              "audio": "audio/ru/clothes_hat.mp3",
+              "image": "img/clothes/hat.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:socks",
+          "l10n": {
+            "en": {
+              "text": "Socks",
+              "audio": "audio/en/clothes_socks.mp3",
+              "image": "img/clothes/socks.webp"
+            },
+            "uz": {
+              "text": "Paypoq",
+              "audio": "audio/uz/clothes_socks.mp3",
+              "image": "img/clothes/socks.webp"
+            },
+            "ru": {
+              "text": "Носки",
+              "audio": "audio/ru/clothes_socks.mp3",
+              "image": "img/clothes/socks.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:jacket",
+          "l10n": {
+            "en": {
+              "text": "Jacket",
+              "audio": "audio/en/clothes_jacket.mp3",
+              "image": "img/clothes/jacket.webp"
+            },
+            "uz": {
+              "text": "Kurtka",
+              "audio": "audio/uz/clothes_jacket.mp3",
+              "image": "img/clothes/jacket.webp"
+            },
+            "ru": {
+              "text": "Куртка",
+              "audio": "audio/ru/clothes_jacket.mp3",
+              "image": "img/clothes/jacket.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:skirt",
+          "l10n": {
+            "en": {
+              "text": "Skirt",
+              "audio": "audio/en/clothes_skirt.mp3",
+              "image": "img/clothes/skirt.webp"
+            },
+            "uz": {
+              "text": "Yubka",
+              "audio": "audio/uz/clothes_skirt.mp3",
+              "image": "img/clothes/skirt.webp"
+            },
+            "ru": {
+              "text": "Юбка",
+              "audio": "audio/ru/clothes_skirt.mp3",
+              "image": "img/clothes/skirt.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:gloves",
+          "l10n": {
+            "en": {
+              "text": "Gloves",
+              "audio": "audio/en/clothes_gloves.mp3",
+              "image": "img/clothes/gloves.webp"
+            },
+            "uz": {
+              "text": "Qo'lqop",
+              "audio": "audio/uz/clothes_gloves.mp3",
+              "image": "img/clothes/gloves.webp"
+            },
+            "ru": {
+              "text": "Перчатки",
+              "audio": "audio/ru/clothes_gloves.mp3",
+              "image": "img/clothes/gloves.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:clothes:scarf",
+          "l10n": {
+            "en": {
+              "text": "Scarf",
+              "audio": "audio/en/clothes_scarf.mp3",
+              "image": "img/clothes/scarf.webp"
+            },
+            "uz": {
+              "text": "Sharf",
+              "audio": "audio/uz/clothes_scarf.mp3",
+              "image": "img/clothes/scarf.webp"
+            },
+            "ru": {
+              "text": "Шарф",
+              "audio": "audio/ru/clothes_scarf.mp3",
+              "image": "img/clothes/scarf.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

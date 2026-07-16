@@ -41,7 +41,7 @@ class _LanguageScreenState extends State<LanguageScreen>
     setState(() => _selected = code);
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
-        Navigator.pushNamed(context, '/register',
+        Navigator.pushNamed(context, '/parent_signup',
             arguments: {'language': code});
       }
     });

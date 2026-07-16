@@ -6,6 +6,8 @@ import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
+import '../../services/progress/progress_repository.dart';
+import '../../data/praise_copy.dart';
 
 // ── Shape data ─────────────────────────────────────────────────────────────────
 
@@ -60,7 +62,7 @@ class _ShapesScreenState extends State<ShapesScreen>
     with SingleTickerProviderStateMixin {
   static const int    _questionCount = 12;
   static const double _pad           = 22.0; // canvas margin so dots aren't clipped
-  static const double _snapR         = 10.0; // proximity radius to register a dot
+  static const double _snapR         = 30.0; // proximity radius to register a dot
 
   List<_ShapeConfig> _questions = [];
   int  _current   = 0;
@@ -180,7 +182,7 @@ class _ShapesScreenState extends State<ShapesScreen>
         });
         SoundService.instance.playCorrect();
         TtsService.instance.speakFunny(
-            score >= 7 ? 'Amazing! Well done!' : 'Good job! Keep going!');
+            score >= 7 ? PraiseCopy.shapeTraced : 'Good job! Keep going!');
       }
     }
   }
@@ -247,6 +249,7 @@ class _ShapesScreenState extends State<ShapesScreen>
   Future<void> _onFinish() async {
     await UserService.addStars(10);
     await UserService.completeLevel('shapes');
+    ProgressRepository.instance.recordLevelCompleteAndSync('shapes', stars: 10);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete',
         arguments: {'starsEarned': 10});

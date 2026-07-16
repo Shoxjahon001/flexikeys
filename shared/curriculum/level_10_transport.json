@@ -1,0 +1,233 @@
+{
+  "level": 10,
+  "slug": "transport",
+  "version": "1.0.0",
+  "title": {
+    "en": "Transport",
+    "uz": "Transport",
+    "ru": "Транспорт"
+  },
+  "lessons": [
+    {
+      "slug": "vehicles",
+      "type": "typing",
+      "title": {
+        "en": "Vehicles",
+        "uz": "Transport vositalari",
+        "ru": "Транспортные средства"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:bus",
+          "l10n": {
+            "en": {
+              "text": "Bus",
+              "audio": "audio/en/bus.mp3",
+              "image": "img/transport/bus.webp"
+            },
+            "uz": {
+              "text": "Avtobus",
+              "audio": "audio/uz/bus.mp3",
+              "image": "img/transport/bus.webp"
+            },
+            "ru": {
+              "text": "Автобус",
+              "audio": "audio/ru/bus.mp3",
+              "image": "img/transport/bus.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:car",
+          "l10n": {
+            "en": {
+              "text": "Car",
+              "audio": "audio/en/car.mp3",
+              "image": "img/transport/car.webp"
+            },
+            "uz": {
+              "text": "Avtomobil",
+              "audio": "audio/uz/car.mp3",
+              "image": "img/transport/car.webp"
+            },
+            "ru": {
+              "text": "Автомобиль",
+              "audio": "audio/ru/car.mp3",
+              "image": "img/transport/car.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:train",
+          "l10n": {
+            "en": {
+              "text": "Train",
+              "audio": "audio/en/train.mp3",
+              "image": "img/transport/train.webp"
+            },
+            "uz": {
+              "text": "Poyezd",
+              "audio": "audio/uz/train.mp3",
+              "image": "img/transport/train.webp"
+            },
+            "ru": {
+              "text": "Поезд",
+              "audio": "audio/ru/train.mp3",
+              "image": "img/transport/train.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:plane",
+          "l10n": {
+            "en": {
+              "text": "Airplane",
+              "audio": "audio/en/plane.mp3",
+              "image": "img/transport/plane.webp"
+            },
+            "uz": {
+              "text": "Samolyot",
+              "audio": "audio/uz/plane.mp3",
+              "image": "img/transport/plane.webp"
+            },
+            "ru": {
+              "text": "Самолёт",
+              "audio": "audio/ru/plane.mp3",
+              "image": "img/transport/plane.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:boat",
+          "l10n": {
+            "en": {
+              "text": "Boat",
+              "audio": "audio/en/boat.mp3",
+              "image": "img/transport/boat.webp"
+            },
+            "uz": {
+              "text": "Qayiq",
+              "audio": "audio/uz/boat.mp3",
+              "image": "img/transport/boat.webp"
+            },
+            "ru": {
+              "text": "Лодка",
+              "audio": "audio/ru/boat.mp3",
+              "image": "img/transport/boat.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:bicycle",
+          "l10n": {
+            "en": {
+              "text": "Bicycle",
+              "audio": "audio/en/bicycle.mp3",
+              "image": "img/transport/bicycle.webp"
+            },
+            "uz": {
+              "text": "Velosiped",
+              "audio": "audio/uz/bicycle.mp3",
+              "image": "img/transport/bicycle.webp"
+            },
+            "ru": {
+              "text": "Велосипед",
+              "audio": "audio/ru/bicycle.mp3",
+              "image": "img/transport/bicycle.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:truck",
+          "l10n": {
+            "en": {
+              "text": "Truck",
+              "audio": "audio/en/truck.mp3",
+              "image": "img/transport/truck.webp"
+            },
+            "uz": {
+              "text": "Yuk mashinasi",
+              "audio": "audio/uz/truck.mp3",
+              "image": "img/transport/truck.webp"
+            },
+            "ru": {
+              "text": "Грузовик",
+              "audio": "audio/ru/truck.mp3",
+              "image": "img/transport/truck.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:helicopter",
+          "l10n": {
+            "en": {
+              "text": "Helicopter",
+              "audio": "audio/en/helicopter.mp3",
+              "image": "img/transport/helicopter.webp"
+            },
+            "uz": {
+              "text": "Vertolyot",
+              "audio": "audio/uz/helicopter.mp3",
+              "image": "img/transport/helicopter.webp"
+            },
+            "ru": {
+              "text": "Вертолёт",
+              "audio": "audio/ru/helicopter.mp3",
+              "image": "img/transport/helicopter.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:ship",
+          "l10n": {
+            "en": {
+              "text": "Ship",
+              "audio": "audio/en/ship.mp3",
+              "image": "img/transport/ship.webp"
+            },
+            "uz": {
+              "text": "Kema",
+              "audio": "audio/uz/ship.mp3",
+              "image": "img/transport/ship.webp"
+            },
+            "ru": {
+              "text": "Корабль",
+              "audio": "audio/ru/ship.mp3",
+              "image": "img/transport/ship.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:rocket",
+          "l10n": {
+            "en": {
+              "text": "Rocket",
+              "audio": "audio/en/rocket.mp3",
+              "image": "img/transport/rocket.webp"
+            },
+            "uz": {
+              "text": "Raketa",
+              "audio": "audio/uz/rocket.mp3",
+              "image": "img/transport/rocket.webp"
+            },
+            "ru": {
+              "text": "Ракета",
+              "audio": "audio/ru/rocket.mp3",
+              "image": "img/transport/rocket.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

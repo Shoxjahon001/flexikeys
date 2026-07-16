@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/tts_service.dart';
+import '../../data/praise_copy.dart';
 
 class GoodJobScreen extends StatefulWidget {
   const GoodJobScreen({super.key});
@@ -26,7 +27,7 @@ class _GoodJobScreenState extends State<GoodJobScreen>
         CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
     _ctrl.forward();
     Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) TtsService.instance.speakFunny('Wow! Good job!');
+      if (mounted) TtsService.instance.speakFunny(PraiseCopy.midLevelCheckpoint);
     });
   }
 

@@ -1,0 +1,167 @@
+{
+  "level": 15,
+  "slug": "sentences",
+  "version": "1.0.0",
+  "title": {
+    "en": "Sentences",
+    "uz": "Jumlalar",
+    "ru": "Предложения"
+  },
+  "lessons": [
+    {
+      "slug": "simple-sentences",
+      "type": "typing",
+      "title": {
+        "en": "Simple Sentences",
+        "uz": "Oddiy jumlalar",
+        "ru": "Простые предложения"
+      },
+      "items": [
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:0",
+          "l10n": {
+            "en": {
+              "text": "I see a cat",
+              "audio": "audio/en/sentence_0.mp3"
+            },
+            "uz": {
+              "text": "Men mushuk ko'raman",
+              "audio": "audio/uz/sentence_0.mp3"
+            },
+            "ru": {
+              "text": "Я вижу кошку",
+              "audio": "audio/ru/sentence_0.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:1",
+          "l10n": {
+            "en": {
+              "text": "The sun is hot",
+              "audio": "audio/en/sentence_1.mp3"
+            },
+            "uz": {
+              "text": "Quyosh issiq",
+              "audio": "audio/uz/sentence_1.mp3"
+            },
+            "ru": {
+              "text": "Солнце горячее",
+              "audio": "audio/ru/sentence_1.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:2",
+          "l10n": {
+            "en": {
+              "text": "I run and sit",
+              "audio": "audio/en/sentence_2.mp3"
+            },
+            "uz": {
+              "text": "Men yugurib o'tiraman",
+              "audio": "audio/uz/sentence_2.mp3"
+            },
+            "ru": {
+              "text": "Я бегу и сижу",
+              "audio": "audio/ru/sentence_2.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:3",
+          "l10n": {
+            "en": {
+              "text": "This is my hat",
+              "audio": "audio/en/sentence_3.mp3"
+            },
+            "uz": {
+              "text": "Bu mening shlyapam",
+              "audio": "audio/uz/sentence_3.mp3"
+            },
+            "ru": {
+              "text": "Это моя шляпа",
+              "audio": "audio/ru/sentence_3.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:4",
+          "l10n": {
+            "en": {
+              "text": "A big red ball",
+              "audio": "audio/en/sentence_4.mp3"
+            },
+            "uz": {
+              "text": "Katta qizil to'p",
+              "audio": "audio/uz/sentence_4.mp3"
+            },
+            "ru": {
+              "text": "Большой красный мяч",
+              "audio": "audio/ru/sentence_4.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:5",
+          "l10n": {
+            "en": {
+              "text": "I can see the dog",
+              "audio": "audio/en/sentence_5.mp3"
+            },
+            "uz": {
+              "text": "Men itni ko'raman",
+              "audio": "audio/uz/sentence_5.mp3"
+            },
+            "ru": {
+              "text": "Я вижу собаку",
+              "audio": "audio/ru/sentence_5.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:6",
+          "l10n": {
+            "en": {
+              "text": "The cat sat on it",
+              "audio": "audio/en/sentence_6.mp3"
+            },
+            "uz": {
+              "text": "Mushuk unga o'tirdi",
+              "audio": "audio/uz/sentence_6.mp3"
+            },
+            "ru": {
+              "text": "Кошка сидела на нём",
+              "audio": "audio/ru/sentence_6.mp3"
+            }
+          }
+        },
+        {
+          "type": "sentence",
+          "skill_key": "{lang}:sentence:7",
+          "l10n": {
+            "en": {
+              "text": "Look at the big sun",
+              "audio": "audio/en/sentence_7.mp3"
+            },
+            "uz": {
+              "text": "Katta quyoshga qara",
+              "audio": "audio/uz/sentence_7.mp3"
+            },
+            "ru": {
+              "text": "Посмотри на большое солнце",
+              "audio": "audio/ru/sentence_7.mp3"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

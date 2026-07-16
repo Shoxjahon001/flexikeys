@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/tts_service.dart';
+import '../../data/praise_copy.dart';
 
 class LevelCompleteScreen extends StatefulWidget {
   const LevelCompleteScreen({super.key});
@@ -40,7 +41,7 @@ class _LevelCompleteScreenState extends State<LevelCompleteScreen>
     Future.delayed(const Duration(milliseconds: 500),
         () => _starsCtrl.forward());
     Future.delayed(const Duration(milliseconds: 400), () {
-      if (mounted) TtsService.instance.speakFunny('You did it! Amazing!');
+      if (mounted) TtsService.instance.speakFunny(PraiseCopy.levelComplete);
     });
   }
 

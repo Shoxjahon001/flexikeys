@@ -1,0 +1,263 @@
+{
+  "level": 4,
+  "slug": "colors",
+  "version": "1.0.0",
+  "title": {
+    "en": "Colors",
+    "uz": "Ranglar",
+    "ru": "Цвета"
+  },
+  "lessons": [
+    {
+      "slug": "color-names",
+      "type": "typing",
+      "title": {
+        "en": "Color Names",
+        "uz": "Ranglar nomlari",
+        "ru": "Названия цветов"
+      },
+      "items": [
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:red",
+          "l10n": {
+            "en": {
+              "text": "Red",
+              "audio": "audio/en/color_red.mp3",
+              "image": "img/colors/red.webp"
+            },
+            "uz": {
+              "text": "Qizil",
+              "audio": "audio/uz/color_red.mp3",
+              "image": "img/colors/red.webp"
+            },
+            "ru": {
+              "text": "Красный",
+              "audio": "audio/ru/color_red.mp3",
+              "image": "img/colors/red.webp"
+            }
+          },
+          "payload": {
+            "hex": "#FF0000"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:blue",
+          "l10n": {
+            "en": {
+              "text": "Blue",
+              "audio": "audio/en/color_blue.mp3",
+              "image": "img/colors/blue.webp"
+            },
+            "uz": {
+              "text": "Ko'k",
+              "audio": "audio/uz/color_blue.mp3",
+              "image": "img/colors/blue.webp"
+            },
+            "ru": {
+              "text": "Синий",
+              "audio": "audio/ru/color_blue.mp3",
+              "image": "img/colors/blue.webp"
+            }
+          },
+          "payload": {
+            "hex": "#0000FF"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:green",
+          "l10n": {
+            "en": {
+              "text": "Green",
+              "audio": "audio/en/color_green.mp3",
+              "image": "img/colors/green.webp"
+            },
+            "uz": {
+              "text": "Yashil",
+              "audio": "audio/uz/color_green.mp3",
+              "image": "img/colors/green.webp"
+            },
+            "ru": {
+              "text": "Зелёный",
+              "audio": "audio/ru/color_green.mp3",
+              "image": "img/colors/green.webp"
+            }
+          },
+          "payload": {
+            "hex": "#00AA00"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:yellow",
+          "l10n": {
+            "en": {
+              "text": "Yellow",
+              "audio": "audio/en/color_yellow.mp3",
+              "image": "img/colors/yellow.webp"
+            },
+            "uz": {
+              "text": "Sariq",
+              "audio": "audio/uz/color_yellow.mp3",
+              "image": "img/colors/yellow.webp"
+            },
+            "ru": {
+              "text": "Жёлтый",
+              "audio": "audio/ru/color_yellow.mp3",
+              "image": "img/colors/yellow.webp"
+            }
+          },
+          "payload": {
+            "hex": "#FFFF00"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:orange",
+          "l10n": {
+            "en": {
+              "text": "Orange",
+              "audio": "audio/en/color_orange.mp3",
+              "image": "img/colors/orange.webp"
+            },
+            "uz": {
+              "text": "To'q sariq",
+              "audio": "audio/uz/color_orange.mp3",
+              "image": "img/colors/orange.webp"
+            },
+            "ru": {
+              "text": "Оранжевый",
+              "audio": "audio/ru/color_orange.mp3",
+              "image": "img/colors/orange.webp"
+            }
+          },
+          "payload": {
+            "hex": "#FF8800"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:purple",
+          "l10n": {
+            "en": {
+              "text": "Purple",
+              "audio": "audio/en/color_purple.mp3",
+              "image": "img/colors/purple.webp"
+            },
+            "uz": {
+              "text": "Binafsha",
+              "audio": "audio/uz/color_purple.mp3",
+              "image": "img/colors/purple.webp"
+            },
+            "ru": {
+              "text": "Фиолетовый",
+              "audio": "audio/ru/color_purple.mp3",
+              "image": "img/colors/purple.webp"
+            }
+          },
+          "payload": {
+            "hex": "#8800FF"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:pink",
+          "l10n": {
+            "en": {
+              "text": "Pink",
+              "audio": "audio/en/color_pink.mp3",
+              "image": "img/colors/pink.webp"
+            },
+            "uz": {
+              "text": "Pushti",
+              "audio": "audio/uz/color_pink.mp3",
+              "image": "img/colors/pink.webp"
+            },
+            "ru": {
+              "text": "Розовый",
+              "audio": "audio/ru/color_pink.mp3",
+              "image": "img/colors/pink.webp"
+            }
+          },
+          "payload": {
+            "hex": "#FF88CC"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:white",
+          "l10n": {
+            "en": {
+              "text": "White",
+              "audio": "audio/en/color_white.mp3",
+              "image": "img/colors/white.webp"
+            },
+            "uz": {
+              "text": "Oq",
+              "audio": "audio/uz/color_white.mp3",
+              "image": "img/colors/white.webp"
+            },
+            "ru": {
+              "text": "Белый",
+              "audio": "audio/ru/color_white.mp3",
+              "image": "img/colors/white.webp"
+            }
+          },
+          "payload": {
+            "hex": "#FFFFFF"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:black",
+          "l10n": {
+            "en": {
+              "text": "Black",
+              "audio": "audio/en/color_black.mp3",
+              "image": "img/colors/black.webp"
+            },
+            "uz": {
+              "text": "Qora",
+              "audio": "audio/uz/color_black.mp3",
+              "image": "img/colors/black.webp"
+            },
+            "ru": {
+              "text": "Чёрный",
+              "audio": "audio/ru/color_black.mp3",
+              "image": "img/colors/black.webp"
+            }
+          },
+          "payload": {
+            "hex": "#000000"
+          }
+        },
+        {
+          "type": "color",
+          "skill_key": "{lang}:color:brown",
+          "l10n": {
+            "en": {
+              "text": "Brown",
+              "audio": "audio/en/color_brown.mp3",
+              "image": "img/colors/brown.webp"
+            },
+            "uz": {
+              "text": "Jigarrang",
+              "audio": "audio/uz/color_brown.mp3",
+              "image": "img/colors/brown.webp"
+            },
+            "ru": {
+              "text": "Коричневый",
+              "audio": "audio/ru/color_brown.mp3",
+              "image": "img/colors/brown.webp"
+            }
+          },
+          "payload": {
+            "hex": "#8B4513"
+          }
+        }
+      ]
+    }
+  ]
+}

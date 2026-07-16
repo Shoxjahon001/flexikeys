@@ -1,0 +1,233 @@
+{
+  "level": 8,
+  "slug": "vegetables",
+  "version": "1.0.0",
+  "title": {
+    "en": "Vegetables",
+    "uz": "Sabzavotlar",
+    "ru": "Овощи"
+  },
+  "lessons": [
+    {
+      "slug": "vegetables",
+      "type": "typing",
+      "title": {
+        "en": "Vegetables",
+        "uz": "Sabzavotlar",
+        "ru": "Овощи"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:carrot",
+          "l10n": {
+            "en": {
+              "text": "Carrot",
+              "audio": "audio/en/carrot.mp3",
+              "image": "img/vegetables/carrot.webp"
+            },
+            "uz": {
+              "text": "Sabzi",
+              "audio": "audio/uz/carrot.mp3",
+              "image": "img/vegetables/carrot.webp"
+            },
+            "ru": {
+              "text": "Морковь",
+              "audio": "audio/ru/carrot.mp3",
+              "image": "img/vegetables/carrot.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:potato",
+          "l10n": {
+            "en": {
+              "text": "Potato",
+              "audio": "audio/en/potato.mp3",
+              "image": "img/vegetables/potato.webp"
+            },
+            "uz": {
+              "text": "Kartoshka",
+              "audio": "audio/uz/potato.mp3",
+              "image": "img/vegetables/potato.webp"
+            },
+            "ru": {
+              "text": "Картошка",
+              "audio": "audio/ru/potato.mp3",
+              "image": "img/vegetables/potato.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:tomato",
+          "l10n": {
+            "en": {
+              "text": "Tomato",
+              "audio": "audio/en/tomato.mp3",
+              "image": "img/vegetables/tomato.webp"
+            },
+            "uz": {
+              "text": "Pomidor",
+              "audio": "audio/uz/tomato.mp3",
+              "image": "img/vegetables/tomato.webp"
+            },
+            "ru": {
+              "text": "Помидор",
+              "audio": "audio/ru/tomato.mp3",
+              "image": "img/vegetables/tomato.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:onion",
+          "l10n": {
+            "en": {
+              "text": "Onion",
+              "audio": "audio/en/onion.mp3",
+              "image": "img/vegetables/onion.webp"
+            },
+            "uz": {
+              "text": "Piyoz",
+              "audio": "audio/uz/onion.mp3",
+              "image": "img/vegetables/onion.webp"
+            },
+            "ru": {
+              "text": "Лук",
+              "audio": "audio/ru/onion.mp3",
+              "image": "img/vegetables/onion.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:cucumber",
+          "l10n": {
+            "en": {
+              "text": "Cucumber",
+              "audio": "audio/en/cucumber.mp3",
+              "image": "img/vegetables/cucumber.webp"
+            },
+            "uz": {
+              "text": "Bodring",
+              "audio": "audio/uz/cucumber.mp3",
+              "image": "img/vegetables/cucumber.webp"
+            },
+            "ru": {
+              "text": "Огурец",
+              "audio": "audio/ru/cucumber.mp3",
+              "image": "img/vegetables/cucumber.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:cabbage",
+          "l10n": {
+            "en": {
+              "text": "Cabbage",
+              "audio": "audio/en/cabbage.mp3",
+              "image": "img/vegetables/cabbage.webp"
+            },
+            "uz": {
+              "text": "Karam",
+              "audio": "audio/uz/cabbage.mp3",
+              "image": "img/vegetables/cabbage.webp"
+            },
+            "ru": {
+              "text": "Капуста",
+              "audio": "audio/ru/cabbage.mp3",
+              "image": "img/vegetables/cabbage.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:corn",
+          "l10n": {
+            "en": {
+              "text": "Corn",
+              "audio": "audio/en/corn.mp3",
+              "image": "img/vegetables/corn.webp"
+            },
+            "uz": {
+              "text": "Makkajo'xori",
+              "audio": "audio/uz/corn.mp3",
+              "image": "img/vegetables/corn.webp"
+            },
+            "ru": {
+              "text": "Кукуруза",
+              "audio": "audio/ru/corn.mp3",
+              "image": "img/vegetables/corn.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:pepper",
+          "l10n": {
+            "en": {
+              "text": "Pepper",
+              "audio": "audio/en/pepper.mp3",
+              "image": "img/vegetables/pepper.webp"
+            },
+            "uz": {
+              "text": "Qalampir",
+              "audio": "audio/uz/pepper.mp3",
+              "image": "img/vegetables/pepper.webp"
+            },
+            "ru": {
+              "text": "Перец",
+              "audio": "audio/ru/pepper.mp3",
+              "image": "img/vegetables/pepper.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:garlic",
+          "l10n": {
+            "en": {
+              "text": "Garlic",
+              "audio": "audio/en/garlic.mp3",
+              "image": "img/vegetables/garlic.webp"
+            },
+            "uz": {
+              "text": "Sarimsoq",
+              "audio": "audio/uz/garlic.mp3",
+              "image": "img/vegetables/garlic.webp"
+            },
+            "ru": {
+              "text": "Чеснок",
+              "audio": "audio/ru/garlic.mp3",
+              "image": "img/vegetables/garlic.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:eggplant",
+          "l10n": {
+            "en": {
+              "text": "Eggplant",
+              "audio": "audio/en/eggplant.mp3",
+              "image": "img/vegetables/eggplant.webp"
+            },
+            "uz": {
+              "text": "Baqlajon",
+              "audio": "audio/uz/eggplant.mp3",
+              "image": "img/vegetables/eggplant.webp"
+            },
+            "ru": {
+              "text": "Баклажан",
+              "audio": "audio/ru/eggplant.mp3",
+              "image": "img/vegetables/eggplant.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

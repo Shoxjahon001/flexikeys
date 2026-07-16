@@ -1,0 +1,79 @@
+{
+  "_comment": "Golden test fixtures for the adaptive engine. Matches shared/adaptive_policy.json#golden_fixtures. Generated from verified hand computations.",
+  "bkt": {
+    "inputs": [
+      {"p_known": 0.20, "correct": true,  "expected_next": 0.60000},
+      {"p_known": 0.60, "correct": true,  "expected_next": 0.89032},
+      {"p_known": 0.89032, "correct": false, "expected_next": 0.57810}
+    ]
+  },
+  "sm2": {
+    "steps": [
+      {"interval": 1,  "ease": 2.50, "lapses": 0, "correct": true,  "expected_interval": 6,  "expected_ease": 2.60, "expected_lapses": 0},
+      {"interval": 6,  "ease": 2.60, "lapses": 0, "correct": true,  "expected_interval": 16, "expected_ease": 2.70, "expected_lapses": 0},
+      {"interval": 16, "ease": 2.70, "lapses": 0, "correct": false, "expected_interval": 1,  "expected_ease": 2.50, "expected_lapses": 1}
+    ]
+  },
+  "ewma": {
+    "alpha": 0.15,
+    "cases": [
+      {"old": null,  "new_value": 0.9, "expected": 0.9},
+      {"old": 0.5,  "new_value": 1.0, "expected": 0.5750},
+      {"old": 0.75, "new_value": 0.5, "expected": 0.7125}
+    ]
+  },
+  "policy": {
+    "cases": [
+      {
+        "id": "accidental_tap_triggers_dwell_and_spacing",
+        "profile_in": {"key_scale": 1.0, "key_scale_per_key": {}, "key_spacing": 1.0, "dwell_time_ms": 0, "debounce_ms": 50, "hint_level": {}, "session_pacing": {"suggest_break": false}, "progression_gate": true, "version": 1},
+        "metrics": {"accidental_tap_rate": 0.20, "touch_precision": 0.10, "fatigued": false, "per_skill": {}},
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "golden_001",
+        "expected_profile_partial": {"dwell_time_ms": 20, "key_spacing": 1.05},
+        "expected_change_params": ["dwell_time_ms", "key_spacing"]
+      },
+      {
+        "id": "poor_touch_precision_triggers_global_scale",
+        "profile_in": {"key_scale": 1.0, "key_scale_per_key": {}, "key_spacing": 1.0, "dwell_time_ms": 0, "debounce_ms": 50, "hint_level": {}, "session_pacing": {"suggest_break": false}, "progression_gate": true, "version": 1},
+        "metrics": {"accidental_tap_rate": 0.0, "touch_precision": 0.50, "fatigued": false, "per_skill": {}},
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "golden_002",
+        "expected_profile_partial": {"key_scale": 1.05},
+        "expected_change_params": ["key_scale"]
+      },
+      {
+        "id": "fatigue_triggers_break_suggestion",
+        "profile_in": {"key_scale": 1.0, "key_scale_per_key": {}, "key_spacing": 1.0, "dwell_time_ms": 0, "debounce_ms": 50, "hint_level": {}, "session_pacing": {"suggest_break": false}, "progression_gate": true, "version": 1},
+        "metrics": {"accidental_tap_rate": 0.0, "touch_precision": 0.10, "fatigued": true, "per_skill": {}},
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "golden_003",
+        "expected_profile_partial": {"session_pacing": {"suggest_break": true}},
+        "expected_change_params": ["session_pacing.suggest_break"]
+      },
+      {
+        "id": "low_per_skill_accuracy_raises_per_key_scale",
+        "profile_in": {"key_scale": 1.0, "key_scale_per_key": {}, "key_spacing": 1.0, "dwell_time_ms": 0, "debounce_ms": 50, "hint_level": {}, "session_pacing": {"suggest_break": false}, "progression_gate": true, "version": 1},
+        "metrics": {"accidental_tap_rate": 0.0, "touch_precision": 0.10, "fatigued": false, "per_skill": {"a": {"ewma_accuracy": 0.40, "hesitation_ms": 0.0}}},
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "golden_004",
+        "expected_profile_partial": {"key_scale_per_key": {"a": 1.05}},
+        "expected_change_params": ["key_scale.a"]
+      },
+      {
+        "id": "high_hesitation_raises_hint_level",
+        "profile_in": {"key_scale": 1.0, "key_scale_per_key": {}, "key_spacing": 1.0, "dwell_time_ms": 0, "debounce_ms": 50, "hint_level": {}, "session_pacing": {"suggest_break": false}, "progression_gate": true, "version": 1},
+        "metrics": {"accidental_tap_rate": 0.0, "touch_precision": 0.10, "fatigued": false, "per_skill": {"a": {"ewma_accuracy": 0.75, "hesitation_ms": 3000.0}}},
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "golden_005",
+        "expected_profile_partial": {"hint_level": {"a": 1}},
+        "expected_change_params": ["hint_level.a"]
+      }
+    ]
+  }
+}

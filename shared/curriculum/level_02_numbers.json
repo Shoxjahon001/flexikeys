@@ -1,0 +1,1745 @@
+{
+  "level": 2,
+  "slug": "numbers",
+  "version": "1.0.0",
+  "title": {
+    "en": "Numbers",
+    "uz": "Raqamlar",
+    "ru": "Цифры"
+  },
+  "lessons": [
+    {
+      "slug": "digits",
+      "type": "typing",
+      "title": {
+        "en": "Digits 0–9",
+        "uz": "Raqamlar 0–9",
+        "ru": "Цифры 0–9"
+      },
+      "items": [
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:0",
+          "l10n": {
+            "en": {
+              "text": "0",
+              "audio": "audio/en/number_0.mp3",
+              "image": "img/numbers/0.webp"
+            },
+            "uz": {
+              "text": "0",
+              "audio": "audio/uz/number_0.mp3",
+              "image": "img/numbers/0.webp"
+            },
+            "ru": {
+              "text": "0",
+              "audio": "audio/ru/number_0.mp3",
+              "image": "img/numbers/0.webp"
+            }
+          },
+          "payload": {
+            "digit": 0,
+            "word": {
+              "en": "Zero",
+              "uz": "Nol",
+              "ru": "Ноль"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:1",
+          "l10n": {
+            "en": {
+              "text": "1",
+              "audio": "audio/en/number_1.mp3",
+              "image": "img/numbers/1.webp"
+            },
+            "uz": {
+              "text": "1",
+              "audio": "audio/uz/number_1.mp3",
+              "image": "img/numbers/1.webp"
+            },
+            "ru": {
+              "text": "1",
+              "audio": "audio/ru/number_1.mp3",
+              "image": "img/numbers/1.webp"
+            }
+          },
+          "payload": {
+            "digit": 1,
+            "word": {
+              "en": "One",
+              "uz": "Bir",
+              "ru": "Один"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:2",
+          "l10n": {
+            "en": {
+              "text": "2",
+              "audio": "audio/en/number_2.mp3",
+              "image": "img/numbers/2.webp"
+            },
+            "uz": {
+              "text": "2",
+              "audio": "audio/uz/number_2.mp3",
+              "image": "img/numbers/2.webp"
+            },
+            "ru": {
+              "text": "2",
+              "audio": "audio/ru/number_2.mp3",
+              "image": "img/numbers/2.webp"
+            }
+          },
+          "payload": {
+            "digit": 2,
+            "word": {
+              "en": "Two",
+              "uz": "Ikki",
+              "ru": "Два"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:3",
+          "l10n": {
+            "en": {
+              "text": "3",
+              "audio": "audio/en/number_3.mp3",
+              "image": "img/numbers/3.webp"
+            },
+            "uz": {
+              "text": "3",
+              "audio": "audio/uz/number_3.mp3",
+              "image": "img/numbers/3.webp"
+            },
+            "ru": {
+              "text": "3",
+              "audio": "audio/ru/number_3.mp3",
+              "image": "img/numbers/3.webp"
+            }
+          },
+          "payload": {
+            "digit": 3,
+            "word": {
+              "en": "Three",
+              "uz": "Uch",
+              "ru": "Три"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:4",
+          "l10n": {
+            "en": {
+              "text": "4",
+              "audio": "audio/en/number_4.mp3",
+              "image": "img/numbers/4.webp"
+            },
+            "uz": {
+              "text": "4",
+              "audio": "audio/uz/number_4.mp3",
+              "image": "img/numbers/4.webp"
+            },
+            "ru": {
+              "text": "4",
+              "audio": "audio/ru/number_4.mp3",
+              "image": "img/numbers/4.webp"
+            }
+          },
+          "payload": {
+            "digit": 4,
+            "word": {
+              "en": "Four",
+              "uz": "To'rt",
+              "ru": "Четыре"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:5",
+          "l10n": {
+            "en": {
+              "text": "5",
+              "audio": "audio/en/number_5.mp3",
+              "image": "img/numbers/5.webp"
+            },
+            "uz": {
+              "text": "5",
+              "audio": "audio/uz/number_5.mp3",
+              "image": "img/numbers/5.webp"
+            },
+            "ru": {
+              "text": "5",
+              "audio": "audio/ru/number_5.mp3",
+              "image": "img/numbers/5.webp"
+            }
+          },
+          "payload": {
+            "digit": 5,
+            "word": {
+              "en": "Five",
+              "uz": "Besh",
+              "ru": "Пять"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:6",
+          "l10n": {
+            "en": {
+              "text": "6",
+              "audio": "audio/en/number_6.mp3",
+              "image": "img/numbers/6.webp"
+            },
+            "uz": {
+              "text": "6",
+              "audio": "audio/uz/number_6.mp3",
+              "image": "img/numbers/6.webp"
+            },
+            "ru": {
+              "text": "6",
+              "audio": "audio/ru/number_6.mp3",
+              "image": "img/numbers/6.webp"
+            }
+          },
+          "payload": {
+            "digit": 6,
+            "word": {
+              "en": "Six",
+              "uz": "Olti",
+              "ru": "Шесть"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:7",
+          "l10n": {
+            "en": {
+              "text": "7",
+              "audio": "audio/en/number_7.mp3",
+              "image": "img/numbers/7.webp"
+            },
+            "uz": {
+              "text": "7",
+              "audio": "audio/uz/number_7.mp3",
+              "image": "img/numbers/7.webp"
+            },
+            "ru": {
+              "text": "7",
+              "audio": "audio/ru/number_7.mp3",
+              "image": "img/numbers/7.webp"
+            }
+          },
+          "payload": {
+            "digit": 7,
+            "word": {
+              "en": "Seven",
+              "uz": "Yetti",
+              "ru": "Семь"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:8",
+          "l10n": {
+            "en": {
+              "text": "8",
+              "audio": "audio/en/number_8.mp3",
+              "image": "img/numbers/8.webp"
+            },
+            "uz": {
+              "text": "8",
+              "audio": "audio/uz/number_8.mp3",
+              "image": "img/numbers/8.webp"
+            },
+            "ru": {
+              "text": "8",
+              "audio": "audio/ru/number_8.mp3",
+              "image": "img/numbers/8.webp"
+            }
+          },
+          "payload": {
+            "digit": 8,
+            "word": {
+              "en": "Eight",
+              "uz": "Sakkiz",
+              "ru": "Восемь"
+            }
+          }
+        },
+        {
+          "type": "number",
+          "skill_key": "{lang}:number:9",
+          "l10n": {
+            "en": {
+              "text": "9",
+              "audio": "audio/en/number_9.mp3",
+              "image": "img/numbers/9.webp"
+            },
+            "uz": {
+              "text": "9",
+              "audio": "audio/uz/number_9.mp3",
+              "image": "img/numbers/9.webp"
+            },
+            "ru": {
+              "text": "9",
+              "audio": "audio/ru/number_9.mp3",
+              "image": "img/numbers/9.webp"
+            }
+          },
+          "payload": {
+            "digit": 9,
+            "word": {
+              "en": "Nine",
+              "uz": "To'qqiz",
+              "ru": "Девять"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "number-words",
+      "type": "typing",
+      "title": {
+        "en": "Number Words",
+        "uz": "Raqam so'zlari",
+        "ru": "Числа словами"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:0",
+          "l10n": {
+            "en": {
+              "text": "Zero",
+              "audio": "audio/en/numword_0.mp3",
+              "image": "img/numbers/0.webp"
+            },
+            "uz": {
+              "text": "Nol",
+              "audio": "audio/uz/numword_0.mp3",
+              "image": "img/numbers/0.webp"
+            },
+            "ru": {
+              "text": "Ноль",
+              "audio": "audio/ru/numword_0.mp3",
+              "image": "img/numbers/0.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:1",
+          "l10n": {
+            "en": {
+              "text": "One",
+              "audio": "audio/en/numword_1.mp3",
+              "image": "img/numbers/1.webp"
+            },
+            "uz": {
+              "text": "Bir",
+              "audio": "audio/uz/numword_1.mp3",
+              "image": "img/numbers/1.webp"
+            },
+            "ru": {
+              "text": "Один",
+              "audio": "audio/ru/numword_1.mp3",
+              "image": "img/numbers/1.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:2",
+          "l10n": {
+            "en": {
+              "text": "Two",
+              "audio": "audio/en/numword_2.mp3",
+              "image": "img/numbers/2.webp"
+            },
+            "uz": {
+              "text": "Ikki",
+              "audio": "audio/uz/numword_2.mp3",
+              "image": "img/numbers/2.webp"
+            },
+            "ru": {
+              "text": "Два",
+              "audio": "audio/ru/numword_2.mp3",
+              "image": "img/numbers/2.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:3",
+          "l10n": {
+            "en": {
+              "text": "Three",
+              "audio": "audio/en/numword_3.mp3",
+              "image": "img/numbers/3.webp"
+            },
+            "uz": {
+              "text": "Uch",
+              "audio": "audio/uz/numword_3.mp3",
+              "image": "img/numbers/3.webp"
+            },
+            "ru": {
+              "text": "Три",
+              "audio": "audio/ru/numword_3.mp3",
+              "image": "img/numbers/3.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:4",
+          "l10n": {
+            "en": {
+              "text": "Four",
+              "audio": "audio/en/numword_4.mp3",
+              "image": "img/numbers/4.webp"
+            },
+            "uz": {
+              "text": "To'rt",
+              "audio": "audio/uz/numword_4.mp3",
+              "image": "img/numbers/4.webp"
+            },
+            "ru": {
+              "text": "Четыре",
+              "audio": "audio/ru/numword_4.mp3",
+              "image": "img/numbers/4.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:5",
+          "l10n": {
+            "en": {
+              "text": "Five",
+              "audio": "audio/en/numword_5.mp3",
+              "image": "img/numbers/5.webp"
+            },
+            "uz": {
+              "text": "Besh",
+              "audio": "audio/uz/numword_5.mp3",
+              "image": "img/numbers/5.webp"
+            },
+            "ru": {
+              "text": "Пять",
+              "audio": "audio/ru/numword_5.mp3",
+              "image": "img/numbers/5.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:6",
+          "l10n": {
+            "en": {
+              "text": "Six",
+              "audio": "audio/en/numword_6.mp3",
+              "image": "img/numbers/6.webp"
+            },
+            "uz": {
+              "text": "Olti",
+              "audio": "audio/uz/numword_6.mp3",
+              "image": "img/numbers/6.webp"
+            },
+            "ru": {
+              "text": "Шесть",
+              "audio": "audio/ru/numword_6.mp3",
+              "image": "img/numbers/6.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:7",
+          "l10n": {
+            "en": {
+              "text": "Seven",
+              "audio": "audio/en/numword_7.mp3",
+              "image": "img/numbers/7.webp"
+            },
+            "uz": {
+              "text": "Yetti",
+              "audio": "audio/uz/numword_7.mp3",
+              "image": "img/numbers/7.webp"
+            },
+            "ru": {
+              "text": "Семь",
+              "audio": "audio/ru/numword_7.mp3",
+              "image": "img/numbers/7.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:8",
+          "l10n": {
+            "en": {
+              "text": "Eight",
+              "audio": "audio/en/numword_8.mp3",
+              "image": "img/numbers/8.webp"
+            },
+            "uz": {
+              "text": "Sakkiz",
+              "audio": "audio/uz/numword_8.mp3",
+              "image": "img/numbers/8.webp"
+            },
+            "ru": {
+              "text": "Восемь",
+              "audio": "audio/ru/numword_8.mp3",
+              "image": "img/numbers/8.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:numword:9",
+          "l10n": {
+            "en": {
+              "text": "Nine",
+              "audio": "audio/en/numword_9.mp3",
+              "image": "img/numbers/9.webp"
+            },
+            "uz": {
+              "text": "To'qqiz",
+              "audio": "audio/uz/numword_9.mp3",
+              "image": "img/numbers/9.webp"
+            },
+            "ru": {
+              "text": "Девять",
+              "audio": "audio/ru/numword_9.mp3",
+              "image": "img/numbers/9.webp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "number-tracing",
+      "type": "drawing",
+      "title": {
+        "en": "Number Tracing",
+        "uz": "Raqamlarni chizish",
+        "ru": "Обводим цифры"
+      },
+      "items": [
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:0",
+          "l10n": {
+            "en": {
+              "text": "Trace 0",
+              "audio": "audio/en/trace_number_0.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "0 ni chizing",
+              "audio": "audio/uz/trace_number_0.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 0",
+              "audio": "audio/ru/trace_number_0.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:1",
+          "l10n": {
+            "en": {
+              "text": "Trace 1",
+              "audio": "audio/en/trace_number_1.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "1 ni chizing",
+              "audio": "audio/uz/trace_number_1.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 1",
+              "audio": "audio/ru/trace_number_1.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:2",
+          "l10n": {
+            "en": {
+              "text": "Trace 2",
+              "audio": "audio/en/trace_number_2.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "2 ni chizing",
+              "audio": "audio/uz/trace_number_2.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 2",
+              "audio": "audio/ru/trace_number_2.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:3",
+          "l10n": {
+            "en": {
+              "text": "Trace 3",
+              "audio": "audio/en/trace_number_3.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "3 ni chizing",
+              "audio": "audio/uz/trace_number_3.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 3",
+              "audio": "audio/ru/trace_number_3.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:4",
+          "l10n": {
+            "en": {
+              "text": "Trace 4",
+              "audio": "audio/en/trace_number_4.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "4 ni chizing",
+              "audio": "audio/uz/trace_number_4.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 4",
+              "audio": "audio/ru/trace_number_4.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:5",
+          "l10n": {
+            "en": {
+              "text": "Trace 5",
+              "audio": "audio/en/trace_number_5.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "5 ni chizing",
+              "audio": "audio/uz/trace_number_5.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 5",
+              "audio": "audio/ru/trace_number_5.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:6",
+          "l10n": {
+            "en": {
+              "text": "Trace 6",
+              "audio": "audio/en/trace_number_6.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "6 ni chizing",
+              "audio": "audio/uz/trace_number_6.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 6",
+              "audio": "audio/ru/trace_number_6.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:7",
+          "l10n": {
+            "en": {
+              "text": "Trace 7",
+              "audio": "audio/en/trace_number_7.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "7 ni chizing",
+              "audio": "audio/uz/trace_number_7.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 7",
+              "audio": "audio/ru/trace_number_7.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:8",
+          "l10n": {
+            "en": {
+              "text": "Trace 8",
+              "audio": "audio/en/trace_number_8.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "8 ni chizing",
+              "audio": "audio/uz/trace_number_8.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 8",
+              "audio": "audio/ru/trace_number_8.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:number:9",
+          "l10n": {
+            "en": {
+              "text": "Trace 9",
+              "audio": "audio/en/trace_number_9.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "9 ni chizing",
+              "audio": "audio/uz/trace_number_9.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите 9",
+              "audio": "audio/ru/trace_number_9.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

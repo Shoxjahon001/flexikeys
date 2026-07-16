@@ -4,6 +4,8 @@ import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
 import '../services/sound_service.dart';
+import '../core/network/secure_token_store.dart';
+import '../features/parent/presentation/parent_home_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -19,6 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int _totalAnswers = 0;
   int _timeToday = 0;
   double _volume = 0.7;
+  bool _hasBackendAccount = false;
 
   @override
   void initState() {
@@ -35,6 +38,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       UserService.getTimeSpentToday(),
       UserService.getVolume(),
     ]);
+    final hasAccount = await SecureTokenStore.instance.hasParentSession();
+    if (mounted) setState(() => _hasBackendAccount = hasAccount);
     if (mounted) {
       setState(() {
         _name = results[0] as String;
@@ -165,6 +170,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 14),
+
+              // AI assistant entry point
+              GestureDetector(
+                onTap: _openAssistant,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFFD9D2F0), Color(0xFFFFD9C7)],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.06),
+                        blurRadius: 10,
+                      )
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 44,
+                        height: 44,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.auto_awesome_rounded,
+                            color: AppTheme.primary, size: 22),
+                      ),
+                      const SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Ask the AI Assistant',
+                              style: GoogleFonts.nunito(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w800,
+                                color: AppTheme.textDark,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Progress insights, reports, and practice tips',
+                              style: GoogleFonts.nunito(
+                                fontSize: 13,
+                                color: AppTheme.textMedium,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const Icon(Icons.arrow_forward_ios_rounded,
+                          size: 16, color: AppTheme.textMedium),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(height: 20),
 
               // Settings
@@ -203,6 +271,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ],
                     ),
+                    if (!_hasBackendAccount) ...[
+                      const SizedBox(height: 12),
+                      _settingsBtn(
+                        'Save my progress to an account →',
+                        () => Navigator.pushNamed(context, '/parent_signup'),
+                      ),
+                    ],
                     const SizedBox(height: 16),
                     Text(
                       'Volume',
@@ -390,6 +465,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
             color: AppTheme.textDark,
           ),
         ),
+      ),
+    );
+  }
+
+  /// Opens the AI assistant.
+  ///
+  /// TEMP: guest access is allowed for now — a real parent account/child
+  /// isn't required to open the screen, so anyone can see the assistant UI
+  /// before a backend/database is wired up for this build. Once that's
+  /// ready, restore the gate: require `_hasBackendAccount` and a real
+  /// `SecureTokenStore.instance.getActiveChildId()`, redirecting to
+  /// `/parent_signup` when either is missing (the assistant is meant to be
+  /// grounded in real backend progress data, not shown empty).
+  Future<void> _openAssistant() async {
+    final childId = await SecureTokenStore.instance.getActiveChildId() ?? 'guest';
+    if (!mounted) return;
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => ParentHomeScreen(childId: childId, initialTab: 2),
       ),
     );
   }

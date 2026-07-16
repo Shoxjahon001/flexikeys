@@ -1,0 +1,233 @@
+{
+  "level": 9,
+  "slug": "toys",
+  "version": "1.0.0",
+  "title": {
+    "en": "Toys",
+    "uz": "O'yinchoqlar",
+    "ru": "Игрушки"
+  },
+  "lessons": [
+    {
+      "slug": "toys",
+      "type": "typing",
+      "title": {
+        "en": "My Toys",
+        "uz": "Mening o'yinchoqlarim",
+        "ru": "Мои игрушки"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:ball",
+          "l10n": {
+            "en": {
+              "text": "Ball",
+              "audio": "audio/en/ball.mp3",
+              "image": "img/toys/ball.webp"
+            },
+            "uz": {
+              "text": "To'p",
+              "audio": "audio/uz/ball.mp3",
+              "image": "img/toys/ball.webp"
+            },
+            "ru": {
+              "text": "Мяч",
+              "audio": "audio/ru/ball.mp3",
+              "image": "img/toys/ball.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:doll",
+          "l10n": {
+            "en": {
+              "text": "Doll",
+              "audio": "audio/en/doll.mp3",
+              "image": "img/toys/doll.webp"
+            },
+            "uz": {
+              "text": "Qo'g'irchoq",
+              "audio": "audio/uz/doll.mp3",
+              "image": "img/toys/doll.webp"
+            },
+            "ru": {
+              "text": "Кукла",
+              "audio": "audio/ru/doll.mp3",
+              "image": "img/toys/doll.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:car-toy",
+          "l10n": {
+            "en": {
+              "text": "Car",
+              "audio": "audio/en/car-toy.mp3",
+              "image": "img/toys/car-toy.webp"
+            },
+            "uz": {
+              "text": "Mashina",
+              "audio": "audio/uz/car-toy.mp3",
+              "image": "img/toys/car-toy.webp"
+            },
+            "ru": {
+              "text": "Машинка",
+              "audio": "audio/ru/car-toy.mp3",
+              "image": "img/toys/car-toy.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:kite",
+          "l10n": {
+            "en": {
+              "text": "Kite",
+              "audio": "audio/en/kite.mp3",
+              "image": "img/toys/kite.webp"
+            },
+            "uz": {
+              "text": "Uçurtma",
+              "audio": "audio/uz/kite.mp3",
+              "image": "img/toys/kite.webp"
+            },
+            "ru": {
+              "text": "Воздушный змей",
+              "audio": "audio/ru/kite.mp3",
+              "image": "img/toys/kite.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:blocks",
+          "l10n": {
+            "en": {
+              "text": "Blocks",
+              "audio": "audio/en/blocks.mp3",
+              "image": "img/toys/blocks.webp"
+            },
+            "uz": {
+              "text": "Kubiklar",
+              "audio": "audio/uz/blocks.mp3",
+              "image": "img/toys/blocks.webp"
+            },
+            "ru": {
+              "text": "Кубики",
+              "audio": "audio/ru/blocks.mp3",
+              "image": "img/toys/blocks.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:robot",
+          "l10n": {
+            "en": {
+              "text": "Robot",
+              "audio": "audio/en/robot.mp3",
+              "image": "img/toys/robot.webp"
+            },
+            "uz": {
+              "text": "Robot",
+              "audio": "audio/uz/robot.mp3",
+              "image": "img/toys/robot.webp"
+            },
+            "ru": {
+              "text": "Робот",
+              "audio": "audio/ru/robot.mp3",
+              "image": "img/toys/robot.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:train-toy",
+          "l10n": {
+            "en": {
+              "text": "Train",
+              "audio": "audio/en/train-toy.mp3",
+              "image": "img/toys/train-toy.webp"
+            },
+            "uz": {
+              "text": "Poyezd",
+              "audio": "audio/uz/train-toy.mp3",
+              "image": "img/toys/train-toy.webp"
+            },
+            "ru": {
+              "text": "Поезд",
+              "audio": "audio/ru/train-toy.mp3",
+              "image": "img/toys/train-toy.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:drum",
+          "l10n": {
+            "en": {
+              "text": "Drum",
+              "audio": "audio/en/drum.mp3",
+              "image": "img/toys/drum.webp"
+            },
+            "uz": {
+              "text": "Nog'ora",
+              "audio": "audio/uz/drum.mp3",
+              "image": "img/toys/drum.webp"
+            },
+            "ru": {
+              "text": "Барабан",
+              "audio": "audio/ru/drum.mp3",
+              "image": "img/toys/drum.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:puzzle",
+          "l10n": {
+            "en": {
+              "text": "Puzzle",
+              "audio": "audio/en/puzzle.mp3",
+              "image": "img/toys/puzzle.webp"
+            },
+            "uz": {
+              "text": "Jumboq",
+              "audio": "audio/uz/puzzle.mp3",
+              "image": "img/toys/puzzle.webp"
+            },
+            "ru": {
+              "text": "Пазл",
+              "audio": "audio/ru/puzzle.mp3",
+              "image": "img/toys/puzzle.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:teddy-bear",
+          "l10n": {
+            "en": {
+              "text": "Teddy Bear",
+              "audio": "audio/en/teddy-bear.mp3",
+              "image": "img/toys/teddy-bear.webp"
+            },
+            "uz": {
+              "text": "Yumshoq ayiqcha",
+              "audio": "audio/uz/teddy-bear.mp3",
+              "image": "img/toys/teddy-bear.webp"
+            },
+            "ru": {
+              "text": "Плюшевый мишка",
+              "audio": "audio/ru/teddy-bear.mp3",
+              "image": "img/toys/teddy-bear.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

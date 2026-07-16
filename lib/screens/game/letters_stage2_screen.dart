@@ -6,6 +6,8 @@ import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
+import '../../services/progress/progress_repository.dart';
+import '../../design_system/fk_tokens.dart';
 
 class LettersStage2Screen extends StatefulWidget {
   const LettersStage2Screen({super.key});
@@ -105,6 +107,11 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
     await UserService.addStars(10);
     await UserService.setLettersStage(2);
     await UserService.addTimeSpent(5);
+    // Mirrors UserService.setLettersStage(2): completes 'letters_1',
+    // 'letters', and 'letters_2'.
+    ProgressRepository.instance.recordLevelCompleteAndSync('letters_1', stars: 10);
+    ProgressRepository.instance.recordLevelCompleteAndSync('letters', stars: 10);
+    ProgressRepository.instance.recordLevelCompleteAndSync('letters_2', stars: 10);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
       'starsEarned': 10,
@@ -371,8 +378,8 @@ class _LettersStage2ScreenState extends State<LettersStage2Screen>
     if (alreadyUsed) {
       bg = const Color(0xFFC8F0D0);
     } else if (isWrong) {
-      bg = const Color(0xFFFFE0E0);
-      border = const Color(0xFFFF6B6B);
+      bg = FkColors.attention;
+      border = FkColors.attention;
     } else if (isCurrentTarget) {
       bg = AppTheme.cardActive;
       border = AppTheme.primary;

@@ -1,0 +1,1551 @@
+{
+  "level": 1,
+  "slug": "letters",
+  "version": "1.0.0",
+  "title": {
+    "en": "Letters",
+    "uz": "Harflar",
+    "ru": "Буквы"
+  },
+  "lessons": [
+    {
+      "slug": "lowercase-letters",
+      "type": "typing",
+      "title": {
+        "en": "Lowercase Letters",
+        "uz": "Kichik harflar",
+        "ru": "Строчные буквы"
+      },
+      "items": [
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:e",
+          "l10n": {
+            "en": {
+              "text": "E",
+              "audio": "audio/en/letter_e.mp3",
+              "image": "img/letters/en_e.webp"
+            },
+            "uz": {
+              "text": "A",
+              "audio": "audio/uz/letter_a.mp3",
+              "image": "img/letters/uz_a.webp"
+            },
+            "ru": {
+              "text": "О",
+              "audio": "audio/ru/letter_о.mp3",
+              "image": "img/letters/ru_о.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:t",
+          "l10n": {
+            "en": {
+              "text": "T",
+              "audio": "audio/en/letter_t.mp3",
+              "image": "img/letters/en_t.webp"
+            },
+            "uz": {
+              "text": "I",
+              "audio": "audio/uz/letter_i.mp3",
+              "image": "img/letters/uz_i.webp"
+            },
+            "ru": {
+              "text": "Е",
+              "audio": "audio/ru/letter_е.mp3",
+              "image": "img/letters/ru_е.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:a",
+          "l10n": {
+            "en": {
+              "text": "A",
+              "audio": "audio/en/letter_a.mp3",
+              "image": "img/letters/en_a.webp"
+            },
+            "uz": {
+              "text": "O",
+              "audio": "audio/uz/letter_o.mp3",
+              "image": "img/letters/uz_o.webp"
+            },
+            "ru": {
+              "text": "А",
+              "audio": "audio/ru/letter_а.mp3",
+              "image": "img/letters/ru_а.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:o",
+          "l10n": {
+            "en": {
+              "text": "O",
+              "audio": "audio/en/letter_o.mp3",
+              "image": "img/letters/en_o.webp"
+            },
+            "uz": {
+              "text": "U",
+              "audio": "audio/uz/letter_u.mp3",
+              "image": "img/letters/uz_u.webp"
+            },
+            "ru": {
+              "text": "И",
+              "audio": "audio/ru/letter_и.mp3",
+              "image": "img/letters/ru_и.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:i",
+          "l10n": {
+            "en": {
+              "text": "I",
+              "audio": "audio/en/letter_i.mp3",
+              "image": "img/letters/en_i.webp"
+            },
+            "uz": {
+              "text": "E",
+              "audio": "audio/uz/letter_e.mp3",
+              "image": "img/letters/uz_e.webp"
+            },
+            "ru": {
+              "text": "Н",
+              "audio": "audio/ru/letter_н.mp3",
+              "image": "img/letters/ru_н.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:n",
+          "l10n": {
+            "en": {
+              "text": "N",
+              "audio": "audio/en/letter_n.mp3",
+              "image": "img/letters/en_n.webp"
+            },
+            "uz": {
+              "text": "N",
+              "audio": "audio/uz/letter_n.mp3",
+              "image": "img/letters/uz_n.webp"
+            },
+            "ru": {
+              "text": "Т",
+              "audio": "audio/ru/letter_т.mp3",
+              "image": "img/letters/ru_т.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:s",
+          "l10n": {
+            "en": {
+              "text": "S",
+              "audio": "audio/en/letter_s.mp3",
+              "image": "img/letters/en_s.webp"
+            },
+            "uz": {
+              "text": "R",
+              "audio": "audio/uz/letter_r.mp3",
+              "image": "img/letters/uz_r.webp"
+            },
+            "ru": {
+              "text": "С",
+              "audio": "audio/ru/letter_с.mp3",
+              "image": "img/letters/ru_с.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:h",
+          "l10n": {
+            "en": {
+              "text": "H",
+              "audio": "audio/en/letter_h.mp3",
+              "image": "img/letters/en_h.webp"
+            },
+            "uz": {
+              "text": "S",
+              "audio": "audio/uz/letter_s.mp3",
+              "image": "img/letters/uz_s.webp"
+            },
+            "ru": {
+              "text": "Р",
+              "audio": "audio/ru/letter_р.mp3",
+              "image": "img/letters/ru_р.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:r",
+          "l10n": {
+            "en": {
+              "text": "R",
+              "audio": "audio/en/letter_r.mp3",
+              "image": "img/letters/en_r.webp"
+            },
+            "uz": {
+              "text": "T",
+              "audio": "audio/uz/letter_t.mp3",
+              "image": "img/letters/uz_t.webp"
+            },
+            "ru": {
+              "text": "В",
+              "audio": "audio/ru/letter_в.mp3",
+              "image": "img/letters/ru_в.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:d",
+          "l10n": {
+            "en": {
+              "text": "D",
+              "audio": "audio/en/letter_d.mp3",
+              "image": "img/letters/en_d.webp"
+            },
+            "uz": {
+              "text": "L",
+              "audio": "audio/uz/letter_l.mp3",
+              "image": "img/letters/uz_l.webp"
+            },
+            "ru": {
+              "text": "Л",
+              "audio": "audio/ru/letter_л.mp3",
+              "image": "img/letters/ru_л.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:l",
+          "l10n": {
+            "en": {
+              "text": "L",
+              "audio": "audio/en/letter_l.mp3",
+              "image": "img/letters/en_l.webp"
+            },
+            "uz": {
+              "text": "K",
+              "audio": "audio/uz/letter_k.mp3",
+              "image": "img/letters/uz_k.webp"
+            },
+            "ru": {
+              "text": "К",
+              "audio": "audio/ru/letter_к.mp3",
+              "image": "img/letters/ru_к.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:c",
+          "l10n": {
+            "en": {
+              "text": "C",
+              "audio": "audio/en/letter_c.mp3",
+              "image": "img/letters/en_c.webp"
+            },
+            "uz": {
+              "text": "D",
+              "audio": "audio/uz/letter_d.mp3",
+              "image": "img/letters/uz_d.webp"
+            },
+            "ru": {
+              "text": "М",
+              "audio": "audio/ru/letter_м.mp3",
+              "image": "img/letters/ru_м.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:u",
+          "l10n": {
+            "en": {
+              "text": "U",
+              "audio": "audio/en/letter_u.mp3",
+              "image": "img/letters/en_u.webp"
+            },
+            "uz": {
+              "text": "M",
+              "audio": "audio/uz/letter_m.mp3",
+              "image": "img/letters/uz_m.webp"
+            },
+            "ru": {
+              "text": "Д",
+              "audio": "audio/ru/letter_д.mp3",
+              "image": "img/letters/ru_д.webp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "uppercase-letters",
+      "type": "typing",
+      "title": {
+        "en": "Uppercase Letters",
+        "uz": "Katta harflar",
+        "ru": "Заглавные буквы"
+      },
+      "items": [
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:m",
+          "l10n": {
+            "en": {
+              "text": "M",
+              "audio": "audio/en/letter_m.mp3",
+              "image": "img/letters/en_m.webp"
+            },
+            "uz": {
+              "text": "B",
+              "audio": "audio/uz/letter_b.mp3",
+              "image": "img/letters/uz_b.webp"
+            },
+            "ru": {
+              "text": "П",
+              "audio": "audio/ru/letter_п.mp3",
+              "image": "img/letters/ru_п.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:w",
+          "l10n": {
+            "en": {
+              "text": "W",
+              "audio": "audio/en/letter_w.mp3",
+              "image": "img/letters/en_w.webp"
+            },
+            "uz": {
+              "text": "Y",
+              "audio": "audio/uz/letter_y.mp3",
+              "image": "img/letters/uz_y.webp"
+            },
+            "ru": {
+              "text": "У",
+              "audio": "audio/ru/letter_у.mp3",
+              "image": "img/letters/ru_у.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:f",
+          "l10n": {
+            "en": {
+              "text": "F",
+              "audio": "audio/en/letter_f.mp3",
+              "image": "img/letters/en_f.webp"
+            },
+            "uz": {
+              "text": "G",
+              "audio": "audio/uz/letter_g.mp3",
+              "image": "img/letters/uz_g.webp"
+            },
+            "ru": {
+              "text": "Я",
+              "audio": "audio/ru/letter_я.mp3",
+              "image": "img/letters/ru_я.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:g",
+          "l10n": {
+            "en": {
+              "text": "G",
+              "audio": "audio/en/letter_g.mp3",
+              "image": "img/letters/en_g.webp"
+            },
+            "uz": {
+              "text": "Z",
+              "audio": "audio/uz/letter_z.mp3",
+              "image": "img/letters/uz_z.webp"
+            },
+            "ru": {
+              "text": "Ы",
+              "audio": "audio/ru/letter_ы.mp3",
+              "image": "img/letters/ru_ы.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:y",
+          "l10n": {
+            "en": {
+              "text": "Y",
+              "audio": "audio/en/letter_y.mp3",
+              "image": "img/letters/en_y.webp"
+            },
+            "uz": {
+              "text": "Ch",
+              "audio": "audio/uz/letter_ch.mp3",
+              "image": "img/letters/uz_ch.webp"
+            },
+            "ru": {
+              "text": "З",
+              "audio": "audio/ru/letter_з.mp3",
+              "image": "img/letters/ru_з.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:p",
+          "l10n": {
+            "en": {
+              "text": "P",
+              "audio": "audio/en/letter_p.mp3",
+              "image": "img/letters/en_p.webp"
+            },
+            "uz": {
+              "text": "Sh",
+              "audio": "audio/uz/letter_sh.mp3",
+              "image": "img/letters/uz_sh.webp"
+            },
+            "ru": {
+              "text": "Б",
+              "audio": "audio/ru/letter_б.mp3",
+              "image": "img/letters/ru_б.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:b",
+          "l10n": {
+            "en": {
+              "text": "B",
+              "audio": "audio/en/letter_b.mp3",
+              "image": "img/letters/en_b.webp"
+            },
+            "uz": {
+              "text": "Ng",
+              "audio": "audio/uz/letter_ng.mp3",
+              "image": "img/letters/uz_ng.webp"
+            },
+            "ru": {
+              "text": "Г",
+              "audio": "audio/ru/letter_г.mp3",
+              "image": "img/letters/ru_г.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:v",
+          "l10n": {
+            "en": {
+              "text": "V",
+              "audio": "audio/en/letter_v.mp3",
+              "image": "img/letters/en_v.webp"
+            },
+            "uz": {
+              "text": "O'",
+              "audio": "audio/uz/letter_o_apo.mp3",
+              "image": "img/letters/uz_o_apo.webp"
+            },
+            "ru": {
+              "text": "Ч",
+              "audio": "audio/ru/letter_ч.mp3",
+              "image": "img/letters/ru_ч.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:k",
+          "l10n": {
+            "en": {
+              "text": "K",
+              "audio": "audio/en/letter_k.mp3",
+              "image": "img/letters/en_k.webp"
+            },
+            "uz": {
+              "text": "G'",
+              "audio": "audio/uz/letter_g_apo.mp3",
+              "image": "img/letters/uz_g_apo.webp"
+            },
+            "ru": {
+              "text": "Й",
+              "audio": "audio/ru/letter_й.mp3",
+              "image": "img/letters/ru_й.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:j",
+          "l10n": {
+            "en": {
+              "text": "J",
+              "audio": "audio/en/letter_j.mp3",
+              "image": "img/letters/en_j.webp"
+            },
+            "uz": {
+              "text": "F",
+              "audio": "audio/uz/letter_f.mp3",
+              "image": "img/letters/uz_f.webp"
+            },
+            "ru": {
+              "text": "Ж",
+              "audio": "audio/ru/letter_ж.mp3",
+              "image": "img/letters/ru_ж.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:x",
+          "l10n": {
+            "en": {
+              "text": "X",
+              "audio": "audio/en/letter_x.mp3",
+              "image": "img/letters/en_x.webp"
+            },
+            "uz": {
+              "text": "H",
+              "audio": "audio/uz/letter_h.mp3",
+              "image": "img/letters/uz_h.webp"
+            },
+            "ru": {
+              "text": "Х",
+              "audio": "audio/ru/letter_х.mp3",
+              "image": "img/letters/ru_х.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:q",
+          "l10n": {
+            "en": {
+              "text": "Q",
+              "audio": "audio/en/letter_q.mp3",
+              "image": "img/letters/en_q.webp"
+            },
+            "uz": {
+              "text": "P",
+              "audio": "audio/uz/letter_p.mp3",
+              "image": "img/letters/uz_p.webp"
+            },
+            "ru": {
+              "text": "Ш",
+              "audio": "audio/ru/letter_ш.mp3",
+              "image": "img/letters/ru_ш.webp"
+            }
+          }
+        },
+        {
+          "type": "letter",
+          "skill_key": "{lang}:letter:z",
+          "l10n": {
+            "en": {
+              "text": "Z",
+              "audio": "audio/en/letter_z.mp3",
+              "image": "img/letters/en_z.webp"
+            },
+            "uz": {
+              "text": "V",
+              "audio": "audio/uz/letter_v.mp3",
+              "image": "img/letters/uz_v.webp"
+            },
+            "ru": {
+              "text": "Ф",
+              "audio": "audio/ru/letter_ф.mp3",
+              "image": "img/letters/ru_ф.webp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "letter-tracing",
+      "type": "drawing",
+      "title": {
+        "en": "Letter Tracing",
+        "uz": "Harflarni chizish",
+        "ru": "Обведите буквы"
+      },
+      "items": [
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:e",
+          "l10n": {
+            "en": {
+              "text": "Trace E",
+              "audio": "audio/en/trace_letter_e.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "A ni chizing",
+              "audio": "audio/uz/trace_letter_a.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите О",
+              "audio": "audio/ru/trace_letter_о.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:t",
+          "l10n": {
+            "en": {
+              "text": "Trace T",
+              "audio": "audio/en/trace_letter_t.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "I ni chizing",
+              "audio": "audio/uz/trace_letter_i.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите Е",
+              "audio": "audio/ru/trace_letter_е.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:a",
+          "l10n": {
+            "en": {
+              "text": "Trace A",
+              "audio": "audio/en/trace_letter_a.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "O ni chizing",
+              "audio": "audio/uz/trace_letter_o.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите А",
+              "audio": "audio/ru/trace_letter_а.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:o",
+          "l10n": {
+            "en": {
+              "text": "Trace O",
+              "audio": "audio/en/trace_letter_o.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "U ni chizing",
+              "audio": "audio/uz/trace_letter_u.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите И",
+              "audio": "audio/ru/trace_letter_и.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:i",
+          "l10n": {
+            "en": {
+              "text": "Trace I",
+              "audio": "audio/en/trace_letter_i.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "E ni chizing",
+              "audio": "audio/uz/trace_letter_e.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите Н",
+              "audio": "audio/ru/trace_letter_н.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:n",
+          "l10n": {
+            "en": {
+              "text": "Trace N",
+              "audio": "audio/en/trace_letter_n.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "N ni chizing",
+              "audio": "audio/uz/trace_letter_n.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите Т",
+              "audio": "audio/ru/trace_letter_т.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:s",
+          "l10n": {
+            "en": {
+              "text": "Trace S",
+              "audio": "audio/en/trace_letter_s.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "R ni chizing",
+              "audio": "audio/uz/trace_letter_r.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите С",
+              "audio": "audio/ru/trace_letter_с.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:letter:h",
+          "l10n": {
+            "en": {
+              "text": "Trace H",
+              "audio": "audio/en/trace_letter_h.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "uz": {
+              "text": "S ni chizing",
+              "audio": "audio/uz/trace_letter_s.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Обведите Р",
+              "audio": "audio/ru/trace_letter_р.mp3",
+              "trace_path": [
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.5,
+                  0.214
+                ],
+                [
+                  0.5,
+                  0.329
+                ],
+                [
+                  0.5,
+                  0.443
+                ],
+                [
+                  0.5,
+                  0.557
+                ],
+                [
+                  0.5,
+                  0.671
+                ],
+                [
+                  0.5,
+                  0.786
+                ],
+                [
+                  0.5,
+                  0.9
+                ]
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

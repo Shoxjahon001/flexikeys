@@ -1,0 +1,120 @@
+{
+  "@@locale": "ru",
+  "@@last_modified": "2026-07-13",
+
+  "appName": "FlexiKeys",
+  "welcomeTitle": "Добро пожаловать в FlexiKeys",
+  "welcomeSubtitle": "Давай учиться вместе!",
+
+  "settingsTitle": "Настройки",
+  "profileTitle": "Профиль",
+  "progressTitle": "Прогресс",
+  "levelsTitle": "Уровни",
+
+  "levelLocked": "Продолжай практиковаться, чтобы открыть этот уровень",
+  "levelStart": "Начать",
+  "levelContinue": "Продолжить",
+  "levelCompleted": "Уровень пройден!",
+  "lessonCompleted": "Урок завершён!",
+
+  "nextLesson": "Далее",
+  "tryAgain": "Попробуй ещё раз",
+  "hint": "Подсказка",
+  "showHint": "Показать подсказку",
+
+  "languageSetting": "Язык обучения",
+  "uiLanguageSetting": "Язык интерфейса",
+  "languageEnglish": "Английский",
+  "languageUzbek": "Узбекский",
+  "languageRussian": "Русский",
+
+  "parentDashboard": "Панель родителя",
+  "childProgress": "Прогресс ребёнка",
+  "weeklyReport": "Недельный отчёт",
+  "sessionTime": "Время занятия",
+  "accuracyLabel": "Точность",
+  "masteryLabel": "Освоение",
+
+  "addChild": "Добавить ребёнка",
+  "childName": "Имя ребёнка",
+  "childAge": "Год рождения",
+  "saveProfile": "Сохранить",
+
+  "breakSuggestion": "Сделай короткий перерыв — ты молодец!",
+  "sessionDone": "Отличное занятие сегодня!",
+
+  "mascotGreeting": "Привет! Готов учиться?",
+  "mascotEncouraging": "Хорошо идёт, продолжай!",
+  "mascotEffortPraise": "Отличное старание — ты улучшаешься!",
+  "mascotImproved": "Тут стало лучше!",
+  "mascotTakeTime": "Не спеши — время есть.",
+  "mascotKeepTrying": "Пробуй дальше — у тебя получится!",
+  "mascotHighFive": "Сегодня отлично справился!",
+  "mascotSleepy": "Устал? Давай отдохнём.",
+  "mascotWaving": "До следующего раза!",
+  "mascotSurprised": "Ого, как быстро!",
+  "mascotThinking": "Хм, думаю...",
+  "mascotCelebrating": "Уровень пройден!",
+
+  "letterTraceInstruction": "Обведи букву пальцем",
+  "numberTraceInstruction": "Обведи цифру пальцем",
+  "shapeTraceInstruction": "Обведи фигуру пальцем",
+  "connectDotsInstruction": "Соедини точки, чтобы завершить картинку",
+  "coloringInstruction": "Раскрась картинку",
+
+  "typeThisLetter": "Напечатай эту букву",
+  "typeThisWord": "Напечатай это слово",
+  "typeThisSentence": "Напечатай это предложение",
+
+  "correctFeedback": "Получилось!",
+  "encouragementFeedback": "Почти — попробуй ещё раз!",
+  "progressFeedback": "Тут стало лучше!",
+
+  "keyboardHintLabel": "Нажми на указанную клавишу",
+  "keyboardLargeMode": "Режим большой клавиатуры включён",
+
+  "consentTitle": "Согласие родителя",
+  "consentText": "Добавляя профиль ребёнка, вы подтверждаете, что являетесь родителем или законным опекуном и даёте согласие на обработку ограниченных псевдонимизированных данных об активности для персонализации обучения. Личные данные не передаются третьим сторонам.",
+  "consentAccept": "Согласен",
+  "consentDecline": "Позже",
+
+  "logOut": "Выйти",
+  "deleteAccount": "Удалить аккаунт",
+  "privacyPolicy": "Политика конфиденциальности",
+  "termsOfService": "Условия использования",
+
+  "aiAssistantTitle": "AI Учебный помощник",
+  "aiAssistantDisclaimer": "Этот помощник предоставляет только образовательные рекомендации и не заменяет медицинскую или терапевтическую помощь. При вопросах здоровья обращайтесь к специалисту.",
+
+  "errorGeneric": "Что-то пошло не так. Попробуй ещё раз.",
+  "errorNetwork": "Нет подключения к интернету.",
+  "errorOfflineMode": "Офлайн-режим — некоторые функции недоступны.",
+
+  "adaptationKeyScaleUp": "Клавиши стали крупнее, чтобы ребёнку было легче нажимать точно.",
+  "adaptationDwellTimeUp": "Добавлена небольшая пауза перед регистрацией нажатия, чтобы избежать случайных касаний.",
+  "adaptationHintLevelUp": "Подсказки увеличены, чтобы помочь с этой буквой.",
+  "adaptationHintLevelDown": "Подсказки уменьшены — ребёнок справляется хорошо!",
+  "adaptationBreakSuggested": "Был предложен перерыв после обнаружения признаков усталости.",
+  "adaptationKeySpacingUp": "Расстояние между клавишами увеличено для снижения случайных нажатий.",
+  "adaptationGlobalScaleUp": "Клавиатура стала крупнее для удобного нажатия.",
+
+  "storyPageInstruction": "Слушай и напечатай последнее слово",
+  "storyNextPage": "Следующая страница",
+  "storyFinished": "История завершена!",
+
+  "rewardEarned": "Ты заработал награду!",
+  "badgeEarned": "Новый значок: {badgeName}",
+  "@badgeEarned": {
+    "placeholders": {"badgeName": {"type": "String"}}
+  },
+
+  "levelUnlocked": "Новый уровень открыт: {levelName}",
+  "@levelUnlocked": {
+    "placeholders": {"levelName": {"type": "String"}}
+  },
+
+  "itemCountLabel": "{count} элементов",
+  "@itemCountLabel": {
+    "placeholders": {"count": {"type": "int"}}
+  }
+}

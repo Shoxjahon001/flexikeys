@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlexiKeys — Taqdimot / Презентация</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ══════════════════════ CHROME: progress, counter, controls ══════════════════════ -->
+<div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="deck-chrome">
+  <div class="slide-counter"><span id="slideNum">1</span><span class="counter-sep">/</span><span id="slideTotal">12</span></div>
+  <div class="chrome-actions">
+    <button class="chrome-btn" id="notesToggle" aria-label="Speaker notes / Спикер izohlari" title="Speaker notes (N)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M4 5h16M4 12h16M4 19h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="chrome-btn" id="themeToggle" aria-label="Toggle theme" title="Light / Dark">
+      <svg viewBox="0 0 24 24" fill="none" class="icon-sun"><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="chrome-btn" id="fullscreenToggle" aria-label="Fullscreen" title="Fullscreen (F)">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<nav class="dot-nav" id="dotNav" aria-label="Slide navigation"></nav>
+
+<button class="arrow-btn arrow-prev" id="prevBtn" aria-label="Previous slide">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<button class="arrow-btn arrow-next" id="nextBtn" aria-label="Next slide">
+  <svg viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+
+<!-- ══════════════════════ SPEAKER NOTES PANEL ══════════════════════ -->
+<aside class="notes-panel" id="notesPanel" aria-label="Speaker notes">
+  <div class="notes-header">
+    <span>Speaker notes</span>
+    <button class="notes-close" id="notesClose" aria-label="Close notes">✕</button>
+  </div>
+  <div class="notes-body" id="notesBody"></div>
+</aside>
+
+<!-- ══════════════════════ DECK ══════════════════════ -->
+<main class="deck" id="deck">
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 1 — TITLE
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-title" id="slide-1" data-index="0">
+  <div class="bg-shapes">
+    <span class="shape shape-a"></span><span class="shape shape-b"></span><span class="shape shape-c"></span>
+  </div>
+  <div class="title-hero">
+    <img src="assets/mascot-logo.png" alt="FlexiKeys mascot" class="hero-mascot reveal-scale">
+    <h1 class="hero-wordmark reveal-up" style="--d:0.15s">FlexiKeys</h1>
+    <p class="hero-tagline reveal-up" style="--d:0.3s">Small steps. Big progress.</p>
+    <div class="lang-pair hero-mission reveal-up" style="--d:0.45s">
+      <p class="lang-uz">Cerebral paralich va harakat qiyinchiliklari bo'lgan bolalar uchun moslashuvchan ta'lim platformasi</p>
+      <p class="lang-ru">Адаптивная образовательная платформа для детей с церебральным параличом и двигательными трудностями</p>
+    </div>
+  </div>
+  <div class="scroll-hint reveal-up" style="--d:0.7s">
+    <span>Boshlash · Начать</span>
+    <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+
+  <script type="text/notes">
+Presenter says: Welcome everyone. This is FlexiKeys — an adaptive learning platform built for children, with a special focus on kids with cerebral palsy and other motor difficulties. Every design decision you'll see today serves one goal: letting a child learn at their own pace, on their own terms.
+Estimated time: 30–40 seconds.
+Transition: Click or press → to move to the founder story.
+Screenshots shown: none (mascot/logo only).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 2 — WHY WE CREATED FLEXIKEYS
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-story" id="slide-2" data-index="1">
+  <div class="slide-kicker reveal-up">02 — Hikoya · История</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Nega FlexiKeys yaratildi<br><span class="title-ru">Почему появился FlexiKeys</span></h2>
+
+  <div class="story-layout reveal-up" style="--d:0.2s">
+    <div class="story-portrait">
+      <div class="portrait-frame">
+        <svg viewBox="0 0 24 24" fill="none" class="portrait-icon"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <p class="portrait-caption">Muallif · Автор<br><strong>Shoxjahon</strong></p>
+    </div>
+
+    <div class="story-card placeholder-card">
+      <span class="placeholder-tag">✎ to'ldiriladi · заполняется</span>
+      <div class="lang-pair">
+        <p class="lang-uz">Bu yerga loyiha muallifining shaxsiy hikoyasi, FlexiKeysni yaratishga turtki bo'lgan voqea va samimiy motivatsiya qo'shiladi. Haqiqiy tajriba va his-tuyg'ular — o'ylab topilgan gaplar emas.</p>
+        <p class="lang-ru">Здесь будет личная история автора проекта — что подтолкнуло к созданию FlexiKeys и какая мотивация стояла за этим. Реальный опыт и искренние слова — без преувеличений и вымысла.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: [Speak from the heart here — this slide is intentionally left as a template. Share the real moment that led to building FlexiKeys: who you saw struggling, what existing tools failed to do, why you couldn't ignore it.]
+Estimated time: 60–90 seconds (this is the emotional anchor of the talk — don't rush it).
+Transition: "That personal experience showed me a problem that's bigger than any one child..."
+Screenshots shown: none (placeholder portrait card — replace with a real photo if desired).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 3 — THE PROBLEM
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-problem" id="slide-3" data-index="2">
+  <div class="slide-kicker reveal-up">03 — Muammo · Проблема</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Raqamli dunyo hammaga bab-baravar emas<br><span class="title-ru">Цифровой мир не для всех одинаково доступен</span></h2>
+
+  <div class="problem-grid reveal-up" style="--d:0.2s">
+    <div class="problem-card">
+      <div class="problem-icon">👆</div>
+      <div class="lang-pair">
+        <p class="lang-uz">Standart klaviatura va ekran teginishlari aniq, tez motorika harakatlarini talab qiladi</p>
+        <p class="lang-ru">Стандартные клавиатуры и сенсорные экраны требуют точных и быстрых моторных движений</p>
+      </div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🎯</div>
+      <div class="lang-pair">
+        <p class="lang-uz">Kichik tugmalar va tor teginish maydonlari cerebral paralich yoki boshqa harakat qiyinchiliklari bo'lgan bolalar uchun qiyinchilik tug'diradi</p>
+        <p class="lang-ru">Маленькие кнопки и узкие зоны нажатия усложняют работу детям с ДЦП и другими двигательными особенностями</p>
+      </div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">📐</div>
+      <div class="lang-pair">
+        <p class="lang-uz">Ko'pgina ta'lim ilovalari "hammaga bitta o'lcham" tamoyili bilan yaratilgan, individual moslashuvsiz</p>
+        <p class="lang-ru">Большинство образовательных приложений создаются по принципу «один размер для всех», без индивидуальной адаптации</p>
+      </div>
+    </div>
+    <div class="problem-card">
+      <div class="problem-icon">🚪</div>
+      <div class="lang-pair">
+        <p class="lang-uz">Natijada bu bolalar raqamli ta'lim imkoniyatlaridan chetda qolib ketmoqda</p>
+        <p class="lang-ru">В результате такие дети часто остаются в стороне от цифрового образования</p>
+      </div>
+    </div>
+  </div>
+  <p class="source-note">Umumiy pedagogika va inklyuziv dizayn tamoyillariga asoslangan · Основано на общих принципах инклюзивной педагогики и дизайна</p>
+
+  <script type="text/notes">
+Presenter says: These aren't invented problems — they're well-documented in accessibility and inclusive-design research. Standard interfaces assume a level of motor precision and speed that not every child has. That assumption quietly excludes kids.
+Estimated time: 45–60 seconds.
+Transition: "So why hasn't this been solved already?"
+Screenshots shown: none (icon cards only — deliberately no fabricated statistics).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 4 — WHY EXISTING SOLUTIONS AREN'T ENOUGH
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-gap" id="slide-4" data-index="3">
+  <div class="slide-kicker reveal-up">04 — Bo'shliq · Пробел</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Mavjud yechimlar yetarli emas<br><span class="title-ru">Существующих решений недостаточно</span></h2>
+
+  <div class="gap-list reveal-up" style="--d:0.2s">
+    <div class="gap-row">
+      <span class="gap-num">01</span>
+      <div class="lang-pair">
+        <p class="lang-uz">Klaviatura o'lchami, oraliq va bosish vaqtini moslashtirish imkoniyati kam uchraydi</p>
+        <p class="lang-ru">Возможность настройки размера клавиш, интервалов и времени нажатия встречается редко</p>
+      </div>
+    </div>
+    <div class="gap-row">
+      <span class="gap-num">02</span>
+      <div class="lang-pair">
+        <p class="lang-uz">Moslashuv odatda ota-onadan qo'lda sozlashni talab qiladi — yoki bunday imkoniyat umuman yo'q</p>
+        <p class="lang-ru">Адаптация обычно требует ручной настройки родителем — либо вовсе отсутствует</p>
+      </div>
+    </div>
+    <div class="gap-row">
+      <span class="gap-num">03</span>
+      <div class="lang-pair">
+        <p class="lang-uz">Ota-onalar uchun tushunarli, amaliy taraqqiyot hisobotlari kamdan-kam taqdim etiladi</p>
+        <p class="lang-ru">Понятные и практичные отчёты о прогрессе для родителей предоставляются редко</p>
+      </div>
+    </div>
+    <div class="gap-row">
+      <span class="gap-num">04</span>
+      <div class="lang-pair">
+        <p class="lang-uz">Ko'pchilik yechimlar bir nechta tilda ishlamaydi, bu esa mintaqaviy oilalar uchun to'siq bo'ladi</p>
+        <p class="lang-ru">Многие решения не поддерживают несколько языков, что создаёт барьер для региональных семей</p>
+      </div>
+    </div>
+  </div>
+  <p class="gap-footer">
+    <span class="lang-uz">Bu — mavjud vositalarni tanqid qilish emas, balki qondirilmagan ehtiyojni ko'rsatish.</span><br>
+    <span class="lang-ru">Это не критика существующих инструментов, а указание на неудовлетворённую потребность.</span>
+  </p>
+
+  <script type="text/notes">
+Presenter says: To be clear — this isn't about any specific competitor doing something wrong. It's that the specific combination of real-time adaptation, transparent reporting, and multilingual support for motor-difficulty kids is an unmet need.
+Estimated time: 40–50 seconds.
+Transition: "That gap is exactly what FlexiKeys was built to close."
+Screenshots shown: none.
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 5 — INTRODUCING FLEXIKEYS
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-intro" id="slide-5" data-index="4">
+  <div class="bg-shapes"><span class="shape shape-a"></span><span class="shape shape-b"></span></div>
+  <div class="slide-kicker reveal-up">05 — Yechim · Решение</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">FlexiKeys bilan tanishing<br><span class="title-ru">Знакомьтесь — FlexiKeys</span></h2>
+
+  <div class="intro-grid reveal-up" style="--d:0.2s">
+    <div class="intro-card">
+      <h3><span class="lang-uz">Bu nima?</span> <span class="title-ru">Что это?</span></h3>
+      <div class="lang-pair">
+        <p class="lang-uz">3–10 yoshli bolalar uchun yozish, savodxonlik va raqamli muloqot ko'nikmalarini o'rgatuvchi moslashuvchan ta'lim platformasi.</p>
+        <p class="lang-ru">Адаптивная образовательная платформа, обучающая детей 3–10 лет печати, грамотности и цифровому взаимодействию.</p>
+      </div>
+    </div>
+    <div class="intro-card">
+      <h3><span class="lang-uz">Kim uchun?</span> <span class="title-ru">Для кого?</span></h3>
+      <div class="lang-pair">
+        <p class="lang-uz">Avvalambor cerebral paralich va boshqa harakat qiyinchiliklari bo'lgan bolalar uchun — va har qanday bola uchun mukammal ishlaydigan tarzda.</p>
+        <p class="lang-ru">В первую очередь для детей с ДЦП и другими двигательными трудностями — и при этом идеально работает для любого ребёнка.</p>
+      </div>
+    </div>
+    <div class="intro-card">
+      <h3><span class="lang-uz">Qanday yordam beradi?</span> <span class="title-ru">Как помогает?</span></h3>
+      <div class="lang-pair">
+        <p class="lang-uz">Klaviatura, tezlik va yordam darajasi har bir bolaning haqiqiy ishlashiga qarab avtomatik moslashadi.</p>
+        <p class="lang-ru">Клавиатура, скорость и уровень подсказок автоматически адаптируются под реальную работу ребёнка.</p>
+      </div>
+    </div>
+    <div class="intro-card intro-card-accent">
+      <h3><span class="lang-uz">Falsafamiz</span> <span class="title-ru">Философия</span></h3>
+      <div class="lang-pair">
+        <p class="lang-uz">Moslashuvchan tizim — mahsulotning yuragi. Hech qachon stigma yo'q, hech qachon "muvaffaqiyatsizlik" yo'q — faqat taraqqiyot.</p>
+        <p class="lang-ru">Адаптивный движок — сердце продукта. Никакой стигмы, никаких «неудач» — только прогресс.</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: FlexiKeys isn't a keyboard app with accessibility bolted on. The adaptive engine IS the product — everything else (games, rewards, dashboards) exists to serve it. And critically: there's no "disability mode." Adaptation is invisible, and there's no way to fail.
+Estimated time: 50–60 seconds.
+Transition: "Let me show you what that actually looks like."
+Screenshots shown: none (sets up the demo slide next).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 6 — PRODUCT DEMO (real screenshots)
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-demo" id="slide-6" data-index="5">
+  <div class="slide-kicker reveal-up">06 — Mahsulot · Продукт</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Ilovadan real ko'rinishlar<br><span class="title-ru">Реальные экраны приложения</span></h2>
+
+  <div class="demo-grid reveal-up" style="--d:0.2s">
+    <figure class="demo-tile zoomable">
+      <div class="demo-phone"><img src="assets/screenshot-home-levels.jpg" alt="Home / Levels screen" loading="lazy"></div>
+      <figcaption>
+        <h4><span class="lang-uz">Bosh sahifa · Darajalar</span></h4>
+        <h4 class="title-ru">Главный экран · Уровни</h4>
+        <div class="lang-pair">
+          <p class="lang-uz">Bola o'zi tanlaydigan mavzular: harflar, raqamlar, ranglar, hayvonlar va boshqalar.</p>
+          <p class="lang-ru">Темы, которые ребёнок выбирает сам: буквы, цифры, цвета, животные и другое.</p>
+        </div>
+      </figcaption>
+    </figure>
+
+    <figure class="demo-tile zoomable">
+      <div class="demo-phone"><img src="assets/screenshot-learning-keyboard.jpg" alt="Learning exercise with accessible keyboard" loading="lazy"></div>
+      <figcaption>
+        <h4><span class="lang-uz">O'rganish · Moslashuvchan klaviatura</span></h4>
+        <h4 class="title-ru">Обучение · Адаптивная клавиатура</h4>
+        <div class="lang-pair">
+          <p class="lang-uz">Tovush, tasvir va katta tugmali klaviatura bir joyda — har bir bosishni kuzatib, sekin-asta moslashadi.</p>
+          <p class="lang-ru">Звук, изображение и крупная клавиатура вместе — отслеживает каждое нажатие и постепенно адаптируется.</p>
+        </div>
+      </figcaption>
+    </figure>
+
+    <figure class="demo-tile zoomable">
+      <div class="demo-phone"><img src="assets/screenshot-ai-assistant.jpg" alt="AI Assistant screen" loading="lazy"></div>
+      <figcaption>
+        <h4><span class="lang-uz">AI Yordamchi</span></h4>
+        <h4 class="title-ru">ИИ-ассистент</h4>
+        <div class="lang-pair">
+          <p class="lang-uz">Ota-onalar uchun — bolaning haqiqiy ma'lumotlariga asoslangan javoblar va tavsiyalar beradi.</p>
+          <p class="lang-ru">Для родителей — даёт ответы и рекомендации на основе реальных данных ребёнка.</p>
+        </div>
+      </figcaption>
+    </figure>
+
+    <figure class="demo-tile zoomable">
+      <div class="demo-phone"><img src="assets/screenshot-parent-dashboard.jpg" alt="Parent Dashboard with progress stats" loading="lazy"></div>
+      <figcaption>
+        <h4><span class="lang-uz">Ota-ona paneli · Taraqqiyot</span></h4>
+        <h4 class="title-ru">Родительская панель · Прогресс</h4>
+        <div class="lang-pair">
+          <p class="lang-uz">Aniqlik, vaqt, yulduzchalar va nima ustida ishlash kerakligi — bir qarashda.</p>
+          <p class="lang-ru">Точность, время, звёзды и над чем стоит поработать — всё на одном экране.</p>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+  <p class="demo-footnote"><span class="lang-uz">Barcha suratlar — ilovaning haqiqiy ishlayotgan versiyasidan.</span> <span class="lang-ru">Все изображения — из реально работающей версии приложения.</span></p>
+
+  <script type="text/notes">
+Presenter says: These are not mockups — this is the app running today. [Click each tile / zoom in as needed.] Home lets the child pick their own path. The learning screen pairs sound, image and a large adaptive keyboard. The AI assistant gives parents grounded, data-backed answers, not generic tips. And the dashboard shows exactly what's improving.
+Estimated time: 90–120 seconds (the core demo — slow down here).
+Transition: "Here's how all of that fits together end to end."
+Screenshots shown: screenshot-home-levels.jpg, screenshot-learning-keyboard.jpg, screenshot-ai-assistant.jpg, screenshot-parent-dashboard.jpg (all real, captured from the running app).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 7 — HOW FLEXIKEYS WORKS (flow diagram)
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-flow" id="slide-7" data-index="6">
+  <div class="slide-kicker reveal-up">07 — Jarayon · Процесс</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">FlexiKeys qanday ishlaydi<br><span class="title-ru">Как работает FlexiKeys</span></h2>
+
+  <div class="flow-diagram reveal-up" style="--d:0.2s" id="flowDiagram">
+    <div class="flow-node">
+      <div class="flow-icon">🧒</div>
+      <div class="lang-pair"><p class="lang-uz">Bola</p><p class="lang-ru">Ребёнок</p></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon">📖</div>
+      <div class="lang-pair"><p class="lang-uz">O'rganish</p><p class="lang-ru">Обучение</p></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon">✍️</div>
+      <div class="lang-pair"><p class="lang-uz">Mashq</p><p class="lang-ru">Практика</p></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon">⭐</div>
+      <div class="lang-pair"><p class="lang-uz">Mukofotlar</p><p class="lang-ru">Награды</p></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon">📈</div>
+      <div class="lang-pair"><p class="lang-uz">Taraqqiyot</p><p class="lang-ru">Прогресс</p></div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-icon">👪</div>
+      <div class="lang-pair"><p class="lang-uz">Ota-ona paneli</p><p class="lang-ru">Родительская панель</p></div>
+    </div>
+    <div class="flow-node flow-node-loop">
+      <div class="flow-icon">🔄</div>
+      <div class="lang-pair"><p class="lang-uz">Doimiy takomillashtirish</p><p class="lang-ru">Постоянное улучшение</p></div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: It's a closed loop, not a straight line. The child plays, the system watches how they play, rewards keep motivation intact, progress gets summarized for parents, and everything feeds back into tightening the adaptation for that specific child.
+Estimated time: 45–60 seconds.
+Transition: "Let's break down the features that make this loop possible."
+Screenshots shown: none (diagram only).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 8 — MAIN FEATURES
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-features" id="slide-8" data-index="7">
+  <div class="slide-kicker reveal-up">08 — Imkoniyatlar · Возможности</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Asosiy imkoniyatlar<br><span class="title-ru">Ключевые возможности</span></h2>
+
+  <div class="feature-grid reveal-up" style="--d:0.2s">
+    <div class="feature-card">
+      <div class="feature-icon">🧠</div>
+      <h4><span class="lang-uz">Moslashuvchan o'rganish</span><span class="title-ru">Адаптивное обучение</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Har bir bolaning haqiqiy natijasiga qarab real vaqtda moslashadi</p><p class="lang-ru">Подстраивается в реальном времени под фактические результаты ребёнка</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⌨️</div>
+      <h4><span class="lang-uz">Moslashuvchan klaviatura</span><span class="title-ru">Адаптивная клавиатура</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Tugma o'lchami, oraliq va bosish vaqti individual sozlanadi</p><p class="lang-ru">Размер клавиш, интервалы и время нажатия настраиваются индивидуально</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✨</div>
+      <h4><span class="lang-uz">AI Yordamchi</span><span class="title-ru">ИИ-ассистент</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Ota-onalar uchun haqiqiy ma'lumotlarga asoslangan tushuntirishlar</p><p class="lang-ru">Объяснения для родителей на основе реальных данных</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h4><span class="lang-uz">O'yinlashtirish</span><span class="title-ru">Геймификация</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Yulduzchalar va mukofotlar faqat o'yin orqali qo'lga kiritiladi</p><p class="lang-ru">Звёзды и награды зарабатываются только через игру</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👪</div>
+      <h4><span class="lang-uz">Ota-ona paneli</span><span class="title-ru">Родительская панель</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Nima o'zgargani va nega — tushunarli tilda</p><p class="lang-ru">Что изменилось и почему — простым языком</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h4><span class="lang-uz">Taraqqiyot tahlili</span><span class="title-ru">Аналитика прогресса</span></h4>
+      <div class="lang-pair"><p class="lang-uz">Har bir ko'nikma bo'yicha aniqlik va o'zlashtirish darajasi</p><p class="lang-ru">Точность и уровень освоения по каждому навыку</p></div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌐</div>
+      <h4><span class="lang-uz">Ko'p tillilik</span><span class="title-ru">Многоязычность</span></h4>
+      <div class="lang-pair"><p class="lang-uz">O'zbek, rus va ingliz tillarida to'liq qo'llab-quvvatlash</p><p class="lang-ru">Полная поддержка узбекского, русского и английского языков</p></div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: Walk through 2-3 of these that matter most to this specific audience — don't read every card verbatim.
+Estimated time: 60–80 seconds.
+Transition: "So who is all of this actually for?"
+Screenshots shown: none (icon cards).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 9 — WHO CAN BENEFIT
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-audience" id="slide-9" data-index="8">
+  <div class="slide-kicker reveal-up">09 — Auditoriya · Аудитория</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Kimlarga foydali<br><span class="title-ru">Кому это будет полезно</span></h2>
+
+  <div class="audience-grid reveal-up" style="--d:0.2s">
+    <div class="audience-card"><div class="audience-icon">🧒</div><div class="lang-pair"><p class="lang-uz">Bolalar</p><p class="lang-ru">Дети</p></div></div>
+    <div class="audience-card"><div class="audience-icon">👨‍👩‍👧</div><div class="lang-pair"><p class="lang-uz">Ota-onalar</p><p class="lang-ru">Родители</p></div></div>
+    <div class="audience-card"><div class="audience-icon">🏫</div><div class="lang-pair"><p class="lang-uz">Maktablar</p><p class="lang-ru">Школы</p></div></div>
+    <div class="audience-card"><div class="audience-icon">🏥</div><div class="lang-pair"><p class="lang-uz">Reabilitatsiya markazlari</p><p class="lang-ru">Реабилитационные центры</p></div></div>
+    <div class="audience-card"><div class="audience-icon">🗣️</div><div class="lang-pair"><p class="lang-uz">Nutq terapevtlari</p><p class="lang-ru">Логопеды</p></div></div>
+    <div class="audience-card"><div class="audience-icon">🖐️</div><div class="lang-pair"><p class="lang-uz">Ergoterapevtlar</p><p class="lang-ru">Эрготерапевты</p></div></div>
+    <div class="audience-card"><div class="audience-icon">⚕️</div><div class="lang-pair"><p class="lang-uz">Tibbiyot mutaxassislari</p><p class="lang-ru">Медицинские специалисты</p></div></div>
+    <div class="audience-card"><div class="audience-icon">🎓</div><div class="lang-pair"><p class="lang-uz">Ta'lim tashkilotlari</p><p class="lang-ru">Образовательные организации</p></div></div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: This started as a tool for one group of children, but the same adaptive foundation is useful anywhere someone is tracking a child's fine-motor and literacy development.
+Estimated time: 40–50 seconds.
+Transition: "We're not claiming this is finished — here's where we actually are."
+Screenshots shown: none.
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 10 — TESTING PHASE
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-testing" id="slide-10" data-index="9">
+  <div class="slide-kicker reveal-up">10 — Sinov bosqichi · Тестирование</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Haqiqiy foydalanuvchilar bilan sinov boshlanmoqda<br><span class="title-ru">Начинается тестирование с реальными пользователями</span></h2>
+  <p class="testing-lead reveal-up" style="--d:0.15s">
+    <span class="lang-uz">FlexiKeys hozircha real oilalar va mutaxassislar bilan sinov bosqichiga kirmoqda. Quyidagi bo'limlar sinov davomida to'ldirib boriladi.</span><br>
+    <span class="lang-ru">FlexiKeys сейчас выходит на этап тестирования с реальными семьями и специалистами. Разделы ниже будут заполняться по ходу тестирования.</span>
+  </p>
+
+  <div class="testing-grid reveal-up" style="--d:0.25s">
+    <div class="testing-card">
+      <span class="placeholder-tag">✎</span>
+      <div class="testing-icon">💬</div>
+      <div class="lang-pair"><p class="lang-uz">Ota-onalar fikri</p><p class="lang-ru">Отзывы родителей</p></div>
+    </div>
+    <div class="testing-card">
+      <span class="placeholder-tag">✎</span>
+      <div class="testing-icon">🩺</div>
+      <div class="lang-pair"><p class="lang-uz">Terapevtlar fikri</p><p class="lang-ru">Отзывы терапевтов</p></div>
+    </div>
+    <div class="testing-card">
+      <span class="placeholder-tag">✎</span>
+      <div class="testing-icon">📷</div>
+      <div class="lang-pair"><p class="lang-uz">Fotosuratlar</p><p class="lang-ru">Фотографии</p></div>
+    </div>
+    <div class="testing-card">
+      <span class="placeholder-tag">✎</span>
+      <div class="testing-icon">🎬</div>
+      <div class="lang-pair"><p class="lang-uz">Videolar</p><p class="lang-ru">Видео</p></div>
+    </div>
+    <div class="testing-card">
+      <span class="placeholder-tag">✎</span>
+      <div class="testing-icon">🛠️</div>
+      <div class="lang-pair"><p class="lang-uz">Yaxshilanishlar</p><p class="lang-ru">Улучшения</p></div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: We're being upfront — we don't have testimonials or study results yet, because testing is just starting. These placeholders will fill in as real families and specialists use FlexiKeys.
+Estimated time: 40–50 seconds.
+Transition: "That honesty is part of the vision going forward."
+Screenshots shown: none (intentional placeholder cards — do not fill with fabricated content).
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 11 — VISION
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-vision" id="slide-11" data-index="10">
+  <div class="bg-shapes"><span class="shape shape-a"></span><span class="shape shape-c"></span></div>
+  <div class="slide-kicker reveal-up">11 — Kelajak · Будущее</div>
+  <h2 class="slide-title-lg reveal-up" style="--d:0.1s">Bizning maqsadimiz<br><span class="title-ru">Наше видение</span></h2>
+
+  <div class="vision-timeline reveal-up" style="--d:0.2s">
+    <div class="vision-item">
+      <div class="vision-dot"></div>
+      <div class="lang-pair">
+        <p class="lang-uz"><strong>Ochiq ta'lim</strong> — har bir bola, imkoniyatidan qat'i nazar, sifatli ta'limga ega bo'lishi kerak</p>
+        <p class="lang-ru"><strong>Доступное образование</strong> — каждый ребёнок, независимо от возможностей, заслуживает качественного обучения</p>
+      </div>
+    </div>
+    <div class="vision-item">
+      <div class="vision-dot"></div>
+      <div class="lang-pair">
+        <p class="lang-uz"><strong>Raqamli mustaqillik</strong> — bola o'ziga yordam kutmasdan, o'zi mustaqil harakat qila olishi</p>
+        <p class="lang-ru"><strong>Цифровая независимость</strong> — ребёнок действует самостоятельно, а не ждёт постоянной помощи</p>
+      </div>
+    </div>
+    <div class="vision-item">
+      <div class="vision-dot"></div>
+      <div class="lang-pair">
+        <p class="lang-uz"><strong>Bola bilan birga o'sadigan texnologiya</strong> — moslashuv doimiy va sekin, hech qachon bolani ortda qoldirmaydi</p>
+        <p class="lang-ru"><strong>Технология, растущая вместе с ребёнком</strong> — адаптация постепенная и постоянная, никогда не оставляет ребёнка позади</p>
+      </div>
+    </div>
+    <div class="vision-item">
+      <div class="vision-dot"></div>
+      <div class="lang-pair">
+        <p class="lang-uz"><strong>Kelajak yo'nalishi</strong> — ko'proq tillar, ko'proq mutaxassislar bilan hamkorlik, kengroq sinov</p>
+        <p class="lang-ru"><strong>Дальнейший путь</strong> — больше языков, больше сотрудничества со специалистами, более широкое тестирование</p>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: None of this works as a one-time product. It has to keep adapting — to the child, to feedback from families and therapists, to what testing teaches us.
+Estimated time: 45–60 seconds.
+Transition: "Thank you — here's how to reach us."
+Screenshots shown: none.
+  </script>
+</section>
+
+<!-- ─────────────────────────────────────────────────────────────────────────
+  SLIDE 12 — THANK YOU
+───────────────────────────────────────────────────────────────────────── -->
+<section class="slide slide-thanks" id="slide-12" data-index="11">
+  <div class="bg-shapes"><span class="shape shape-a"></span><span class="shape shape-b"></span><span class="shape shape-c"></span></div>
+  <img src="assets/mascot-logo.png" alt="FlexiKeys mascot" class="thanks-mascot reveal-scale">
+  <h2 class="thanks-title reveal-up" style="--d:0.1s">Rahmat! <span class="title-ru">Спасибо!</span></h2>
+  <div class="lang-pair thanks-sub reveal-up" style="--d:0.2s">
+    <p class="lang-uz">Savollaringiz bo'lsa, bemalol bog'laning</p>
+    <p class="lang-ru">Если есть вопросы — будем рады пообщаться</p>
+  </div>
+
+  <div class="contact-grid reveal-up" style="--d:0.3s">
+    <div class="contact-card">
+      <div class="contact-icon">🌐</div>
+      <span class="contact-label">Website</span>
+      <span class="contact-value">flexikeys.app <span class="placeholder-tag">✎</span></span>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">✈️</div>
+      <span class="contact-label">Telegram</span>
+      <span class="contact-value">@flexikeys <span class="placeholder-tag">✎</span></span>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📷</div>
+      <span class="contact-label">Instagram</span>
+      <span class="contact-value">@flexikeys.app <span class="placeholder-tag">✎</span></span>
+    </div>
+    <div class="contact-card contact-qr">
+      <div class="qr-placeholder">
+        <svg viewBox="0 0 100 100" fill="none"><rect x="8" y="8" width="28" height="28" rx="3" stroke="currentColor" stroke-width="4"/><rect x="64" y="8" width="28" height="28" rx="3" stroke="currentColor" stroke-width="4"/><rect x="8" y="64" width="28" height="28" rx="3" stroke="currentColor" stroke-width="4"/><rect x="18" y="18" width="8" height="8" fill="currentColor"/><rect x="74" y="18" width="8" height="8" fill="currentColor"/><rect x="18" y="74" width="8" height="8" fill="currentColor"/><rect x="52" y="8" width="6" height="6" fill="currentColor"/><rect x="52" y="20" width="6" height="6" fill="currentColor"/><rect x="64" y="52" width="6" height="6" fill="currentColor"/><rect x="80" y="52" width="6" height="6" fill="currentColor"/><rect x="52" y="64" width="6" height="6" fill="currentColor"/><rect x="52" y="80" width="6" height="6" fill="currentColor"/><rect x="70" y="70" width="20" height="20" rx="2" stroke="currentColor" stroke-width="4"/></svg>
+      </div>
+      <span class="contact-label">QR <span class="placeholder-tag">✎</span></span>
+    </div>
+  </div>
+
+  <script type="text/notes">
+Presenter says: Thank you for your time. If you know a family, a therapist, or a school that might want to be part of testing, please reach out — these contact channels will be live shortly.
+Estimated time: 20–30 seconds.
+Transition: end of deck — open floor for Q&A.
+Screenshots shown: none (mascot + placeholder contact cards).
+  </script>
+</section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

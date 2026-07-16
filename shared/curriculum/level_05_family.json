@@ -1,0 +1,233 @@
+{
+  "level": 5,
+  "slug": "family",
+  "version": "1.0.0",
+  "title": {
+    "en": "Family",
+    "uz": "Oila",
+    "ru": "Семья"
+  },
+  "lessons": [
+    {
+      "slug": "family-members",
+      "type": "typing",
+      "title": {
+        "en": "Family Members",
+        "uz": "Oila a'zolari",
+        "ru": "Члены семьи"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:mother",
+          "l10n": {
+            "en": {
+              "text": "Mother",
+              "audio": "audio/en/mother.mp3",
+              "image": "img/family/mother.webp"
+            },
+            "uz": {
+              "text": "Ona",
+              "audio": "audio/uz/mother.mp3",
+              "image": "img/family/mother.webp"
+            },
+            "ru": {
+              "text": "Мама",
+              "audio": "audio/ru/mother.mp3",
+              "image": "img/family/mother.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:father",
+          "l10n": {
+            "en": {
+              "text": "Father",
+              "audio": "audio/en/father.mp3",
+              "image": "img/family/father.webp"
+            },
+            "uz": {
+              "text": "Ota",
+              "audio": "audio/uz/father.mp3",
+              "image": "img/family/father.webp"
+            },
+            "ru": {
+              "text": "Папа",
+              "audio": "audio/ru/father.mp3",
+              "image": "img/family/father.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:sister",
+          "l10n": {
+            "en": {
+              "text": "Sister",
+              "audio": "audio/en/sister.mp3",
+              "image": "img/family/sister.webp"
+            },
+            "uz": {
+              "text": "Singil",
+              "audio": "audio/uz/sister.mp3",
+              "image": "img/family/sister.webp"
+            },
+            "ru": {
+              "text": "Сестра",
+              "audio": "audio/ru/sister.mp3",
+              "image": "img/family/sister.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:brother",
+          "l10n": {
+            "en": {
+              "text": "Brother",
+              "audio": "audio/en/brother.mp3",
+              "image": "img/family/brother.webp"
+            },
+            "uz": {
+              "text": "Aka",
+              "audio": "audio/uz/brother.mp3",
+              "image": "img/family/brother.webp"
+            },
+            "ru": {
+              "text": "Брат",
+              "audio": "audio/ru/brother.mp3",
+              "image": "img/family/brother.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:grandmother",
+          "l10n": {
+            "en": {
+              "text": "Grandmother",
+              "audio": "audio/en/grandmother.mp3",
+              "image": "img/family/grandmother.webp"
+            },
+            "uz": {
+              "text": "Buvi",
+              "audio": "audio/uz/grandmother.mp3",
+              "image": "img/family/grandmother.webp"
+            },
+            "ru": {
+              "text": "Бабушка",
+              "audio": "audio/ru/grandmother.mp3",
+              "image": "img/family/grandmother.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:grandfather",
+          "l10n": {
+            "en": {
+              "text": "Grandfather",
+              "audio": "audio/en/grandfather.mp3",
+              "image": "img/family/grandfather.webp"
+            },
+            "uz": {
+              "text": "Bobo",
+              "audio": "audio/uz/grandfather.mp3",
+              "image": "img/family/grandfather.webp"
+            },
+            "ru": {
+              "text": "Дедушка",
+              "audio": "audio/ru/grandfather.mp3",
+              "image": "img/family/grandfather.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:baby",
+          "l10n": {
+            "en": {
+              "text": "Baby",
+              "audio": "audio/en/baby.mp3",
+              "image": "img/family/baby.webp"
+            },
+            "uz": {
+              "text": "Chaqaloq",
+              "audio": "audio/uz/baby.mp3",
+              "image": "img/family/baby.webp"
+            },
+            "ru": {
+              "text": "Малыш",
+              "audio": "audio/ru/baby.mp3",
+              "image": "img/family/baby.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:family",
+          "l10n": {
+            "en": {
+              "text": "Family",
+              "audio": "audio/en/family.mp3",
+              "image": "img/family/family.webp"
+            },
+            "uz": {
+              "text": "Oila",
+              "audio": "audio/uz/family.mp3",
+              "image": "img/family/family.webp"
+            },
+            "ru": {
+              "text": "Семья",
+              "audio": "audio/ru/family.mp3",
+              "image": "img/family/family.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:aunt",
+          "l10n": {
+            "en": {
+              "text": "Aunt",
+              "audio": "audio/en/aunt.mp3",
+              "image": "img/family/aunt.webp"
+            },
+            "uz": {
+              "text": "Xola",
+              "audio": "audio/uz/aunt.mp3",
+              "image": "img/family/aunt.webp"
+            },
+            "ru": {
+              "text": "Тётя",
+              "audio": "audio/ru/aunt.mp3",
+              "image": "img/family/aunt.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:uncle",
+          "l10n": {
+            "en": {
+              "text": "Uncle",
+              "audio": "audio/en/uncle.mp3",
+              "image": "img/family/uncle.webp"
+            },
+            "uz": {
+              "text": "Tog'a",
+              "audio": "audio/uz/uncle.mp3",
+              "image": "img/family/uncle.webp"
+            },
+            "ru": {
+              "text": "Дядя",
+              "audio": "audio/ru/uncle.mp3",
+              "image": "img/family/uncle.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

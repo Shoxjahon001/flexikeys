@@ -1,0 +1,120 @@
+{
+  "@@locale": "uz",
+  "@@last_modified": "2026-07-13",
+
+  "appName": "FlexiKeys",
+  "welcomeTitle": "FlexiKeys-ga xush kelibsiz",
+  "welcomeSubtitle": "Keling, birga o'rganamiz!",
+
+  "settingsTitle": "Sozlamalar",
+  "profileTitle": "Profil",
+  "progressTitle": "Natijalar",
+  "levelsTitle": "Bosqichlar",
+
+  "levelLocked": "Bu bosqichni ochish uchun mashq qilishda davom eting",
+  "levelStart": "Boshlash",
+  "levelContinue": "Davom etish",
+  "levelCompleted": "Bosqich yakunlandi!",
+  "lessonCompleted": "Dars tugadi!",
+
+  "nextLesson": "Keyingi",
+  "tryAgain": "Qayta urinib ko'ring",
+  "hint": "Maslahat",
+  "showHint": "Maslahatni ko'rsatish",
+
+  "languageSetting": "O'rganish tili",
+  "uiLanguageSetting": "Interfeys tili",
+  "languageEnglish": "Ingliz",
+  "languageUzbek": "O'zbek",
+  "languageRussian": "Rus",
+
+  "parentDashboard": "Ota-ona paneli",
+  "childProgress": "Bola natijalari",
+  "weeklyReport": "Haftalik hisobot",
+  "sessionTime": "Mashg'ulot vaqti",
+  "accuracyLabel": "Aniqlik",
+  "masteryLabel": "O'zlashtirish",
+
+  "addChild": "Bola qo'shish",
+  "childName": "Bolaning ismi",
+  "childAge": "Tug'ilgan yil",
+  "saveProfile": "Saqlash",
+
+  "breakSuggestion": "Qisqa dam oling — yaxshi ishlayapsiz!",
+  "sessionDone": "Bugun yaxshi mashg'ulot bo'ldi!",
+
+  "mascotGreeting": "Salom! O'rganishga tayyormisiz?",
+  "mascotEncouraging": "Yaxshi ishlayapsiz, davom eting!",
+  "mascotEffortPraise": "Zo'r harakat — yaxshilanyapsiz!",
+  "mascotImproved": "Bu yerda yaxshilandingiz!",
+  "mascotTakeTime": "Shoshilmang — vaqtingiz bor.",
+  "mascotKeepTrying": "Davom eting — uddalaysiz!",
+  "mascotHighFive": "Bugun yaxshi bajardingiz!",
+  "mascotSleepy": "Uxlayapsizmi? Dam olaylik.",
+  "mascotWaving": "Keyingi safargacha!",
+  "mascotSurprised": "Voy, bu juda tez bo'ldi!",
+  "mascotThinking": "Hmm, o'ylayapman...",
+  "mascotCelebrating": "Bosqich yakunlandi!",
+
+  "letterTraceInstruction": "Barmoq bilan harfni chizing",
+  "numberTraceInstruction": "Barmoq bilan raqamni chizing",
+  "shapeTraceInstruction": "Barmoq bilan shaklni chizing",
+  "connectDotsInstruction": "Rasmni yakunlash uchun nuqtalarni ulang",
+  "coloringInstruction": "Rasmni bo'yang",
+
+  "typeThisLetter": "Bu harfni yozing",
+  "typeThisWord": "Bu so'zni yozing",
+  "typeThisSentence": "Bu jumlani yozing",
+
+  "correctFeedback": "Bajardingiz!",
+  "encouragementFeedback": "Deyarli to'g'ri — yana bir urinib ko'ring!",
+  "progressFeedback": "Bu yerda yaxshilandingiz!",
+
+  "keyboardHintLabel": "Ko'rsatilgan tugmani bosing",
+  "keyboardLargeMode": "Katta klaviatura rejimi yoqilgan",
+
+  "consentTitle": "Ota-ona roziligi",
+  "consentText": "Bola profilini qo'shish orqali siz ushbu bolaning ota-onasi yoki qonuniy vasiysi ekanligingizni va o'quv tajribasini shaxsiylashtirish uchun cheklangan, psevdonimli faoliyat ma'lumotlarini qayta ishlashga roziligingizni tasdiqlaysiz.",
+  "consentAccept": "Roziman",
+  "consentDecline": "Keyinroq",
+
+  "logOut": "Chiqish",
+  "deleteAccount": "Hisobni o'chirish",
+  "privacyPolicy": "Maxfiylik siyosati",
+  "termsOfService": "Foydalanish shartlari",
+
+  "aiAssistantTitle": "AI O'quv Yordamchisi",
+  "aiAssistantDisclaimer": "Bu yordamchi faqat ta'limiy maslahat beradi va tibbiy yoki terapevtik maslahat o'rnini bosa olmaydi. Salomatlik muammolari uchun mutaxassisga murojaat qiling.",
+
+  "errorGeneric": "Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+  "errorNetwork": "Internet aloqasi yo'q.",
+  "errorOfflineMode": "Oflayn rejimda — ba'zi funksiyalar cheklangan bo'lishi mumkin.",
+
+  "adaptationKeyScaleUp": "Tugmalar aniqroq bosish uchun kattalashtirildi.",
+  "adaptationDwellTimeUp": "Tasodifiy bosishtlarni kamaytirish uchun kichik pauza qo'shildi.",
+  "adaptationHintLevelUp": "Bu harf uchun maslahatlar ko'paytirildi.",
+  "adaptationHintLevelDown": "Maslahatlar kamaytirildi — bolangiz yaxshi bajaryapti!",
+  "adaptationBreakSuggested": "Charchoq belgilari aniqlangandan so'ng qisqa dam olish tavsiya qilindi.",
+  "adaptationKeySpacingUp": "Tasodifiy bosishtlarni kamaytirish uchun tugmalar orasidagi masofa oshirildi.",
+  "adaptationGlobalScaleUp": "Osonroq bosish uchun klaviatura kattalashtirildi.",
+
+  "storyPageInstruction": "Eshiting va oxirgi so'zni yozing",
+  "storyNextPage": "Keyingi sahifa",
+  "storyFinished": "Hikoya tugadi!",
+
+  "rewardEarned": "Mukofot oldingiz!",
+  "badgeEarned": "Yangi nishon: {badgeName}",
+  "@badgeEarned": {
+    "placeholders": {"badgeName": {"type": "String"}}
+  },
+
+  "levelUnlocked": "Yangi bosqich ochildi: {levelName}",
+  "@levelUnlocked": {
+    "placeholders": {"levelName": {"type": "String"}}
+  },
+
+  "itemCountLabel": "{count} ta element",
+  "@itemCountLabel": {
+    "placeholders": {"count": {"type": "int"}}
+  }
+}

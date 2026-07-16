@@ -7,6 +7,7 @@ import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
+import '../../services/progress/progress_repository.dart';
 
 class GenericGameScreen extends StatefulWidget {
   const GenericGameScreen({super.key});
@@ -162,6 +163,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     await UserService.addStars(cfg.starsReward);
     await UserService.completeLevel(cfg.id);
     await UserService.addTimeSpent(5);
+    ProgressRepository.instance.recordLevelCompleteAndSync(cfg.id, stars: cfg.starsReward);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete',
         arguments: {'starsEarned': cfg.starsReward});

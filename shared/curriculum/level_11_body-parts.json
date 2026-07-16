@@ -1,0 +1,275 @@
+{
+  "level": 11,
+  "slug": "body-parts",
+  "version": "1.0.0",
+  "title": {
+    "en": "Body Parts",
+    "uz": "Tana qismlari",
+    "ru": "Части тела"
+  },
+  "lessons": [
+    {
+      "slug": "body-parts",
+      "type": "typing",
+      "title": {
+        "en": "Body Parts",
+        "uz": "Tana qismlari",
+        "ru": "Части тела"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:head",
+          "l10n": {
+            "en": {
+              "text": "Head",
+              "audio": "audio/en/body_head.mp3",
+              "image": "img/body/head.webp"
+            },
+            "uz": {
+              "text": "Bosh",
+              "audio": "audio/uz/body_head.mp3",
+              "image": "img/body/head.webp"
+            },
+            "ru": {
+              "text": "Голова",
+              "audio": "audio/ru/body_head.mp3",
+              "image": "img/body/head.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:eye",
+          "l10n": {
+            "en": {
+              "text": "Eye",
+              "audio": "audio/en/body_eye.mp3",
+              "image": "img/body/eye.webp"
+            },
+            "uz": {
+              "text": "Ko'z",
+              "audio": "audio/uz/body_eye.mp3",
+              "image": "img/body/eye.webp"
+            },
+            "ru": {
+              "text": "Глаз",
+              "audio": "audio/ru/body_eye.mp3",
+              "image": "img/body/eye.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:ear",
+          "l10n": {
+            "en": {
+              "text": "Ear",
+              "audio": "audio/en/body_ear.mp3",
+              "image": "img/body/ear.webp"
+            },
+            "uz": {
+              "text": "Quloq",
+              "audio": "audio/uz/body_ear.mp3",
+              "image": "img/body/ear.webp"
+            },
+            "ru": {
+              "text": "Ухо",
+              "audio": "audio/ru/body_ear.mp3",
+              "image": "img/body/ear.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:nose",
+          "l10n": {
+            "en": {
+              "text": "Nose",
+              "audio": "audio/en/body_nose.mp3",
+              "image": "img/body/nose.webp"
+            },
+            "uz": {
+              "text": "Burun",
+              "audio": "audio/uz/body_nose.mp3",
+              "image": "img/body/nose.webp"
+            },
+            "ru": {
+              "text": "Нос",
+              "audio": "audio/ru/body_nose.mp3",
+              "image": "img/body/nose.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:mouth",
+          "l10n": {
+            "en": {
+              "text": "Mouth",
+              "audio": "audio/en/body_mouth.mp3",
+              "image": "img/body/mouth.webp"
+            },
+            "uz": {
+              "text": "Og'iz",
+              "audio": "audio/uz/body_mouth.mp3",
+              "image": "img/body/mouth.webp"
+            },
+            "ru": {
+              "text": "Рот",
+              "audio": "audio/ru/body_mouth.mp3",
+              "image": "img/body/mouth.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:hand",
+          "l10n": {
+            "en": {
+              "text": "Hand",
+              "audio": "audio/en/body_hand.mp3",
+              "image": "img/body/hand.webp"
+            },
+            "uz": {
+              "text": "Qo'l",
+              "audio": "audio/uz/body_hand.mp3",
+              "image": "img/body/hand.webp"
+            },
+            "ru": {
+              "text": "Рука",
+              "audio": "audio/ru/body_hand.mp3",
+              "image": "img/body/hand.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:leg",
+          "l10n": {
+            "en": {
+              "text": "Leg",
+              "audio": "audio/en/body_leg.mp3",
+              "image": "img/body/leg.webp"
+            },
+            "uz": {
+              "text": "Oyoq",
+              "audio": "audio/uz/body_leg.mp3",
+              "image": "img/body/leg.webp"
+            },
+            "ru": {
+              "text": "Нога",
+              "audio": "audio/ru/body_leg.mp3",
+              "image": "img/body/leg.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:foot",
+          "l10n": {
+            "en": {
+              "text": "Foot",
+              "audio": "audio/en/body_foot.mp3",
+              "image": "img/body/foot.webp"
+            },
+            "uz": {
+              "text": "Tabani",
+              "audio": "audio/uz/body_foot.mp3",
+              "image": "img/body/foot.webp"
+            },
+            "ru": {
+              "text": "Ступня",
+              "audio": "audio/ru/body_foot.mp3",
+              "image": "img/body/foot.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:arm",
+          "l10n": {
+            "en": {
+              "text": "Arm",
+              "audio": "audio/en/body_arm.mp3",
+              "image": "img/body/arm.webp"
+            },
+            "uz": {
+              "text": "Qo'l bilak",
+              "audio": "audio/uz/body_arm.mp3",
+              "image": "img/body/arm.webp"
+            },
+            "ru": {
+              "text": "Рука",
+              "audio": "audio/ru/body_arm.mp3",
+              "image": "img/body/arm.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:finger",
+          "l10n": {
+            "en": {
+              "text": "Finger",
+              "audio": "audio/en/body_finger.mp3",
+              "image": "img/body/finger.webp"
+            },
+            "uz": {
+              "text": "Barmoq",
+              "audio": "audio/uz/body_finger.mp3",
+              "image": "img/body/finger.webp"
+            },
+            "ru": {
+              "text": "Палец",
+              "audio": "audio/ru/body_finger.mp3",
+              "image": "img/body/finger.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:hair",
+          "l10n": {
+            "en": {
+              "text": "Hair",
+              "audio": "audio/en/body_hair.mp3",
+              "image": "img/body/hair.webp"
+            },
+            "uz": {
+              "text": "Soch",
+              "audio": "audio/uz/body_hair.mp3",
+              "image": "img/body/hair.webp"
+            },
+            "ru": {
+              "text": "Волосы",
+              "audio": "audio/ru/body_hair.mp3",
+              "image": "img/body/hair.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:body:tooth",
+          "l10n": {
+            "en": {
+              "text": "Tooth",
+              "audio": "audio/en/body_tooth.mp3",
+              "image": "img/body/tooth.webp"
+            },
+            "uz": {
+              "text": "Tish",
+              "audio": "audio/uz/body_tooth.mp3",
+              "image": "img/body/tooth.webp"
+            },
+            "ru": {
+              "text": "Зуб",
+              "audio": "audio/ru/body_tooth.mp3",
+              "image": "img/body/tooth.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
+import '../design_system/fk_tokens.dart';
 
 class ShopItem {
   final String id;
@@ -31,6 +32,7 @@ class _ShopScreenState extends State<ShopScreen> {
   ];
 
   List<String> _owned = ['dino'];
+  String _selected = 'dino';
   String _name = '';
 
   @override
@@ -41,13 +43,23 @@ class _ShopScreenState extends State<ShopScreen> {
 
   Future<void> _load() async {
     final owned = await UserService.getOwnedItems();
+    final selected = await UserService.getSelectedItem();
     final name = await UserService.getName();
     if (mounted) {
       setState(() {
         _owned = owned;
+        _selected = selected;
         _name = name;
       });
     }
+  }
+
+  /// Switch the active avatar back to an already-owned item — no stars
+  /// spent, just re-equipping something bought earlier.
+  Future<void> _equip(ShopItem item) async {
+    await UserService.setSelectedItem(item.id);
+    if (!mounted) return;
+    setState(() => _selected = item.id);
   }
 
   Future<void> _buy(ShopItem item) async {
@@ -57,8 +69,9 @@ class _ShopScreenState extends State<ShopScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Not enough stars!',
-              style: GoogleFonts.nunito(fontWeight: FontWeight.w700)),
-          backgroundColor: const Color(0xFFFF6B6B),
+              style: GoogleFonts.nunito(
+                  fontWeight: FontWeight.w700, color: FkColors.ink)),
+          backgroundColor: FkColors.attention,
           behavior: SnackBarBehavior.floating,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -197,10 +210,22 @@ class _ShopScreenState extends State<ShopScreen> {
 
   Widget _buildCard(ShopItem item) {
     final owned = _owned.contains(item.id);
+    final selected = _selected == item.id;
+
+    // Three states: not owned yet (buy), owned but not worn (tap to equip),
+    // owned and currently worn (shown as active, nothing to do).
+    final Color barColor = selected ? const Color(0xFF52C96A) : AppTheme.buttonBlue;
+    final String label = selected ? 'tanlangan' : owned ? 'qo\'yish' : '${item.price}⭐';
+    final VoidCallback? onTap =
+        selected ? null : (owned ? () => _equip(item) : () => _buy(item));
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(20),
+        border: selected
+            ? Border.all(color: const Color(0xFF52C96A), width: 2.5)
+            : null,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.06),
@@ -212,25 +237,36 @@ class _ShopScreenState extends State<ShopScreen> {
       child: Column(
         children: [
           Expanded(
-            child: Center(
-              child: Text(item.emoji, style: const TextStyle(fontSize: 64)),
+            child: Stack(
+              children: [
+                Center(
+                  child: Text(item.emoji, style: const TextStyle(fontSize: 64)),
+                ),
+                if (selected)
+                  const Positioned(
+                    top: 8,
+                    right: 8,
+                    child: Icon(Icons.check_circle_rounded,
+                        color: Color(0xFF52C96A), size: 22),
+                  ),
+              ],
             ),
           ),
           GestureDetector(
-            onTap: owned ? null : () => _buy(item),
+            onTap: onTap,
             child: Container(
               width: double.infinity,
               padding: const EdgeInsets.symmetric(vertical: 10),
               decoration: BoxDecoration(
-                color: owned ? const Color(0xFF52C96A) : AppTheme.buttonBlue,
+                color: barColor,
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(20),
-                  bottomRight: Radius.circular(20),
+                  bottomLeft: Radius.circular(18),
+                  bottomRight: Radius.circular(18),
                 ),
               ),
               child: Center(
                 child: Text(
-                  owned ? 'owned' : '${item.price}⭐',
+                  label,
                   style: GoogleFonts.nunito(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,

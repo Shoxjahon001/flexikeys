@@ -1,0 +1,1390 @@
+{
+  "level": 13,
+  "slug": "nature",
+  "version": "1.0.0",
+  "title": {
+    "en": "Nature",
+    "uz": "Tabiat",
+    "ru": "Природа"
+  },
+  "lessons": [
+    {
+      "slug": "nature",
+      "type": "typing",
+      "title": {
+        "en": "Nature",
+        "uz": "Tabiat",
+        "ru": "Природа"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:tree",
+          "l10n": {
+            "en": {
+              "text": "Tree",
+              "audio": "audio/en/nature_tree.mp3",
+              "image": "img/nature/tree.webp"
+            },
+            "uz": {
+              "text": "Daraxt",
+              "audio": "audio/uz/nature_tree.mp3",
+              "image": "img/nature/tree.webp"
+            },
+            "ru": {
+              "text": "Дерево",
+              "audio": "audio/ru/nature_tree.mp3",
+              "image": "img/nature/tree.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:flower",
+          "l10n": {
+            "en": {
+              "text": "Flower",
+              "audio": "audio/en/nature_flower.mp3",
+              "image": "img/nature/flower.webp"
+            },
+            "uz": {
+              "text": "Gul",
+              "audio": "audio/uz/nature_flower.mp3",
+              "image": "img/nature/flower.webp"
+            },
+            "ru": {
+              "text": "Цветок",
+              "audio": "audio/ru/nature_flower.mp3",
+              "image": "img/nature/flower.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:sun",
+          "l10n": {
+            "en": {
+              "text": "Sun",
+              "audio": "audio/en/nature_sun.mp3",
+              "image": "img/nature/sun.webp"
+            },
+            "uz": {
+              "text": "Quyosh",
+              "audio": "audio/uz/nature_sun.mp3",
+              "image": "img/nature/sun.webp"
+            },
+            "ru": {
+              "text": "Солнце",
+              "audio": "audio/ru/nature_sun.mp3",
+              "image": "img/nature/sun.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:moon",
+          "l10n": {
+            "en": {
+              "text": "Moon",
+              "audio": "audio/en/nature_moon.mp3",
+              "image": "img/nature/moon.webp"
+            },
+            "uz": {
+              "text": "Oy",
+              "audio": "audio/uz/nature_moon.mp3",
+              "image": "img/nature/moon.webp"
+            },
+            "ru": {
+              "text": "Луна",
+              "audio": "audio/ru/nature_moon.mp3",
+              "image": "img/nature/moon.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:star-nat",
+          "l10n": {
+            "en": {
+              "text": "Star",
+              "audio": "audio/en/nature_star-nat.mp3",
+              "image": "img/nature/star-nat.webp"
+            },
+            "uz": {
+              "text": "Yulduz",
+              "audio": "audio/uz/nature_star-nat.mp3",
+              "image": "img/nature/star-nat.webp"
+            },
+            "ru": {
+              "text": "Звезда",
+              "audio": "audio/ru/nature_star-nat.mp3",
+              "image": "img/nature/star-nat.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:rain",
+          "l10n": {
+            "en": {
+              "text": "Rain",
+              "audio": "audio/en/nature_rain.mp3",
+              "image": "img/nature/rain.webp"
+            },
+            "uz": {
+              "text": "Yomg'ir",
+              "audio": "audio/uz/nature_rain.mp3",
+              "image": "img/nature/rain.webp"
+            },
+            "ru": {
+              "text": "Дождь",
+              "audio": "audio/ru/nature_rain.mp3",
+              "image": "img/nature/rain.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:cloud",
+          "l10n": {
+            "en": {
+              "text": "Cloud",
+              "audio": "audio/en/nature_cloud.mp3",
+              "image": "img/nature/cloud.webp"
+            },
+            "uz": {
+              "text": "Bulut",
+              "audio": "audio/uz/nature_cloud.mp3",
+              "image": "img/nature/cloud.webp"
+            },
+            "ru": {
+              "text": "Облако",
+              "audio": "audio/ru/nature_cloud.mp3",
+              "image": "img/nature/cloud.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:mountain",
+          "l10n": {
+            "en": {
+              "text": "Mountain",
+              "audio": "audio/en/nature_mountain.mp3",
+              "image": "img/nature/mountain.webp"
+            },
+            "uz": {
+              "text": "Tog'",
+              "audio": "audio/uz/nature_mountain.mp3",
+              "image": "img/nature/mountain.webp"
+            },
+            "ru": {
+              "text": "Гора",
+              "audio": "audio/ru/nature_mountain.mp3",
+              "image": "img/nature/mountain.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:river",
+          "l10n": {
+            "en": {
+              "text": "River",
+              "audio": "audio/en/nature_river.mp3",
+              "image": "img/nature/river.webp"
+            },
+            "uz": {
+              "text": "Daryo",
+              "audio": "audio/uz/nature_river.mp3",
+              "image": "img/nature/river.webp"
+            },
+            "ru": {
+              "text": "Река",
+              "audio": "audio/ru/nature_river.mp3",
+              "image": "img/nature/river.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:sea",
+          "l10n": {
+            "en": {
+              "text": "Sea",
+              "audio": "audio/en/nature_sea.mp3",
+              "image": "img/nature/sea.webp"
+            },
+            "uz": {
+              "text": "Dengiz",
+              "audio": "audio/uz/nature_sea.mp3",
+              "image": "img/nature/sea.webp"
+            },
+            "ru": {
+              "text": "Море",
+              "audio": "audio/ru/nature_sea.mp3",
+              "image": "img/nature/sea.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:grass",
+          "l10n": {
+            "en": {
+              "text": "Grass",
+              "audio": "audio/en/nature_grass.mp3",
+              "image": "img/nature/grass.webp"
+            },
+            "uz": {
+              "text": "O't",
+              "audio": "audio/uz/nature_grass.mp3",
+              "image": "img/nature/grass.webp"
+            },
+            "ru": {
+              "text": "Трава",
+              "audio": "audio/ru/nature_grass.mp3",
+              "image": "img/nature/grass.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:nature:leaf",
+          "l10n": {
+            "en": {
+              "text": "Leaf",
+              "audio": "audio/en/nature_leaf.mp3",
+              "image": "img/nature/leaf.webp"
+            },
+            "uz": {
+              "text": "Barg",
+              "audio": "audio/uz/nature_leaf.mp3",
+              "image": "img/nature/leaf.webp"
+            },
+            "ru": {
+              "text": "Лист",
+              "audio": "audio/ru/nature_leaf.mp3",
+              "image": "img/nature/leaf.webp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "nature-drawing",
+      "type": "drawing",
+      "title": {
+        "en": "Nature Drawing",
+        "uz": "Tabiatni chizish",
+        "ru": "Рисуем природу"
+      },
+      "items": [
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:nature:tree",
+          "l10n": {
+            "en": {
+              "text": "Draw a Tree",
+              "audio": "audio/en/draw_nature_tree.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "uz": {
+              "text": "Daraxt chizing",
+              "audio": "audio/uz/draw_nature_tree.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Нарисуй дерево",
+              "audio": "audio/ru/draw_nature_tree.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:nature:flower",
+          "l10n": {
+            "en": {
+              "text": "Draw a Flower",
+              "audio": "audio/en/draw_nature_flower.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "uz": {
+              "text": "Gul chizing",
+              "audio": "audio/uz/draw_nature_flower.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Нарисуй цветок",
+              "audio": "audio/ru/draw_nature_flower.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:nature:sun",
+          "l10n": {
+            "en": {
+              "text": "Draw a Sun",
+              "audio": "audio/en/draw_nature_sun.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "uz": {
+              "text": "Quyosh chizing",
+              "audio": "audio/uz/draw_nature_sun.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Нарисуй солнце",
+              "audio": "audio/ru/draw_nature_sun.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:nature:moon",
+          "l10n": {
+            "en": {
+              "text": "Draw a Moon",
+              "audio": "audio/en/draw_nature_moon.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "uz": {
+              "text": "Oy chizing",
+              "audio": "audio/uz/draw_nature_moon.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            },
+            "ru": {
+              "text": "Нарисуй луна",
+              "audio": "audio/ru/draw_nature_moon.mp3",
+              "trace_path": [
+                [
+                  0.9,
+                  0.5
+                ],
+                [
+                  0.88,
+                  0.624
+                ],
+                [
+                  0.824,
+                  0.735
+                ],
+                [
+                  0.735,
+                  0.824
+                ],
+                [
+                  0.624,
+                  0.88
+                ],
+                [
+                  0.5,
+                  0.9
+                ],
+                [
+                  0.376,
+                  0.88
+                ],
+                [
+                  0.265,
+                  0.824
+                ],
+                [
+                  0.176,
+                  0.735
+                ],
+                [
+                  0.12,
+                  0.624
+                ],
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.12,
+                  0.376
+                ],
+                [
+                  0.176,
+                  0.265
+                ],
+                [
+                  0.265,
+                  0.176
+                ],
+                [
+                  0.376,
+                  0.12
+                ],
+                [
+                  0.5,
+                  0.1
+                ],
+                [
+                  0.624,
+                  0.12
+                ],
+                [
+                  0.735,
+                  0.176
+                ],
+                [
+                  0.824,
+                  0.265
+                ],
+                [
+                  0.88,
+                  0.376
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

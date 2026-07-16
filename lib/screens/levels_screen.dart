@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../data/level_configs.dart';
+import '../data/trace_items/letters_trace_data.dart';
 
 // ── Lock state ────────────────────────────────────────────────────────────────
 
@@ -44,6 +45,11 @@ class _LevelsScreenState extends State<LevelsScreen> {
   Set<String> _completed = {};
   int _tab = 0; // 0 = O'rganish, 1 = Chizish
 
+  // Dev/QA backdoor: registering the kid's name as "admin" unlocks every
+  // level and task, regardless of actual progress. Any other name behaves
+  // normally (mastery-gated progression, unaffected).
+  bool _isAdmin = false;
+
   @override
   void initState() {
     super.initState();
@@ -67,6 +73,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
     if (!mounted) return;
     setState(() {
       _completed = completed;
+      _isAdmin = name.trim().toLowerCase() == 'admin';
       if (widget.externalName?.isNotEmpty == true) {
         _name = widget.externalName!;
       } else if (_name.isEmpty && name.isNotEmpty) {
@@ -77,6 +84,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   _LockState _stateOf(String id) {
     if (_completed.contains(id)) return _LockState.done;
+    if (_isAdmin) return _LockState.unlocked;
     switch (id) {
       case 'letters': return _LockState.unlocked;
       case 'numbers': return _completed.contains('letters_1') ? _LockState.unlocked : _LockState.locked;
@@ -112,6 +120,34 @@ class _LevelsScreenState extends State<LevelsScreen> {
   void _onDrawTap(String id) {
     if (id == 'shapes') {
       Navigator.pushNamed(context, '/shapes_game').then((_) => _load());
+      return;
+    }
+    if (id == 'letters_draw') {
+      Navigator.pushNamed(context, '/letter_groups').then((_) => _load());
+      return;
+    }
+    if (id == 'numbers_draw') {
+      Navigator.pushNamed(context, '/number_drawing_game').then((_) => _load());
+      return;
+    }
+    if (id == 'objects') {
+      Navigator.pushNamed(context, '/object_drawing_game').then((_) => _load());
+      return;
+    }
+    if (id == 'fruits_color') {
+      Navigator.pushNamed(context, '/fruits_coloring_game').then((_) => _load());
+      return;
+    }
+    if (id == 'animals_color') {
+      Navigator.pushNamed(context, '/animals_coloring_game').then((_) => _load());
+      return;
+    }
+    if (id == 'nature') {
+      Navigator.pushNamed(context, '/nature_coloring_game').then((_) => _load());
+      return;
+    }
+    if (id == 'transport') {
+      Navigator.pushNamed(context, '/transport_coloring_game').then((_) => _load());
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
@@ -237,7 +273,17 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   // ── Tab switcher ──────────────────────────────────────────────────────────
 
-  bool get _drawUnlocked => _completed.contains('letters_1');
+  bool get _drawUnlocked => _isAdmin || _completed.contains('letters_1');
+
+  /// True (locked) unless the admin backdoor is active or [requiredId] has
+  /// already been completed.
+  bool _lockedUnless(String requiredId) => !_isAdmin && !_completed.contains(requiredId);
+
+  /// The Letters drawing task is now split into 7 small groups (see
+  /// letters_trace_data.dart) — Numbers unlocks once every group is done,
+  /// not a single flat 'letter_drawing' flag.
+  bool get _allLetterGroupsDone =>
+      kLetterGroups.every((g) => _completed.contains(g.id));
 
   Widget _buildTabSwitcher() {
     return Padding(
@@ -506,12 +552,12 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 badge: '✏️',
                 badgeColor: const Color(0xFF4A90F7),
                 icon: Text('A', style: GoogleFonts.nunito(fontSize: 44, fontWeight: FontWeight.w900, color: const Color(0xFF2A2F45))),
-                locked: !_completed.contains('shapes'),
+                locked: _lockedUnless('shapes'),
                 cardColor: const Color(0xFFDFF0DB),
                 borderColor: const Color(0xFF8ED07A),
               ),
-              _drawCard(id: 'numbers_draw', title: 'Raqamlar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('123', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF5A6076))), locked: true),
-              _drawCard(id: 'objects', title: 'Narsalar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('🏠', style: TextStyle(fontSize: 40)), locked: true),
+              _drawCard(id: 'numbers_draw', title: 'Raqamlar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('123', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF5A6076))), locked: !_isAdmin && !_allLetterGroupsDone),
+              _drawCard(id: 'objects', title: 'Narsalar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('🏠', style: TextStyle(fontSize: 40)), locked: _lockedUnless('number_drawing')),
             ],
           ),
 
@@ -536,9 +582,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 cardColor: const Color(0xFFFDECD6),
                 borderColor: const Color(0xFFF3C27A),
               ),
-              _drawCard(id: 'animals_color', title: 'Hayvonlar', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🦁', style: TextStyle(fontSize: 40)), locked: true),
-              _drawCard(id: 'nature',        title: 'Tabiat',    badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🌸', style: TextStyle(fontSize: 40)), locked: true),
-              _drawCard(id: 'transport',     title: 'Transport', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🚗', style: TextStyle(fontSize: 40)), locked: true),
+              _drawCard(id: 'animals_color', title: 'Hayvonlar', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🦁', style: TextStyle(fontSize: 40)), locked: _lockedUnless('fruits_color')),
+              _drawCard(id: 'nature',        title: 'Tabiat',    badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🌸', style: TextStyle(fontSize: 40)), locked: _lockedUnless('animals_color')),
+              _drawCard(id: 'transport',     title: 'Transport', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🚗', style: TextStyle(fontSize: 40)), locked: _lockedUnless('nature_color')),
             ],
           ),
         ],

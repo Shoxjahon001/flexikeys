@@ -1,0 +1,160 @@
+{
+  "version": "1.0.0",
+  "description": "Deterministic adaptation policy thresholds shared between Python backend and Dart app.",
+  "bkt": {
+    "p_init": 0.20,
+    "p_learn": 0.15,
+    "p_slip": 0.10,
+    "p_guess": 0.20,
+    "mastery_threshold": 0.95,
+    "min_attempts": 8
+  },
+  "ewma": {
+    "alpha": 0.15
+  },
+  "sm2": {
+    "ease_init": 2.50,
+    "ease_min": 1.30,
+    "ease_correct_bonus": 0.10,
+    "ease_lapse_penalty": 0.20,
+    "first_interval_days": 1,
+    "second_interval_days": 6,
+    "lapse_interval_days": 1
+  },
+  "policy": {
+    "accuracy_low": 0.60,
+    "accuracy_high": 0.85,
+    "key_scale_step": 0.05,
+    "key_scale_per_key_max": 1.50,
+    "key_scale_global_max": 1.40,
+    "key_scale_min": 1.00,
+    "key_spacing_step": 0.05,
+    "key_spacing_max": 1.60,
+    "key_spacing_min": 1.00,
+    "dwell_step_ms": 20,
+    "dwell_max_ms": 300,
+    "dwell_min_ms": 0,
+    "hint_max": 3,
+    "hint_min": 0,
+    "hint_decay_mastery_threshold": 0.90,
+    "accidental_tap_threshold": 0.08,
+    "hesitation_threshold_ms": 2000.0,
+    "touch_offset_threshold": 0.30,
+    "fatigue_threshold": -0.05
+  },
+  "golden_fixtures": [
+    {
+      "id": "bkt_3step",
+      "description": "BKT update: 2 correct then 1 incorrect starting at p_init=0.20",
+      "input": {
+        "responses": [true, true, false]
+      },
+      "expected_p_known_sequence": [0.600, 0.890, 0.578]
+    },
+    {
+      "id": "sm2_3step",
+      "description": "SM-2: correct, correct, incorrect",
+      "input": [
+        {"interval": 1, "ease": 2.50, "lapses": 0, "correct": true},
+        {"interval": 6, "ease": 2.60, "lapses": 0, "correct": true},
+        {"interval": 16, "ease": 2.70, "lapses": 0, "correct": false}
+      ],
+      "expected": [
+        {"interval": 6, "ease": 2.60, "lapses": 0},
+        {"interval": 16, "ease": 2.70, "lapses": 0},
+        {"interval": 1, "ease": 2.50, "lapses": 1}
+      ]
+    },
+    {
+      "id": "policy_accidental_tap",
+      "description": "High accidental tap rate triggers dwell_time_ms and key_spacing increase",
+      "input": {
+        "profile": {
+          "key_scale": 1.0,
+          "key_scale_per_key": {},
+          "key_spacing": 1.0,
+          "dwell_time_ms": 0,
+          "debounce_ms": 50,
+          "hint_level": {},
+          "session_pacing": {"suggest_break": false},
+          "progression_gate": true,
+          "version": 1
+        },
+        "metrics": {
+          "accidental_tap_rate": 0.20,
+          "touch_precision": 0.10,
+          "fatigued": false,
+          "per_skill": {}
+        },
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "test_session"
+      },
+      "expected_changes": ["dwell_time_ms", "key_spacing"],
+      "expected_profile_partial": {
+        "dwell_time_ms": 20,
+        "key_spacing": 1.05
+      }
+    },
+    {
+      "id": "policy_poor_precision",
+      "description": "High touch offset triggers global key_scale increase",
+      "input": {
+        "profile": {
+          "key_scale": 1.0,
+          "key_scale_per_key": {},
+          "key_spacing": 1.0,
+          "dwell_time_ms": 0,
+          "debounce_ms": 50,
+          "hint_level": {},
+          "session_pacing": {"suggest_break": false},
+          "progression_gate": true,
+          "version": 1
+        },
+        "metrics": {
+          "accidental_tap_rate": 0.0,
+          "touch_precision": 0.50,
+          "fatigued": false,
+          "per_skill": {}
+        },
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "test_session"
+      },
+      "expected_changes": ["key_scale"],
+      "expected_profile_partial": {
+        "key_scale": 1.05
+      }
+    },
+    {
+      "id": "policy_fatigue",
+      "description": "Fatigue flag triggers break suggestion",
+      "input": {
+        "profile": {
+          "key_scale": 1.0,
+          "key_scale_per_key": {},
+          "key_spacing": 1.0,
+          "dwell_time_ms": 0,
+          "debounce_ms": 50,
+          "hint_level": {},
+          "session_pacing": {"suggest_break": false},
+          "progression_gate": true,
+          "version": 1
+        },
+        "metrics": {
+          "accidental_tap_rate": 0.0,
+          "touch_precision": 0.10,
+          "fatigued": true,
+          "per_skill": {}
+        },
+        "mastery": {},
+        "last_changes": {},
+        "session_id": "test_session"
+      },
+      "expected_changes": ["session_pacing.suggest_break"],
+      "expected_profile_partial": {
+        "session_pacing": {"suggest_break": true}
+      }
+    }
+  ]
+}

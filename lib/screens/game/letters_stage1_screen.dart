@@ -6,6 +6,8 @@ import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
+import '../../services/progress/progress_repository.dart';
+import '../../design_system/fk_tokens.dart';
 
 class LettersStage1Screen extends StatefulWidget {
   const LettersStage1Screen({super.key});
@@ -142,6 +144,10 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
     await UserService.addStars(10);
     await UserService.setLettersStage(1);
     await UserService.addTimeSpent(5);
+    // Mirrors UserService.setLettersStage(1): completes both 'letters_1' and
+    // the umbrella 'letters' level.
+    ProgressRepository.instance.recordLevelCompleteAndSync('letters_1', stars: 10);
+    ProgressRepository.instance.recordLevelCompleteAndSync('letters', stars: 10);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
       'starsEarned': 10,
@@ -392,9 +398,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
               borderColor = const Color(0xFF4AC75E);
               textColor = Colors.white;
             } else if (isSelected) {
-              bgColor = const Color(0xFFFFE0E0);
-              borderColor = const Color(0xFFFF6B6B);
-              textColor = const Color(0xFFFF6B6B);
+              bgColor = FkColors.attention;
+              borderColor = FkColors.attention;
+              textColor = FkColors.ink;
             }
           } else if (isCorrect) {
             bgColor = const Color(0xFFE8EEFF);

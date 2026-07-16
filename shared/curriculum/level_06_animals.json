@@ -1,0 +1,1287 @@
+{
+  "level": 6,
+  "slug": "animals",
+  "version": "1.0.0",
+  "title": {
+    "en": "Animals",
+    "uz": "Hayvonlar",
+    "ru": "Животные"
+  },
+  "lessons": [
+    {
+      "slug": "farm-animals",
+      "type": "typing",
+      "title": {
+        "en": "Farm Animals",
+        "uz": "Uy hayvonlari",
+        "ru": "Домашние животные"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:cat",
+          "l10n": {
+            "en": {
+              "text": "Cat",
+              "audio": "audio/en/cat.mp3",
+              "image": "img/animals/cat.webp",
+              "sound": "audio/fx/cat_meow.mp3"
+            },
+            "uz": {
+              "text": "Mushuk",
+              "audio": "audio/uz/cat.mp3",
+              "image": "img/animals/cat.webp",
+              "sound": "audio/fx/cat_meow.mp3"
+            },
+            "ru": {
+              "text": "Кошка",
+              "audio": "audio/ru/cat.mp3",
+              "image": "img/animals/cat.webp",
+              "sound": "audio/fx/cat_meow.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:dog",
+          "l10n": {
+            "en": {
+              "text": "Dog",
+              "audio": "audio/en/dog.mp3",
+              "image": "img/animals/dog.webp",
+              "sound": "audio/fx/dog_bark.mp3"
+            },
+            "uz": {
+              "text": "It",
+              "audio": "audio/uz/dog.mp3",
+              "image": "img/animals/dog.webp",
+              "sound": "audio/fx/dog_bark.mp3"
+            },
+            "ru": {
+              "text": "Собака",
+              "audio": "audio/ru/dog.mp3",
+              "image": "img/animals/dog.webp",
+              "sound": "audio/fx/dog_bark.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:cow",
+          "l10n": {
+            "en": {
+              "text": "Cow",
+              "audio": "audio/en/cow.mp3",
+              "image": "img/animals/cow.webp",
+              "sound": "audio/fx/cow_moo.mp3"
+            },
+            "uz": {
+              "text": "Sigir",
+              "audio": "audio/uz/cow.mp3",
+              "image": "img/animals/cow.webp",
+              "sound": "audio/fx/cow_moo.mp3"
+            },
+            "ru": {
+              "text": "Корова",
+              "audio": "audio/ru/cow.mp3",
+              "image": "img/animals/cow.webp",
+              "sound": "audio/fx/cow_moo.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:horse",
+          "l10n": {
+            "en": {
+              "text": "Horse",
+              "audio": "audio/en/horse.mp3",
+              "image": "img/animals/horse.webp",
+              "sound": "audio/fx/horse_neigh.mp3"
+            },
+            "uz": {
+              "text": "Ot",
+              "audio": "audio/uz/horse.mp3",
+              "image": "img/animals/horse.webp",
+              "sound": "audio/fx/horse_neigh.mp3"
+            },
+            "ru": {
+              "text": "Лошадь",
+              "audio": "audio/ru/horse.mp3",
+              "image": "img/animals/horse.webp",
+              "sound": "audio/fx/horse_neigh.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:sheep",
+          "l10n": {
+            "en": {
+              "text": "Sheep",
+              "audio": "audio/en/sheep.mp3",
+              "image": "img/animals/sheep.webp",
+              "sound": "audio/fx/sheep_baa.mp3"
+            },
+            "uz": {
+              "text": "Qo'y",
+              "audio": "audio/uz/sheep.mp3",
+              "image": "img/animals/sheep.webp",
+              "sound": "audio/fx/sheep_baa.mp3"
+            },
+            "ru": {
+              "text": "Овца",
+              "audio": "audio/ru/sheep.mp3",
+              "image": "img/animals/sheep.webp",
+              "sound": "audio/fx/sheep_baa.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:pig",
+          "l10n": {
+            "en": {
+              "text": "Pig",
+              "audio": "audio/en/pig.mp3",
+              "image": "img/animals/pig.webp",
+              "sound": "audio/fx/pig_oink.mp3"
+            },
+            "uz": {
+              "text": "Cho'chqa",
+              "audio": "audio/uz/pig.mp3",
+              "image": "img/animals/pig.webp",
+              "sound": "audio/fx/pig_oink.mp3"
+            },
+            "ru": {
+              "text": "Свинья",
+              "audio": "audio/ru/pig.mp3",
+              "image": "img/animals/pig.webp",
+              "sound": "audio/fx/pig_oink.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:chicken",
+          "l10n": {
+            "en": {
+              "text": "Chicken",
+              "audio": "audio/en/chicken.mp3",
+              "image": "img/animals/chicken.webp",
+              "sound": "audio/fx/chicken_cluck.mp3"
+            },
+            "uz": {
+              "text": "Tovuq",
+              "audio": "audio/uz/chicken.mp3",
+              "image": "img/animals/chicken.webp",
+              "sound": "audio/fx/chicken_cluck.mp3"
+            },
+            "ru": {
+              "text": "Курица",
+              "audio": "audio/ru/chicken.mp3",
+              "image": "img/animals/chicken.webp",
+              "sound": "audio/fx/chicken_cluck.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:duck",
+          "l10n": {
+            "en": {
+              "text": "Duck",
+              "audio": "audio/en/duck.mp3",
+              "image": "img/animals/duck.webp",
+              "sound": "audio/fx/duck_quack.mp3"
+            },
+            "uz": {
+              "text": "O'rdak",
+              "audio": "audio/uz/duck.mp3",
+              "image": "img/animals/duck.webp",
+              "sound": "audio/fx/duck_quack.mp3"
+            },
+            "ru": {
+              "text": "Утка",
+              "audio": "audio/ru/duck.mp3",
+              "image": "img/animals/duck.webp",
+              "sound": "audio/fx/duck_quack.mp3"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "wild-animals",
+      "type": "typing",
+      "title": {
+        "en": "Wild Animals",
+        "uz": "Yovvoyi hayvonlar",
+        "ru": "Дикие животные"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:bird",
+          "l10n": {
+            "en": {
+              "text": "Bird",
+              "audio": "audio/en/bird.mp3",
+              "image": "img/animals/bird.webp",
+              "sound": "audio/fx/bird_tweet.mp3"
+            },
+            "uz": {
+              "text": "Qush",
+              "audio": "audio/uz/bird.mp3",
+              "image": "img/animals/bird.webp",
+              "sound": "audio/fx/bird_tweet.mp3"
+            },
+            "ru": {
+              "text": "Птица",
+              "audio": "audio/ru/bird.mp3",
+              "image": "img/animals/bird.webp",
+              "sound": "audio/fx/bird_tweet.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:fish",
+          "l10n": {
+            "en": {
+              "text": "Fish",
+              "audio": "audio/en/fish.mp3",
+              "image": "img/animals/fish.webp",
+              "sound": "audio/fx/fish_blub.mp3"
+            },
+            "uz": {
+              "text": "Baliq",
+              "audio": "audio/uz/fish.mp3",
+              "image": "img/animals/fish.webp",
+              "sound": "audio/fx/fish_blub.mp3"
+            },
+            "ru": {
+              "text": "Рыба",
+              "audio": "audio/ru/fish.mp3",
+              "image": "img/animals/fish.webp",
+              "sound": "audio/fx/fish_blub.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:rabbit",
+          "l10n": {
+            "en": {
+              "text": "Rabbit",
+              "audio": "audio/en/rabbit.mp3",
+              "image": "img/animals/rabbit.webp",
+              "sound": "audio/fx/rabbit_squeak.mp3"
+            },
+            "uz": {
+              "text": "Quyon",
+              "audio": "audio/uz/rabbit.mp3",
+              "image": "img/animals/rabbit.webp",
+              "sound": "audio/fx/rabbit_squeak.mp3"
+            },
+            "ru": {
+              "text": "Кролик",
+              "audio": "audio/ru/rabbit.mp3",
+              "image": "img/animals/rabbit.webp",
+              "sound": "audio/fx/rabbit_squeak.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:bear",
+          "l10n": {
+            "en": {
+              "text": "Bear",
+              "audio": "audio/en/bear.mp3",
+              "image": "img/animals/bear.webp",
+              "sound": "audio/fx/bear_growl.mp3"
+            },
+            "uz": {
+              "text": "Ayiq",
+              "audio": "audio/uz/bear.mp3",
+              "image": "img/animals/bear.webp",
+              "sound": "audio/fx/bear_growl.mp3"
+            },
+            "ru": {
+              "text": "Медведь",
+              "audio": "audio/ru/bear.mp3",
+              "image": "img/animals/bear.webp",
+              "sound": "audio/fx/bear_growl.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:lion",
+          "l10n": {
+            "en": {
+              "text": "Lion",
+              "audio": "audio/en/lion.mp3",
+              "image": "img/animals/lion.webp",
+              "sound": "audio/fx/lion_roar.mp3"
+            },
+            "uz": {
+              "text": "Sher",
+              "audio": "audio/uz/lion.mp3",
+              "image": "img/animals/lion.webp",
+              "sound": "audio/fx/lion_roar.mp3"
+            },
+            "ru": {
+              "text": "Лев",
+              "audio": "audio/ru/lion.mp3",
+              "image": "img/animals/lion.webp",
+              "sound": "audio/fx/lion_roar.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:elephant",
+          "l10n": {
+            "en": {
+              "text": "Elephant",
+              "audio": "audio/en/elephant.mp3",
+              "image": "img/animals/elephant.webp",
+              "sound": "audio/fx/elephant_trumpet.mp3"
+            },
+            "uz": {
+              "text": "Fil",
+              "audio": "audio/uz/elephant.mp3",
+              "image": "img/animals/elephant.webp",
+              "sound": "audio/fx/elephant_trumpet.mp3"
+            },
+            "ru": {
+              "text": "Слон",
+              "audio": "audio/ru/elephant.mp3",
+              "image": "img/animals/elephant.webp",
+              "sound": "audio/fx/elephant_trumpet.mp3"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:monkey",
+          "l10n": {
+            "en": {
+              "text": "Monkey",
+              "audio": "audio/en/monkey.mp3",
+              "image": "img/animals/monkey.webp",
+              "sound": "audio/fx/monkey_chatter.mp3"
+            },
+            "uz": {
+              "text": "Maymun",
+              "audio": "audio/uz/monkey.mp3",
+              "image": "img/animals/monkey.webp",
+              "sound": "audio/fx/monkey_chatter.mp3"
+            },
+            "ru": {
+              "text": "Обезьяна",
+              "audio": "audio/ru/monkey.mp3",
+              "image": "img/animals/monkey.webp",
+              "sound": "audio/fx/monkey_chatter.mp3"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "animal-drawing",
+      "type": "drawing",
+      "title": {
+        "en": "Connect the Dots",
+        "uz": "Nuqtalarni ulang",
+        "ru": "Соединяем точки"
+      },
+      "items": [
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:cat",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Cat",
+              "audio": "audio/en/connect_cat.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cat_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: Mushuk",
+              "audio": "audio/uz/connect_cat.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cat_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Кошка",
+              "audio": "audio/ru/connect_cat.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cat_dots.webp"
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:dog",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Dog",
+              "audio": "audio/en/connect_dog.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/dog_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: It",
+              "audio": "audio/uz/connect_dog.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/dog_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Собака",
+              "audio": "audio/ru/connect_dog.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/dog_dots.webp"
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:cow",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Cow",
+              "audio": "audio/en/connect_cow.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cow_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: Sigir",
+              "audio": "audio/uz/connect_cow.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cow_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Корова",
+              "audio": "audio/ru/connect_cow.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/cow_dots.webp"
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:horse",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Horse",
+              "audio": "audio/en/connect_horse.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/horse_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: Ot",
+              "audio": "audio/uz/connect_horse.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/horse_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Лошадь",
+              "audio": "audio/ru/connect_horse.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/horse_dots.webp"
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:sheep",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Sheep",
+              "audio": "audio/en/connect_sheep.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/sheep_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: Qo'y",
+              "audio": "audio/uz/connect_sheep.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/sheep_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Овца",
+              "audio": "audio/ru/connect_sheep.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/sheep_dots.webp"
+            }
+          }
+        },
+        {
+          "type": "trace_path",
+          "skill_key": "{lang}:draw:animal:pig",
+          "l10n": {
+            "en": {
+              "text": "Connect the dots: Pig",
+              "audio": "audio/en/connect_pig.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/pig_dots.webp"
+            },
+            "uz": {
+              "text": "Nuqtalarni ulang: Cho'chqa",
+              "audio": "audio/uz/connect_pig.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/pig_dots.webp"
+            },
+            "ru": {
+              "text": "Соедини точки: Свинья",
+              "audio": "audio/ru/connect_pig.mp3",
+              "trace_path": [
+                [
+                  0.1,
+                  0.5
+                ],
+                [
+                  0.189,
+                  0.5
+                ],
+                [
+                  0.278,
+                  0.5
+                ],
+                [
+                  0.367,
+                  0.5
+                ],
+                [
+                  0.456,
+                  0.5
+                ],
+                [
+                  0.544,
+                  0.5
+                ],
+                [
+                  0.633,
+                  0.5
+                ],
+                [
+                  0.722,
+                  0.5
+                ],
+                [
+                  0.811,
+                  0.5
+                ],
+                [
+                  0.9,
+                  0.5
+                ]
+              ],
+              "image": "img/animals/pig_dots.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

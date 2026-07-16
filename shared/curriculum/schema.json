@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flexikeys.app/schemas/curriculum/v1.json",
+  "title": "FlexiKeys Curriculum",
+  "description": "Schema for the FlexiKeys curriculum definition file.",
+  "type": "object",
+  "required": ["version", "languages", "levels"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Semver of this curriculum data file."
+    },
+    "languages": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
+      "minItems": 1,
+      "description": "BCP-47 language codes supported by this curriculum."
+    },
+    "levels": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Level" },
+      "minItems": 1
+    }
+  },
+  "$defs": {
+    "Level": {
+      "type": "object",
+      "required": ["id", "order", "title", "modules"],
+      "properties": {
+        "id": { "type": "string" },
+        "order": { "type": "integer", "minimum": 1 },
+        "title": { "$ref": "#/$defs/LocalizedString" },
+        "description": { "$ref": "#/$defs/LocalizedString" },
+        "thumbnail_key": {
+          "type": "string",
+          "description": "Storage key for the level thumbnail image."
+        },
+        "unlock_requires": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Level IDs that must be completed before this level unlocks."
+        },
+        "modules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Module" }
+        }
+      }
+    },
+    "Module": {
+      "type": "object",
+      "required": ["id", "type", "title"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "type": "string",
+          "enum": ["keyboard", "drawing", "coloring", "shapes", "matching", "story"]
+        },
+        "title": { "$ref": "#/$defs/LocalizedString" },
+        "difficulty": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "estimated_duration_s": {
+          "type": "integer",
+          "description": "Estimated completion time in seconds."
+        },
+        "assets": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Asset" }
+        },
+        "adaptive_params": { "$ref": "#/$defs/AdaptiveParams" }
+      }
+    },
+    "Asset": {
+      "type": "object",
+      "required": ["key", "type"],
+      "properties": {
+        "key": { "type": "string" },
+        "type": { "type": "string", "enum": ["audio", "image", "rive", "pdf"] },
+        "locale": { "type": "string" }
+      }
+    },
+    "AdaptiveParams": {
+      "type": "object",
+      "description": "Seed values for the adaptive engine — overridden per child by the engine.",
+      "properties": {
+        "key_scale": { "type": "number", "minimum": 0.5, "maximum": 2.0 },
+        "dwell_time_ms": { "type": "integer", "minimum": 50 },
+        "debounce_ms": { "type": "integer", "minimum": 0 },
+        "hint_level": { "type": "integer", "minimum": 0, "maximum": 3 },
+        "repetition_count": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "LocalizedString": {
+      "type": "object",
+      "description": "Keyed by BCP-47 language code.",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

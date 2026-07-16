@@ -1,0 +1,334 @@
+{
+  "level": 16,
+  "slug": "stories",
+  "version": "1.0.0",
+  "title": {
+    "en": "Stories",
+    "uz": "Hikoyalar",
+    "ru": "Рассказы"
+  },
+  "lessons": [
+    {
+      "slug": "story-0",
+      "type": "story",
+      "title": {
+        "en": "The Little Cloud",
+        "uz": "Kichkina Bulut",
+        "ru": "Маленькое Облако"
+      },
+      "items": [
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:0:page:0",
+          "payload": {
+            "story_index": 0,
+            "page_index": 0,
+            "typed_word": {
+              "en": "sky",
+              "uz": "yashardi",
+              "ru": "небе"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "A little cloud lived in the sky.",
+              "audio": "audio/en/story_0_page_0.mp3",
+              "image": "img/stories/story_0_cloud.webp"
+            },
+            "uz": {
+              "text": "Kichkina bulut osmonda yashardi.",
+              "audio": "audio/uz/story_0_page_0.mp3",
+              "image": "img/stories/story_0_cloud.webp"
+            },
+            "ru": {
+              "text": "Маленькое облако жило в небе.",
+              "audio": "audio/ru/story_0_page_0.mp3",
+              "image": "img/stories/story_0_cloud.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:0:page:1",
+          "payload": {
+            "story_index": 0,
+            "page_index": 1,
+            "typed_word": {
+              "en": "rain",
+              "uz": "boshladi",
+              "ru": "дождь"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "One day it started to rain.",
+              "audio": "audio/en/story_0_page_1.mp3",
+              "image": "img/stories/story_0_rain.webp"
+            },
+            "uz": {
+              "text": "Bir kuni yomg'ir yog'a boshladi.",
+              "audio": "audio/uz/story_0_page_1.mp3",
+              "image": "img/stories/story_0_rain.webp"
+            },
+            "ru": {
+              "text": "Однажды пошёл дождь.",
+              "audio": "audio/ru/story_0_page_1.mp3",
+              "image": "img/stories/story_0_rain.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:0:page:2",
+          "payload": {
+            "story_index": 0,
+            "page_index": 2,
+            "typed_word": {
+              "en": "tall",
+              "uz": "o'sdi",
+              "ru": "высокими"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "The flowers grew tall.",
+              "audio": "audio/en/story_0_page_2.mp3",
+              "image": "img/stories/story_0_flower.webp"
+            },
+            "uz": {
+              "text": "Gullar baland o'sdi.",
+              "audio": "audio/uz/story_0_page_2.mp3",
+              "image": "img/stories/story_0_flower.webp"
+            },
+            "ru": {
+              "text": "Цветы выросли высокими.",
+              "audio": "audio/ru/story_0_page_2.mp3",
+              "image": "img/stories/story_0_flower.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:0:page:3",
+          "payload": {
+            "story_index": 0,
+            "page_index": 3,
+            "typed_word": {
+              "en": "out",
+              "uz": "chiqdi",
+              "ru": "солнце"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "Then the sun came out.",
+              "audio": "audio/en/story_0_page_3.mp3",
+              "image": "img/stories/story_0_sun.webp"
+            },
+            "uz": {
+              "text": "Keyin quyosh chiqdi.",
+              "audio": "audio/uz/story_0_page_3.mp3",
+              "image": "img/stories/story_0_sun.webp"
+            },
+            "ru": {
+              "text": "Затем вышло солнце.",
+              "audio": "audio/ru/story_0_page_3.mp3",
+              "image": "img/stories/story_0_sun.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:0:page:4",
+          "payload": {
+            "story_index": 0,
+            "page_index": 4,
+            "typed_word": {
+              "en": "appeared",
+              "uz": "bo'ldi",
+              "ru": "радуга"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "A rainbow appeared!",
+              "audio": "audio/en/story_0_page_4.mp3",
+              "image": "img/stories/story_0_rainbow.webp"
+            },
+            "uz": {
+              "text": "Kamalak paydo bo'ldi!",
+              "audio": "audio/uz/story_0_page_4.mp3",
+              "image": "img/stories/story_0_rainbow.webp"
+            },
+            "ru": {
+              "text": "Появилась радуга!",
+              "audio": "audio/ru/story_0_page_4.mp3",
+              "image": "img/stories/story_0_rainbow.webp"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "slug": "story-1",
+      "type": "story",
+      "title": {
+        "en": "My Pet Cat",
+        "uz": "Mening Mushugim",
+        "ru": "Моя Кошка"
+      },
+      "items": [
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:1:page:0",
+          "payload": {
+            "story_index": 1,
+            "page_index": 0,
+            "typed_word": {
+              "en": "cat",
+              "uz": "bor",
+              "ru": "кошка"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "I have a little cat.",
+              "audio": "audio/en/story_1_page_0.mp3",
+              "image": "img/stories/story_1_cat.webp"
+            },
+            "uz": {
+              "text": "Mening kichkina mushugim bor.",
+              "audio": "audio/uz/story_1_page_0.mp3",
+              "image": "img/stories/story_1_cat.webp"
+            },
+            "ru": {
+              "text": "У меня есть маленькая кошка.",
+              "audio": "audio/ru/story_1_page_0.mp3",
+              "image": "img/stories/story_1_cat.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:1:page:1",
+          "payload": {
+            "story_index": 1,
+            "page_index": 1,
+            "typed_word": {
+              "en": "fish",
+              "uz": "ko'radi",
+              "ru": "рыбу"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "My cat loves to eat fish.",
+              "audio": "audio/en/story_1_page_1.mp3",
+              "image": "img/stories/story_1_fish.webp"
+            },
+            "uz": {
+              "text": "Mushugim baliq yeyishni yaxshi ko'radi.",
+              "audio": "audio/uz/story_1_page_1.mp3",
+              "image": "img/stories/story_1_fish.webp"
+            },
+            "ru": {
+              "text": "Моя кошка любит рыбу.",
+              "audio": "audio/ru/story_1_page_1.mp3",
+              "image": "img/stories/story_1_fish.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:1:page:2",
+          "payload": {
+            "story_index": 1,
+            "page_index": 2,
+            "typed_word": {
+              "en": "day",
+              "uz": "o'ynaymiz",
+              "ru": "день"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "We play together every day.",
+              "audio": "audio/en/story_1_page_2.mp3",
+              "image": "img/stories/story_1_play.webp"
+            },
+            "uz": {
+              "text": "Har kuni birga o'ynaymiz.",
+              "audio": "audio/uz/story_1_page_2.mp3",
+              "image": "img/stories/story_1_play.webp"
+            },
+            "ru": {
+              "text": "Мы играем каждый день.",
+              "audio": "audio/ru/story_1_page_2.mp3",
+              "image": "img/stories/story_1_play.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:1:page:3",
+          "payload": {
+            "story_index": 1,
+            "page_index": 3,
+            "typed_word": {
+              "en": "sleeps",
+              "uz": "uxlaydi",
+              "ru": "спит"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "At night my cat sleeps.",
+              "audio": "audio/en/story_1_page_3.mp3",
+              "image": "img/stories/story_1_sleep.webp"
+            },
+            "uz": {
+              "text": "Kechasi mushugim uxlaydi.",
+              "audio": "audio/uz/story_1_page_3.mp3",
+              "image": "img/stories/story_1_sleep.webp"
+            },
+            "ru": {
+              "text": "Ночью моя кошка спит.",
+              "audio": "audio/ru/story_1_page_3.mp3",
+              "image": "img/stories/story_1_sleep.webp"
+            }
+          }
+        },
+        {
+          "type": "story_page",
+          "skill_key": "{lang}:story:1:page:4",
+          "payload": {
+            "story_index": 1,
+            "page_index": 4,
+            "typed_word": {
+              "en": "cat",
+              "uz": "sevaman",
+              "ru": "кошку"
+            }
+          },
+          "l10n": {
+            "en": {
+              "text": "I love my little cat.",
+              "audio": "audio/en/story_1_page_4.mp3",
+              "image": "img/stories/story_1_love.webp"
+            },
+            "uz": {
+              "text": "Men mushugimni sevaman.",
+              "audio": "audio/uz/story_1_page_4.mp3",
+              "image": "img/stories/story_1_love.webp"
+            },
+            "ru": {
+              "text": "Я люблю мою кошку.",
+              "audio": "audio/ru/story_1_page_4.mp3",
+              "image": "img/stories/story_1_love.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

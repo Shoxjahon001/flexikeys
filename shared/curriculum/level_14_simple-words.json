@@ -1,0 +1,338 @@
+{
+  "level": 14,
+  "slug": "simple-words",
+  "version": "1.0.0",
+  "title": {
+    "en": "Simple Words",
+    "uz": "Oddiy so'zlar",
+    "ru": "Простые слова"
+  },
+  "lessons": [
+    {
+      "slug": "simple-words",
+      "type": "typing",
+      "title": {
+        "en": "Simple Words (3–5 letters)",
+        "uz": "Qisqa so'zlar (3–5 harf)",
+        "ru": "Простые слова (3–5 букв)"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:cat",
+          "l10n": {
+            "en": {
+              "text": "Cat",
+              "audio": "audio/en/word_cat.mp3",
+              "image": "img/words/cat.webp"
+            },
+            "uz": {
+              "text": "Ot",
+              "audio": "audio/uz/word_ot.mp3",
+              "image": "img/words/cat.webp"
+            },
+            "ru": {
+              "text": "Кот",
+              "audio": "audio/ru/word_кот.mp3",
+              "image": "img/words/cat.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:dog",
+          "l10n": {
+            "en": {
+              "text": "Dog",
+              "audio": "audio/en/word_dog.mp3",
+              "image": "img/words/dog.webp"
+            },
+            "uz": {
+              "text": "It",
+              "audio": "audio/uz/word_it.mp3",
+              "image": "img/words/dog.webp"
+            },
+            "ru": {
+              "text": "Дом",
+              "audio": "audio/ru/word_дом.mp3",
+              "image": "img/words/dog.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:sun",
+          "l10n": {
+            "en": {
+              "text": "Sun",
+              "audio": "audio/en/word_sun.mp3",
+              "image": "img/words/sun.webp"
+            },
+            "uz": {
+              "text": "El",
+              "audio": "audio/uz/word_el.mp3",
+              "image": "img/words/sun.webp"
+            },
+            "ru": {
+              "text": "Рот",
+              "audio": "audio/ru/word_рот.mp3",
+              "image": "img/words/sun.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:hat",
+          "l10n": {
+            "en": {
+              "text": "Hat",
+              "audio": "audio/en/word_hat.mp3",
+              "image": "img/words/hat.webp"
+            },
+            "uz": {
+              "text": "On",
+              "audio": "audio/uz/word_on.mp3",
+              "image": "img/words/hat.webp"
+            },
+            "ru": {
+              "text": "Нос",
+              "audio": "audio/ru/word_нос.mp3",
+              "image": "img/words/hat.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:run",
+          "l10n": {
+            "en": {
+              "text": "Run",
+              "audio": "audio/en/word_run.mp3",
+              "image": "img/words/run.webp"
+            },
+            "uz": {
+              "text": "Ol",
+              "audio": "audio/uz/word_ol.mp3",
+              "image": "img/words/run.webp"
+            },
+            "ru": {
+              "text": "Сон",
+              "audio": "audio/ru/word_сон.mp3",
+              "image": "img/words/run.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:sit",
+          "l10n": {
+            "en": {
+              "text": "Sit",
+              "audio": "audio/en/word_sit.mp3",
+              "image": "img/words/sit.webp"
+            },
+            "uz": {
+              "text": "Kel",
+              "audio": "audio/uz/word_kel.mp3",
+              "image": "img/words/sit.webp"
+            },
+            "ru": {
+              "text": "Лес",
+              "audio": "audio/ru/word_лес.mp3",
+              "image": "img/words/sit.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:hot",
+          "l10n": {
+            "en": {
+              "text": "Hot",
+              "audio": "audio/en/word_hot.mp3",
+              "image": "img/words/hot.webp"
+            },
+            "uz": {
+              "text": "Bor",
+              "audio": "audio/uz/word_bor.mp3",
+              "image": "img/words/hot.webp"
+            },
+            "ru": {
+              "text": "Ток",
+              "audio": "audio/ru/word_ток.mp3",
+              "image": "img/words/hot.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:bed",
+          "l10n": {
+            "en": {
+              "text": "Bed",
+              "audio": "audio/en/word_bed.mp3",
+              "image": "img/words/bed.webp"
+            },
+            "uz": {
+              "text": "Ber",
+              "audio": "audio/uz/word_ber.mp3",
+              "image": "img/words/bed.webp"
+            },
+            "ru": {
+              "text": "Бок",
+              "audio": "audio/ru/word_бок.mp3",
+              "image": "img/words/bed.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:cup",
+          "l10n": {
+            "en": {
+              "text": "Cup",
+              "audio": "audio/en/word_cup.mp3",
+              "image": "img/words/cup.webp"
+            },
+            "uz": {
+              "text": "Bil",
+              "audio": "audio/uz/word_bil.mp3",
+              "image": "img/words/cup.webp"
+            },
+            "ru": {
+              "text": "Вор",
+              "audio": "audio/ru/word_вор.mp3",
+              "image": "img/words/cup.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:let",
+          "l10n": {
+            "en": {
+              "text": "Let",
+              "audio": "audio/en/word_let.mp3",
+              "image": "img/words/let.webp"
+            },
+            "uz": {
+              "text": "Tur",
+              "audio": "audio/uz/word_tur.mp3",
+              "image": "img/words/let.webp"
+            },
+            "ru": {
+              "text": "Гол",
+              "audio": "audio/ru/word_гол.mp3",
+              "image": "img/words/let.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:big",
+          "l10n": {
+            "en": {
+              "text": "Big",
+              "audio": "audio/en/word_big.mp3",
+              "image": "img/words/big.webp"
+            },
+            "uz": {
+              "text": "Yur",
+              "audio": "audio/uz/word_yur.mp3",
+              "image": "img/words/big.webp"
+            },
+            "ru": {
+              "text": "Рак",
+              "audio": "audio/ru/word_рак.mp3",
+              "image": "img/words/big.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:end",
+          "l10n": {
+            "en": {
+              "text": "End",
+              "audio": "audio/en/word_end.mp3",
+              "image": "img/words/end.webp"
+            },
+            "uz": {
+              "text": "Kir",
+              "audio": "audio/uz/word_kir.mp3",
+              "image": "img/words/end.webp"
+            },
+            "ru": {
+              "text": "Мак",
+              "audio": "audio/ru/word_мак.mp3",
+              "image": "img/words/end.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:got",
+          "l10n": {
+            "en": {
+              "text": "Got",
+              "audio": "audio/en/word_got.mp3",
+              "image": "img/words/got.webp"
+            },
+            "uz": {
+              "text": "Sir",
+              "audio": "audio/uz/word_sir.mp3",
+              "image": "img/words/got.webp"
+            },
+            "ru": {
+              "text": "Тон",
+              "audio": "audio/ru/word_тон.mp3",
+              "image": "img/words/got.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:hit",
+          "l10n": {
+            "en": {
+              "text": "Hit",
+              "audio": "audio/en/word_hit.mp3",
+              "image": "img/words/hit.webp"
+            },
+            "uz": {
+              "text": "Tor",
+              "audio": "audio/uz/word_tor.mp3",
+              "image": "img/words/hit.webp"
+            },
+            "ru": {
+              "text": "Лак",
+              "audio": "audio/ru/word_лак.mp3",
+              "image": "img/words/hit.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:simple_word:net",
+          "l10n": {
+            "en": {
+              "text": "Net",
+              "audio": "audio/en/word_net.mp3",
+              "image": "img/words/net.webp"
+            },
+            "uz": {
+              "text": "Til",
+              "audio": "audio/uz/word_til.mp3",
+              "image": "img/words/net.webp"
+            },
+            "ru": {
+              "text": "Бор",
+              "audio": "audio/ru/word_бор.mp3",
+              "image": "img/words/net.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

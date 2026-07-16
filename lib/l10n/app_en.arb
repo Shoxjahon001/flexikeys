@@ -1,0 +1,123 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2026-07-13",
+
+  "appName": "FlexiKeys",
+  "@appName": {"description": "Application name"},
+
+  "welcomeTitle": "Welcome to FlexiKeys",
+  "@welcomeTitle": {"description": "Welcome screen title"},
+  "welcomeSubtitle": "Let's learn together!",
+
+  "settingsTitle": "Settings",
+  "profileTitle": "Profile",
+  "progressTitle": "Progress",
+  "levelsTitle": "Levels",
+
+  "levelLocked": "Keep practising to unlock this level",
+  "levelStart": "Start",
+  "levelContinue": "Continue",
+  "levelCompleted": "Level completed!",
+  "lessonCompleted": "Lesson done!",
+
+  "nextLesson": "Next",
+  "tryAgain": "Try again",
+  "hint": "Hint",
+  "showHint": "Show hint",
+
+  "languageSetting": "Learning language",
+  "uiLanguageSetting": "Display language",
+  "languageEnglish": "English",
+  "languageUzbek": "Uzbek",
+  "languageRussian": "Russian",
+
+  "parentDashboard": "Parent Dashboard",
+  "childProgress": "Child Progress",
+  "weeklyReport": "Weekly Report",
+  "sessionTime": "Session time",
+  "accuracyLabel": "Accuracy",
+  "masteryLabel": "Mastery",
+
+  "addChild": "Add child",
+  "childName": "Child's name",
+  "childAge": "Birth year",
+  "saveProfile": "Save",
+
+  "breakSuggestion": "Take a short break — you're doing great!",
+  "sessionDone": "Great session today!",
+
+  "mascotGreeting": "Hi there! Ready to learn?",
+  "mascotEncouraging": "You're doing well, keep going!",
+  "mascotEffortPraise": "Great effort — you're improving!",
+  "mascotImproved": "You got better at that!",
+  "mascotTakeTime": "Take your time — no rush.",
+  "mascotKeepTrying": "Keep trying — you can do it!",
+  "mascotHighFive": "Well done today!",
+  "mascotSleepy": "Sleepy? Let's take a break.",
+  "mascotWaving": "See you next time!",
+  "mascotSurprised": "Wow, that was fast!",
+  "mascotThinking": "Hmm, let me think...",
+  "mascotCelebrating": "You completed a level!",
+
+  "letterTraceInstruction": "Trace the letter with your finger",
+  "numberTraceInstruction": "Trace the number with your finger",
+  "shapeTraceInstruction": "Trace the shape with your finger",
+  "connectDotsInstruction": "Connect the dots to complete the picture",
+  "coloringInstruction": "Color the picture",
+
+  "typeThisLetter": "Type this letter",
+  "typeThisWord": "Type this word",
+  "typeThisSentence": "Type this sentence",
+
+  "correctFeedback": "You did it!",
+  "encouragementFeedback": "Almost there — give it another go!",
+  "progressFeedback": "You improved on this one!",
+
+  "keyboardHintLabel": "Tap the key shown",
+  "keyboardLargeMode": "Large keyboard mode active",
+
+  "consentTitle": "Parental Consent",
+  "consentText": "By adding a child profile, you confirm you are the parent or legal guardian and consent to limited, pseudonymised activity data being used to personalise the learning experience. No personal data is shared with third parties.",
+  "consentAccept": "I consent",
+  "consentDecline": "Not now",
+
+  "logOut": "Log out",
+  "deleteAccount": "Delete account",
+  "privacyPolicy": "Privacy Policy",
+  "termsOfService": "Terms of Service",
+
+  "aiAssistantTitle": "AI Learning Assistant",
+  "aiAssistantDisclaimer": "This assistant provides educational guidance only and is not a substitute for medical or therapeutic advice. Always consult a qualified professional for health concerns.",
+
+  "errorGeneric": "Something went wrong. Please try again.",
+  "errorNetwork": "No internet connection.",
+  "errorOfflineMode": "Working offline — some features may be limited.",
+
+  "adaptationKeyScaleUp": "Keyboard keys have been made larger to help your child tap more accurately.",
+  "adaptationDwellTimeUp": "A small pause before registering a tap has been added to reduce accidental presses.",
+  "adaptationHintLevelUp": "Hints have been increased to help your child with this letter.",
+  "adaptationHintLevelDown": "Hints have been reduced — your child is doing well!",
+  "adaptationBreakSuggested": "A short break was suggested after signs of tiredness were detected.",
+  "adaptationKeySpacingUp": "Key spacing has been increased to reduce accidental taps.",
+  "adaptationGlobalScaleUp": "The keyboard has been made larger for easier tapping.",
+
+  "storyPageInstruction": "Listen and type the last word",
+  "storyNextPage": "Next page",
+  "storyFinished": "Story finished!",
+
+  "rewardEarned": "You earned a reward!",
+  "badgeEarned": "New badge: {badgeName}",
+  "@badgeEarned": {
+    "placeholders": {"badgeName": {"type": "String"}}
+  },
+
+  "levelUnlocked": "New level unlocked: {levelName}",
+  "@levelUnlocked": {
+    "placeholders": {"levelName": {"type": "String"}}
+  },
+
+  "itemCountLabel": "{count} items",
+  "@itemCountLabel": {
+    "placeholders": {"count": {"type": "int"}}
+  }
+}

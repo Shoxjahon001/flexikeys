@@ -48,3 +48,21 @@ app.*.map.json
 android/key.properties
 *.jks
 *.keystore
+
+# Environment secrets — never commit .env files; only .env.example is tracked
+.env
+.env.local
+.env.production
+backend/.env
+infra/.env
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+dist/
+*.egg-info/

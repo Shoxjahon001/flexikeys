@@ -1,0 +1,127 @@
+openapi: "3.1.0"
+
+info:
+  title: FlexiKeys API
+  version: "0.1.0"
+  description: |
+    Adaptive EdTech backend for the FlexiKeys platform.
+    This is a stub spec for Phase 01. Full operation definitions are added per module in Phase 02+.
+  contact:
+    name: FlexiKeys Engineering
+  license:
+    name: Proprietary
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development
+  - url: https://api.flexikeys.app/api/v1
+    description: Production
+
+tags:
+  - name: ops
+    description: Health checks and version info
+  - name: auth
+    description: Authentication and token management
+  - name: users
+    description: Parent/teacher/admin accounts
+  - name: children
+    description: Child profiles and settings
+  - name: curriculum
+    description: Lessons, levels and localized content
+  - name: sessions
+    description: Session lifecycle and event ingest
+  - name: adaptive
+    description: AdaptationProfile and BKT mastery signals
+  - name: progress
+    description: Mastery summaries and streaks
+  - name: rewards
+    description: Stars, badges, unlocks
+  - name: parent
+    description: Parent reports and AI summaries
+  - name: teacher
+    description: Class management and PDF export
+  - name: admin
+    description: Platform management and feature flags
+  - name: ai_assistant
+    description: Provider-agnostic LLM interface
+  - name: notifications
+    description: Push and in-app notifications
+  - name: media
+    description: Pre-signed URL generation and uploads
+
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      summary: Health check
+      tags: [ops]
+      responses:
+        "200":
+          description: Service health status
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+  /version:
+    get:
+      operationId: getVersion
+      summary: API version
+      tags: [ops]
+      responses:
+        "200":
+          description: Current version string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VersionResponse"
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      required: [status, checks]
+      properties:
+        status:
+          type: string
+          enum: [ok, degraded]
+        checks:
+          type: object
+          properties:
+            db:
+              type: string
+              enum: [ok, error]
+            redis:
+              type: string
+              enum: [ok, error]
+
+    VersionResponse:
+      type: object
+      required: [version]
+      properties:
+        version:
+          type: string
+
+    Problem:
+      description: RFC 7807 problem detail
+      type: object
+      properties:
+        type:
+          type: string
+        title:
+          type: string
+        status:
+          type: integer
+        detail:
+          type: string
+        instance:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+security:
+  - bearerAuth: []

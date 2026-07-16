@@ -1,24 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cloud_mascot.dart';
 import '../widgets/dot_indicator.dart';
 import '../services/user_service.dart';
+import '../features/auth/application/auth_controller.dart';
+import '../features/auth/domain/auth_models.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _nameController = TextEditingController();
   final _ageController = TextEditingController();
   bool _nameActive = false;
   bool _ageActive = false;
   String _selectedLanguage = 'en';
+  // When true, this "kid's name + age" step also creates a real backend
+  // child profile (reached from the child picker's "add child" tile).
+  // When false, it only writes the local single-child profile (legacy path
+  // for installs that predate backend accounts).
+  bool _linkToAccount = false;
+  bool _submitting = false;
 
   @override
   void didChangeDependencies() {
@@ -26,7 +35,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final args =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     if (args != null) {
-      _selectedLanguage = args['language'] as String? ?? 'en';
+      _selectedLanguage = args['language'] as String? ?? _selectedLanguage;
+      _linkToAccount = args['linkToAccount'] as bool? ?? _linkToAccount;
     }
   }
 
@@ -54,6 +64,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
       language: _selectedLanguage,
     );
     if (!mounted) return;
+
+    if (_linkToAccount) {
+      setState(() => _submitting = true);
+      final controller = ref.read(authControllerProvider.notifier);
+      final child = await controller.createChild(ChildCreateData(
+        displayName: name,
+        learningLanguage: _selectedLanguage,
+        uiLanguage: _selectedLanguage,
+        birthYear: DateTime.now().year - age,
+      ));
+      if (!mounted) return;
+      setState(() => _submitting = false);
+      if (child == null) {
+        _showSnack('Could not create profile — please try again');
+        return;
+      }
+      await controller.selectChild(child);
+      if (!mounted) return;
+    }
+
     Navigator.pushNamed(
       context,
       '/welcome',
@@ -165,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: GestureDetector(
-                          onTap: _onNext,
+                          onTap: _submitting ? null : _onNext,
                           child: Container(
                             height: 68,
                             width: double.infinity,
@@ -174,14 +204,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               borderRadius: BorderRadius.circular(34),
                             ),
                             child: Center(
-                              child: Text(
-                                'Next',
-                                style: GoogleFonts.nunito(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w900,
-                                  color: AppTheme.textDark,
-                                ),
-                              ),
+                              child: _submitting
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                    )
+                                  : Text(
+                                      'Next',
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 28,
+                                        fontWeight: FontWeight.w900,
+                                        color: AppTheme.textDark,
+                                      ),
+                                    ),
                             ),
                           ),
                         ),

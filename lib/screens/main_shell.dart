@@ -1,25 +1,49 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
+import '../services/progress/progress_repository.dart';
+import '../design_system/atoms/fk_parent_gate.dart';
+import '../features/auth/application/auth_controller.dart';
 import 'levels_screen.dart';
 import 'shop_screen.dart';
 import 'profile_screen.dart';
 
-class MainShell extends StatefulWidget {
+class MainShell extends ConsumerStatefulWidget {
   const MainShell({super.key});
 
   @override
-  State<MainShell> createState() => _MainShellState();
+  ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends State<MainShell> {
+class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserver {
   int _tab = 0;
   String _name = '';
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _loadName();
+    // Touching the provider triggers AuthController's bootstrap, which
+    // restores any stored parent/child session, re-inits sync+telemetry,
+    // and fires an initial progress sync (see AuthController.selectChild).
+    ref.read(authControllerProvider);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      // Fire-and-forget — never blocks the UI, silently no-ops offline/guest.
+      unawaited(ProgressRepository.instance.sync());
+    }
   }
 
   @override
@@ -42,7 +66,7 @@ class _MainShellState extends State<MainShell> {
     final pages = [
       LevelsScreen(externalName: _name),
       const ShopScreen(),
-      const ProfileScreen(),
+      FkParentGate(onUnlocked: () {}, child: const ProfileScreen()),
     ];
 
     return Scaffold(

@@ -1,0 +1,275 @@
+{
+  "level": 7,
+  "slug": "fruits",
+  "version": "1.0.0",
+  "title": {
+    "en": "Fruits",
+    "uz": "Mevalar",
+    "ru": "Фрукты"
+  },
+  "lessons": [
+    {
+      "slug": "fruits",
+      "type": "typing",
+      "title": {
+        "en": "Fruits",
+        "uz": "Mevalar",
+        "ru": "Фрукты"
+      },
+      "items": [
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:apple",
+          "l10n": {
+            "en": {
+              "text": "Apple",
+              "audio": "audio/en/apple.mp3",
+              "image": "img/fruits/apple.webp"
+            },
+            "uz": {
+              "text": "Olma",
+              "audio": "audio/uz/apple.mp3",
+              "image": "img/fruits/apple.webp"
+            },
+            "ru": {
+              "text": "Яблоко",
+              "audio": "audio/ru/apple.mp3",
+              "image": "img/fruits/apple.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:banana",
+          "l10n": {
+            "en": {
+              "text": "Banana",
+              "audio": "audio/en/banana.mp3",
+              "image": "img/fruits/banana.webp"
+            },
+            "uz": {
+              "text": "Banan",
+              "audio": "audio/uz/banana.mp3",
+              "image": "img/fruits/banana.webp"
+            },
+            "ru": {
+              "text": "Банан",
+              "audio": "audio/ru/banana.mp3",
+              "image": "img/fruits/banana.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:orange-fruit",
+          "l10n": {
+            "en": {
+              "text": "Orange",
+              "audio": "audio/en/orange-fruit.mp3",
+              "image": "img/fruits/orange-fruit.webp"
+            },
+            "uz": {
+              "text": "Apelsin",
+              "audio": "audio/uz/orange-fruit.mp3",
+              "image": "img/fruits/orange-fruit.webp"
+            },
+            "ru": {
+              "text": "Апельсин",
+              "audio": "audio/ru/orange-fruit.mp3",
+              "image": "img/fruits/orange-fruit.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:grape",
+          "l10n": {
+            "en": {
+              "text": "Grape",
+              "audio": "audio/en/grape.mp3",
+              "image": "img/fruits/grape.webp"
+            },
+            "uz": {
+              "text": "Uzum",
+              "audio": "audio/uz/grape.mp3",
+              "image": "img/fruits/grape.webp"
+            },
+            "ru": {
+              "text": "Виноград",
+              "audio": "audio/ru/grape.mp3",
+              "image": "img/fruits/grape.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:strawberry",
+          "l10n": {
+            "en": {
+              "text": "Strawberry",
+              "audio": "audio/en/strawberry.mp3",
+              "image": "img/fruits/strawberry.webp"
+            },
+            "uz": {
+              "text": "Qulupnay",
+              "audio": "audio/uz/strawberry.mp3",
+              "image": "img/fruits/strawberry.webp"
+            },
+            "ru": {
+              "text": "Клубника",
+              "audio": "audio/ru/strawberry.mp3",
+              "image": "img/fruits/strawberry.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:watermelon",
+          "l10n": {
+            "en": {
+              "text": "Watermelon",
+              "audio": "audio/en/watermelon.mp3",
+              "image": "img/fruits/watermelon.webp"
+            },
+            "uz": {
+              "text": "Tarvuz",
+              "audio": "audio/uz/watermelon.mp3",
+              "image": "img/fruits/watermelon.webp"
+            },
+            "ru": {
+              "text": "Арбуз",
+              "audio": "audio/ru/watermelon.mp3",
+              "image": "img/fruits/watermelon.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:mango",
+          "l10n": {
+            "en": {
+              "text": "Mango",
+              "audio": "audio/en/mango.mp3",
+              "image": "img/fruits/mango.webp"
+            },
+            "uz": {
+              "text": "Mango",
+              "audio": "audio/uz/mango.mp3",
+              "image": "img/fruits/mango.webp"
+            },
+            "ru": {
+              "text": "Манго",
+              "audio": "audio/ru/mango.mp3",
+              "image": "img/fruits/mango.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:pear",
+          "l10n": {
+            "en": {
+              "text": "Pear",
+              "audio": "audio/en/pear.mp3",
+              "image": "img/fruits/pear.webp"
+            },
+            "uz": {
+              "text": "Nok",
+              "audio": "audio/uz/pear.mp3",
+              "image": "img/fruits/pear.webp"
+            },
+            "ru": {
+              "text": "Груша",
+              "audio": "audio/ru/pear.mp3",
+              "image": "img/fruits/pear.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:cherry",
+          "l10n": {
+            "en": {
+              "text": "Cherry",
+              "audio": "audio/en/cherry.mp3",
+              "image": "img/fruits/cherry.webp"
+            },
+            "uz": {
+              "text": "Gilos",
+              "audio": "audio/uz/cherry.mp3",
+              "image": "img/fruits/cherry.webp"
+            },
+            "ru": {
+              "text": "Вишня",
+              "audio": "audio/ru/cherry.mp3",
+              "image": "img/fruits/cherry.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:lemon",
+          "l10n": {
+            "en": {
+              "text": "Lemon",
+              "audio": "audio/en/lemon.mp3",
+              "image": "img/fruits/lemon.webp"
+            },
+            "uz": {
+              "text": "Limon",
+              "audio": "audio/uz/lemon.mp3",
+              "image": "img/fruits/lemon.webp"
+            },
+            "ru": {
+              "text": "Лимон",
+              "audio": "audio/ru/lemon.mp3",
+              "image": "img/fruits/lemon.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:peach",
+          "l10n": {
+            "en": {
+              "text": "Peach",
+              "audio": "audio/en/peach.mp3",
+              "image": "img/fruits/peach.webp"
+            },
+            "uz": {
+              "text": "Shaftoli",
+              "audio": "audio/uz/peach.mp3",
+              "image": "img/fruits/peach.webp"
+            },
+            "ru": {
+              "text": "Персик",
+              "audio": "audio/ru/peach.mp3",
+              "image": "img/fruits/peach.webp"
+            }
+          }
+        },
+        {
+          "type": "word",
+          "skill_key": "{lang}:word:melon",
+          "l10n": {
+            "en": {
+              "text": "Melon",
+              "audio": "audio/en/melon.mp3",
+              "image": "img/fruits/melon.webp"
+            },
+            "uz": {
+              "text": "Qovun",
+              "audio": "audio/uz/melon.mp3",
+              "image": "img/fruits/melon.webp"
+            },
+            "ru": {
+              "text": "Дыня",
+              "audio": "audio/ru/melon.mp3",
+              "image": "img/fruits/melon.webp"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
