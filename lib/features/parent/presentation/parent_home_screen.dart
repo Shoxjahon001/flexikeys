@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../design_system/design_system.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../services/user_service.dart';
+import '../../aac/presentation/parent/aac_dashboard_screen.dart';
 import '../application/parent_provider.dart';
 import '../domain/parent_models.dart';
 import 'progress_screen.dart';
@@ -15,11 +18,12 @@ import 'assistant/assistant_screen.dart';
 class ParentHomeScreen extends ConsumerStatefulWidget {
   final String childId;
 
-  /// Which tab to open on (0=Home, 1=Progress, 2=Ask AI) — lets callers deep
-  /// link straight into the assistant instead of always landing on Home.
+  /// Which tab to open on (0=Home, 1=Progress, 2=My Voice, 3=Ask AI) — lets
+  /// callers deep link straight into a tab instead of always landing on Home.
   final int initialTab;
 
-  const ParentHomeScreen({super.key, required this.childId, this.initialTab = 0});
+  const ParentHomeScreen(
+      {super.key, required this.childId, this.initialTab = 0});
 
   @override
   ConsumerState<ParentHomeScreen> createState() => _ParentHomeScreenState();
@@ -43,7 +47,7 @@ class _ParentHomeScreenState extends ConsumerState<ParentHomeScreen> {
             style: FkTextStyles.adultHeadline,
           ),
           loading: () => const SizedBox.shrink(),
-          error: (_, __) => const Text('Dashboard'),
+          error: (_, __) => Text(AppLocalizations.of(context)!.dashboardTitle),
         ),
         actions: [
           IconButton(
@@ -65,6 +69,7 @@ class _ParentHomeScreenState extends ConsumerState<ParentHomeScreen> {
               children: [
                 _HomeTab(childId: widget.childId),
                 ProgressScreen(childId: widget.childId),
+                AacDashboardScreen(childId: widget.childId),
                 AssistantScreen(childId: widget.childId),
               ],
             ),
@@ -83,10 +88,12 @@ class _TabBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const labels = ['Home', 'Progress', 'Ask AI'];
+    final t = AppLocalizations.of(context)!;
+    final labels = [t.navHome, t.navProgressTab, t.navVoiceTab, t.navAskAiTab];
     const icons = [
       Icons.home_rounded,
       Icons.bar_chart_rounded,
+      Icons.record_voice_over_rounded,
       Icons.chat_bubble_rounded,
     ];
 
@@ -95,7 +102,7 @@ class _TabBar extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: FkSpacing.sm),
       child: Row(
         children: List.generate(
-          3,
+          4,
           (i) => Expanded(
             child: GestureDetector(
               onTap: () => onTap(i),
@@ -105,7 +112,8 @@ class _TabBar extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: current == i ? FkColors.lavender : Colors.transparent,
+                      color:
+                          current == i ? FkColors.lavender : Colors.transparent,
                       width: 2,
                     ),
                   ),
@@ -116,14 +124,19 @@ class _TabBar extends StatelessWidget {
                     Icon(
                       icons[i],
                       size: 20,
-                      color: current == i ? FkColors.lavender : FkColors.disabledInk,
+                      color: current == i
+                          ? FkColors.lavender
+                          : FkColors.disabledInk,
                     ),
                     const SizedBox(height: 2),
                     Text(
                       labels[i],
                       style: FkTextStyles.adultCaption.copyWith(
-                        color: current == i ? FkColors.lavender : FkColors.disabledInk,
-                        fontWeight: current == i ? FontWeight.w600 : FontWeight.w400,
+                        color: current == i
+                            ? FkColors.lavender
+                            : FkColors.disabledInk,
+                        fontWeight:
+                            current == i ? FontWeight.w600 : FontWeight.w400,
                       ),
                     ),
                   ],
@@ -143,9 +156,16 @@ class _HomeTab extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final t = AppLocalizations.of(context)!;
     final summaryAsync = ref.watch(childSummaryProvider(childId));
+    // Uses the parent dashboard's own current display language, not the
+    // child's stored (initial-default) ui_language — a parent who changes
+    // the dashboard's language should see backend-rendered adaptation text
+    // in that same language immediately, without touching the child record.
     final adaptAsync = ref.watch(
-      adaptationsProvider((childId: childId, uiLanguage: 'en')),
+      adaptationsProvider(
+        (childId: childId, uiLanguage: UserService.uiLanguageNotifier.value),
+      ),
     );
 
     return ListView(
@@ -154,31 +174,31 @@ class _HomeTab extends ConsumerWidget {
         summaryAsync.when(
           data: (s) => _TodayCard(summary: s),
           loading: () => const _CardSkeleton(height: 140),
-          error: (_, __) => const _ErrorCard(label: 'Could not load today\'s activity'),
+          error: (_, __) => _ErrorCard(label: t.todayActivityLoadError),
         ),
         const SizedBox(height: FkSpacing.sm),
-        const Text('What the system adjusted', style: FkTextStyles.adultHeadline),
+        Text(t.adaptationsSectionHeader, style: FkTextStyles.adultHeadline),
         const SizedBox(height: FkSpacing.xs),
-        const Text(
-          'FlexiKeys tunes the keyboard automatically based on practice data. '
-          'Here is what changed recently.',
+        Text(
+          t.adaptationsBody,
           style: FkTextStyles.adultBody,
         ),
         const SizedBox(height: FkSpacing.sm),
         adaptAsync.when(
           data: (items) => items.isEmpty
-              ? const Padding(
-                  padding: EdgeInsets.symmetric(vertical: FkSpacing.md),
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: FkSpacing.md),
                   child: Text(
-                    'No adjustments yet — keep practicing!',
+                    t.noAdjustmentsYet,
                     style: FkTextStyles.adultBody,
                   ),
                 )
               : Column(
-                  children: items.map((item) => _AdaptationCard(item: item)).toList(),
+                  children:
+                      items.map((item) => _AdaptationCard(item: item)).toList(),
                 ),
           loading: () => const _CardSkeleton(height: 80),
-          error: (_, __) => const _ErrorCard(label: 'Could not load feed'),
+          error: (_, __) => _ErrorCard(label: t.feedLoadError),
         ),
       ],
     );
@@ -191,6 +211,7 @@ class _TodayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return FkCard(
       child: Padding(
         padding: const EdgeInsets.all(FkSpacing.sm),
@@ -199,21 +220,21 @@ class _TodayCard extends StatelessWidget {
             Expanded(
               child: _StatPill(
                 icon: Icons.timer_rounded,
-                label: 'Today',
+                label: t.statTodayPill,
                 value: '${summary.todayMinutes.toStringAsFixed(0)} min',
               ),
             ),
             Expanded(
               child: _StatPill(
                 icon: Icons.check_circle_rounded,
-                label: 'Items',
+                label: t.statItemsPill,
                 value: '${summary.todayItems}',
               ),
             ),
             Expanded(
               child: _StatPill(
                 icon: Icons.local_fire_department_rounded,
-                label: 'Streak',
+                label: t.statStreakPill,
                 value: '${summary.streakDays}d',
               ),
             ),
@@ -255,6 +276,7 @@ class _AdaptationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.only(bottom: FkSpacing.xs),
       child: FkCard(
@@ -284,7 +306,7 @@ class _AdaptationCard extends StatelessWidget {
                     Text(item.sentence, style: FkTextStyles.adultBody),
                     const SizedBox(height: 2),
                     Text(
-                      _relativeDate(item.changedAt),
+                      _relativeDate(t, item.changedAt),
                       style: FkTextStyles.adultCaption,
                     ),
                   ],
@@ -297,11 +319,11 @@ class _AdaptationCard extends StatelessWidget {
     );
   }
 
-  String _relativeDate(DateTime dt) {
+  String _relativeDate(AppLocalizations t, DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inDays == 0) return 'Today';
-    if (diff.inDays == 1) return 'Yesterday';
-    return '${diff.inDays} days ago';
+    if (diff.inDays == 0) return t.relativeToday;
+    if (diff.inDays == 1) return t.relativeYesterday;
+    return t.relativeDaysAgo(diff.inDays);
   }
 }
 

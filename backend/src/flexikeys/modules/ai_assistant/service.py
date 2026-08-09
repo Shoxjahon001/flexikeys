@@ -7,9 +7,9 @@ from typing import Any
 
 from fastapi import HTTPException
 
-from flexikeys.modules.ai_assistant.llm_provider import LlmProvider
 from flexikeys.modules.ai_assistant.repository import AiAssistantRepository
 from flexikeys.modules.ai_assistant.schemas import ChatRequest, ChatResponseOut, MessageOut
+from flexikeys.services.ai_service import MEDICAL_DISCLAIMER, LlmProvider
 
 # ── Load system prompt at module import time ──────────────────────────────────
 _SYSTEM_PROMPT = (
@@ -36,12 +36,6 @@ _MEDICAL_KEYWORDS: frozenset[str] = frozenset(
         "speech therapy",
         "physiotherapy",
     ]
-)
-
-_MEDICAL_DISCLAIMER = (
-    "> Please note: I'm an educational assistant and not a substitute for "
-    "medical or therapeutic advice. For questions about your child's health or "
-    "development, please consult a qualified healthcare professional."
 )
 
 # Max tool-use rounds to prevent infinite loops
@@ -152,7 +146,7 @@ class AiAssistantService:
         # 4. Build system prompt, optionally prepend medical disclaimer
         system = _SYSTEM_PROMPT
         if self._contains_medical_keywords(request.message):
-            system = _MEDICAL_DISCLAIMER + "\n\n" + system
+            system = MEDICAL_DISCLAIMER + "\n\n" + system
 
         # 5. Append the user message
         messages.append({"role": "user", "content": request.message})

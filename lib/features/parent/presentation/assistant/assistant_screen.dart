@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../design_system/design_system.dart';
+import '../../../../l10n/app_localizations.dart';
+import '../../../../services/user_service.dart';
 import '../../application/follow_up_suggestions.dart';
 import '../../application/insights.dart';
 import '../../application/parent_provider.dart';
@@ -41,7 +43,7 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
     await ref.read(assistantProvider.notifier).sendMessage(
           childId: widget.childId,
           message: message,
-          uiLanguage: 'en',
+          uiLanguage: UserService.uiLanguageNotifier.value,
         );
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -69,14 +71,16 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
             child: ListView.builder(
               controller: _scrollController,
               padding: const EdgeInsets.all(FkSpacing.sm),
-              itemCount: state.messages.length +
-                  (_showFollowUps(state) ? 1 : 0),
+              itemCount:
+                  state.messages.length + (_showFollowUps(state) ? 1 : 0),
               itemBuilder: (_, i) {
                 if (i == state.messages.length) {
-                  final lastUser = state.messages.reversed
-                      .firstWhere((m) => m.isUser, orElse: () => state.messages.last);
+                  final lastUser = state.messages.reversed.firstWhere(
+                      (m) => m.isUser,
+                      orElse: () => state.messages.last);
                   return _FollowUpChips(
-                    suggestions: followUpSuggestions(lastUser.content),
+                    suggestions: followUpSuggestions(
+                        AppLocalizations.of(context)!, lastUser.content),
                     onTap: _send,
                   );
                 }
@@ -102,7 +106,9 @@ class _AssistantScreenState extends ConsumerState<AssistantScreen> {
   }
 
   bool _showFollowUps(AssistantState state) =>
-      !state.loading && state.messages.isNotEmpty && state.messages.last.isAssistant;
+      !state.loading &&
+      state.messages.isNotEmpty &&
+      state.messages.last.isAssistant;
 }
 
 // ── Insight strip ────────────────────────────────────────────────────────────
@@ -125,13 +131,18 @@ class _InsightStrip extends ConsumerWidget {
     final points = tsAsync.valueOrNull;
     if (summary == null || points == null) return const SizedBox.shrink();
 
-    final insights = buildInsights(summary: summary, accuracyPoints: points);
+    final insights = buildInsights(
+      t: AppLocalizations.of(context)!,
+      summary: summary,
+      accuracyPoints: points,
+    );
     if (insights.isEmpty) return const SizedBox.shrink();
 
     return SizedBox(
       height: 92,
       child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(FkSpacing.sm, FkSpacing.xs, FkSpacing.sm, 0),
+        padding: const EdgeInsets.fromLTRB(
+            FkSpacing.sm, FkSpacing.xs, FkSpacing.sm, 0),
         scrollDirection: Axis.horizontal,
         itemCount: insights.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
@@ -161,7 +172,8 @@ class _InsightCardView extends StatelessWidget {
       // Slight stagger so cards don't all pop in at once.
       builder: (_, t, child) => Opacity(
         opacity: t,
-        child: Transform.translate(offset: Offset(0, (1 - t) * 8), child: child),
+        child:
+            Transform.translate(offset: Offset(0, (1 - t) * 8), child: child),
       ),
       child: Container(
         width: 220,
@@ -180,7 +192,8 @@ class _InsightCardView extends StatelessWidget {
                 Container(
                   width: 24,
                   height: 24,
-                  decoration: BoxDecoration(color: _tint, shape: BoxShape.circle),
+                  decoration:
+                      BoxDecoration(color: _tint, shape: BoxShape.circle),
                   child: Icon(insight.icon, size: 14, color: FkColors.ink),
                 ),
                 const SizedBox(width: 8),
@@ -214,19 +227,19 @@ class _HeroAndPrompts extends StatelessWidget {
   final void Function(String) onTap;
   const _HeroAndPrompts({required this.onTap});
 
-  static const _prompts = [
-    'How is my child doing?',
-    'Explain today\'s report',
-    'Weekly summary',
-    'Practice suggestions',
-    'Strengths',
-    'Weaknesses',
-    'Daily goals',
-    'Learning tips',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    final prompts = [
+      t.promptHowIsChildDoing,
+      t.promptExplainReport,
+      t.promptWeeklySummary,
+      t.promptPracticeSuggestions,
+      t.promptStrengths,
+      t.promptWeaknesses,
+      t.promptDailyGoals,
+      t.promptLearningTips,
+    ];
     return SingleChildScrollView(
       padding: const EdgeInsets.all(FkSpacing.sm),
       child: Column(
@@ -236,30 +249,31 @@ class _HeroAndPrompts extends StatelessWidget {
           Container(
             width: 56,
             height: 56,
-            decoration: const BoxDecoration(color: FkColors.lavender, shape: BoxShape.circle),
-            child: const Icon(Icons.auto_awesome_rounded, color: FkColors.ink, size: 26),
+            decoration: const BoxDecoration(
+                color: FkColors.lavender, shape: BoxShape.circle),
+            child: const Icon(Icons.auto_awesome_rounded,
+                color: FkColors.ink, size: 26),
           ),
           const SizedBox(height: FkSpacing.sm),
-          const Text('Your learning assistant', style: FkTextStyles.adultHeadline),
+          Text(t.assistantHeroHeadline, style: FkTextStyles.adultHeadline),
           const SizedBox(height: FkSpacing.xs),
-          const Text(
-            'Ask about recent practice, get activity ideas, or ask why the '
-            'keyboard adapted — every answer is grounded in your child\'s '
-            'actual data.',
+          Text(
+            t.assistantHeroBody,
             style: FkTextStyles.adultBody,
           ),
           const SizedBox(height: FkSpacing.md),
-          const Text('Try asking:', style: FkTextStyles.adultLabel),
+          Text(t.tryAskingLabel, style: FkTextStyles.adultLabel),
           const SizedBox(height: FkSpacing.xs),
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: _prompts.map((q) => _PromptChip(label: q, onTap: () => onTap(q))).toList(),
+            children: prompts
+                .map((q) => _PromptChip(label: q, onTap: () => onTap(q)))
+                .toList(),
           ),
           const SizedBox(height: FkSpacing.md),
-          const Text(
-            'This assistant provides educational guidance only and is not a '
-            'substitute for medical or therapeutic advice.',
+          Text(
+            t.aiAssistantDisclaimer,
             style: FkTextStyles.adultCaption,
           ),
         ],
@@ -287,7 +301,8 @@ class _PromptChip extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.lightbulb_outline_rounded, size: 14, color: FkColors.lavender),
+            const Icon(Icons.lightbulb_outline_rounded,
+                size: 14, color: FkColors.lavender),
             const SizedBox(width: 6),
             Text(label, style: FkTextStyles.adultCaption),
           ],
@@ -311,7 +326,9 @@ class _FollowUpChips extends StatelessWidget {
       child: Wrap(
         spacing: 8,
         runSpacing: 8,
-        children: suggestions.map((s) => _PromptChip(label: s, onTap: () => onTap(s))).toList(),
+        children: suggestions
+            .map((s) => _PromptChip(label: s, onTap: () => onTap(s)))
+            .toList(),
       ),
     );
   }
@@ -326,11 +343,14 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isUser = msg.isUser;
+    final t = AppLocalizations.of(context)!;
 
     final bubble = ConstrainedBox(
-      constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.72),
+      constraints:
+          BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.72),
       child: Column(
-        crossAxisAlignment: isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           GestureDetector(
             onLongPress: isUser ? null : () => _copy(context),
@@ -347,25 +367,33 @@ class _MessageBubble extends StatelessWidget {
                 boxShadow: FkElevation.low(FkColors.lavender),
               ),
               child: isUser
-                  ? Text(msg.content, style: FkTextStyles.adultBody.copyWith(color: FkColors.ink))
+                  ? Text(msg.content,
+                      style:
+                          FkTextStyles.adultBody.copyWith(color: FkColors.ink))
                   : _MarkdownLiteText(msg.content),
             ),
           ),
           const SizedBox(height: 2),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4),
-            child: Text(_relativeTime(msg.createdAt), style: FkTextStyles.adultCaption),
+            child: Text(_relativeTime(t, msg.createdAt),
+                style: FkTextStyles.adultCaption),
           ),
         ],
       ),
     );
 
     final row = Row(
-      mainAxisAlignment: isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+      mainAxisAlignment:
+          isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: isUser
           ? [bubble]
-          : [const _AssistantAvatar(), const SizedBox(width: 8), Flexible(child: bubble)],
+          : [
+              const _AssistantAvatar(),
+              const SizedBox(width: 8),
+              Flexible(child: bubble)
+            ],
     );
 
     return Padding(
@@ -378,16 +406,19 @@ class _MessageBubble extends StatelessWidget {
     await Clipboard.setData(ClipboardData(text: msg.content));
     if (!context.mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Copied'), duration: Duration(seconds: 1)),
+      SnackBar(
+        content: Text(AppLocalizations.of(context)!.copiedSnackbar),
+        duration: const Duration(seconds: 1),
+      ),
     );
   }
 
-  String _relativeTime(DateTime dt) {
+  String _relativeTime(AppLocalizations t, DateTime dt) {
     final diff = DateTime.now().difference(dt);
-    if (diff.inMinutes < 1) return 'Just now';
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    return '${diff.inDays}d ago';
+    if (diff.inMinutes < 1) return t.justNow;
+    if (diff.inMinutes < 60) return t.chatTimeMinutesAgo(diff.inMinutes);
+    if (diff.inHours < 24) return t.chatTimeHoursAgo(diff.inHours);
+    return t.chatTimeDaysAgo(diff.inDays);
   }
 }
 
@@ -399,8 +430,10 @@ class _AssistantAvatar extends StatelessWidget {
     return Container(
       width: 28,
       height: 28,
-      decoration: const BoxDecoration(color: FkColors.lavender, shape: BoxShape.circle),
-      child: const Icon(Icons.auto_awesome_rounded, size: 14, color: FkColors.ink),
+      decoration:
+          const BoxDecoration(color: FkColors.lavender, shape: BoxShape.circle),
+      child:
+          const Icon(Icons.auto_awesome_rounded, size: 14, color: FkColors.ink),
     );
   }
 }
@@ -415,7 +448,8 @@ class _EntranceFade extends StatefulWidget {
   State<_EntranceFade> createState() => _EntranceFadeState();
 }
 
-class _EntranceFadeState extends State<_EntranceFade> with SingleTickerProviderStateMixin {
+class _EntranceFadeState extends State<_EntranceFade>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
     duration: FkDurations.normal,
@@ -433,7 +467,8 @@ class _EntranceFadeState extends State<_EntranceFade> with SingleTickerProviderS
     return FadeTransition(
       opacity: curved,
       child: SlideTransition(
-        position: Tween(begin: const Offset(0, 0.06), end: Offset.zero).animate(curved),
+        position: Tween(begin: const Offset(0, 0.06), end: Offset.zero)
+            .animate(curved),
         child: widget.child,
       ),
     );
@@ -463,7 +498,8 @@ class _MarkdownLiteText extends StatelessWidget {
   }
 
   Widget _buildLine(String line, TextStyle style) {
-    final isBullet = line.trimLeft().startsWith('- ') || line.trimLeft().startsWith('* ');
+    final isBullet =
+        line.trimLeft().startsWith('- ') || line.trimLeft().startsWith('* ');
     final content = isBullet ? line.trimLeft().substring(2) : line;
     final spans = _boldSpans(content, style);
 
@@ -476,7 +512,8 @@ class _MarkdownLiteText extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text('•  ', style: style),
-            Expanded(child: RichText(text: TextSpan(children: spans, style: style))),
+            Expanded(
+                child: RichText(text: TextSpan(children: spans, style: style))),
           ],
         ),
       );
@@ -515,7 +552,8 @@ class _TypingBubble extends StatefulWidget {
   State<_TypingBubble> createState() => _TypingBubbleState();
 }
 
-class _TypingBubbleState extends State<_TypingBubble> with SingleTickerProviderStateMixin {
+class _TypingBubbleState extends State<_TypingBubble>
+    with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1000),
@@ -552,7 +590,8 @@ class _TypingBubbleState extends State<_TypingBubble> with SingleTickerProviderS
                 child: Container(
                   width: 7,
                   height: 7,
-                  decoration: const BoxDecoration(color: FkColors.lavender, shape: BoxShape.circle),
+                  decoration: const BoxDecoration(
+                      color: FkColors.lavender, shape: BoxShape.circle),
                 ),
               ),
             );
@@ -570,7 +609,8 @@ class _InputBar extends StatelessWidget {
   final bool loading;
   final VoidCallback onSend;
 
-  const _InputBar({required this.controller, required this.loading, required this.onSend});
+  const _InputBar(
+      {required this.controller, required this.loading, required this.onSend});
 
   @override
   Widget build(BuildContext context) {
@@ -589,17 +629,22 @@ class _InputBar extends StatelessWidget {
               controller: controller,
               enabled: !loading,
               maxLength: 4000,
-              buildCounter: (_, {required currentLength, required isFocused, maxLength}) => null,
-              decoration: const InputDecoration(
-                hintText: 'Ask about your child\'s practice…',
+              buildCounter: (_,
+                      {required currentLength,
+                      required isFocused,
+                      maxLength}) =>
+                  null,
+              decoration: InputDecoration(
+                hintText: AppLocalizations.of(context)!.chatHint,
                 hintStyle: FkTextStyles.adultCaption,
                 filled: true,
                 fillColor: FkColors.background,
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                   borderRadius: FkRadii.mdAll,
                   borderSide: BorderSide.none,
                 ),
-                contentPadding: EdgeInsets.symmetric(horizontal: FkSpacing.sm, vertical: 12),
+                contentPadding: const EdgeInsets.symmetric(
+                    horizontal: FkSpacing.sm, vertical: 12),
               ),
               style: FkTextStyles.adultBody,
               onSubmitted: loading ? null : (_) => onSend(),

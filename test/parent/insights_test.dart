@@ -2,6 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flexikeys/features/parent/application/insights.dart';
 import 'package:flexikeys/features/parent/domain/parent_models.dart';
+import 'package:flexikeys/l10n/app_localizations_en.dart';
+
+final _t = AppLocalizationsEn();
 
 ChildSummary _summary({int streakDays = 0, int todayItems = 1}) => ChildSummary(
       childId: 'c1',
@@ -38,8 +41,20 @@ void main() {
 
     test('computes negative delta when recent week is lower', () {
       final points = _points([
-        0.8, 0.8, 0.8, 0.8, 0.8, 0.8, 0.8,
-        0.4, 0.4, 0.4, 0.4, 0.4, 0.4, 0.4,
+        0.8,
+        0.8,
+        0.8,
+        0.8,
+        0.8,
+        0.8,
+        0.8,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
+        0.4,
       ]);
       final delta = weekOverWeekAccuracyDelta(points);
       expect(delta, isNotNull);
@@ -48,8 +63,21 @@ void main() {
 
     test('ignores null-valued days when gathering values', () {
       final points = _points([
-        0.5, null, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-        0.6, 0.6, 0.6, 0.6, 0.6, 0.6, 0.6,
+        0.5,
+        null,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
+        0.6,
       ]);
       final delta = weekOverWeekAccuracyDelta(points);
       expect(delta, isNotNull);
@@ -63,6 +91,7 @@ void main() {
   group('buildInsights', () {
     test('emits no accuracy insight without enough timeseries data', () {
       final insights = buildInsights(
+        t: _t,
         summary: _summary(),
         accuracyPoints: _points([0.5, 0.5, 0.5]),
       );
@@ -71,42 +100,62 @@ void main() {
 
     test('emits a positive accuracy insight on real improvement', () {
       final points = _points([
-        0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5,
-        0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
+        0.7,
       ]);
-      final insights = buildInsights(summary: _summary(), accuracyPoints: points);
-      final accuracyInsight = insights.firstWhere((i) => i.headline.contains('up'));
+      final insights =
+          buildInsights(t: _t, summary: _summary(), accuracyPoints: points);
+      final accuracyInsight =
+          insights.firstWhere((i) => i.headline.contains('up'));
       expect(accuracyInsight.tone, InsightTone.positive);
       expect(accuracyInsight.headline, contains('40%')); // (0.7-0.5)/0.5 = 40%
     });
 
     test('emits a streak insight only when streakDays >= 3', () {
       final withoutStreak = buildInsights(
+        t: _t,
         summary: _summary(streakDays: 2),
         accuracyPoints: _points([]),
       );
       expect(withoutStreak.any((i) => i.headline.contains('streak')), isFalse);
 
       final withStreak = buildInsights(
+        t: _t,
         summary: _summary(streakDays: 5),
         accuracyPoints: _points([]),
       );
-      final streakInsight = withStreak.firstWhere((i) => i.headline.contains('streak'));
+      final streakInsight =
+          withStreak.firstWhere((i) => i.headline.contains('streak'));
       expect(streakInsight.headline, '5-day streak');
       expect(streakInsight.tone, InsightTone.positive);
     });
 
     test('emits a gentle nudge when nothing practiced today', () {
       final insights = buildInsights(
+        t: _t,
         summary: _summary(todayItems: 0),
         accuracyPoints: _points([]),
       );
-      final nudge = insights.firstWhere((i) => i.headline.contains('No practice'));
+      final nudge =
+          insights.firstWhere((i) => i.headline.contains('No practice'));
       expect(nudge.tone, InsightTone.neutral);
     });
 
     test('returns an empty list when there is nothing meaningful to say', () {
       final insights = buildInsights(
+        t: _t,
         summary: _summary(streakDays: 1, todayItems: 2),
         accuracyPoints: _points([]),
       );

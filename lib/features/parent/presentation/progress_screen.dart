@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../design_system/design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../application/parent_provider.dart';
 import '../domain/parent_models.dart';
 
@@ -24,6 +25,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final tsAsync = ref.watch(
       timeseriesProvider((
         childId: widget.childId,
@@ -57,8 +59,8 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                   metric: _metric,
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (_, __) => const Center(
-                  child: Text('Could not load chart', style: FkTextStyles.adultBody),
+                error: (_, __) => Center(
+                  child: Text(t.chartLoadError, style: FkTextStyles.adultBody),
                 ),
               ),
             ),
@@ -87,18 +89,18 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
         const SizedBox(height: FkSpacing.sm),
 
         // ── Mastery grid ───────────────────────────────────────────────
-        const Text('Letter Mastery', style: FkTextStyles.adultHeadline),
+        Text(t.letterMasteryHeader, style: FkTextStyles.adultHeadline),
         const SizedBox(height: FkSpacing.xs),
-        const Text(
-          'Mint = mastered · Yellow = practicing · Lavender = not yet started',
+        Text(
+          t.masteryLegend,
           style: FkTextStyles.adultCaption,
         ),
         const SizedBox(height: FkSpacing.xs),
         skillsAsync.when(
           data: (skills) => _MasteryGrid(skills: skills),
           loading: () => const _Skeleton(height: 120),
-          error: (_, __) => const Text(
-            'Could not load mastery data',
+          error: (_, __) => Text(
+            t.masteryLoadError,
             style: FkTextStyles.adultBody,
           ),
         ),
@@ -115,10 +117,11 @@ class _MetricPicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const metrics = {
-      'accuracy': 'Accuracy',
-      'speed': 'Speed',
-      'time': 'Time (min)',
+    final t = AppLocalizations.of(context)!;
+    final metrics = {
+      'accuracy': t.metricAccuracy,
+      'speed': t.metricSpeed,
+      'time': t.metricTime,
     };
     return Wrap(
       spacing: 8,
@@ -191,8 +194,9 @@ class _TimeseriesChart extends StatelessWidget {
     }
 
     if (spots.isEmpty) {
-      return const Center(
-        child: Text('No data for this range', style: FkTextStyles.adultBody),
+      return Center(
+        child: Text(AppLocalizations.of(context)!.noDataForRange,
+            style: FkTextStyles.adultBody),
       );
     }
 
@@ -264,7 +268,8 @@ class _MasteryGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (skills.isEmpty) {
-      return const Text('No skills tracked yet.', style: FkTextStyles.adultBody);
+      return Text(AppLocalizations.of(context)!.noSkillsTracked,
+          style: FkTextStyles.adultBody);
     }
     return Wrap(
       spacing: 6,

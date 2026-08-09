@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from flexikeys.core.config import get_settings
 from flexikeys.core.db import get_db
 from flexikeys.core.deps import get_current_user
-from flexikeys.modules.ai_assistant.llm_provider import build_provider
 from flexikeys.modules.ai_assistant.schemas import (
     ChatRequest,
     ChatResponseOut,
@@ -19,6 +18,7 @@ from flexikeys.modules.ai_assistant.schemas import (
 from flexikeys.modules.ai_assistant.service import AiAssistantService
 from flexikeys.modules.parent.repository import ParentRepository
 from flexikeys.modules.users.models import User
+from flexikeys.services.ai_service import build_provider
 
 router = APIRouter(prefix="/ai-assistant", tags=["ai_assistant"])
 

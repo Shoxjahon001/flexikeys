@@ -2,6 +2,7 @@ library insights;
 
 import 'package:flutter/material.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../domain/parent_models.dart';
 
 /// How an [InsightCard] should read visually — never a literal "bad" tone;
@@ -28,10 +29,13 @@ class InsightCard {
 
 /// Builds a short list of insight cards from already-fetched real data
 /// ([ChildSummary] from `/parent/children/:id/summary`, accuracy points from
-/// `/progress/timeseries`). Pure function — no widget/BuildContext
-/// dependency — so it's independently unit-testable and keeps this logic
-/// out of the widget tree.
+/// `/progress/timeseries`). Pure function — no [BuildContext] dependency —
+/// so it's independently unit-testable and keeps this logic out of the
+/// widget tree. [t] is the resolved localization instance (callers pass
+/// `AppLocalizations.of(context)!`; tests can pass `AppLocalizationsEn()`
+/// directly), not a `BuildContext`, to keep that testability property.
 List<InsightCard> buildInsights({
+  required AppLocalizations t,
   required ChildSummary summary,
   required List<TimeseriesPoint> accuracyPoints,
 }) {
@@ -44,10 +48,9 @@ List<InsightCard> buildInsights({
       final up = pct > 0;
       insights.add(InsightCard(
         icon: up ? Icons.trending_up_rounded : Icons.trending_down_rounded,
-        headline: up ? 'Accuracy is up $pct% this week' : 'Accuracy dipped ${pct.abs()}% this week',
-        body: up
-            ? 'Keep up the momentum — recent practice is paying off.'
-            : 'A dip happens sometimes — ask the assistant for a few at-home exercises.',
+        headline:
+            up ? t.accuracyUpHeadline(pct) : t.accuracyDownHeadline(pct.abs()),
+        body: up ? t.accuracyUpBody : t.accuracyDownBody,
         tone: up ? InsightTone.positive : InsightTone.attention,
       ));
     }
@@ -56,17 +59,17 @@ List<InsightCard> buildInsights({
   if (summary.streakDays >= 3) {
     insights.add(InsightCard(
       icon: Icons.local_fire_department_rounded,
-      headline: '${summary.streakDays}-day streak',
-      body: '${summary.displayName} has practiced ${summary.streakDays} days in a row. Nice work!',
+      headline: t.streakHeadline(summary.streakDays),
+      body: t.streakBody(summary.displayName, summary.streakDays),
       tone: InsightTone.positive,
     ));
   }
 
   if (summary.todayItems == 0) {
-    insights.add(const InsightCard(
+    insights.add(InsightCard(
       icon: Icons.schedule_rounded,
-      headline: 'No practice yet today',
-      body: 'A short 5-minute session keeps the streak going.',
+      headline: t.noPracticeTodayHeadline,
+      body: t.noPracticeTodayBody,
       tone: InsightTone.neutral,
     ));
   }
@@ -80,7 +83,8 @@ List<InsightCard> buildInsights({
 /// — deliberately never extrapolates from a handful of points.
 @visibleForTesting
 double? weekOverWeekAccuracyDelta(List<TimeseriesPoint> points) {
-  final values = points.where((p) => p.value != null).map((p) => p.value!).toList();
+  final values =
+      points.where((p) => p.value != null).map((p) => p.value!).toList();
   if (values.length < 8) return null;
 
   final recent = values.sublist(values.length - 7);

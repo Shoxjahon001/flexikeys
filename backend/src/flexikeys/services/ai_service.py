@@ -1,3 +1,11 @@
+"""
+Provider-agnostic AI service (see CLAUDE.md "AI" row: LLM behind an
+interface, swappable). Originally lived inside modules/ai_assistant/ as a
+single-consumer helper; moved here once modules/aac needed the same
+Anthropic wire-format translation for sentence composition and pattern-
+analysis phrasing — two independent consumers, one shared client, no
+duplicated Messages-API translation code.
+"""
 from __future__ import annotations
 
 from dataclasses import dataclass, field
@@ -7,6 +15,16 @@ import httpx
 import structlog
 
 logger = structlog.get_logger()
+
+# CLAUDE.md rule 7: "AI assistant gives educational guidance only and must
+# always disclose it is not a substitute for medical advice." Shared verbatim
+# by ai_assistant (free-text keyword trigger) and aac (structured
+# category/card trigger) so the wording never drifts between the two surfaces.
+MEDICAL_DISCLAIMER = (
+    "> Please note: I'm an educational assistant and not a substitute for "
+    "medical or therapeutic advice. For questions about your child's health or "
+    "development, please consult a qualified healthcare professional."
+)
 
 
 @dataclass
@@ -20,6 +38,11 @@ class ToolCall:
 class ChatCompletion:
     text: str
     tool_calls: list[ToolCall] = field(default_factory=list)
+    # True for StubProvider output and any AnthropicProvider degrade path
+    # (network error, non-200, unparseable response) — lets a consumer
+    # detect "this isn't a real completion" without string-sniffing the
+    # canned message text.
+    degraded: bool = False
 
 
 @runtime_checkable
@@ -47,6 +70,7 @@ class StubProvider:
                 " Please contact support if this persists.]"
             ),
             tool_calls=[],
+            degraded=True,
         )
 
 
@@ -63,6 +87,7 @@ _FALLBACK_COMPLETION = ChatCompletion(
         "moment — if this keeps happening, contact support.]"
     ),
     tool_calls=[],
+    degraded=True,
 )
 
 
@@ -195,7 +220,25 @@ class AnthropicProvider:
             return _FALLBACK_COMPLETION
 
         try:
-            return _parse_response(resp.json())
+            data = resp.json()
+        except ValueError:
+            logger.exception("anthropic_response_parse_failed")
+            return _FALLBACK_COMPLETION
+
+        # Cost visibility: Anthropic returns token counts on every response,
+        # so this line is a free, exact per-call cost signal — not an
+        # estimate — for whichever consumer (ai_assistant, aac) made the
+        # call. No prompt/response content is logged, only counts.
+        usage = data.get("usage") or {}
+        logger.info(
+            "anthropic_usage",
+            model=self._model,
+            input_tokens=usage.get("input_tokens"),
+            output_tokens=usage.get("output_tokens"),
+        )
+
+        try:
+            return _parse_response(data)
         except (KeyError, ValueError):
             logger.exception("anthropic_response_parse_failed")
             return _FALLBACK_COMPLETION
