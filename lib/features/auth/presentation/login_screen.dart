@@ -34,56 +34,59 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final state = ref.watch(authControllerProvider);
 
     return Scaffold(
-      backgroundColor: fk.background,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(FkSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.xxxl),
             child: FkCard(
-              padding: const EdgeInsets.all(FkSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.xxl),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Welcome back', style: FkTextStyles.adultHeadline.copyWith(color: fk.ink)),
-                  const SizedBox(height: FkSpacing.xs),
+                  const Text('Welcome back', style: AppTypography.h2),
+                  const SizedBox(height: AppSpacing.sm),
                   const Text(
                     'Log in to continue your child\'s progress.',
-                    style: FkTextStyles.adultBody,
+                    style: AppTypography.body,
                   ),
-                  const SizedBox(height: FkSpacing.md),
+                  const SizedBox(height: AppSpacing.xxl),
                   TextField(
                     controller: _emailCtrl,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: _inputDecoration(fk, 'Email'),
+                    decoration: _inputDecoration('Email'),
                   ),
-                  const SizedBox(height: FkSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
                   TextField(
                     controller: _passwordCtrl,
                     obscureText: true,
-                    decoration: _inputDecoration(fk, 'Password'),
+                    decoration: _inputDecoration('Password'),
                   ),
                   if (state.error != null) ...[
-                    const SizedBox(height: FkSpacing.xs),
-                    Text(state.error!, style: FkTextStyles.adultCaption.copyWith(color: fk.attention)),
+                    const SizedBox(height: AppSpacing.sm),
+                    // Real adult-facing error, not child failure-framing —
+                    // see FkParentGate for the same reasoning.
+                    Text(state.error!,
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.danger)),
                   ],
-                  const SizedBox(height: FkSpacing.md),
+                  const SizedBox(height: AppSpacing.xxl),
                   FkButton(
                     label: 'Log in',
                     size: FkButtonSize.adult,
                     loading: state.loading,
                     onPressed: _submit,
                   ),
-                  const SizedBox(height: FkSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
                   TextButton(
                     onPressed: () => Navigator.pushReplacementNamed(context, '/parent_signup'),
                     child: Text(
                       "Don't have an account? Sign up",
-                      style: FkTextStyles.adultBody.copyWith(color: fk.ink),
+                      style: AppTypography.body.copyWith(color: AppColors.textPrimary),
                     ),
                   ),
                 ],
@@ -95,12 +98,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(FkTheme fk, String hint) => InputDecoration(
+  InputDecoration _inputDecoration(String hint) => InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: fk.surface,
+        fillColor: AppColors.surfaceMuted,
         border: const OutlineInputBorder(
-          borderRadius: FkRadii.mdAll,
+          borderRadius: AppRadius.mdAll,
           borderSide: BorderSide.none,
         ),
       );

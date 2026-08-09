@@ -88,63 +88,66 @@ class _ParentSignupScreenState extends ConsumerState<ParentSignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final state = ref.watch(authControllerProvider);
     final error = _localError ?? state.error;
 
     return Scaffold(
-      backgroundColor: fk.background,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.all(FkSpacing.lg),
+            padding: const EdgeInsets.all(AppSpacing.xxxl),
             child: FkCard(
-              padding: const EdgeInsets.all(FkSpacing.md),
+              padding: const EdgeInsets.all(AppSpacing.xxl),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Text('Create your account', style: FkTextStyles.adultHeadline.copyWith(color: fk.ink)),
-                  const SizedBox(height: FkSpacing.xs),
+                  const Text('Create your account', style: AppTypography.h2),
+                  const SizedBox(height: AppSpacing.sm),
                   const Text(
                     "We'll set up your child's profile next.",
-                    style: FkTextStyles.adultBody,
+                    style: AppTypography.body,
                   ),
-                  const SizedBox(height: FkSpacing.md),
+                  const SizedBox(height: AppSpacing.xxl),
                   TextField(
                     controller: _emailCtrl,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: _inputDecoration(fk, 'Email'),
+                    decoration: _inputDecoration('Email'),
                   ),
-                  const SizedBox(height: FkSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
                   TextField(
                     controller: _passwordCtrl,
                     obscureText: true,
-                    decoration: _inputDecoration(fk, 'Password (min 8 characters)'),
+                    decoration: _inputDecoration('Password (min 8 characters)'),
                   ),
-                  const SizedBox(height: FkSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
                   TextField(
                     controller: _confirmCtrl,
                     obscureText: true,
-                    decoration: _inputDecoration(fk, 'Confirm password'),
+                    decoration: _inputDecoration('Confirm password'),
                   ),
                   if (error != null) ...[
-                    const SizedBox(height: FkSpacing.xs),
-                    Text(error, style: FkTextStyles.adultCaption.copyWith(color: fk.attention)),
+                    const SizedBox(height: AppSpacing.sm),
+                    // Real adult-facing error, not child failure-framing —
+                    // see FkParentGate for the same reasoning.
+                    Text(error,
+                        style: AppTypography.caption
+                            .copyWith(color: AppColors.danger)),
                   ],
-                  const SizedBox(height: FkSpacing.md),
+                  const SizedBox(height: AppSpacing.xxl),
                   FkButton(
                     label: 'Sign up',
                     size: FkButtonSize.adult,
                     loading: state.loading,
                     onPressed: _submit,
                   ),
-                  const SizedBox(height: FkSpacing.sm),
+                  const SizedBox(height: AppSpacing.lg),
                   TextButton(
                     onPressed: () => Navigator.pushReplacementNamed(context, '/login'),
                     child: Text(
                       'Already have an account? Log in',
-                      style: FkTextStyles.adultBody.copyWith(color: fk.ink),
+                      style: AppTypography.body.copyWith(color: AppColors.textPrimary),
                     ),
                   ),
                   TextButton(
@@ -155,7 +158,7 @@ class _ParentSignupScreenState extends ConsumerState<ParentSignupScreen> {
                     ),
                     child: Text(
                       'Continue without an account',
-                      style: FkTextStyles.adultCaption.copyWith(color: fk.inkSoft),
+                      style: AppTypography.caption.copyWith(color: AppColors.textSecondary),
                     ),
                   ),
                 ],
@@ -167,12 +170,12 @@ class _ParentSignupScreenState extends ConsumerState<ParentSignupScreen> {
     );
   }
 
-  InputDecoration _inputDecoration(FkTheme fk, String hint) => InputDecoration(
+  InputDecoration _inputDecoration(String hint) => InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: fk.surface,
+        fillColor: AppColors.surfaceMuted,
         border: const OutlineInputBorder(
-          borderRadius: FkRadii.mdAll,
+          borderRadius: AppRadius.mdAll,
           borderSide: BorderSide.none,
         ),
       );

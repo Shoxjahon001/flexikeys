@@ -2,8 +2,12 @@ library fk_keyboard;
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../../design_system/fk_tokens.dart';
-import '../../design_system/fk_theme.dart';
+import '../../design_system/components/keyboard/fk_keyboard_metrics.dart';
+import '../../design_system/tokens/app_colors.dart';
+import '../../design_system/tokens/app_motion.dart';
+import '../../design_system/tokens/app_radius.dart';
+import '../../design_system/tokens/app_shadows.dart';
+import '../../design_system/tokens/app_typography.dart';
 import '../../features/adaptive/adaptive_profile.dart';
 import 'keyboard_layouts.dart';
 
@@ -219,21 +223,20 @@ class _FkKeyboardState extends State<FkKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final profile = widget.profile;
     final hintLevel = profile.hintLevel[widget.targetKey] ?? 0;
 
     return AnimatedContainer(
-      duration: FkDurations.slow,
-      curve: FkCurves.standard,
-      color: fk.background,
-      padding: EdgeInsets.all(FkSpacing.xs * profile.keySpacing),
+      duration: AppMotion.slow,
+      curve: AppMotion.transition,
+      color: AppColors.background,
+      padding: EdgeInsets.all(FkKeyboardMetrics.outerPadding(profile)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: widget.layout.rows.map((row) {
           return Padding(
             padding: EdgeInsets.symmetric(
-              vertical: FkSpacing.xs / 2 * profile.keySpacing,
+              vertical: FkKeyboardMetrics.innerSpacing(profile),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -316,10 +319,10 @@ class _KeyWidgetState extends State<_KeyWidget>
     super.initState();
     _pulse = AnimationController(
       vsync: this,
-      duration: FkDurations.slow,
+      duration: AppMotion.slow,
     );
     _pulseAnim = Tween<double>(begin: 1.0, end: 1.06).animate(
-      CurvedAnimation(parent: _pulse, curve: FkCurves.gentle),
+      CurvedAnimation(parent: _pulse, curve: AppMotion.transition),
     );
     _updatePulse();
   }
@@ -351,38 +354,36 @@ class _KeyWidgetState extends State<_KeyWidget>
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final profile = widget.profile;
 
-    // Base key size
-    final baseW = 36.0 * profile.keyScale;
-    final baseH = 48.0 * profile.keyScale;
+    // Key geometry — see fk_keyboard_metrics.dart for why this stays
+    // pinned/isolated from the token system.
+    final size = FkKeyboardMetrics.keySize(
+      profile: profile,
+      keyDef: widget.keyDef,
+      isBackspace: _isBackspace,
+    );
+    final effectiveW = size.width;
+    final effectiveH = size.height;
+    final spacing = FkKeyboardMetrics.innerSpacing(profile);
+    final fontSize = FkKeyboardMetrics.keyFontSize(profile);
 
-    // Per-key scale from profile
-    final perKeyScale = _isBackspace
-        ? 1.0
-        : (profile.keyScalePerKey[widget.keyDef.value] ?? 1.0);
-
-    final keyW = baseW * widget.keyDef.widthFactor * perKeyScale;
-    final keyH = baseH * perKeyScale;
-    // Ensure child minimum 64dp when scale ≥ 1
-    final effectiveH = profile.keyScale >= 1.0 ? keyH.clamp(FkTouchTargets.child, double.infinity) : keyH;
-    final effectiveW = keyW;
-
-    final spacing = FkSpacing.xs / 2 * profile.keySpacing;
-
-    // Color logic
+    // Color logic. Note: AppColors.primary is a vivid, saturated purple —
+    // unlike the legacy fk.primary it replaces (a pale lavender that
+    // worked fine with dark ink text), so the target-key state needs a
+    // white foreground for contrast, not the shared dark default below.
     Color bg;
-    Color fg = fk.ink;
+    Color fg = AppColors.textPrimary;
     if (_isBackspace) {
-      bg = fk.surface;
+      bg = AppColors.surface;
     } else if (_isTarget && widget.hintLevel >= 1) {
-      bg = fk.primary;
+      bg = AppColors.primary;
+      fg = Colors.white;
     } else if (widget.hintLevel >= 2 && !_isTarget) {
-      bg = fk.disabled.withValues(alpha: 0.6);
-      fg = fk.inkSoft;
+      bg = AppColors.surfaceMuted.withValues(alpha: 0.6);
+      fg = AppColors.textSecondary;
     } else {
-      bg = fk.surface;
+      bg = AppColors.surface;
     }
 
     return Padding(
@@ -403,19 +404,19 @@ class _KeyWidgetState extends State<_KeyWidget>
           child: Stack(
             children: [
               AnimatedContainer(
-                duration: FkDurations.fast,
+                duration: AppMotion.fast,
                 width: effectiveW,
                 height: effectiveH,
                 decoration: BoxDecoration(
                   color: bg,
-                  borderRadius: FkRadii.smAll,
-                  boxShadow: FkElevation.low(fk.ink),
+                  borderRadius: AppRadius.mdAll, // 16dp — same value as the old FkRadii.sm it replaces
+                  boxShadow: AppShadows.soft,
                 ),
                 child: Center(
                   child: Text(
                     widget.keyDef.value,
-                    style: FkTextStyles.childLabel.copyWith(
-                      fontSize: (18 * profile.keyScale).clamp(14.0, 28.0),
+                    style: AppTypography.bodyLarge.copyWith(
+                      fontSize: fontSize,
                       color: fg,
                     ),
                   ),
@@ -425,13 +426,13 @@ class _KeyWidgetState extends State<_KeyWidget>
               if (widget.dwellProgress > 0)
                 Positioned.fill(
                   child: ClipRRect(
-                    borderRadius: FkRadii.smAll,
+                    borderRadius: AppRadius.mdAll,
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FractionallySizedBox(
                         heightFactor: widget.dwellProgress,
                         child: Container(
-                          color: fk.success.withValues(alpha: 0.35),
+                          color: AppColors.success.withValues(alpha: 0.35),
                         ),
                       ),
                     ),

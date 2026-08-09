@@ -3,7 +3,7 @@ library fk_star_burst;
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_motion.dart';
 
 /// Calm particle celebration — emits soft pastel particles outward.
 /// Disabled entirely when reducedMotion is true.
@@ -53,7 +53,7 @@ class _FkStarBurstState extends State<FkStarBurst>
   }
 
   void _play() {
-    if (!FkTheme.reducedMotion(context)) {
+    if (!AppMotion.reduced(context)) {
       _ctrl.forward(from: 0);
     }
   }

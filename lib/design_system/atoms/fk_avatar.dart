@@ -1,8 +1,9 @@
 library fk_avatar;
 
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_shadows.dart';
+import '../tokens/app_typography.dart';
 
 /// Child avatar — shows initials or an image asset inside a soft circle.
 class FkAvatar extends StatelessWidget {
@@ -28,8 +29,7 @@ class FkAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
-    final bg = backgroundColor ?? fk.primary;
+    final bg = backgroundColor ?? AppColors.primary;
 
     return Container(
       width: size,
@@ -37,7 +37,7 @@ class FkAvatar extends StatelessWidget {
       decoration: BoxDecoration(
         color: bg,
         shape: BoxShape.circle,
-        boxShadow: FkElevation.low(fk.ink),
+        boxShadow: AppShadows.soft,
       ),
       child: ClipOval(
         child: imageAsset != null
@@ -45,9 +45,14 @@ class FkAvatar extends StatelessWidget {
             : Center(
                 child: Text(
                   _initials,
-                  style: FkTextStyles.childLabel.copyWith(
+                  style: AppTypography.h3.copyWith(
                     fontSize: size * 0.35,
-                    color: fk.ink,
+                    // The default background is the vivid AppColors.primary
+                    // purple — white initials for contrast, unlike the pale
+                    // lavender this replaces which used dark ink text.
+                    color: backgroundColor == null
+                        ? Colors.white
+                        : AppColors.textPrimary,
                   ),
                 ),
               ),

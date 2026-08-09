@@ -1,10 +1,15 @@
 library fk_card;
 
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_radius.dart';
+import '../tokens/app_shadows.dart';
+import '../tokens/app_spacing.dart';
 
-/// Rounded surface card — 24dp radius, soft shadow, pastel fill.
+/// Rounded surface card — 20dp radius (AppRadius.lg), soft shadow, white
+/// fill by default. Will likely split into `FkContentCard`/`FkCategoryCard`
+/// per the component-library spec in a later phase; kept as one generic
+/// atom for now since this phase is tokens only, not new components.
 class FkCard extends StatelessWidget {
   final Widget child;
   final Color? color;
@@ -23,18 +28,28 @@ class FkCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
-    final bg = color ?? fk.surface;
-    final radius = borderRadius ?? FkRadii.mdAll;
+    final bg = color ?? AppColors.surface;
+    final radius = borderRadius ?? AppRadius.lgAll;
 
     final content = Container(
-      padding: padding ?? const EdgeInsets.all(FkSpacing.sm),
+      padding: padding ?? const EdgeInsets.all(AppSpacing.lg),
+      clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: bg,
         borderRadius: radius,
-        boxShadow: FkElevation.low(fk.ink),
+        boxShadow: AppShadows.soft,
       ),
-      child: child,
+      // FkCard paints its own background via BoxDecoration, not Material —
+      // without this, a ListTile/SwitchListTile (or anything else that
+      // paints via the nearest Material ancestor) placed inside throws a
+      // "background color or ink splashes may be invisible" framework
+      // assertion and renders without ink feedback. `transparency` keeps
+      // FkCard's own background exactly as before; only descendants that
+      // need a Material now have one to paint into.
+      child: Material(
+        type: MaterialType.transparency,
+        child: child,
+      ),
     );
 
     if (onTap == null) return content;

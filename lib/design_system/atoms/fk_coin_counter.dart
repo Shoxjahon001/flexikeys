@@ -1,8 +1,12 @@
 library fk_coin_counter;
 
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_motion.dart';
+import '../tokens/app_radius.dart';
+import '../tokens/app_shadows.dart';
+import '../tokens/app_spacing.dart';
+import '../tokens/app_typography.dart';
 
 /// Animated coin counter — increments smoothly when value changes.
 class FkCoinCounter extends StatefulWidget {
@@ -26,10 +30,10 @@ class _FkCoinCounterState extends State<FkCoinCounter>
     _displayed = widget.value;
     _bounce = AnimationController(
       vsync: this,
-      duration: FkDurations.fast,
+      duration: AppMotion.fast,
     );
     _bounceAnim = Tween<double>(begin: 1.0, end: 1.25).animate(
-      CurvedAnimation(parent: _bounce, curve: FkCurves.spring),
+      CurvedAnimation(parent: _bounce, curve: AppMotion.press),
     );
   }
 
@@ -38,7 +42,7 @@ class _FkCoinCounterState extends State<FkCoinCounter>
     super.didUpdateWidget(old);
     if (old.value != widget.value) {
       setState(() => _displayed = widget.value);
-      if (!FkTheme.reducedMotion(context)) {
+      if (!AppMotion.reduced(context)) {
         _bounce.forward(from: 0).then((_) => _bounce.reverse());
       }
     }
@@ -52,7 +56,6 @@ class _FkCoinCounterState extends State<FkCoinCounter>
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     return AnimatedBuilder(
       animation: _bounceAnim,
       builder: (context, child) => Transform.scale(
@@ -61,13 +64,13 @@ class _FkCoinCounterState extends State<FkCoinCounter>
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(
-          horizontal: FkSpacing.sm,
-          vertical: FkSpacing.xs / 2,
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.xs,
         ),
         decoration: BoxDecoration(
-          color: fk.attention,
-          borderRadius: FkRadii.pillAll,
-          boxShadow: FkElevation.low(fk.ink),
+          color: AppColors.warning,
+          borderRadius: AppRadius.pillAll,
+          boxShadow: AppShadows.soft,
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -76,7 +79,7 @@ class _FkCoinCounterState extends State<FkCoinCounter>
             const SizedBox(width: 6),
             Text(
               '$_displayed',
-              style: FkTextStyles.childLabel.copyWith(color: fk.ink),
+              style: AppTypography.h3.copyWith(color: AppColors.textPrimary),
             ),
           ],
         ),

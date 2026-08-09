@@ -3,7 +3,12 @@ library fk_button;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_motion.dart';
+import '../tokens/app_radius.dart';
+import '../tokens/app_shadows.dart';
+import '../tokens/app_spacing.dart';
+import '../tokens/app_typography.dart';
 
 enum FkButtonVariant { primary, secondary, ghost }
 enum FkButtonSize { child, adult }
@@ -42,11 +47,11 @@ class _FkButtonState extends State<FkButton>
     super.initState();
     _scale = AnimationController(
       vsync: this,
-      duration: FkDurations.fast,
+      duration: AppMotion.fast,
       value: 1.0,
     );
     _scaleAnim = Tween<double>(begin: 1.0, end: 0.97).animate(
-      CurvedAnimation(parent: _scale, curve: FkCurves.standard),
+      CurvedAnimation(parent: _scale, curve: AppMotion.press),
     );
   }
 
@@ -73,13 +78,12 @@ class _FkButtonState extends State<FkButton>
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final isChild = widget.size == FkButtonSize.child;
     final disabled = widget.onPressed == null || widget.loading;
 
     final minH = isChild ? FkTouchTargets.child : FkTouchTargets.adult;
-    final hPad = isChild ? FkSpacing.md : FkSpacing.sm;
-    final style = isChild ? FkTextStyles.childLabel : FkTextStyles.adultLabel;
+    final hPad = isChild ? AppSpacing.xxl : AppSpacing.lg;
+    final style = isChild ? AppTypography.h3 : AppTypography.bodyLarge;
 
     Color bg;
     Color fg;
@@ -87,18 +91,22 @@ class _FkButtonState extends State<FkButton>
 
     switch (widget.variant) {
       case FkButtonVariant.primary:
-        bg = disabled ? fk.disabled : fk.primary;
-        fg = disabled ? fk.inkSoft : fk.ink;
+        // AppColors.primary is a vivid, saturated purple (unlike the pale
+        // lavender it replaces), so the enabled label needs to be white
+        // for contrast, not the shared dark-ink default.
+        bg = disabled ? AppColors.border : AppColors.primary;
+        fg = disabled ? AppColors.textTertiary : Colors.white;
       case FkButtonVariant.secondary:
-        bg = disabled ? fk.disabled : fk.surface;
-        fg = disabled ? fk.inkSoft : fk.ink;
-        border = Border.all(color: disabled ? fk.disabled : fk.primary, width: 2);
+        bg = disabled ? AppColors.border : AppColors.surface;
+        fg = disabled ? AppColors.textTertiary : AppColors.textPrimary;
+        border = Border.all(
+            color: disabled ? AppColors.border : AppColors.primary, width: 2);
       case FkButtonVariant.ghost:
-        bg = FkColors.cloud.withValues(alpha: 0);
-        fg = disabled ? fk.inkSoft : fk.ink;
+        bg = Colors.transparent;
+        fg = disabled ? AppColors.textTertiary : AppColors.textPrimary;
     }
 
-    final reduced = FkTheme.reducedMotion(context);
+    final reduced = AppMotion.reduced(context);
 
     return GestureDetector(
       onTapDown: disabled ? null : _onTapDown,
@@ -111,16 +119,16 @@ class _FkButtonState extends State<FkButton>
           child: child,
         ),
         child: AnimatedContainer(
-          duration: FkDurations.fast,
+          duration: AppMotion.fast,
           constraints: BoxConstraints(minHeight: minH),
-          padding: EdgeInsets.symmetric(horizontal: hPad, vertical: FkSpacing.xs),
+          padding: EdgeInsets.symmetric(horizontal: hPad, vertical: AppSpacing.sm),
           decoration: BoxDecoration(
             color: bg,
-            borderRadius: FkRadii.pillAll,
+            borderRadius: AppRadius.pillAll,
             border: border,
             boxShadow: disabled || widget.variant == FkButtonVariant.ghost
                 ? null
-                : FkElevation.low(fk.ink),
+                : AppShadows.soft,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

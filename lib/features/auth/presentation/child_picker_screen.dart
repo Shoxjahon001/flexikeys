@@ -27,24 +27,23 @@ class ChildPickerScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final fk = FkTheme.of(context);
     final state = ref.watch(authControllerProvider);
 
     return Scaffold(
-      backgroundColor: fk.background,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(FkSpacing.lg),
+          padding: const EdgeInsets.all(AppSpacing.xxxl),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Who is playing today?', style: FkTextStyles.childHeadline),
-              const SizedBox(height: FkSpacing.md),
+              const Text('Who is playing today?', style: AppTypography.h1),
+              const SizedBox(height: AppSpacing.xxl),
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  mainAxisSpacing: FkSpacing.md,
-                  crossAxisSpacing: FkSpacing.md,
+                  mainAxisSpacing: AppSpacing.xxl,
+                  crossAxisSpacing: AppSpacing.xxl,
                   children: [
                     for (final child in state.children)
                       _ChildTile(
@@ -71,17 +70,16 @@ class _ChildTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     return FkCard(
       onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           FkAvatar(name: child.displayName, size: 72),
-          const SizedBox(height: FkSpacing.xs),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             child.displayName,
-            style: FkTextStyles.childLabel.copyWith(color: fk.ink),
+            style: AppTypography.h2,
             textAlign: TextAlign.center,
           ),
         ],
@@ -97,16 +95,15 @@ class _AddChildTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     return FkCard(
       onTap: onTap,
-      color: fk.surface.withValues(alpha: 0.6),
-      child: Column(
+      color: AppColors.surface.withValues(alpha: 0.6),
+      child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.add_circle_rounded, size: 56, color: fk.primary),
-          const SizedBox(height: FkSpacing.xs),
-          Text('Add child', style: FkTextStyles.childLabel.copyWith(color: fk.ink)),
+          Icon(Icons.add_circle_rounded, size: 56, color: AppColors.primary),
+          SizedBox(height: AppSpacing.sm),
+          Text('Add child', style: AppTypography.h2),
         ],
       ),
     );

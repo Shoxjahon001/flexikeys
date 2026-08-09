@@ -2,8 +2,11 @@ library fk_progress_path;
 
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_motion.dart';
+import '../tokens/app_shadows.dart';
+import '../tokens/app_spacing.dart';
+import '../tokens/app_typography.dart';
 
 enum FkLevelNodeState { locked, active, mastered }
 
@@ -38,8 +41,8 @@ class FkProgressPath extends StatelessWidget {
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(
-          horizontal: FkSpacing.sm,
-          vertical: FkSpacing.sm,
+          horizontal: AppSpacing.lg,
+          vertical: AppSpacing.lg,
         ),
         itemCount: levels.length,
         separatorBuilder: (_, i) => _PathConnector(
@@ -66,13 +69,12 @@ class _PathConnector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
     final done = leftState == FkLevelNodeState.mastered;
     return SizedBox(
       width: 40,
       child: CustomPaint(
         painter: _ConnectorPainter(
-          color: done ? fk.success : fk.disabled,
+          color: done ? AppColors.success : AppColors.border,
         ),
       ),
     );
@@ -129,7 +131,7 @@ class _LevelNodeWidgetState extends State<_LevelNodeWidget>
       duration: const Duration(seconds: 2),
     );
     _waveAnim = Tween<double>(begin: -3, end: 3).animate(
-      CurvedAnimation(parent: _wave, curve: FkCurves.gentle),
+      CurvedAnimation(parent: _wave, curve: AppMotion.transition),
     );
     if (widget.node.state == FkLevelNodeState.active) {
       _wave.repeat(reverse: true);
@@ -144,20 +146,19 @@ class _LevelNodeWidgetState extends State<_LevelNodeWidget>
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
-    final reduced = FkTheme.reducedMotion(context);
+    final reduced = AppMotion.reduced(context);
 
     Color bg;
     String glyph;
     switch (widget.node.state) {
       case FkLevelNodeState.locked:
-        bg = fk.disabled;
+        bg = AppColors.border;
         glyph = '😴';
       case FkLevelNodeState.active:
-        bg = fk.primary;
+        bg = AppColors.primary;
         glyph = '👋';
       case FkLevelNodeState.mastered:
-        bg = fk.success;
+        bg = AppColors.success;
         glyph = '⭐';
     }
 
@@ -183,7 +184,7 @@ class _LevelNodeWidgetState extends State<_LevelNodeWidget>
               decoration: BoxDecoration(
                 color: bg,
                 shape: BoxShape.circle,
-                boxShadow: FkElevation.low(fk.ink),
+                boxShadow: AppShadows.soft,
               ),
               child: Center(
                 child: Text(glyph, style: const TextStyle(fontSize: 28)),
@@ -192,7 +193,7 @@ class _LevelNodeWidgetState extends State<_LevelNodeWidget>
             const SizedBox(height: 6),
             Text(
               widget.node.label,
-              style: FkTextStyles.adultCaption.copyWith(color: fk.ink),
+              style: AppTypography.caption.copyWith(color: AppColors.textPrimary),
               textAlign: TextAlign.center,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

@@ -1,8 +1,11 @@
 library fk_parent_gate;
 
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../../l10n/app_localizations.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_radius.dart';
+import '../tokens/app_spacing.dart';
+import '../tokens/app_typography.dart';
 import 'fk_button.dart';
 import 'fk_card.dart';
 
@@ -59,51 +62,56 @@ class _FkParentGateState extends State<FkParentGate> {
   @override
   Widget build(BuildContext context) {
     if (!_locked) return widget.child;
-    final fk = FkTheme.of(context);
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: fk.background,
+      backgroundColor: AppColors.background,
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(FkSpacing.lg),
+          padding: const EdgeInsets.all(AppSpacing.xxxl),
           child: FkCard(
-            padding: const EdgeInsets.all(FkSpacing.md),
+            padding: const EdgeInsets.all(AppSpacing.xxl),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Parent Area',
-                  style: FkTextStyles.adultHeadline.copyWith(color: fk.ink),
+                  t.parentAreaTitle,
+                  style: AppTypography.h2,
                 ),
-                const SizedBox(height: FkSpacing.sm),
-                const Text(
-                  'Solve to continue:',
-                  style: FkTextStyles.adultBody,
+                const SizedBox(height: AppSpacing.lg),
+                Text(
+                  t.parentGateInstruction,
+                  style: AppTypography.body,
                 ),
-                const SizedBox(height: FkSpacing.sm),
+                const SizedBox(height: AppSpacing.lg),
                 Text(
                   '$_a × $_b = ?',
-                  style: FkTextStyles.childLabel.copyWith(color: fk.ink),
+                  style: AppTypography.h1,
                 ),
-                const SizedBox(height: FkSpacing.sm),
+                const SizedBox(height: AppSpacing.lg),
                 if (_error)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: FkSpacing.xs),
+                    padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                     child: Text(
-                      'Try again',
-                      style: FkTextStyles.adultCaption
-                          .copyWith(color: fk.attention),
+                      t.parentGateWrongAnswer,
+                      // This is the adult parent-gate screen, not
+                      // child-facing failure framing — CLAUDE.md's "never
+                      // red for children" rule doesn't apply here, so a
+                      // real error color (danger) is more correct than
+                      // reusing the gentle child-facing "warning" tone.
+                      style: AppTypography.caption
+                          .copyWith(color: AppColors.danger),
                     ),
                   ),
                 TextField(
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
-                    hintText: 'Your answer',
+                    hintText: t.yourAnswerHint,
                     filled: true,
-                    fillColor: fk.surface,
+                    fillColor: AppColors.surfaceMuted,
                     border: const OutlineInputBorder(
-                      borderRadius: FkRadii.mdAll,
+                      borderRadius: AppRadius.mdAll,
                       borderSide: BorderSide.none,
                     ),
                   ),
@@ -113,9 +121,9 @@ class _FkParentGateState extends State<FkParentGate> {
                     _error = false;
                   }),
                 ),
-                const SizedBox(height: FkSpacing.sm),
+                const SizedBox(height: AppSpacing.lg),
                 FkButton(
-                  label: 'Continue',
+                  label: t.continueButton,
                   size: FkButtonSize.adult,
                   onPressed: _answer.isNotEmpty ? () => _verify(_answer) : null,
                 ),

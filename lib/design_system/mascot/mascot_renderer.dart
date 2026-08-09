@@ -3,7 +3,7 @@ library mascot_renderer;
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_motion.dart';
 
 /// Mascot expression states.
 enum FkExpression {
@@ -63,7 +63,7 @@ class _MascotRendererState extends State<MascotRenderer>
 
   @override
   Widget build(BuildContext context) {
-    final reduced = FkTheme.reducedMotion(context);
+    final reduced = AppMotion.reduced(context);
     return AnimatedBuilder(
       animation: _floatAnim,
       builder: (context, child) => Transform.translate(

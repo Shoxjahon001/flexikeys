@@ -1,5 +1,6 @@
 library fk_router;
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../screens/splash_screen.dart';
@@ -7,6 +8,7 @@ import '../screens/language_screen.dart';
 import '../screens/register_screen.dart';
 import '../screens/welcome_screen.dart';
 import '../screens/main_shell.dart';
+import '../screens/dev/design_gallery_screen.dart';
 import '../screens/game/letters_stage1_screen.dart';
 import '../screens/game/letters_stage2_screen.dart';
 import '../screens/game/generic_game_screen.dart';
@@ -77,6 +79,13 @@ GoRouter buildRouter({required bool startRegistered}) {
         path: '/letter_drawing_game',
         pageBuilder: (context, state) => _slide(state, const LetterDrawingScreen()),
       ),
+      // Dev-only visual QA surface (light/dark component preview) — never
+      // registered in release builds, and not linked from any in-app nav.
+      if (kDebugMode)
+        GoRoute(
+          path: '/design-gallery',
+          pageBuilder: (context, state) => _fade(state, const DesignGalleryScreen()),
+        ),
     ],
   );
 }

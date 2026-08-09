@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 ///
 /// This file holds two palettes side by side:
 /// - The **legacy** raw colors + semantic aliases (unchanged) — consumed
-///   directly by lib/features/{parent,teacher,rewards,lesson,drawing}/** and
-///   by [FkTheme]'s defaults (which the 3 auth screens and fk_keyboard.dart
-///   depend on). Do not repoint these.
+///   directly by lib/features/{parent,teacher,rewards,lesson,drawing}/**.
+///   The 3 auth screens and fk_keyboard.dart no longer depend on these —
+///   they moved to the token system in lib/design_system/tokens/ (see
+///   [AppColors] and friends) when `FkTheme` was retired. Do not repoint
+///   these legacy aliases; they still back the screens listed above.
 /// - The **redesign** palette (2026 visual refresh) — punchy, saturated
 ///   brand colors over soft surfaces, matching docs/CLAUDE.md's Design
 ///   System section. New/redesigned screens should use [FkPlayTheme]

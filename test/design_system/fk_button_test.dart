@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flexikeys/design_system/design_system.dart';
+import 'package:flexikeys/l10n/app_localizations.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      theme: FkTheme.themeData(),
+      theme: FlexiKeysTheme.light(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(body: Center(child: child)),
     );
 

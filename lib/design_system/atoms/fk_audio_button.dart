@@ -1,8 +1,9 @@
 library fk_audio_button;
 
 import 'package:flutter/material.dart';
-import '../fk_tokens.dart';
-import '../fk_theme.dart';
+import '../tokens/app_colors.dart';
+import '../tokens/app_motion.dart';
+import '../tokens/app_shadows.dart';
 
 /// Replay-pronunciation button. Pulses when audio is playing.
 class FkAudioButton extends StatefulWidget {
@@ -31,10 +32,10 @@ class _FkAudioButtonState extends State<FkAudioButton>
     super.initState();
     _pulse = AnimationController(
       vsync: this,
-      duration: FkDurations.normal,
+      duration: AppMotion.base,
     )..repeat(reverse: true);
     _pulseAnim = Tween<double>(begin: 1.0, end: 1.12).animate(
-      CurvedAnimation(parent: _pulse, curve: FkCurves.gentle),
+      CurvedAnimation(parent: _pulse, curve: AppMotion.transition),
     );
   }
 
@@ -46,8 +47,7 @@ class _FkAudioButtonState extends State<FkAudioButton>
 
   @override
   Widget build(BuildContext context) {
-    final fk = FkTheme.of(context);
-    final reduced = FkTheme.reducedMotion(context);
+    final reduced = AppMotion.reduced(context);
 
     return GestureDetector(
       onTap: widget.onPressed,
@@ -61,13 +61,15 @@ class _FkAudioButtonState extends State<FkAudioButton>
           width: widget.size,
           height: widget.size,
           decoration: BoxDecoration(
-            color: fk.primary,
+            color: AppColors.primary,
             shape: BoxShape.circle,
-            boxShadow: FkElevation.low(fk.ink),
+            boxShadow: AppShadows.soft,
           ),
+          // AppColors.primary is a vivid purple — white icon for contrast,
+          // unlike the pale lavender this replaces which used dark ink.
           child: Icon(
             widget.playing ? Icons.volume_up_rounded : Icons.play_arrow_rounded,
-            color: fk.ink,
+            color: Colors.white,
             size: widget.size * 0.5,
           ),
         ),

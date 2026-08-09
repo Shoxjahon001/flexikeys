@@ -4,9 +4,12 @@ import 'package:flexikeys/design_system/design_system.dart';
 import 'package:flexikeys/features/keyboard/fk_keyboard.dart';
 import 'package:flexikeys/features/keyboard/keyboard_layouts.dart';
 import 'package:flexikeys/features/adaptive/adaptive_profile.dart';
+import 'package:flexikeys/l10n/app_localizations.dart';
 
 Widget _wrap(Widget child) => MaterialApp(
-      theme: FkTheme.themeData(),
+      theme: FlexiKeysTheme.light(),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(body: child),
     );
 
@@ -55,7 +58,8 @@ void main() {
       expect(record!.rejectedByDwell, isFalse);
     });
 
-    testWidgets('debounce rejects rapid repeat tap on same key', (tester) async {
+    testWidgets('debounce rejects rapid repeat tap on same key',
+        (tester) async {
       final records = <KeystrokeRecord>[];
       await tester.pumpWidget(_wrap(FkKeyboard(
         layout: enLayout,
@@ -83,7 +87,8 @@ void main() {
   });
 
   group('FkKeyboard — dwell filter', () {
-    testWidgets('short tap (< dwell) creates accidental record', (tester) async {
+    testWidgets('short tap (< dwell) creates accidental record',
+        (tester) async {
       final records = <KeystrokeRecord>[];
       await tester.pumpWidget(_wrap(FkKeyboard(
         layout: enLayout,
@@ -138,7 +143,8 @@ void main() {
       expect(find.text('a'), findsOneWidget);
     });
 
-    testWidgets('hint level 1 — target key widget still exists', (tester) async {
+    testWidgets('hint level 1 — target key widget still exists',
+        (tester) async {
       await tester.pumpWidget(_wrap(FkKeyboard(
         layout: enLayout,
         profile: _profile(hintLevel: {'a': 1}),
@@ -163,7 +169,8 @@ void main() {
       );
     });
 
-    testWidgets('golden: max-adapted profile (keyScale 1.6, hintLevel 3)', (tester) async {
+    testWidgets('golden: max-adapted profile (keyScale 1.6, hintLevel 3)',
+        (tester) async {
       const maxProfile = AdaptationProfile(
         keyScale: 1.6,
         keySpacing: 1.5,
@@ -202,7 +209,9 @@ void main() {
       var profile = initialProfile;
 
       await tester.pumpWidget(MaterialApp(
-        theme: FkTheme.themeData(),
+        theme: FlexiKeysTheme.light(),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
         home: Scaffold(
           body: StatefulBuilder(
             builder: (context, s) {
