@@ -2,12 +2,34 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/level_configs.dart';
+import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
 import '../../services/progress/progress_repository.dart';
+
+/// [LevelConfig.instruction] can't be a localized string on a `const`
+/// config (no `BuildContext` at compile time), so the mascot instruction is
+/// derived from the stable `LevelConfig.id` at render time instead.
+String _instructionFor(BuildContext context, String configId) {
+  final t = AppLocalizations.of(context)!;
+  switch (configId) {
+    case 'numbers':
+      return t.spellThisNumber;
+    case 'colors':
+      return t.spellThisColor;
+    case 'fruits':
+      return t.spellThisFruit;
+    case 'animals':
+      return t.spellThisAnimal;
+    case 'food':
+      return t.spellThisFood;
+    default:
+      return '';
+  }
+}
 
 class GenericGameScreen extends StatefulWidget {
   const GenericGameScreen({super.key});
@@ -163,7 +185,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     await UserService.addStars(cfg.starsReward);
     await UserService.completeLevel(cfg.id);
     await UserService.addTimeSpent(5);
-    ProgressRepository.instance.recordLevelCompleteAndSync(cfg.id, stars: cfg.starsReward);
+    ProgressRepository.instance
+        .recordLevelCompleteAndSync(cfg.id, stars: cfg.starsReward);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete',
         arguments: {'starsEarned': cfg.starsReward});
@@ -256,8 +279,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
           value: (_current + 1) / _questions.length,
           minHeight: 8,
           backgroundColor: Colors.white.withValues(alpha: 0.5),
-          valueColor:
-              const AlwaysStoppedAnimation<Color>(AppTheme.primary),
+          valueColor: const AlwaysStoppedAnimation<Color>(AppTheme.primary),
         ),
       ),
     );
@@ -283,8 +305,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
           const SizedBox(width: 12),
           Expanded(
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.only(
@@ -302,7 +323,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
                 ],
               ),
               child: Text(
-                _config!.instruction,
+                _instructionFor(context, _config!.id),
                 style: GoogleFonts.nunito(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -322,8 +343,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         width: double.infinity,
-        padding:
-            const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(24),
@@ -337,29 +357,35 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                _buildHint(item),
-                const SizedBox(width: 12),
-                GestureDetector(
-                  onTap: () => TtsService.instance.speak(item.word),
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.volume_up_rounded,
-                      color: AppTheme.primary,
-                      size: 24,
+            // Wrapped in FittedBox so the enlarged hint (swatch/digit/emoji)
+            // can never overflow on a narrow screen — it only ever scales
+            // down, never up past its natural size.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _buildHint(item),
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () => TtsService.instance.speak(item.word),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: AppTheme.primary.withValues(alpha: 0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.volume_up_rounded,
+                        color: AppTheme.primary,
+                        size: 24,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 18),
             _buildWordBoxes(item.word),
@@ -373,12 +399,12 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     // ── Color swatch ──
     if (item.tileColor != null) {
       return Container(
-        width: 88,
-        height: 60,
+        width: 124,
+        height: 88,
         decoration: BoxDecoration(
           color: item.tileColor,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white, width: 3),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.white, width: 4),
           boxShadow: [
             BoxShadow(
               color: item.tileColor!.withValues(alpha: 0.4),
@@ -393,11 +419,11 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     final isDigit = item.display.codeUnits.every((c) => c >= 48 && c <= 57);
     if (isDigit) {
       return Container(
-        width: 88,
-        height: 80,
+        width: 124,
+        height: 112,
         decoration: BoxDecoration(
           color: AppTheme.primary,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
               color: AppTheme.primary.withValues(alpha: 0.35),
@@ -410,7 +436,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
           child: Text(
             item.display,
             style: GoogleFonts.nunito(
-              fontSize: item.display.length == 1 ? 44 : 32,
+              fontSize: item.display.length == 1 ? 62 : 46,
               fontWeight: FontWeight.w900,
               color: Colors.white,
             ),
@@ -419,7 +445,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       );
     }
     // ── Emoji ──
-    return Text(item.display, style: const TextStyle(fontSize: 64));
+    return Text(item.display, style: const TextStyle(fontSize: 92));
   }
 
   Widget _buildWordBoxes(String word) {
@@ -473,10 +499,14 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   // ─── Letter grid ───────────────────────────────────────────────────────────
 
   // Layout adapts to tile count so larger grids still look clean on screen.
-  int    get _crossAxisCount  => _grid.length <= 6 ? 3 : (_grid.length <= 8 ? 4 : 5);
-  double get _gridSidePad     => _grid.length <= 6 ? 32.0 : (_grid.length <= 8 ? 20.0 : 12.0);
-  double get _gridItemSpacing => _grid.length <= 6 ? 14.0 : (_grid.length <= 8 ? 10.0 : 8.0);
-  double get _tileFontSize    => _grid.length <= 6 ? 30.0 : (_grid.length <= 8 ? 24.0 : 20.0);
+  int get _crossAxisCount =>
+      _grid.length <= 6 ? 3 : (_grid.length <= 8 ? 4 : 5);
+  double get _gridSidePad =>
+      _grid.length <= 6 ? 32.0 : (_grid.length <= 8 ? 20.0 : 12.0);
+  double get _gridItemSpacing =>
+      _grid.length <= 6 ? 14.0 : (_grid.length <= 8 ? 10.0 : 8.0);
+  double get _tileFontSize =>
+      _grid.length <= 6 ? 30.0 : (_grid.length <= 8 ? 24.0 : 20.0);
 
   Widget _buildLetterGrid() {
     final spacing = _gridItemSpacing;
@@ -501,9 +531,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     final usedUp = _isUsedUp(letter);
     final isWrong = _flashWrong == letter;
     // Subtle blue tint on the tile that matches the next required letter.
-    final isTarget = !usedUp &&
-        _letterIndex < _word.length &&
-        letter == _word[_letterIndex];
+    final isTarget =
+        !usedUp && _letterIndex < _word.length && letter == _word[_letterIndex];
 
     final Color bg;
     final Color border;

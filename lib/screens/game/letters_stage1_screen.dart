@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
@@ -19,7 +20,21 @@ class LettersStage1Screen extends StatefulWidget {
 class _LettersStage1ScreenState extends State<LettersStage1Screen>
     with TickerProviderStateMixin {
   static const _letters = [
-    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O'
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O'
   ];
 
   int _current = 0;
@@ -146,12 +161,15 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
     await UserService.addTimeSpent(5);
     // Mirrors UserService.setLettersStage(1): completes both 'letters_1' and
     // the umbrella 'letters' level.
-    ProgressRepository.instance.recordLevelCompleteAndSync('letters_1', stars: 10);
-    ProgressRepository.instance.recordLevelCompleteAndSync('letters', stars: 10);
+    ProgressRepository.instance
+        .recordLevelCompleteAndSync('letters_1', stars: 10);
+    ProgressRepository.instance
+        .recordLevelCompleteAndSync('letters', stars: 10);
     if (!mounted) return;
+    final title = AppLocalizations.of(context)!.correctFeedback;
     Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
       'starsEarned': 10,
-      'title': 'You did it!',
+      'title': title,
     });
   }
 
@@ -209,7 +227,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
           ),
           const SizedBox(width: 12),
           Text(
-            _isRetryPhase ? 'Try Again!' : 'Letters',
+            _isRetryPhase
+                ? AppLocalizations.of(context)!.tryAgainHeader
+                : 'Letters',
             style: GoogleFonts.nunito(
               fontSize: 20,
               fontWeight: FontWeight.w800,
@@ -286,7 +306,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                 ],
               ),
               child: Text(
-                _isRetryPhase ? "Let's try again!" : 'Find and tap\nthis letter',
+                _isRetryPhase
+                    ? AppLocalizations.of(context)!.retryMascotMessage
+                    : AppLocalizations.of(context)!.findAndTapInstruction,
                 style: GoogleFonts.nunito(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -319,54 +341,60 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ScaleTransition(
-                  scale: _correctScale,
-                  child: Container(
-                    width: 72,
-                    height: 72,
-                    decoration: BoxDecoration(
-                      color: _isRetryPhase
-                          ? const Color(0xFFFF9800)
-                          : AppTheme.primary,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Center(
-                      child: Text(
-                        target,
-                        style: GoogleFonts.nunito(
-                          fontSize: 42,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
+            // Wrapped in FittedBox so the enlarged target box can never
+            // overflow on a narrow screen — it only ever scales down, never
+            // up past its natural size.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ScaleTransition(
+                    scale: _correctScale,
+                    child: Container(
+                      width: 108,
+                      height: 108,
+                      decoration: BoxDecoration(
+                        color: _isRetryPhase
+                            ? const Color(0xFFFF9800)
+                            : AppTheme.primary,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Center(
+                        child: Text(
+                          target,
+                          style: GoogleFonts.nunito(
+                            fontSize: 64,
+                            fontWeight: FontWeight.w900,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 12),
-                GestureDetector(
-                  onTap: () => TtsService.instance.speak(target),
-                  child: Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppTheme.primary.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    child: const Icon(
-                      Icons.volume_up_rounded,
-                      color: AppTheme.primary,
-                      size: 24,
+                  const SizedBox(width: 12),
+                  GestureDetector(
+                    onTap: () => TtsService.instance.speak(target),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: AppTheme.primary.withValues(alpha: 0.12),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.volume_up_rounded,
+                        color: AppTheme.primary,
+                        size: 24,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 12),
             Text(
-              'Find and tap this letter',
+              AppLocalizations.of(context)!.findAndTapCaption,
               style: GoogleFonts.nunito(
                 fontSize: 15,
                 fontWeight: FontWeight.w600,
