@@ -27,7 +27,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>FlexiKeys uses audio for text-to-speech learning activities.</string>
+	<string>FlexiKeys lets parents record their own voice for a custom "My Voice" communication card.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>FlexiKeys lets parents add a photo (like a family member or favorite toy) to a custom "My Voice" communication card.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>FlexiKeys lets parents take a photo to add to a custom "My Voice" communication card.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

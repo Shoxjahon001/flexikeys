@@ -1,5 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- image_picker: taking a photo for a custom "My Voice" card. Gallery
+         picking itself needs no runtime permission on API 33+ (system photo
+         picker) or on older versions via image_picker's own manifest entries. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <!-- record: parent recording their own voice for a custom "My Voice" card. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <application
         android:label="flexikeys"
         android:name="${applicationName}"
