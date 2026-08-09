@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/tts_service.dart';
@@ -23,11 +24,13 @@ class _GoodJobScreenState extends State<GoodJobScreen>
     super.initState();
     _ctrl = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 700));
-    _scaleAnim = Tween<double>(begin: 0.5, end: 1.0).animate(
-        CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
+    _scaleAnim = Tween<double>(begin: 0.5, end: 1.0)
+        .animate(CurvedAnimation(parent: _ctrl, curve: Curves.elasticOut));
     _ctrl.forward();
     Future.delayed(const Duration(milliseconds: 300), () {
-      if (mounted) TtsService.instance.speakFunny(PraiseCopy.midLevelCheckpoint);
+      if (mounted) {
+        TtsService.instance.speakFunny(PraiseCopy.midLevelCheckpoint(context));
+      }
     });
   }
 
@@ -60,7 +63,7 @@ class _GoodJobScreenState extends State<GoodJobScreen>
             children: [
               const SizedBox(height: 48),
               Text(
-                'Good job!',
+                AppLocalizations.of(context)!.goodJobHeadline,
                 style: GoogleFonts.nunito(
                   fontSize: 44,
                   fontWeight: FontWeight.w900,
@@ -89,7 +92,7 @@ class _GoodJobScreenState extends State<GoodJobScreen>
                     ),
                     child: Center(
                       child: Text(
-                        'continue',
+                        AppLocalizations.of(context)!.continueButton,
                         style: GoogleFonts.nunito(
                           fontSize: 28,
                           fontWeight: FontWeight.w900,

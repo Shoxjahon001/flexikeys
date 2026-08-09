@@ -1,0 +1,170 @@
+{
+  "category": "needs",
+  "cards": [
+    {
+      "id": "ne_water",
+      "kind": "direct",
+      "difficulty_tier": 1,
+      "label": {"en": "Water", "uz": "Suv", "ru": "Вода"},
+      "sentence_template": {
+        "en": "I want water.",
+        "uz": "Men suv xohlayman.",
+        "ru": "Я хочу воды."
+      },
+      "animation_asset": "shared/aac/animations/ne_water.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_water.mp3",
+        "uz": "shared/aac/audio/uz/ne_water.mp3",
+        "ru": "shared/aac/audio/ru/ne_water.mp3"
+      }
+    },
+    {
+      "id": "ne_help",
+      "kind": "direct",
+      "difficulty_tier": 1,
+      "label": {"en": "Help", "uz": "Yordam", "ru": "Помощь"},
+      "sentence_template": {
+        "en": "I need help.",
+        "uz": "Menga yordam kerak.",
+        "ru": "Мне нужна помощь."
+      },
+      "animation_asset": "shared/aac/animations/ne_help.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_help.mp3",
+        "uz": "shared/aac/audio/uz/ne_help.mp3",
+        "ru": "shared/aac/audio/ru/ne_help.mp3"
+      }
+    },
+    {
+      "id": "ne_food",
+      "kind": "branch",
+      "difficulty_tier": 2,
+      "label": {"en": "Food", "uz": "Ovqat", "ru": "Еда"},
+      "sentence_template": {
+        "en": "I want {noun}.",
+        "uz": "Men {noun} xohlayman.",
+        "ru": "Я хочу {noun}."
+      },
+      "animation_asset": "shared/aac/animations/ne_food.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_food.mp3",
+        "uz": "shared/aac/audio/uz/ne_food.mp3",
+        "ru": "shared/aac/audio/ru/ne_food.mp3"
+      },
+      "fringe_options": [
+        {
+          "id": "ne_food_apple",
+          "label": {"en": "Apple", "uz": "Olma", "ru": "Яблоко"},
+          "fill_value": {"en": "apple", "uz": "olma", "ru": "яблоко"},
+          "animation_asset": "shared/aac/animations/ne_food_apple.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/ne_food_apple.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_apple.mp3",
+            "ru": "shared/aac/audio/ru/ne_food_apple.mp3"
+          }
+        },
+        {
+          "id": "ne_food_banana",
+          "label": {"en": "Banana", "uz": "Banan", "ru": "Банан"},
+          "fill_value": {"en": "banana", "uz": "banan", "ru": "банан"},
+          "animation_asset": "shared/aac/animations/ne_food_banana.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/ne_food_banana.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_banana.mp3",
+            "ru": "shared/aac/audio/ru/ne_food_banana.mp3"
+          }
+        },
+        {
+          "id": "ne_food_bread",
+          "label": {"en": "Bread", "uz": "Non", "ru": "Хлеб"},
+          "fill_value": {"en": "bread", "uz": "non", "ru": "хлеб"},
+          "animation_asset": "shared/aac/animations/ne_food_bread.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/ne_food_bread.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_bread.mp3",
+            "ru": "shared/aac/audio/ru/ne_food_bread.mp3"
+          }
+        },
+        {
+          "id": "ne_food_rice",
+          "label": {"en": "Rice", "uz": "Guruch", "ru": "Рис"},
+          "fill_value": {"en": "rice", "uz": "guruch", "ru": "рис"},
+          "animation_asset": "shared/aac/animations/ne_food_rice.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/ne_food_rice.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_rice.mp3",
+            "ru": "shared/aac/audio/ru/ne_food_rice.mp3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ne_hug",
+      "kind": "direct",
+      "difficulty_tier": 2,
+      "label": {"en": "Hug", "uz": "Quchoq", "ru": "Объятия"},
+      "sentence_template": {
+        "en": "I want a hug.",
+        "uz": "Men quchoqlanishni xohlayman.",
+        "ru": "Обними меня."
+      },
+      "animation_asset": "shared/aac/animations/ne_hug.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_hug.mp3",
+        "uz": "shared/aac/audio/uz/ne_hug.mp3",
+        "ru": "shared/aac/audio/ru/ne_hug.mp3"
+      }
+    },
+    {
+      "id": "ne_blanket",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Blanket", "uz": "Ko'rpa", "ru": "Одеяло"},
+      "sentence_template": {
+        "en": "I want my blanket.",
+        "uz": "Menga ko'rpa kerak.",
+        "ru": "Мне нужно одеяло."
+      },
+      "animation_asset": "shared/aac/animations/ne_blanket.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_blanket.mp3",
+        "uz": "shared/aac/audio/uz/ne_blanket.mp3",
+        "ru": "shared/aac/audio/ru/ne_blanket.mp3"
+      }
+    },
+    {
+      "id": "ne_medicine",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Medicine", "uz": "Dori", "ru": "Лекарство"},
+      "sentence_template": {
+        "en": "I need my medicine.",
+        "uz": "Menga dori kerak.",
+        "ru": "Мне нужно лекарство."
+      },
+      "animation_asset": "shared/aac/animations/ne_medicine.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_medicine.mp3",
+        "uz": "shared/aac/audio/uz/ne_medicine.mp3",
+        "ru": "shared/aac/audio/ru/ne_medicine.mp3"
+      }
+    },
+    {
+      "id": "ne_break",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Break", "uz": "Dam olish", "ru": "Перерыв"},
+      "sentence_template": {
+        "en": "I need a break.",
+        "uz": "Menga dam olish kerak.",
+        "ru": "Мне нужен перерыв."
+      },
+      "animation_asset": "shared/aac/animations/ne_break.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/ne_break.mp3",
+        "uz": "shared/aac/audio/uz/ne_break.mp3",
+        "ru": "shared/aac/audio/ru/ne_break.mp3"
+      }
+    }
+  ]
+}

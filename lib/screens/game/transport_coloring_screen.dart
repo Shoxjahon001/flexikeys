@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/coloring_items/transport_coloring_data.dart';
+import '../../l10n/app_localizations.dart';
 import 'coloring_screen.dart';
 
 class TransportColoringScreen extends StatelessWidget {
@@ -7,12 +8,12 @@ class TransportColoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Transport · bo\'yash',
+      title: 'Transport · ${t.coloringSuffix}',
       items: kTransportColoringItems,
       levelSlug: 'transport_color',
-      instructionNoun: 'transportni',
-      completionTitle: 'All transport colored!',
+      completionTitle: t.completionAllTransportColored,
     );
   }
 }

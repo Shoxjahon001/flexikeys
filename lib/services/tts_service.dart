@@ -13,12 +13,12 @@ class TtsService {
   TtsService._();
   static final TtsService instance = TtsService._();
 
-  final _player   = AudioPlayer();
+  final _player = AudioPlayer();
   Directory? _cacheDir;
-  bool   _ready       = false;
-  bool   _initializing = false;
-  double _volume      = 1.0;
-  int    _playId      = 0; // cancels stale plays when a new one is requested
+  bool _ready = false;
+  bool _initializing = false;
+  double _volume = 1.0;
+  int _playId = 0; // cancels stale plays when a new one is requested
 
   // ── Init ───────────────────────────────────────────────────────────────────
 
@@ -65,25 +65,35 @@ class TtsService {
   // ── Public API ─────────────────────────────────────────────────────────────
 
   /// Speak a word or sentence at a natural reading pace.
-  Future<void> speak(String text) => _play(text, rate: 0.88);
+  ///
+  /// [locale] selects the synthesis voice — 'en' (default, preserves
+  /// existing behavior for every pre-existing call site), 'uz', or 'ru'.
+  Future<void> speak(String text, {String locale = 'en'}) =>
+      _play(text, rate: 0.88, locale: locale);
 
   /// Speak a short celebratory phrase — slightly brighter and more energetic.
-  Future<void> speakFunny(String text) => _play(text, rate: 1.05);
+  Future<void> speakFunny(String text, {String locale = 'en'}) =>
+      _play(text, rate: 1.05, locale: locale);
 
   Future<void> stop() async {
     _playId++;
-    try { await _player.stop(); } catch (_) {}
+    try {
+      await _player.stop();
+    } catch (_) {}
   }
 
   Future<void> setVolume(double vol) async {
     _volume = vol.clamp(0.0, 1.0);
-    try { await _player.setVolume(_volume); } catch (_) {}
+    try {
+      await _player.setVolume(_volume);
+    } catch (_) {}
     await UserService.setVolume(_volume);
   }
 
   // ── Internal ───────────────────────────────────────────────────────────────
 
-  Future<void> _play(String raw, {required double rate}) async {
+  Future<void> _play(String raw,
+      {required double rate, String locale = 'en'}) async {
     final text = raw.trim().toLowerCase();
     if (text.isEmpty) return;
     if (!_ready) await init();
@@ -94,7 +104,7 @@ class TtsService {
       await _player.stop();
       if (id != _playId) return; // a newer speak() was called while stopping
 
-      final file = await _fetchOrCache(text);
+      final file = await _fetchOrCache(text, locale: locale);
       if (id != _playId) return; // another word was requested while fetching
       if (file == null) return;
 
@@ -104,29 +114,39 @@ class TtsService {
     } catch (_) {}
   }
 
-  Future<File?> _fetchOrCache(String text) async {
+  // Google Translate TTS locale codes this app's three learning languages
+  // map to — 'tl' (target language, the voice) differs slightly in format
+  // per language; 'sl' (source language, for translation-adjacent request
+  // shaping) is set equal to keep this a pure read-aloud, not a translation.
+  static const Map<String, String> _localeCodes = {
+    'en': 'en-US',
+    'uz': 'uz',
+    'ru': 'ru',
+  };
+
+  Future<File?> _fetchOrCache(String text, {required String locale}) async {
     final dir = _cacheDir;
     if (dir == null) return null;
 
-    final file = File('${dir.path}/${_key(text)}.mp3');
+    final tl = _localeCodes[locale] ?? _localeCodes['en']!;
+    final file = File('${dir.path}/${_key(text, locale)}.mp3');
     if (await file.exists()) return file; // instant cache hit
 
     // Fetch from Google Translate TTS — server-generated, identical every time.
     try {
       final uri = Uri.https('translate.google.com', '/translate_tts', {
-        'ie':     'UTF-8',
-        'q':      text,
-        'tl':     'en-US',
+        'ie': 'UTF-8',
+        'q': text,
+        'tl': tl,
         'client': 'gtx',
-        'sl':     'en',
+        'sl': locale,
       });
       final resp = await http.get(uri, headers: {
         // A standard browser UA avoids rate-limiting on the public endpoint.
-        'User-Agent':
-            'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 '
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 '
             '(KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36',
         'Referer': 'https://translate.google.com/',
-        'Accept':  'audio/mpeg, audio/*',
+        'Accept': 'audio/mpeg, audio/*',
       }).timeout(const Duration(seconds: 7));
 
       if (resp.statusCode == 200 && resp.bodyBytes.length > 200) {
@@ -138,10 +158,12 @@ class TtsService {
     return null; // offline or error — caller silently skips TTS
   }
 
-  // Stable, filesystem-safe cache key (DJB2 hash of the text).
-  String _key(String text) {
+  // Stable, filesystem-safe cache key (DJB2 hash of "locale:text" — the
+  // locale prefix keeps different-language renditions of similar-looking
+  // text from ever sharing a cache slot).
+  String _key(String text, String locale) {
     int h = 5381;
-    for (final c in text.codeUnits) {
+    for (final c in '$locale:$text'.codeUnits) {
       h = ((h << 5) + h + c) & 0x7FFFFFFF;
     }
     return h.toRadixString(16);

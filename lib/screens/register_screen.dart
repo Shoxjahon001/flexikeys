@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cloud_mascot.dart';
 import '../widgets/dot_indicator.dart';
@@ -48,12 +49,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   Future<void> _onNext() async {
+    final t = AppLocalizations.of(context)!;
     if (_nameController.text.trim().isEmpty) {
-      _showSnack("Please enter kid's name");
+      _showSnack(t.nameRequiredError);
       return;
     }
     if (_ageController.text.trim().isEmpty) {
-      _showSnack("Please enter kid's age");
+      _showSnack(t.ageRequiredError);
       return;
     }
     final name = _nameController.text.trim();
@@ -77,7 +79,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       if (!mounted) return;
       setState(() => _submitting = false);
       if (child == null) {
-        _showSnack('Could not create profile — please try again');
+        _showSnack(t.profileCreateError);
         return;
       }
       await controller.selectChild(child);
@@ -104,6 +106,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -125,7 +128,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       const CloudMascot(size: 220),
                       const SizedBox(height: 20),
                       Text(
-                        'Registration',
+                        t.registrationTitle,
                         style: GoogleFonts.nunito(
                           fontSize: 28,
                           fontWeight: FontWeight.w900,
@@ -134,7 +137,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'almost done',
+                        t.almostDoneSubtitle,
                         style: GoogleFonts.nunito(
                           fontSize: 15,
                           color: AppTheme.textMedium,
@@ -148,7 +151,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Kid's name",
+                              t.kidNameLabel,
                               style: GoogleFonts.nunito(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -158,7 +161,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             const SizedBox(height: 8),
                             _buildTextField(
                               controller: _nameController,
-                              hint: 'Name...',
+                              hint: t.kidNameHint,
                               isActive: _nameActive,
                               onFocusChange: (v) =>
                                   setState(() => _nameActive = v),
@@ -166,7 +169,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             ),
                             const SizedBox(height: 24),
                             Text(
-                              "Kid's age",
+                              t.kidAgeLabel,
                               style: GoogleFonts.nunito(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -176,7 +179,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             const SizedBox(height: 8),
                             _buildTextField(
                               controller: _ageController,
-                              hint: 'Age...',
+                              hint: t.kidAgeHint,
                               isActive: _ageActive,
                               onFocusChange: (v) =>
                                   setState(() => _ageActive = v),
@@ -208,10 +211,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   ? const SizedBox(
                                       width: 24,
                                       height: 24,
-                                      child: CircularProgressIndicator(strokeWidth: 2),
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2),
                                     )
                                   : Text(
-                                      'Next',
+                                      t.nextButton,
                                       style: GoogleFonts.nunito(
                                         fontSize: 28,
                                         fontWeight: FontWeight.w900,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cloud_mascot.dart';
 
@@ -48,6 +49,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -67,8 +69,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                     padding: const EdgeInsets.symmetric(horizontal: 32),
                     child: Text(
                       _name.isNotEmpty
-                          ? 'Hi! $_name\nlet\'s play\nwith letters!'
-                          : 'Let\'s play\nwith letters!',
+                          ? t.greetingWithName(_name)
+                          : t.greetingNoName,
                       textAlign: TextAlign.left,
                       style: GoogleFonts.nunito(
                         fontSize: 44,
@@ -106,7 +108,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                         ),
                         child: Center(
                           child: Text(
-                            'Start',
+                            t.startButton,
                             style: GoogleFonts.nunito(
                               fontSize: 28,
                               fontWeight: FontWeight.w900,

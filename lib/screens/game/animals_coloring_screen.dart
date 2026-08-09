@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/coloring_items/animals_coloring_data.dart';
+import '../../l10n/app_localizations.dart';
 import 'coloring_screen.dart';
 
 class AnimalsColoringScreen extends StatelessWidget {
@@ -7,12 +8,12 @@ class AnimalsColoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Hayvonlar · bo\'yash',
+      title: 'Hayvonlar · ${t.coloringSuffix}',
       items: kAnimalsColoringItems,
       levelSlug: 'animals_color',
-      instructionNoun: 'hayvonni',
-      completionTitle: 'All animals colored!',
+      completionTitle: t.completionAllAnimalsColored,
     );
   }
 }

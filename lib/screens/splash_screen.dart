@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cloud_mascot.dart';
 import '../widgets/dot_indicator.dart';
@@ -45,6 +46,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -61,7 +63,6 @@ class _SplashScreenState extends State<SplashScreen>
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-
                       const SizedBox(height: 60),
                       // Cloud mascot
                       const Center(child: CloudMascot(size: 320)),
@@ -71,7 +72,6 @@ class _SplashScreenState extends State<SplashScreen>
                         'FlexiKeys',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
-
                           fontSize: 36,
                           fontWeight: FontWeight.w900,
                           color: AppTheme.textDark,
@@ -80,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Small steps. Big progress.',
+                        t.splashTagline,
                         textAlign: TextAlign.center,
                         style: GoogleFonts.nunito(
                           fontSize: 17,
@@ -116,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen>
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'Go!',
+                              t.goButton,
                               style: GoogleFonts.nunito(
                                 fontSize: 28,
                                 fontWeight: FontWeight.w900,

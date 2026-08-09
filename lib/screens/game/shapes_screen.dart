@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
@@ -12,8 +13,8 @@ import '../../data/praise_copy.dart';
 // ── Shape data ─────────────────────────────────────────────────────────────────
 
 class _ShapeConfig {
-  final String       id;
-  final String       name;
+  final String id;
+  final String name;
   final List<Offset> dots; // normalised 0–1 inside inner canvas
 
   const _ShapeConfig({
@@ -25,27 +26,42 @@ class _ShapeConfig {
 
 const _kShapes = <_ShapeConfig>[
   _ShapeConfig(id: 'square', name: 'Kvadrat', dots: [
-    Offset(0.22, 0.22), Offset(0.78, 0.22),
-    Offset(0.78, 0.78), Offset(0.22, 0.78),
+    Offset(0.22, 0.22),
+    Offset(0.78, 0.22),
+    Offset(0.78, 0.78),
+    Offset(0.22, 0.78),
   ]),
   _ShapeConfig(id: 'triangle', name: 'Uchburchak', dots: [
-    Offset(0.50, 0.14), Offset(0.84, 0.84), Offset(0.16, 0.84),
+    Offset(0.50, 0.14),
+    Offset(0.84, 0.84),
+    Offset(0.16, 0.84),
   ]),
   _ShapeConfig(id: 'rect', name: "To'rtburchak", dots: [
-    Offset(0.14, 0.32), Offset(0.86, 0.32),
-    Offset(0.86, 0.68), Offset(0.14, 0.68),
+    Offset(0.14, 0.32),
+    Offset(0.86, 0.32),
+    Offset(0.86, 0.68),
+    Offset(0.14, 0.68),
   ]),
   _ShapeConfig(id: 'diamond', name: 'Romb', dots: [
-    Offset(0.50, 0.14), Offset(0.86, 0.50),
-    Offset(0.50, 0.86), Offset(0.14, 0.50),
+    Offset(0.50, 0.14),
+    Offset(0.86, 0.50),
+    Offset(0.50, 0.86),
+    Offset(0.14, 0.50),
   ]),
   _ShapeConfig(id: 'pentagon', name: 'Beshburchak', dots: [
-    Offset(0.50, 0.13), Offset(0.87, 0.42),
-    Offset(0.72, 0.86), Offset(0.28, 0.86), Offset(0.13, 0.42),
+    Offset(0.50, 0.13),
+    Offset(0.87, 0.42),
+    Offset(0.72, 0.86),
+    Offset(0.28, 0.86),
+    Offset(0.13, 0.42),
   ]),
   _ShapeConfig(id: 'hexagon', name: 'Olti burchak', dots: [
-    Offset(0.50, 0.13), Offset(0.85, 0.32), Offset(0.85, 0.68),
-    Offset(0.50, 0.87), Offset(0.15, 0.68), Offset(0.15, 0.32),
+    Offset(0.50, 0.13),
+    Offset(0.85, 0.32),
+    Offset(0.85, 0.68),
+    Offset(0.50, 0.87),
+    Offset(0.15, 0.68),
+    Offset(0.15, 0.32),
   ]),
 ];
 
@@ -60,26 +76,26 @@ class ShapesScreen extends StatefulWidget {
 
 class _ShapesScreenState extends State<ShapesScreen>
     with SingleTickerProviderStateMixin {
-  static const int    _questionCount = 12;
-  static const double _pad           = 22.0; // canvas margin so dots aren't clipped
-  static const double _snapR         = 30.0; // proximity radius to register a dot
+  static const int _questionCount = 12;
+  static const double _pad = 22.0; // canvas margin so dots aren't clipped
+  static const double _snapR = 30.0; // proximity radius to register a dot
 
   List<_ShapeConfig> _questions = [];
-  int  _current   = 0;
-  int  _tapped    = 0;   // dots reached in order
+  int _current = 0;
+  int _tapped = 0; // dots reached in order
   bool _shapeDone = false;
-  int  _accuracy  = 10;  // 0–10, calculated when shape is done
+  int _accuracy = 10; // 0–10, calculated when shape is done
 
   // Stroke storage: multiple segments (pen-up = new segment)
   final List<List<Offset>> _segments = []; // completed segments
-  List<Offset>             _stroke = []; // active segment
+  List<Offset> _stroke = []; // active segment
 
   // canvas inner size (set in LayoutBuilder)
   double _inner = 200.0;
 
   // pulse animation for next-dot indicator
   late AnimationController _pulse;
-  late Animation<double>   _pulseAnim;
+  late Animation<double> _pulseAnim;
 
   _ShapeConfig get _shape => _questions[_current];
 
@@ -97,8 +113,8 @@ class _ShapesScreenState extends State<ShapesScreen>
     _pulse = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 600))
       ..repeat(reverse: true);
-    _pulseAnim = Tween<double>(begin: 1.0, end: 1.4).animate(
-        CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
+    _pulseAnim = Tween<double>(begin: 1.0, end: 1.4)
+        .animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
     _initQuestions();
   }
 
@@ -118,9 +134,9 @@ class _ShapesScreenState extends State<ShapesScreen>
   void _resetShape() {
     _pulse.repeat(reverse: true);
     setState(() {
-      _tapped    = 0;
+      _tapped = 0;
       _shapeDone = false;
-      _accuracy  = 10;
+      _accuracy = 10;
       _segments.clear();
       _stroke = [];
     });
@@ -178,11 +194,12 @@ class _ShapesScreenState extends State<ShapesScreen>
         final score = _computeAccuracy();
         setState(() {
           _shapeDone = true;
-          _accuracy  = score;
+          _accuracy = score;
         });
         SoundService.instance.playCorrect();
-        TtsService.instance.speakFunny(
-            score >= 7 ? PraiseCopy.shapeTraced : 'Good job! Keep going!');
+        TtsService.instance.speakFunny(score >= 7
+            ? PraiseCopy.shapeTraced(context)
+            : AppLocalizations.of(context)!.goodJobKeepGoing);
       }
     }
   }
@@ -229,8 +246,7 @@ class _ShapesScreenState extends State<ShapesScreen>
   double _segDist(Offset p, Offset a, Offset b) {
     final dx = b.dx - a.dx, dy = b.dy - a.dy;
     if (dx == 0 && dy == 0) return (p - a).distance;
-    final t = ((p.dx - a.dx) * dx + (p.dy - a.dy) * dy) /
-        (dx * dx + dy * dy);
+    final t = ((p.dx - a.dx) * dx + (p.dy - a.dy) * dy) / (dx * dx + dy * dy);
     final tc = t.clamp(0.0, 1.0);
     return (p - Offset(a.dx + tc * dx, a.dy + tc * dy)).distance;
   }
@@ -294,23 +310,39 @@ class _ShapesScreenState extends State<ShapesScreen>
             behavior: HitTestBehavior.opaque,
             onTap: () => Navigator.pop(context),
             child: Container(
-              width: 42, height: 42,
+              width: 42,
+              height: 42,
               decoration: BoxDecoration(
                 color: Colors.white.withValues(alpha: 0.75),
                 borderRadius: BorderRadius.circular(13),
-                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 8, offset: const Offset(0, 2))],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.07),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2))
+                ],
               ),
-              child: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: Color(0xFF2A2F45)),
+              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                  size: 18, color: Color(0xFF2A2F45)),
             ),
           ),
           const SizedBox(width: 12),
-          Text('Shakllar', style: GoogleFonts.nunito(fontSize: 21, fontWeight: FontWeight.w800, color: const Color(0xFF2A2F45))),
+          Text('Shakllar',
+              style: GoogleFonts.nunito(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF2A2F45))),
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.75), borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.75),
+                borderRadius: BorderRadius.circular(20)),
             child: Text('${_current + 1}/${_questions.length}',
-                style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w800, color: const Color(0xFF4A90F7))),
+                style: GoogleFonts.nunito(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w800,
+                    color: const Color(0xFF4A90F7))),
           ),
         ]),
       );
@@ -331,14 +363,15 @@ class _ShapesScreenState extends State<ShapesScreen>
   // ── Mascot ───────────────────────────────────────────────────────────────────
 
   Widget _mascot() {
+    final t = AppLocalizations.of(context)!;
     final allVisited = _tapped >= _shape.dots.length;
     final msg = _shapeDone
-        ? (_accuracy >= 7 ? 'Ajoyib chizding! 🎉' : 'Yaxshi! Davom et! 💪')
+        ? (_accuracy >= 7 ? t.shapesPraiseHigh : t.shapesPraiseLow)
         : allVisited
-            ? '1-nuqtaga qaytib yop!'
+            ? t.shapesCloseInstruction
             : (_tapped == 0
-                ? '1-nuqtadan boshlab chiz!'
-                : '$_tapped/${_shape.dots.length} nuqta ulandi!');
+                ? t.shapesStartInstruction
+                : t.shapesProgress(_tapped, _shape.dots.length));
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -350,14 +383,25 @@ class _ShapesScreenState extends State<ShapesScreen>
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(6), topRight: Radius.circular(18),
-                  bottomLeft: Radius.circular(18), bottomRight: Radius.circular(18)),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 10, offset: const Offset(0, 3))],
+                  topLeft: Radius.circular(6),
+                  topRight: Radius.circular(18),
+                  bottomLeft: Radius.circular(18),
+                  bottomRight: Radius.circular(18)),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.07),
+                    blurRadius: 10,
+                    offset: const Offset(0, 3))
+              ],
             ),
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 250),
-              child: Text(msg, key: ValueKey(msg),
-                  style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w800, color: const Color(0xFF2A2F45))),
+              child: Text(msg,
+                  key: ValueKey(msg),
+                  style: GoogleFonts.nunito(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF2A2F45))),
             ),
           ),
         ),
@@ -376,7 +420,12 @@ class _ShapesScreenState extends State<ShapesScreen>
             color: Colors.white.withValues(alpha: 0.95),
             borderRadius: BorderRadius.circular(24),
             border: Border.all(color: const Color(0xFFDDE3F8), width: 1.5),
-            boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.09), blurRadius: 20, offset: const Offset(0, 6))],
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.09),
+                  blurRadius: 20,
+                  offset: const Offset(0, 6))
+            ],
           ),
           child: Column(children: [
             _cardHeader(),
@@ -384,9 +433,15 @@ class _ShapesScreenState extends State<ShapesScreen>
             _canvas(),
             const SizedBox(height: 6),
             Text(
-              _shapeDone ? '${_shape.dots.length}/${_shape.dots.length} ✓ Bajarildi!' : 'Barmog\'ingni bosib chiz',
-              style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w700,
-                  color: _shapeDone ? const Color(0xFF22B07D) : const Color(0xFF9099B5)),
+              _shapeDone
+                  ? '${_shape.dots.length}/${_shape.dots.length} ${AppLocalizations.of(context)!.shapesDoneStatus}'
+                  : AppLocalizations.of(context)!.shapesIdleInstruction,
+              style: GoogleFonts.nunito(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: _shapeDone
+                      ? const Color(0xFF22B07D)
+                      : const Color(0xFF9099B5)),
             ),
           ]),
         ),
@@ -394,24 +449,45 @@ class _ShapesScreenState extends State<ShapesScreen>
 
   Widget _cardHeader() => Row(children: [
         Container(
-          width: 48, height: 48,
+          width: 48,
+          height: 48,
           decoration: BoxDecoration(
-            color: const Color(0xFF4A90F7), borderRadius: BorderRadius.circular(14),
-            boxShadow: [BoxShadow(color: const Color(0xFF4A90F7).withValues(alpha: 0.38), blurRadius: 10, offset: const Offset(0, 4))],
+            color: const Color(0xFF4A90F7),
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: [
+              BoxShadow(
+                  color: const Color(0xFF4A90F7).withValues(alpha: 0.38),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4))
+            ],
           ),
-          child: Center(child: CustomPaint(size: const Size(26, 26), painter: _IconPainter(_shape.dots))),
+          child: Center(
+              child: CustomPaint(
+                  size: const Size(26, 26),
+                  painter: _IconPainter(_shape.dots))),
         ),
         const SizedBox(width: 10),
-        Text(_shape.name, style: GoogleFonts.nunito(fontSize: 17, fontWeight: FontWeight.w900, color: const Color(0xFF2A2F45))),
+        Text(_shape.name,
+            style: GoogleFonts.nunito(
+                fontSize: 17,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF2A2F45))),
         if (_shapeDone) ...[
           const Spacer(),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-            decoration: BoxDecoration(color: const Color(0xFFDFF0DB), borderRadius: BorderRadius.circular(20)),
+            decoration: BoxDecoration(
+                color: const Color(0xFFDFF0DB),
+                borderRadius: BorderRadius.circular(20)),
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              const Icon(Icons.check_rounded, color: Color(0xFF22B07D), size: 14),
+              const Icon(Icons.check_rounded,
+                  color: Color(0xFF22B07D), size: 14),
               const SizedBox(width: 3),
-              Text('Tayyor', style: GoogleFonts.nunito(fontSize: 12, fontWeight: FontWeight.w800, color: const Color(0xFF22B07D))),
+              Text('Tayyor',
+                  style: GoogleFonts.nunito(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF22B07D))),
             ]),
           ),
         ],
@@ -426,19 +502,24 @@ class _ShapesScreenState extends State<ShapesScreen>
 
       return GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onPanStart:  _onPanStart,
+        onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
-        onPanEnd:    _onPanEnd,
+        onPanEnd: _onPanEnd,
         child: Container(
-          width: total, height: total,
+          width: total,
+          height: total,
           decoration: BoxDecoration(
             color: const Color(0xFFF0F4FF),
             borderRadius: BorderRadius.circular(18),
             border: Border.all(
-              color: (!_shapeDone && (_segments.isNotEmpty || _stroke.isNotEmpty))
-                  ? const Color(0xFF4A90F7).withValues(alpha: 0.45)
-                  : const Color(0xFFDDE3F8),
-              width: (!_shapeDone && (_segments.isNotEmpty || _stroke.isNotEmpty)) ? 2 : 1,
+              color:
+                  (!_shapeDone && (_segments.isNotEmpty || _stroke.isNotEmpty))
+                      ? const Color(0xFF4A90F7).withValues(alpha: 0.45)
+                      : const Color(0xFFDDE3F8),
+              width:
+                  (!_shapeDone && (_segments.isNotEmpty || _stroke.isNotEmpty))
+                      ? 2
+                      : 1,
             ),
           ),
           child: ClipRRect(
@@ -451,13 +532,13 @@ class _ShapesScreenState extends State<ShapesScreen>
                   child: RepaintBoundary(
                     child: CustomPaint(
                       painter: _DrawPainter(
-                        dots:     _shape.dots,
+                        dots: _shape.dots,
                         segments: _segments,
-                        active:   _stroke,
-                        tapped:   _tapped,
-                        done:     _shapeDone,
-                        pad:      _pad,
-                        inner:    _inner,
+                        active: _stroke,
+                        tapped: _tapped,
+                        done: _shapeDone,
+                        pad: _pad,
+                        inner: _inner,
                       ),
                     ),
                   ),
@@ -470,11 +551,12 @@ class _ShapesScreenState extends State<ShapesScreen>
                   final allVisited = _tapped >= _shape.dots.length;
                   final reached = i < _tapped || _shapeDone;
                   // pulse on the next dot to reach; when all visited, pulse dot 0
-                  final isNext = !_shapeDone &&
-                      (allVisited ? i == 0 : i == _tapped);
+                  final isNext =
+                      !_shapeDone && (allVisited ? i == 0 : i == _tapped);
 
                   Widget dot = Container(
-                    width: r * 2, height: r * 2,
+                    width: r * 2,
+                    height: r * 2,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: reached ? const Color(0xFF4A90F7) : Colors.white,
@@ -484,7 +566,8 @@ class _ShapesScreenState extends State<ShapesScreen>
                       ),
                       boxShadow: [
                         BoxShadow(
-                          color: const Color(0xFF4A90F7).withValues(alpha: isNext ? 0.6 : 0.2),
+                          color: const Color(0xFF4A90F7)
+                              .withValues(alpha: isNext ? 0.6 : 0.2),
                           blurRadius: isNext ? 12 : 4,
                           spreadRadius: isNext ? 2 : 0,
                         ),
@@ -492,11 +575,14 @@ class _ShapesScreenState extends State<ShapesScreen>
                     ),
                     child: Center(
                       child: reached
-                          ? const Icon(Icons.check_rounded, size: 10, color: Colors.white)
+                          ? const Icon(Icons.check_rounded,
+                              size: 10, color: Colors.white)
                           : Text('${i + 1}',
                               style: GoogleFonts.nunito(
-                                  fontSize: 8, fontWeight: FontWeight.w900,
-                                  color: const Color(0xFF4A90F7), height: 1)),
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.w900,
+                                  color: const Color(0xFF4A90F7),
+                                  height: 1)),
                     ),
                   );
 
@@ -506,7 +592,7 @@ class _ShapesScreenState extends State<ShapesScreen>
 
                   return Positioned(
                     left: px.dx - r,
-                    top:  px.dy - r,
+                    top: px.dy - r,
                     child: IgnorePointer(child: dot),
                   );
                 }),
@@ -527,11 +613,16 @@ class _ShapesScreenState extends State<ShapesScreen>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 3),
           child: Text(s < stars ? '⭐' : '☆',
-              style: TextStyle(fontSize: s < stars ? 26 : 20, color: s < stars ? null : Colors.grey.shade400)),
+              style: TextStyle(
+                  fontSize: s < stars ? 26 : 20,
+                  color: s < stars ? null : Colors.grey.shade400)),
         ),
       const SizedBox(width: 10),
       Text('$_accuracy/10',
-          style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w900, color: const Color(0xFF2A2F45))),
+          style: GoogleFonts.nunito(
+              fontSize: 20,
+              fontWeight: FontWeight.w900,
+              color: const Color(0xFF2A2F45))),
     ]);
   }
 
@@ -549,12 +640,23 @@ class _ShapesScreenState extends State<ShapesScreen>
                   decoration: BoxDecoration(
                     color: const Color(0xFF4A90F7),
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [BoxShadow(color: const Color(0xFF4A90F7).withValues(alpha: 0.42), blurRadius: 16, offset: const Offset(0, 7))],
+                    boxShadow: [
+                      BoxShadow(
+                          color:
+                              const Color(0xFF4A90F7).withValues(alpha: 0.42),
+                          blurRadius: 16,
+                          offset: const Offset(0, 7))
+                    ],
                   ),
                   child: Text(
-                    _current < _questions.length - 1 ? 'Keyingisi →' : 'Tugatish ✓',
+                    _current < _questions.length - 1
+                        ? AppLocalizations.of(context)!.shapesNextButton
+                        : AppLocalizations.of(context)!.shapesFinishButton,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w900, color: Colors.white),
+                    style: GoogleFonts.nunito(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                        color: Colors.white),
                   ),
                 ),
               )
@@ -566,9 +668,13 @@ class _ShapesScreenState extends State<ShapesScreen>
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: const Color(0xFFD0D8F0)),
                 ),
-                child: Text('Shaklni chizib boring...',
+                child: Text(
+                    AppLocalizations.of(context)!.shapesDisabledPlaceholder,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w700, color: const Color(0xFF9099B5))),
+                    style: GoogleFonts.nunito(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: const Color(0xFF9099B5))),
               ),
       );
 }
@@ -576,13 +682,13 @@ class _ShapesScreenState extends State<ShapesScreen>
 // ── Painter ────────────────────────────────────────────────────────────────────
 
 class _DrawPainter extends CustomPainter {
-  final List<Offset>       dots;
+  final List<Offset> dots;
   final List<List<Offset>> segments; // completed pen strokes
-  final List<Offset>       active;   // ongoing stroke
-  final int                tapped;
-  final bool               done;
-  final double             pad;
-  final double             inner;
+  final List<Offset> active; // ongoing stroke
+  final int tapped;
+  final bool done;
+  final double pad;
+  final double inner;
 
   _DrawPainter({
     required this.dots,
@@ -633,8 +739,8 @@ class _DrawPainter extends CustomPainter {
     ];
 
     for (final (a, b) in edges) {
-      final dx  = b.dx - a.dx;
-      final dy  = b.dy - a.dy;
+      final dx = b.dx - a.dx;
+      final dy = b.dy - a.dy;
       final len = sqrt(dx * dx + dy * dy);
       if (len == 0) continue;
       final ux = dx / len, uy = dy / len;
@@ -696,7 +802,9 @@ class _IconPainter extends CustomPainter {
 
     final path = Path()
       ..moveTo(dots.first.dx * size.width, dots.first.dy * size.height);
-    for (final d in dots.skip(1)) { path.lineTo(d.dx * size.width, d.dy * size.height); }
+    for (final d in dots.skip(1)) {
+      path.lineTo(d.dx * size.width, d.dy * size.height);
+    }
     path.close();
     canvas.drawPath(path, p);
   }

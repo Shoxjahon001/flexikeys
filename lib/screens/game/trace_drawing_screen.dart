@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
@@ -17,7 +18,6 @@ class TraceDrawingScreen extends StatefulWidget {
   final String title;
   final List<TraceItemDef> items;
   final String levelSlug;
-  final String instructionNoun;
   final String completionTitle;
 
   const TraceDrawingScreen({
@@ -25,7 +25,6 @@ class TraceDrawingScreen extends StatefulWidget {
     required this.title,
     required this.items,
     required this.levelSlug,
-    required this.instructionNoun,
     required this.completionTitle,
   });
 
@@ -35,29 +34,28 @@ class TraceDrawingScreen extends StatefulWidget {
 
 class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     with TickerProviderStateMixin {
-
   // ── State ─────────────────────────────────────────────────────────────────
 
   int _itemIndex = 0;
 
   // Completed strokes (List of stroke-points) + active stroke in progress
   final List<List<Offset>> _strokes = [];
-  List<Offset>             _current = [];
+  List<Offset> _current = [];
 
-  int  _tapped   = 0;
+  int _tapped = 0;
   bool _checking = false;
   bool _celebrate = false;
 
   Color _penColor = const Color(0xFF4A90D9);
-  Size  _canvasSize = const Size(320, 380);
+  Size _canvasSize = const Size(320, 380);
 
   // ── Animations ────────────────────────────────────────────────────────────
 
   late final AnimationController _pulseCtrl;
-  late final Animation<double>   _pulseAnim;
+  late final Animation<double> _pulseAnim;
 
   late final AnimationController _demoCtrl;
-  late final Animation<double>   _demoAnim;
+  late final Animation<double> _demoAnim;
   bool _isDemoPlaying = false;
 
   // ── Convenience ───────────────────────────────────────────────────────────
@@ -73,7 +71,7 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
 
   String get _instruction {
     final seq = List.generate(_def.dots.length, (i) => '${i + 1}').join(' → ');
-    return 'Nuqtalarni $seq tartibda ulab, ${_def.label} ${widget.instructionNoun} chiz!';
+    return AppLocalizations.of(context)!.traceInstructionFor(seq, _def.label);
   }
 
   static const List<Color> _palette = [
@@ -96,14 +94,15 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
       CurvedAnimation(parent: _pulseCtrl, curve: Curves.easeInOut),
     );
 
-    _demoCtrl = AnimationController(vsync: this, duration: const Duration(seconds: 3));
+    _demoCtrl =
+        AnimationController(vsync: this, duration: const Duration(seconds: 3));
     _demoAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _demoCtrl, curve: Curves.easeInOut),
     )..addStatusListener((s) {
-      if (s == AnimationStatus.completed) {
-        setState(() => _isDemoPlaying = false);
-      }
-    });
+        if (s == AnimationStatus.completed) {
+          setState(() => _isDemoPlaying = false);
+        }
+      });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       TtsService.instance.speak(_def.label);
@@ -157,7 +156,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     }
   }
 
-  Offset _px(Offset norm, Size sz) => Offset(norm.dx * sz.width, norm.dy * sz.height);
+  Offset _px(Offset norm, Size sz) =>
+      Offset(norm.dx * sz.width, norm.dy * sz.height);
 
   // ── Actions ───────────────────────────────────────────────────────────────
 
@@ -166,7 +166,7 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     setState(() {
       _strokes.clear();
       _current = [];
-      _tapped  = 0;
+      _tapped = 0;
       _celebrate = false;
       _checking = false;
       _isDemoPlaying = false;
@@ -188,7 +188,9 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     });
 
     SoundService.instance.playCorrect();
-    final praise = score >= 7 ? PraiseCopy.letterTraced : 'Good job! Keep it up!';
+    final praise = score >= 7
+        ? PraiseCopy.letterTraced(context)
+        : AppLocalizations.of(context)!.traceGoodJobFallback;
     TtsService.instance.speakFunny(praise);
     await UserService.recordAnswer(correct: true);
     await UserService.addStars(1);
@@ -198,7 +200,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
 
     if (_itemIndex >= widget.items.length - 1) {
       await UserService.completeLevel(widget.levelSlug);
-      ProgressRepository.instance.recordLevelCompleteAndSync(widget.levelSlug, stars: 5);
+      ProgressRepository.instance
+          .recordLevelCompleteAndSync(widget.levelSlug, stars: 5);
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
         'starsEarned': 5,
@@ -209,7 +212,7 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
         _itemIndex++;
         _strokes.clear();
         _current = [];
-        _tapped   = 0;
+        _tapped = 0;
         _celebrate = false;
         _checking = false;
         _isDemoPlaying = false;
@@ -223,9 +226,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     final allPts = [..._strokes.expand((s) => s), ..._current];
     if (allPts.isEmpty) return 0;
 
-    final ghostPxPaths = _def.ghost.map((path) =>
-      path.map((p) => _px(p, sz)).toList()
-    ).toList();
+    final ghostPxPaths =
+        _def.ghost.map((path) => path.map((p) => _px(p, sz)).toList()).toList();
 
     double sumDist = 0;
     int count = 0;
@@ -286,23 +288,31 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            width: 40, height: 40,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.arrow_back_ios_new_rounded, size: 18, color: Color(0xFF2A2F45)),
+            child: const Icon(Icons.arrow_back_ios_new_rounded,
+                size: 18, color: Color(0xFF2A2F45)),
           ),
         ),
         const SizedBox(width: 12),
         Text(
           widget.title,
-          style: GoogleFonts.nunito(fontSize: 18, fontWeight: FontWeight.w800, color: const Color(0xFF2A2F45)),
+          style: GoogleFonts.nunito(
+              fontSize: 18,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF2A2F45)),
         ),
         const Spacer(),
         Text(
           '${_itemIndex + 1}/${widget.items.length}',
-          style: GoogleFonts.nunito(fontSize: 15, fontWeight: FontWeight.w700, color: const Color(0xFF6B7186)),
+          style: GoogleFonts.nunito(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: const Color(0xFF6B7186)),
         ),
       ]),
     );
@@ -316,7 +326,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
       child: ClipRRect(
         borderRadius: BorderRadius.circular(6),
         child: LinearProgressIndicator(
-          value: (_itemIndex + (_tapped / _def.dots.length.clamp(1, 99))) / widget.items.length,
+          value: (_itemIndex + (_tapped / _def.dots.length.clamp(1, 99))) /
+              widget.items.length,
           minHeight: 6,
           backgroundColor: Colors.white.withValues(alpha: 0.5),
           valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF4A90D9)),
@@ -332,7 +343,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          width: 56, height: 56,
+          width: 56,
+          height: 56,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Colors.white.withValues(alpha: 0.6),
@@ -351,11 +363,19 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
                 bottomLeft: Radius.circular(18),
                 bottomRight: Radius.circular(18),
               ),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.06), blurRadius: 8, offset: const Offset(0, 2))],
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.06),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2))
+              ],
             ),
             child: Text(
               _instruction,
-              style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w800, color: const Color(0xFF2A2F45)),
+              style: GoogleFonts.nunito(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF2A2F45)),
             ),
           ),
         ),
@@ -373,7 +393,12 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 16, offset: const Offset(0, 4))],
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black.withValues(alpha: 0.07),
+                blurRadius: 16,
+                offset: const Offset(0, 4))
+          ],
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
@@ -386,22 +411,22 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
               });
             }
             return GestureDetector(
-              onPanStart:  (d) => _onPanStart(d, sz),
+              onPanStart: (d) => _onPanStart(d, sz),
               onPanUpdate: (d) => _onPanUpdate(d, sz),
-              onPanEnd:    (d) => _onPanEnd(d, sz),
+              onPanEnd: (d) => _onPanEnd(d, sz),
               child: AnimatedBuilder(
                 animation: Listenable.merge([_pulseAnim, _demoAnim]),
                 builder: (_, __) => CustomPaint(
                   size: sz,
                   painter: _TracePainter(
-                    def:        _def,
-                    strokes:    _strokes,
-                    current:    _current,
-                    tapped:     _tapped,
-                    celebrate:  _celebrate,
-                    penColor:   _penColor,
-                    pulse:      _pulseAnim.value,
-                    demoValue:  _isDemoPlaying ? _demoAnim.value : -1,
+                    def: _def,
+                    strokes: _strokes,
+                    current: _current,
+                    tapped: _tapped,
+                    celebrate: _celebrate,
+                    penColor: _penColor,
+                    pulse: _pulseAnim.value,
+                    demoValue: _isDemoPlaying ? _demoAnim.value : -1,
                   ),
                 ),
               ),
@@ -426,7 +451,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
             onTap: () => setState(() => _penColor = c),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
-              width: 36, height: 36,
+              width: 36,
+              height: 36,
               margin: const EdgeInsets.only(right: 8),
               decoration: BoxDecoration(
                 color: c,
@@ -435,26 +461,44 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
                   color: selected ? Colors.white : Colors.transparent,
                   width: 3,
                 ),
-                boxShadow: selected ? [BoxShadow(color: c.withValues(alpha: 0.55), blurRadius: 10, spreadRadius: 1)] : [],
+                boxShadow: selected
+                    ? [
+                        BoxShadow(
+                            color: c.withValues(alpha: 0.55),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ]
+                    : [],
               ),
             ),
           );
         }),
 
         // Divider
-        Container(width: 1.5, height: 28, color: const Color(0xFFCDD5E8), margin: const EdgeInsets.symmetric(horizontal: 6)),
+        Container(
+            width: 1.5,
+            height: 28,
+            color: const Color(0xFFCDD5E8),
+            margin: const EdgeInsets.symmetric(horizontal: 6)),
 
         // Eraser (clears all strokes)
         GestureDetector(
           onTap: _onReset,
           child: Container(
-            width: 40, height: 40,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 6, offset: const Offset(0, 2))],
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.07),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2))
+              ],
             ),
-            child: const Icon(Icons.edit_off_rounded, size: 20, color: Color(0xFF6B7186)),
+            child: const Icon(Icons.edit_off_rounded,
+                size: 20, color: Color(0xFF6B7186)),
           ),
         ),
         const SizedBox(width: 8),
@@ -466,20 +510,27 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
                 _strokes.removeLast();
                 // Roll back tapped count to a safe value — recalculate from remaining strokes
                 // Simpler: just reset tapped to 0 so child re-confirms progress
-                _tapped  = 0;
+                _tapped = 0;
                 _celebrate = false;
                 _checking = false;
               });
             }
           },
           child: Container(
-            width: 40, height: 40,
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
-              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.07), blurRadius: 6, offset: const Offset(0, 2))],
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.07),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2))
+              ],
             ),
-            child: const Icon(Icons.refresh_rounded, size: 20, color: Color(0xFF6B7186)),
+            child: const Icon(Icons.refresh_rounded,
+                size: 20, color: Color(0xFF6B7186)),
           ),
         ),
       ]),
@@ -503,13 +554,18 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(color: const Color(0xFFCDD5E8), width: 1.5),
               ),
-              child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              child:
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Text(
-                  "Ko'rsatib ber",
-                  style: GoogleFonts.nunito(fontSize: 14, fontWeight: FontWeight.w800, color: const Color(0xFF2A2F45)),
+                  AppLocalizations.of(context)!.traceShowMeButton,
+                  style: GoogleFonts.nunito(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: const Color(0xFF2A2F45)),
                 ),
                 const SizedBox(width: 6),
-                const Icon(Icons.play_arrow_rounded, color: Color(0xFF4A90D9), size: 20),
+                const Icon(Icons.play_arrow_rounded,
+                    color: Color(0xFF4A90D9), size: 20),
               ]),
             ),
           ),
@@ -524,12 +580,14 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
               duration: const Duration(milliseconds: 200),
               height: 50,
               decoration: BoxDecoration(
-                color: _canCheck ? const Color(0xFF4A90D9) : const Color(0xFFBEC5D8),
+                color: _canCheck
+                    ? const Color(0xFF4A90D9)
+                    : const Color(0xFFBEC5D8),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
                 child: Text(
-                  'Tekshirish',
+                  AppLocalizations.of(context)!.traceCheckButton,
                   style: GoogleFonts.nunito(
                     fontSize: 15,
                     fontWeight: FontWeight.w900,
@@ -554,7 +612,7 @@ class _TracePainter extends CustomPainter {
   final int tapped;
   final bool celebrate;
   final Color penColor;
-  final double pulse;   // 0–1, for dot pulsing
+  final double pulse; // 0–1, for dot pulsing
   final double demoValue; // -1 = not playing; 0–1 = animation progress
 
   const _TracePainter({
@@ -597,14 +655,16 @@ class _TracePainter extends CustomPainter {
     final dashPaint = Paint()
       ..color = const Color(0xFFD0D8EE)
       ..strokeWidth = 1.0;
-    _drawDashedLine(canvas, Offset(0, y2), Offset(size.width, y2), dashPaint, 6, 6);
+    _drawDashedLine(
+        canvas, Offset(0, y2), Offset(size.width, y2), dashPaint, 6, 6);
 
     // Bottom solid (baseline)
     final y3 = size.height * 0.90;
     canvas.drawLine(Offset(0, y3), Offset(size.width, y3), paint);
   }
 
-  void _drawDashedLine(Canvas c, Offset a, Offset b, Paint p, double dash, double gap) {
+  void _drawDashedLine(
+      Canvas c, Offset a, Offset b, Paint p, double dash, double gap) {
     final dir = (b - a) / (b - a).distance;
     double dist = 0;
     final total = (b - a).distance;
@@ -630,13 +690,18 @@ class _TracePainter extends CustomPainter {
 
     for (final path in def.ghost) {
       if (path.length < 2) continue;
-      final pts = path.map((p) => Offset(p.dx * size.width, p.dy * size.height)).toList();
+      final pts = path
+          .map((p) => Offset(p.dx * size.width, p.dy * size.height))
+          .toList();
       _drawDottedPath(canvas, pts, paint, 4.5, 7);
     }
   }
 
-  void _drawDottedPath(Canvas c, List<Offset> pts, Paint p, double dotR, double gap) {
-    final dotPaint = Paint()..color = p.color..style = PaintingStyle.fill;
+  void _drawDottedPath(
+      Canvas c, List<Offset> pts, Paint p, double dotR, double gap) {
+    final dotPaint = Paint()
+      ..color = p.color
+      ..style = PaintingStyle.fill;
     double dist = 0;
     double nextDot = 0;
     for (int i = 0; i < pts.length - 1; i++) {
@@ -652,7 +717,7 @@ class _TracePainter extends CustomPainter {
         }
         final step = min(nextDot - dist, len - walked);
         walked += step;
-        dist   += step;
+        dist += step;
       }
     }
   }
@@ -693,15 +758,18 @@ class _TracePainter extends CustomPainter {
     final flat = <(Offset, bool)>[];
     for (final path in def.ghost) {
       for (int i = 0; i < path.length; i++) {
-        flat.add((Offset(path[i].dx * size.width, path[i].dy * size.height), i == 0));
+        flat.add((
+          Offset(path[i].dx * size.width, path[i].dy * size.height),
+          i == 0
+        ));
       }
     }
     if (flat.length < 2) return;
 
     // Map demoValue 0-1 → 0..flat.length-1
     final progress = demoValue * (flat.length - 1);
-    final fullIdx  = progress.floor().clamp(0, flat.length - 2);
-    final frac     = progress - fullIdx;
+    final fullIdx = progress.floor().clamp(0, flat.length - 2);
+    final frac = progress - fullIdx;
 
     final paint = Paint()
       ..color = penColor
@@ -734,9 +802,18 @@ class _TracePainter extends CustomPainter {
       final partialEnd = curPt + (nxtPt - curPt) * frac;
       canvas.drawLine(curPt, partialEnd, paint);
       // Moving pencil tip
-      canvas.drawCircle(partialEnd, 7,
-        Paint()..color = penColor.withValues(alpha: 0.35)..style = PaintingStyle.fill);
-      canvas.drawCircle(partialEnd, 4, Paint()..color = penColor..style = PaintingStyle.fill);
+      canvas.drawCircle(
+          partialEnd,
+          7,
+          Paint()
+            ..color = penColor.withValues(alpha: 0.35)
+            ..style = PaintingStyle.fill);
+      canvas.drawCircle(
+          partialEnd,
+          4,
+          Paint()
+            ..color = penColor
+            ..style = PaintingStyle.fill);
     }
   }
 
@@ -744,7 +821,8 @@ class _TracePainter extends CustomPainter {
 
   void _drawDots(Canvas canvas, Size size) {
     for (int i = 0; i < def.dots.length; i++) {
-      final px = Offset(def.dots[i].dx * size.width, def.dots[i].dy * size.height);
+      final px =
+          Offset(def.dots[i].dx * size.width, def.dots[i].dy * size.height);
       if (i < tapped) {
         _drawVisitedDot(canvas, px);
       } else if (i == tapped) {
@@ -757,9 +835,18 @@ class _TracePainter extends CustomPainter {
 
   void _drawVisitedDot(Canvas canvas, Offset center) {
     // Green filled circle
-    canvas.drawCircle(center, 14, Paint()..color = const Color(0xFF4CAF50)..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        center,
+        14,
+        Paint()
+          ..color = const Color(0xFF4CAF50)
+          ..style = PaintingStyle.fill);
     // White checkmark
-    final p = Paint()..color = Colors.white..strokeWidth = 2.5..strokeCap = StrokeCap.round..style = PaintingStyle.stroke;
+    final p = Paint()
+      ..color = Colors.white
+      ..strokeWidth = 2.5
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
     final path = Path()
       ..moveTo(center.dx - 5, center.dy)
       ..lineTo(center.dx - 1, center.dy + 4)
@@ -770,10 +857,20 @@ class _TracePainter extends CustomPainter {
   void _drawCurrentDot(Canvas canvas, Offset center, int num) {
     // Pulsing outer ring
     final ringR = 14 + 10 * pulse;
-    canvas.drawCircle(center, ringR,
-      Paint()..color = const Color(0xFFFF8C42).withValues(alpha: (0.35 * (1 - pulse)))..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        center,
+        ringR,
+        Paint()
+          ..color =
+              const Color(0xFFFF8C42).withValues(alpha: (0.35 * (1 - pulse)))
+          ..style = PaintingStyle.fill);
     // Orange filled circle
-    canvas.drawCircle(center, 14, Paint()..color = const Color(0xFFFF8C42)..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        center,
+        14,
+        Paint()
+          ..color = const Color(0xFFFF8C42)
+          ..style = PaintingStyle.fill);
     // Number
     _drawNumber(canvas, center, num, Colors.white);
     // Pencil emoji below
@@ -785,7 +882,12 @@ class _TracePainter extends CustomPainter {
   }
 
   void _drawFutureDot(Canvas canvas, Offset center, int num) {
-    canvas.drawCircle(center, 14, Paint()..color = const Color(0xFFBEC5D8)..style = PaintingStyle.fill);
+    canvas.drawCircle(
+        center,
+        14,
+        Paint()
+          ..color = const Color(0xFFBEC5D8)
+          ..style = PaintingStyle.fill);
     _drawNumber(canvas, center, num, Colors.white);
   }
 
@@ -810,12 +912,16 @@ class _TracePainter extends CustomPainter {
   void _drawCelebration(Canvas canvas, Size size) {
     final rng = Random(42);
     final confettiColors = [
-      const Color(0xFF4A90D9), const Color(0xFFE0567B),
-      const Color(0xFF4CAF50), const Color(0xFFFFC107), const Color(0xFF9C27B0),
+      const Color(0xFF4A90D9),
+      const Color(0xFFE0567B),
+      const Color(0xFF4CAF50),
+      const Color(0xFFFFC107),
+      const Color(0xFF9C27B0),
     ];
     final p = Paint()..style = PaintingStyle.fill;
     for (int i = 0; i < 24; i++) {
-      p.color = confettiColors[i % confettiColors.length].withValues(alpha: 0.7);
+      p.color =
+          confettiColors[i % confettiColors.length].withValues(alpha: 0.7);
       final x = rng.nextDouble() * size.width;
       final y = rng.nextDouble() * size.height * 0.4;
       canvas.drawCircle(Offset(x, y), 4, p);

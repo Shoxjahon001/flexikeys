@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../data/level_configs.dart';
 import '../data/trace_items/letters_trace_data.dart';
+import '../features/aac/presentation/aac_home_screen.dart';
 
 // ── Lock state ────────────────────────────────────────────────────────────────
 
@@ -27,7 +29,7 @@ class _LevelItem {
   });
 
   bool get locked => lockState == _LockState.locked;
-  bool get done   => lockState == _LockState.done;
+  bool get done => lockState == _LockState.done;
 }
 
 // ── Screen ────────────────────────────────────────────────────────────────────
@@ -69,7 +71,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   Future<void> _load() async {
     final completed = await UserService.getCompletedLevels();
-    final name      = await UserService.getName();
+    final name = await UserService.getName();
     if (!mounted) return;
     setState(() {
       _completed = completed;
@@ -86,24 +88,65 @@ class _LevelsScreenState extends State<LevelsScreen> {
     if (_completed.contains(id)) return _LockState.done;
     if (_isAdmin) return _LockState.unlocked;
     switch (id) {
-      case 'letters': return _LockState.unlocked;
-      case 'numbers': return _completed.contains('letters_1') ? _LockState.unlocked : _LockState.locked;
-      case 'colors':  return _completed.contains('numbers')   ? _LockState.unlocked : _LockState.locked;
-      case 'fruits':  return _completed.contains('colors')    ? _LockState.unlocked : _LockState.locked;
-      case 'animals': return _completed.contains('fruits')    ? _LockState.unlocked : _LockState.locked;
-      case 'food':    return _completed.contains('animals')   ? _LockState.unlocked : _LockState.locked;
-      default:        return _LockState.locked;
+      case 'letters':
+        return _LockState.unlocked;
+      case 'numbers':
+        return _completed.contains('letters_1')
+            ? _LockState.unlocked
+            : _LockState.locked;
+      case 'colors':
+        return _completed.contains('numbers')
+            ? _LockState.unlocked
+            : _LockState.locked;
+      case 'fruits':
+        return _completed.contains('colors')
+            ? _LockState.unlocked
+            : _LockState.locked;
+      case 'animals':
+        return _completed.contains('fruits')
+            ? _LockState.unlocked
+            : _LockState.locked;
+      case 'food':
+        return _completed.contains('animals')
+            ? _LockState.unlocked
+            : _LockState.locked;
+      default:
+        return _LockState.locked;
     }
   }
 
   List<_LevelItem> get _levels => [
-    _LevelItem(id: 'letters', title: 'Letters', letter: 'A', lockState: _stateOf('letters')),
-    _LevelItem(id: 'numbers', title: 'Numbers', customWidget: const _NumbersIcon(), lockState: _stateOf('numbers')),
-    _LevelItem(id: 'colors',  title: 'Colors',  emoji: '🌈', lockState: _stateOf('colors')),
-    _LevelItem(id: 'fruits',  title: 'Fruits',  emoji: '🍎', lockState: _stateOf('fruits')),
-    _LevelItem(id: 'animals', title: 'Animals', emoji: '🦁', lockState: _stateOf('animals')),
-    _LevelItem(id: 'food',    title: 'Food',    emoji: '🍽️', lockState: _stateOf('food')),
-  ];
+        _LevelItem(
+            id: 'letters',
+            title: 'Letters',
+            letter: 'A',
+            lockState: _stateOf('letters')),
+        _LevelItem(
+            id: 'numbers',
+            title: 'Numbers',
+            customWidget: const _NumbersIcon(),
+            lockState: _stateOf('numbers')),
+        _LevelItem(
+            id: 'colors',
+            title: 'Colors',
+            emoji: '🌈',
+            lockState: _stateOf('colors')),
+        _LevelItem(
+            id: 'fruits',
+            title: 'Fruits',
+            emoji: '🍎',
+            lockState: _stateOf('fruits')),
+        _LevelItem(
+            id: 'animals',
+            title: 'Animals',
+            emoji: '🦁',
+            lockState: _stateOf('animals')),
+        _LevelItem(
+            id: 'food',
+            title: 'Food',
+            emoji: '🍽️',
+            lockState: _stateOf('food')),
+      ];
 
   Future<void> _onLevelTap(_LevelItem level) async {
     if (level.locked) return;
@@ -135,24 +178,29 @@ class _LevelsScreenState extends State<LevelsScreen> {
       return;
     }
     if (id == 'fruits_color') {
-      Navigator.pushNamed(context, '/fruits_coloring_game').then((_) => _load());
+      Navigator.pushNamed(context, '/fruits_coloring_game')
+          .then((_) => _load());
       return;
     }
     if (id == 'animals_color') {
-      Navigator.pushNamed(context, '/animals_coloring_game').then((_) => _load());
+      Navigator.pushNamed(context, '/animals_coloring_game')
+          .then((_) => _load());
       return;
     }
     if (id == 'nature') {
-      Navigator.pushNamed(context, '/nature_coloring_game').then((_) => _load());
+      Navigator.pushNamed(context, '/nature_coloring_game')
+          .then((_) => _load());
       return;
     }
     if (id == 'transport') {
-      Navigator.pushNamed(context, '/transport_coloring_game').then((_) => _load());
+      Navigator.pushNamed(context, '/transport_coloring_game')
+          .then((_) => _load());
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Tez kunda! 🚀', style: GoogleFonts.nunito(fontWeight: FontWeight.w700)),
+        content: Text(AppLocalizations.of(context)!.comingSoonSnackbar,
+            style: GoogleFonts.nunito(fontWeight: FontWeight.w700)),
         backgroundColor: const Color(0xFF4A90F7),
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
@@ -277,7 +325,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   /// True (locked) unless the admin backdoor is active or [requiredId] has
   /// already been completed.
-  bool _lockedUnless(String requiredId) => !_isAdmin && !_completed.contains(requiredId);
+  bool _lockedUnless(String requiredId) =>
+      !_isAdmin && !_completed.contains(requiredId);
 
   /// The Letters drawing task is now split into 7 small groups (see
   /// letters_trace_data.dart) — Numbers unlocks once every group is done,
@@ -286,6 +335,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
       kLetterGroups.every((g) => _completed.contains(g.id));
 
   Widget _buildTabSwitcher() {
+    final t = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.fromLTRB(18, 10, 18, 4),
       child: Container(
@@ -296,8 +346,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
         ),
         child: Row(
           children: [
-            _tabBtn(0, '🎓 O\'rganish', unlocked: true),
-            _tabBtn(1, '🎨 Chizish',   unlocked: _drawUnlocked),
+            _tabBtn(0, t.tabLearn, unlocked: true),
+            _tabBtn(1, t.tabDraw, unlocked: _drawUnlocked),
+            _voiceTabBtn(),
           ],
         ),
       ),
@@ -314,13 +365,17 @@ class _LevelsScreenState extends State<LevelsScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  '🔒 "Letters" darajasini tugatib oching!',
+                  // "Letters" is the curriculum level name — deliberately
+                  // not translated, see plan: curriculum/level names stay
+                  // as-is regardless of interface language.
+                  AppLocalizations.of(context)!.lockedLevelSnackbar('Letters'),
                   style: GoogleFonts.nunito(fontWeight: FontWeight.w700),
                 ),
                 backgroundColor: const Color(0xFF4A90F7),
                 behavior: SnackBarBehavior.floating,
                 duration: const Duration(seconds: 2),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)),
               ),
             );
             return;
@@ -371,6 +426,35 @@ class _LevelsScreenState extends State<LevelsScreen> {
     );
   }
 
+  /// Pushes "My Voice" (AAC) as its own screen rather than a third
+  /// setState-driven `_tab` value: unlike O'rganish/Chizish it's a
+  /// self-contained screen (own header, own back button — see
+  /// aac_home_screen.dart) and, as a communication tool, is never mastery-
+  /// gated like `_drawUnlocked`.
+  Widget _voiceTabBtn() {
+    return Expanded(
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const AacHomeScreen()),
+        ),
+        child: Container(
+          padding: const EdgeInsets.symmetric(vertical: 11),
+          child: Text(
+            AppLocalizations.of(context)!.tabVoice,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.nunito(
+              fontSize: 14,
+              fontWeight: FontWeight.w800,
+              color: const Color(0xFF6B7186),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   // ── O'rganish tab ─────────────────────────────────────────────────────────
 
   Widget _buildLearnTab() {
@@ -380,7 +464,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
           padding: const EdgeInsets.fromLTRB(18, 8, 18, 4),
           sliver: SliverToBoxAdapter(
             child: Text(
-              'Darajalar',
+              AppLocalizations.of(context)!.levelsTitle,
               textAlign: TextAlign.center,
               style: GoogleFonts.nunito(
                 fontSize: 24,
@@ -401,7 +485,10 @@ class _LevelsScreenState extends State<LevelsScreen> {
               crossAxisCount: 2,
               crossAxisSpacing: 14,
               mainAxisSpacing: 14,
-              childAspectRatio: 0.92,
+              // Shorter cards (was 0.92) to make room for a much bigger
+              // icon circle below — easier for young/motor-impaired
+              // children to recognize and tap accurately.
+              childAspectRatio: 0.8,
             ),
           ),
         ),
@@ -427,8 +514,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 380 + index * 70),
       curve: Curves.easeOut,
-      builder: (_, v, child) =>
-          Opacity(opacity: v, child: Transform.scale(scale: 0.85 + 0.15 * v, child: child)),
+      builder: (_, v, child) => Opacity(
+          opacity: v,
+          child: Transform.scale(scale: 0.85 + 0.15 * v, child: child)),
       child: GestureDetector(
         onTap: level.locked ? null : () => _onLevelTap(level),
         child: Container(
@@ -438,7 +526,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
             border: Border.all(color: borderColor, width: 2),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: level.locked ? 0.0 : 0.10),
+                color:
+                    Colors.black.withValues(alpha: level.locked ? 0.0 : 0.10),
                 blurRadius: 18,
                 offset: const Offset(0, 8),
               ),
@@ -456,8 +545,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 88,
-                    height: 88,
+                    width: 128,
+                    height: 128,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: level.locked
@@ -475,7 +564,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                     ),
                     child: Center(child: _buildLearnIcon(level)),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Text(
                     level.title,
                     style: GoogleFonts.nunito(
@@ -500,19 +589,22 @@ class _LevelsScreenState extends State<LevelsScreen> {
       return Text(
         level.letter!,
         style: GoogleFonts.nunito(
-          fontSize: 44,
+          fontSize: 66,
           fontWeight: FontWeight.w900,
-          color: level.locked ? const Color(0xFFAEB4C8) : const Color(0xFF2A2F45),
+          color:
+              level.locked ? const Color(0xFFAEB4C8) : const Color(0xFF2A2F45),
         ),
       );
     }
     if (level.customWidget != null) {
-      return Opacity(opacity: level.locked ? 0.45 : 1.0, child: level.customWidget!);
+      return Opacity(
+          opacity: level.locked ? 0.45 : 1.0, child: level.customWidget!);
     }
     if (level.emoji != null) {
       return Text(
         level.emoji!,
-        style: TextStyle(fontSize: 42, color: level.locked ? Colors.grey : null),
+        style:
+            TextStyle(fontSize: 64, color: level.locked ? Colors.grey : null),
       );
     }
     return const SizedBox();
@@ -526,7 +618,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionHeader('✏️', 'Chizish'),
+          _sectionHeader('✏️', AppLocalizations.of(context)!.drawSectionHeader),
           const SizedBox(height: 12),
           GridView.count(
             shrinkWrap: true,
@@ -551,18 +643,38 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 title: 'Harflar',
                 badge: '✏️',
                 badgeColor: const Color(0xFF4A90F7),
-                icon: Text('A', style: GoogleFonts.nunito(fontSize: 44, fontWeight: FontWeight.w900, color: const Color(0xFF2A2F45))),
+                icon: Text('A',
+                    style: GoogleFonts.nunito(
+                        fontSize: 44,
+                        fontWeight: FontWeight.w900,
+                        color: const Color(0xFF2A2F45))),
                 locked: _lockedUnless('shapes'),
                 cardColor: const Color(0xFFDFF0DB),
                 borderColor: const Color(0xFF8ED07A),
               ),
-              _drawCard(id: 'numbers_draw', title: 'Raqamlar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('123', style: TextStyle(fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF5A6076))), locked: !_isAdmin && !_allLetterGroupsDone),
-              _drawCard(id: 'objects', title: 'Narsalar', badge: '✏️', badgeColor: const Color(0xFF4A90F7), icon: const Text('🏠', style: TextStyle(fontSize: 40)), locked: _lockedUnless('number_drawing')),
+              _drawCard(
+                  id: 'numbers_draw',
+                  title: 'Raqamlar',
+                  badge: '✏️',
+                  badgeColor: const Color(0xFF4A90F7),
+                  icon: const Text('123',
+                      style: TextStyle(
+                          fontSize: 26,
+                          fontWeight: FontWeight.w900,
+                          color: Color(0xFF5A6076))),
+                  locked: !_isAdmin && !_allLetterGroupsDone),
+              _drawCard(
+                  id: 'objects',
+                  title: 'Narsalar',
+                  badge: '✏️',
+                  badgeColor: const Color(0xFF4A90F7),
+                  icon: const Text('🏠', style: TextStyle(fontSize: 40)),
+                  locked: _lockedUnless('number_drawing')),
             ],
           ),
-
           const SizedBox(height: 22),
-          _sectionHeader('🖌️', "Bo'yash"),
+          _sectionHeader(
+              '🖌️', AppLocalizations.of(context)!.paintSectionHeader),
           const SizedBox(height: 12),
           GridView.count(
             shrinkWrap: true,
@@ -582,9 +694,27 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 cardColor: const Color(0xFFFDECD6),
                 borderColor: const Color(0xFFF3C27A),
               ),
-              _drawCard(id: 'animals_color', title: 'Hayvonlar', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🦁', style: TextStyle(fontSize: 40)), locked: _lockedUnless('fruits_color')),
-              _drawCard(id: 'nature',        title: 'Tabiat',    badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🌸', style: TextStyle(fontSize: 40)), locked: _lockedUnless('animals_color')),
-              _drawCard(id: 'transport',     title: 'Transport', badge: '🖌️', badgeColor: const Color(0xFFEF6F9C), icon: const Text('🚗', style: TextStyle(fontSize: 40)), locked: _lockedUnless('nature_color')),
+              _drawCard(
+                  id: 'animals_color',
+                  title: 'Hayvonlar',
+                  badge: '🖌️',
+                  badgeColor: const Color(0xFFEF6F9C),
+                  icon: const Text('🦁', style: TextStyle(fontSize: 40)),
+                  locked: _lockedUnless('fruits_color')),
+              _drawCard(
+                  id: 'nature',
+                  title: 'Tabiat',
+                  badge: '🖌️',
+                  badgeColor: const Color(0xFFEF6F9C),
+                  icon: const Text('🌸', style: TextStyle(fontSize: 40)),
+                  locked: _lockedUnless('animals_color')),
+              _drawCard(
+                  id: 'transport',
+                  title: 'Transport',
+                  badge: '🖌️',
+                  badgeColor: const Color(0xFFEF6F9C),
+                  icon: const Text('🚗', style: TextStyle(fontSize: 40)),
+                  locked: _lockedUnless('nature_color')),
             ],
           ),
         ],
@@ -659,9 +789,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                         height: 88,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: locked
-                              ? const Color(0xFFF3F4F7)
-                              : Colors.white,
+                          color:
+                              locked ? const Color(0xFFF3F4F7) : Colors.white,
                           boxShadow: locked
                               ? []
                               : [
@@ -698,7 +827,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                               ],
                             ),
                             child: Center(
-                              child: Text(badge, style: const TextStyle(fontSize: 14)),
+                              child: Text(badge,
+                                  style: const TextStyle(fontSize: 14)),
                             ),
                           ),
                         ),
@@ -711,7 +841,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   style: GoogleFonts.nunito(
                     fontSize: 17,
                     fontWeight: FontWeight.w800,
-                    color: locked ? const Color(0xFFAEB4C8) : const Color(0xFF2A2F45),
+                    color: locked
+                        ? const Color(0xFFAEB4C8)
+                        : const Color(0xFF2A2F45),
                   ),
                 ),
               ],
@@ -733,9 +865,21 @@ class _NumbersIcon extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('1', style: GoogleFonts.nunito(fontSize: 22, fontWeight: FontWeight.w900, color: const Color(0xFFEF6F9C))),
-        Text('2', style: GoogleFonts.nunito(fontSize: 26, fontWeight: FontWeight.w900, color: const Color(0xFF4A90F7))),
-        Text('3', style: GoogleFonts.nunito(fontSize: 20, fontWeight: FontWeight.w900, color: const Color(0xFF22B07D))),
+        Text('1',
+            style: GoogleFonts.nunito(
+                fontSize: 32,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFFEF6F9C))),
+        Text('2',
+            style: GoogleFonts.nunito(
+                fontSize: 38,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF4A90F7))),
+        Text('3',
+            style: GoogleFonts.nunito(
+                fontSize: 30,
+                fontWeight: FontWeight.w900,
+                color: const Color(0xFF22B07D))),
       ],
     );
   }
@@ -758,16 +902,26 @@ class _ShapesIconPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     // Square
-    final pSquare = Paint()..color = const Color(0xFF4A90F7)..style = PaintingStyle.fill;
+    final pSquare = Paint()
+      ..color = const Color(0xFF4A90F7)
+      ..style = PaintingStyle.fill;
     canvas.drawRRect(
-      RRect.fromRectAndRadius(Rect.fromLTWH(2, size.height * 0.3, size.height * 0.6, size.height * 0.6), const Radius.circular(4)),
+      RRect.fromRectAndRadius(
+          Rect.fromLTWH(
+              2, size.height * 0.3, size.height * 0.6, size.height * 0.6),
+          const Radius.circular(4)),
       pSquare,
     );
     // Circle
-    final pCircle = Paint()..color = const Color(0xFFEF6F9C)..style = PaintingStyle.fill;
-    canvas.drawCircle(Offset(size.width * 0.62, size.height * 0.38), size.height * 0.32, pCircle);
+    final pCircle = Paint()
+      ..color = const Color(0xFFEF6F9C)
+      ..style = PaintingStyle.fill;
+    canvas.drawCircle(Offset(size.width * 0.62, size.height * 0.38),
+        size.height * 0.32, pCircle);
     // Triangle
-    final pTri = Paint()..color = const Color(0xFF22B07D)..style = PaintingStyle.fill;
+    final pTri = Paint()
+      ..color = const Color(0xFF22B07D)
+      ..style = PaintingStyle.fill;
     final triPath = Path()
       ..moveTo(size.width * 0.82, size.height * 0.58)
       ..lineTo(size.width, size.height * 0.58)

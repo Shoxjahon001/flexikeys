@@ -1,0 +1,107 @@
+{
+  "category": "places",
+  "cards": [
+    {
+      "id": "pl_bathroom",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Bathroom", "uz": "Hammom", "ru": "Ванная"},
+      "sentence_template": {
+        "en": "I want to go to the bathroom.",
+        "uz": "Men hammomga bormoqchiman.",
+        "ru": "Я хочу в ванную."
+      },
+      "animation_asset": "shared/aac/animations/pl_bathroom.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_bathroom.mp3",
+        "uz": "shared/aac/audio/uz/pl_bathroom.mp3",
+        "ru": "shared/aac/audio/ru/pl_bathroom.mp3"
+      }
+    },
+    {
+      "id": "pl_outside",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Outside", "uz": "Tashqari", "ru": "На улицу"},
+      "sentence_template": {
+        "en": "I want to go outside.",
+        "uz": "Men tashqariga chiqmoqchiman.",
+        "ru": "Я хочу на улицу."
+      },
+      "animation_asset": "shared/aac/animations/pl_outside.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_outside.mp3",
+        "uz": "shared/aac/audio/uz/pl_outside.mp3",
+        "ru": "shared/aac/audio/ru/pl_outside.mp3"
+      }
+    },
+    {
+      "id": "pl_kitchen",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Kitchen", "uz": "Oshxona", "ru": "Кухня"},
+      "sentence_template": {
+        "en": "I want to go to the kitchen.",
+        "uz": "Men oshxonaga bormoqchiman.",
+        "ru": "Я хочу на кухню."
+      },
+      "animation_asset": "shared/aac/animations/pl_kitchen.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_kitchen.mp3",
+        "uz": "shared/aac/audio/uz/pl_kitchen.mp3",
+        "ru": "shared/aac/audio/ru/pl_kitchen.mp3"
+      }
+    },
+    {
+      "id": "pl_bedroom",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Bedroom", "uz": "Yotoqxona", "ru": "Спальня"},
+      "sentence_template": {
+        "en": "I want to go to my bedroom.",
+        "uz": "Men yotoqxonaga bormoqchiman.",
+        "ru": "Я хочу в спальню."
+      },
+      "animation_asset": "shared/aac/animations/pl_bedroom.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_bedroom.mp3",
+        "uz": "shared/aac/audio/uz/pl_bedroom.mp3",
+        "ru": "shared/aac/audio/ru/pl_bedroom.mp3"
+      }
+    },
+    {
+      "id": "pl_school",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "School", "uz": "Maktab", "ru": "Школа"},
+      "sentence_template": {
+        "en": "I want to go to school.",
+        "uz": "Men maktabga bormoqchiman.",
+        "ru": "Я хочу в школу."
+      },
+      "animation_asset": "shared/aac/animations/pl_school.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_school.mp3",
+        "uz": "shared/aac/audio/uz/pl_school.mp3",
+        "ru": "shared/aac/audio/ru/pl_school.mp3"
+      }
+    },
+    {
+      "id": "pl_hospital",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Hospital", "uz": "Shifoxona", "ru": "Больница"},
+      "sentence_template": {
+        "en": "I want to go to the hospital.",
+        "uz": "Men shifoxonaga bormoqchiman.",
+        "ru": "Я хочу в больницу."
+      },
+      "animation_asset": "shared/aac/animations/pl_hospital.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pl_hospital.mp3",
+        "uz": "shared/aac/audio/uz/pl_hospital.mp3",
+        "ru": "shared/aac/audio/ru/pl_hospital.mp3"
+      }
+    }
+  ]
+}

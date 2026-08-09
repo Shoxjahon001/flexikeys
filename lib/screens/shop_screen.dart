@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
@@ -68,7 +69,7 @@ class _ShopScreenState extends State<ShopScreen> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Not enough stars!',
+          content: Text(AppLocalizations.of(context)!.notEnoughStarsSnackbar,
               style: GoogleFonts.nunito(
                   fontWeight: FontWeight.w700, color: FkColors.ink)),
           backgroundColor: FkColors.attention,
@@ -81,10 +82,10 @@ class _ShopScreenState extends State<ShopScreen> {
     }
     await UserService.addOwnedItem(item.id);
     await UserService.setSelectedItem(item.id);
-    TtsService.instance.speakFunny('Hooray! You got it!');
+    if (!mounted) return;
+    TtsService.instance.speakFunny(AppLocalizations.of(context)!.gotItPraise);
     _load();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +96,7 @@ class _ShopScreenState extends State<ShopScreen> {
           children: [
             _buildTopBar(),
             Text(
-              'Shop',
+              AppLocalizations.of(context)!.shopTitle,
               style: GoogleFonts.nunito(
                 fontSize: 32,
                 fontWeight: FontWeight.w900,
@@ -105,7 +106,8 @@ class _ShopScreenState extends State<ShopScreen> {
             const SizedBox(height: 12),
             Expanded(
               child: GridView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 16,
@@ -153,8 +155,9 @@ class _ShopScreenState extends State<ShopScreen> {
                   ),
                   child: ValueListenableBuilder<String>(
                     valueListenable: UserService.avatarNotifier,
-                    builder: (_, emoji, __) =>
-                        Center(child: Text(emoji, style: const TextStyle(fontSize: 26))),
+                    builder: (_, emoji, __) => Center(
+                        child:
+                            Text(emoji, style: const TextStyle(fontSize: 26))),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -214,8 +217,14 @@ class _ShopScreenState extends State<ShopScreen> {
 
     // Three states: not owned yet (buy), owned but not worn (tap to equip),
     // owned and currently worn (shown as active, nothing to do).
-    final Color barColor = selected ? const Color(0xFF52C96A) : AppTheme.buttonBlue;
-    final String label = selected ? 'tanlangan' : owned ? 'qo\'yish' : '${item.price}⭐';
+    final t = AppLocalizations.of(context)!;
+    final Color barColor =
+        selected ? const Color(0xFF52C96A) : AppTheme.buttonBlue;
+    final String label = selected
+        ? t.itemSelectedLabel
+        : owned
+            ? t.itemEquipLabel
+            : '${item.price}⭐';
     final VoidCallback? onTap =
         selected ? null : (owned ? () => _equip(item) : () => _buy(item));
 

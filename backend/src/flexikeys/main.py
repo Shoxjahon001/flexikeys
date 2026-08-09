@@ -99,6 +99,7 @@ def create_app() -> FastAPI:
 
     # ── Module routers ────────────────────────────────────────────────────────
 
+    from flexikeys.modules.aac.router import router as aac_router
     from flexikeys.modules.adaptive.router import router as adaptive_router
     from flexikeys.modules.admin.router import router as admin_router
     from flexikeys.modules.ai_assistant.router import router as ai_assistant_router
@@ -115,6 +116,7 @@ def create_app() -> FastAPI:
     from flexikeys.modules.users.router import router as users_router
 
     prefix = "/api/v1"
+    app.include_router(aac_router, prefix=prefix)
     app.include_router(auth_router, prefix=prefix)
     app.include_router(users_router, prefix=prefix)
     app.include_router(children_router, prefix=prefix)

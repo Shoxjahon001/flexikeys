@@ -1,0 +1,153 @@
+{
+  "category": "feelings",
+  "cards": [
+    {
+      "id": "fe_pain",
+      "kind": "branch",
+      "difficulty_tier": 1,
+      "label": {"en": "Pain", "uz": "Og'riq", "ru": "Боль"},
+      "sentence_template": {
+        "en": "My {noun} hurts.",
+        "uz": "Mening {noun} og'riyapti.",
+        "ru": "У меня болит {noun}."
+      },
+      "animation_asset": "shared/aac/animations/fe_pain.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_pain.mp3",
+        "uz": "shared/aac/audio/uz/fe_pain.mp3",
+        "ru": "shared/aac/audio/ru/fe_pain.mp3"
+      },
+      "fringe_options": [
+        {
+          "id": "fe_pain_head",
+          "label": {"en": "Head", "uz": "Bosh", "ru": "Голова"},
+          "fill_value": {"en": "head", "uz": "boshim", "ru": "голова"},
+          "animation_asset": "shared/aac/animations/fe_pain_head.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/fe_pain_head.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_head.mp3",
+            "ru": "shared/aac/audio/ru/fe_pain_head.mp3"
+          }
+        },
+        {
+          "id": "fe_pain_stomach",
+          "label": {"en": "Stomach", "uz": "Qorin", "ru": "Живот"},
+          "fill_value": {"en": "stomach", "uz": "qornim", "ru": "живот"},
+          "animation_asset": "shared/aac/animations/fe_pain_stomach.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/fe_pain_stomach.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_stomach.mp3",
+            "ru": "shared/aac/audio/ru/fe_pain_stomach.mp3"
+          }
+        },
+        {
+          "id": "fe_pain_tooth",
+          "label": {"en": "Tooth", "uz": "Tish", "ru": "Зуб"},
+          "fill_value": {"en": "tooth", "uz": "tishim", "ru": "зуб"},
+          "animation_asset": "shared/aac/animations/fe_pain_tooth.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/fe_pain_tooth.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_tooth.mp3",
+            "ru": "shared/aac/audio/ru/fe_pain_tooth.mp3"
+          }
+        },
+        {
+          "id": "fe_pain_leg",
+          "label": {"en": "Leg", "uz": "Oyoq", "ru": "Нога"},
+          "fill_value": {"en": "leg", "uz": "oyog'im", "ru": "нога"},
+          "animation_asset": "shared/aac/animations/fe_pain_leg.json",
+          "audio_asset": {
+            "en": "shared/aac/audio/en/fe_pain_leg.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_leg.mp3",
+            "ru": "shared/aac/audio/ru/fe_pain_leg.mp3"
+          }
+        }
+      ]
+    },
+    {
+      "id": "fe_happy",
+      "kind": "direct",
+      "difficulty_tier": 2,
+      "label": {"en": "Happy", "uz": "Xursand", "ru": "Счастлив"},
+      "sentence_template": {
+        "en": "I feel happy.",
+        "uz": "Men xursandman.",
+        "ru": "Я счастлив."
+      },
+      "animation_asset": "shared/aac/animations/fe_happy.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_happy.mp3",
+        "uz": "shared/aac/audio/uz/fe_happy.mp3",
+        "ru": "shared/aac/audio/ru/fe_happy.mp3"
+      }
+    },
+    {
+      "id": "fe_sad",
+      "kind": "direct",
+      "difficulty_tier": 2,
+      "label": {"en": "Sad", "uz": "Xafa", "ru": "Грустно"},
+      "sentence_template": {
+        "en": "I feel sad.",
+        "uz": "Men xafaman.",
+        "ru": "Мне грустно."
+      },
+      "animation_asset": "shared/aac/animations/fe_sad.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_sad.mp3",
+        "uz": "shared/aac/audio/uz/fe_sad.mp3",
+        "ru": "shared/aac/audio/ru/fe_sad.mp3"
+      }
+    },
+    {
+      "id": "fe_angry",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Angry", "uz": "Jahli chiqqan", "ru": "Злюсь"},
+      "sentence_template": {
+        "en": "I feel angry.",
+        "uz": "Mening jahlim chiqyapti.",
+        "ru": "Я злюсь."
+      },
+      "animation_asset": "shared/aac/animations/fe_angry.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_angry.mp3",
+        "uz": "shared/aac/audio/uz/fe_angry.mp3",
+        "ru": "shared/aac/audio/ru/fe_angry.mp3"
+      }
+    },
+    {
+      "id": "fe_scared",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Scared", "uz": "Qo'rqqan", "ru": "Испуган"},
+      "sentence_template": {
+        "en": "I feel scared.",
+        "uz": "Men qo'rqyapman.",
+        "ru": "Мне страшно."
+      },
+      "animation_asset": "shared/aac/animations/fe_scared.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_scared.mp3",
+        "uz": "shared/aac/audio/uz/fe_scared.mp3",
+        "ru": "shared/aac/audio/ru/fe_scared.mp3"
+      }
+    },
+    {
+      "id": "fe_tired",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Tired", "uz": "Charchagan", "ru": "Устал"},
+      "sentence_template": {
+        "en": "I feel tired.",
+        "uz": "Men charchadim.",
+        "ru": "Я устал."
+      },
+      "animation_asset": "shared/aac/animations/fe_tired.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/fe_tired.mp3",
+        "uz": "shared/aac/audio/uz/fe_tired.mp3",
+        "ru": "shared/aac/audio/ru/fe_tired.mp3"
+      }
+    }
+  ]
+}

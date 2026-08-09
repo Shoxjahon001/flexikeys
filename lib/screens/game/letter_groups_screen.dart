@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../design_system/design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../services/user_service.dart';
 import '../../data/trace_items/letters_trace_data.dart';
 import 'trace_drawing_screen.dart';
@@ -43,8 +44,7 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
           title: 'Harflar · ${group.label}',
           items: group.items,
           levelSlug: group.id,
-          instructionNoun: 'harfini',
-          completionTitle: 'Guruh tayyor!',
+          completionTitle: AppLocalizations.of(context)!.groupReadyHeadline,
         ),
       ),
     ).then((_) => _load());
@@ -53,7 +53,8 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
   @override
   Widget build(BuildContext context) {
     final fk = FkPlayTheme.of(context);
-    final doneCount = kLetterGroups.where((g) => _completed.contains(g.id)).length;
+    final doneCount =
+        kLetterGroups.where((g) => _completed.contains(g.id)).length;
 
     return Scaffold(
       backgroundColor: fk.background,
@@ -80,26 +81,32 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
 
   Widget _buildHeader(FkPlayTheme fk, int doneCount) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(FkSpacing.sm, FkSpacing.xs, FkSpacing.sm, 0),
+      padding: const EdgeInsets.fromLTRB(
+          FkSpacing.sm, FkSpacing.xs, FkSpacing.sm, 0),
       child: Row(children: [
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            width: 48, height: 48,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: fk.surface,
               borderRadius: FkRadii.smAll,
               boxShadow: FkElevation.low(fk.ink),
             ),
-            child: Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: fk.ink),
+            child:
+                Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: fk.ink),
           ),
         ),
         const SizedBox(width: FkSpacing.xs),
-        Text('Harflar', style: FkTextStyles.playHeadline.copyWith(fontSize: 20, color: fk.ink)),
+        Text('Harflar',
+            style: FkTextStyles.playHeadline
+                .copyWith(fontSize: 20, color: fk.ink)),
         const Spacer(),
         Text(
           '$doneCount/${kLetterGroups.length}',
-          style: FkTextStyles.playCaption.copyWith(fontSize: 15, color: fk.inkSoft),
+          style: FkTextStyles.playCaption
+              .copyWith(fontSize: 15, color: fk.inkSoft),
         ),
       ]),
     );
@@ -134,13 +141,16 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
           children: [
             if (!unlocked)
               Positioned(
-                top: 10, right: 12,
+                top: 10,
+                right: 12,
                 child: Icon(Icons.lock_rounded, size: 18, color: fk.inkSoft),
               ),
             if (done)
               Positioned(
-                top: 10, right: 12,
-                child: Icon(Icons.check_circle_rounded, size: 20, color: fk.success),
+                top: 10,
+                right: 12,
+                child: Icon(Icons.check_circle_rounded,
+                    size: 20, color: fk.success),
               ),
             Center(
               child: Text(

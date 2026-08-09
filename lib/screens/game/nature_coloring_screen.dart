@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/coloring_items/nature_coloring_data.dart';
+import '../../l10n/app_localizations.dart';
 import 'coloring_screen.dart';
 
 class NatureColoringScreen extends StatelessWidget {
@@ -7,12 +8,12 @@ class NatureColoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Tabiat · bo\'yash',
+      title: 'Tabiat · ${t.coloringSuffix}',
       items: kNatureColoringItems,
       levelSlug: 'nature_color',
-      instructionNoun: 'rasmni',
-      completionTitle: 'All nature pictures colored!',
+      completionTitle: t.completionAllNatureColored,
     );
   }
 }

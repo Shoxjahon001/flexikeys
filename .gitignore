@@ -66,3 +66,8 @@ htmlcov/
 .coverage
 dist/
 *.egg-info/
+
+# Local runtime/dev artifacts
+*.sqlite
+*.sqlite3
+test/**/failures/

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
@@ -57,6 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Container(
       decoration: appGradientBg,
       child: SafeArea(
@@ -68,7 +70,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _buildTopBar(),
               const SizedBox(height: 8),
               Text(
-                'Parent dashboard',
+                t.parentDashboardHeader,
                 style: GoogleFonts.nunito(
                   fontSize: 28,
                   fontWeight: FontWeight.w900,
@@ -82,12 +84,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   Expanded(
                     child: _statCard(
-                      'Letters',
+                      t.statLettersLabel,
                       _lettersStage == 0
-                          ? 'Not started'
+                          ? t.statNotStarted
                           : _lettersStage == 1
-                              ? 'Stage 1 ✓'
-                              : 'Done! ✓',
+                              ? t.statStage1Done
+                              : t.statDone,
                       '📚',
                     ),
                   ),
@@ -96,7 +98,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ValueListenableBuilder<int>(
                       valueListenable: UserService.starsNotifier,
                       builder: (_, stars, __) =>
-                          _statCard('Stars', '$stars ⭐', '🎯'),
+                          _statCard(t.statStarsLabel, '$stars ⭐', '🎯'),
                     ),
                   ),
                 ],
@@ -105,25 +107,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Row(
                 children: [
                   Expanded(
-                      child: _statCard(
-                          'Accuracy',
-                          '${(_accuracy * 100).round()}%',
-                          '✅')),
+                      child: _statCard(t.accuracyLabel,
+                          '${(_accuracy * 100).round()}%', '✅')),
                   const SizedBox(width: 14),
                   Expanded(
                       child: _statCard(
-                          'Time spent',
-                          '$_timeToday min',
-                          '⏱️',
-                          subtitle: 'today')),
+                          t.statTimeSpentLabel, '$_timeToday min', '⏱️',
+                          subtitle: t.statTodaySuffix)),
                 ],
               ),
               const SizedBox(height: 14),
 
               // Needs practice
               Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 20, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.85),
                   borderRadius: BorderRadius.circular(20),
@@ -138,7 +136,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Expanded(
                       child: Text(
-                        'Needs practice',
+                        t.needsPracticeLabel,
                         style: GoogleFonts.nunito(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
@@ -158,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Practice',
+                          t.practiceButton,
                           style: GoogleFonts.nunito(
                             fontSize: 15,
                             fontWeight: FontWeight.w800,
@@ -176,7 +174,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               GestureDetector(
                 onTap: _openAssistant,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
                   decoration: BoxDecoration(
                     gradient: const LinearGradient(
                       colors: [Color(0xFFD9D2F0), Color(0xFFFFD9C7)],
@@ -209,7 +208,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Ask the AI Assistant',
+                              t.askAiAssistantTitle,
                               style: GoogleFonts.nunito(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w800,
@@ -218,7 +217,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              'Progress insights, reports, and practice tips',
+                              t.askAiAssistantSubtitle,
                               style: GoogleFonts.nunito(
                                 fontSize: 13,
                                 color: AppTheme.textMedium,
@@ -252,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Settings',
+                      t.settingsTitle,
                       style: GoogleFonts.nunito(
                         fontSize: 22,
                         fontWeight: FontWeight.w900,
@@ -263,24 +262,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: _settingsBtn('Language 🇺🇸', () {}),
+                          child: ValueListenableBuilder<String>(
+                            valueListenable: UserService.uiLanguageNotifier,
+                            builder: (_, uiLanguage, __) => _settingsBtn(
+                              '${t.languageMenuButton} ${_flagFor(uiLanguage)}',
+                              _changeLanguage,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
-                          child: _settingsBtn('sign out  →', _signOut),
+                          child: _settingsBtn(t.signOutButton, _signOut),
                         ),
                       ],
                     ),
                     if (!_hasBackendAccount) ...[
                       const SizedBox(height: 12),
                       _settingsBtn(
-                        'Save my progress to an account →',
+                        t.saveProgressButton,
                         () => Navigator.pushNamed(context, '/parent_signup'),
                       ),
                     ],
                     const SizedBox(height: 16),
                     Text(
-                      'Volume',
+                      t.volumeLabel,
                       style: GoogleFonts.nunito(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -339,8 +344,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   child: ValueListenableBuilder<String>(
                     valueListenable: UserService.avatarNotifier,
-                    builder: (_, emoji, __) =>
-                        Center(child: Text(emoji, style: const TextStyle(fontSize: 26))),
+                    builder: (_, emoji, __) => Center(
+                        child:
+                            Text(emoji, style: const TextStyle(fontSize: 26))),
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -358,8 +364,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           const Spacer(),
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.85),
               borderRadius: BorderRadius.circular(24),
@@ -479,33 +484,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// `/parent_signup` when either is missing (the assistant is meant to be
   /// grounded in real backend progress data, not shown empty).
   Future<void> _openAssistant() async {
-    final childId = await SecureTokenStore.instance.getActiveChildId() ?? 'guest';
+    final childId =
+        await SecureTokenStore.instance.getActiveChildId() ?? 'guest';
     if (!mounted) return;
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (_) => ParentHomeScreen(childId: childId, initialTab: 2),
+        builder: (_) => ParentHomeScreen(childId: childId, initialTab: 3),
       ),
     );
   }
 
   Future<void> _signOut() async {
+    final t = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text('Sign out?',
+        title: Text(t.signOutDialogTitle,
             style: GoogleFonts.nunito(fontWeight: FontWeight.w900)),
-        content: Text('All progress will be kept.',
-            style: GoogleFonts.nunito()),
+        content: Text(t.signOutDialogBody, style: GoogleFonts.nunito()),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Cancel', style: GoogleFonts.nunito()),
+            child: Text(t.cancelButton, style: GoogleFonts.nunito()),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text('Sign out',
+            child: Text(t.signOutConfirm,
                 style: GoogleFonts.nunito(color: Colors.red)),
           ),
         ],
@@ -515,6 +521,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await UserService.signOut();
       if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(context, '/', (r) => false);
+    }
+  }
+
+  static const _languageFlags = {'en': '🇺🇸', 'uz': '🇺🇿', 'ru': '🇷🇺'};
+  String _flagFor(String code) => _languageFlags[code] ?? '🇺🇸';
+
+  /// This was previously a decorative no-op button — see localization audit.
+  /// It sets the app's INTERFACE language only (UserService.uiLanguageNotifier),
+  /// not the child's learning language, which stays untouched here.
+  Future<void> _changeLanguage() async {
+    final t = AppLocalizations.of(context)!;
+    final current = UserService.uiLanguageNotifier.value;
+    final options = {
+      'en': t.languageEnglish,
+      'uz': t.languageUzbek,
+      'ru': t.languageRussian,
+    };
+    final selected = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(t.uiLanguageSetting,
+            style: GoogleFonts.nunito(fontWeight: FontWeight.w900)),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: options.entries
+              .map((e) => ListTile(
+                    onTap: () => Navigator.pop(ctx, e.key),
+                    leading: Icon(
+                      e.key == current
+                          ? Icons.radio_button_checked_rounded
+                          : Icons.radio_button_unchecked_rounded,
+                      color: AppTheme.primary,
+                    ),
+                    title: Text('${_flagFor(e.key)}  ${e.value}',
+                        style: GoogleFonts.nunito()),
+                  ))
+              .toList(),
+        ),
+      ),
+    );
+    if (selected != null && selected != current) {
+      await UserService.setUiLanguage(selected);
     }
   }
 }

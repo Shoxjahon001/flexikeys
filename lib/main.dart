@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'design_system/fk_theme.dart';
+import 'design_system/theme/app_theme.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/splash_screen.dart';
 import 'screens/language_screen.dart';
 import 'screens/register_screen.dart';
@@ -26,6 +26,7 @@ import 'screens/game/fruits_coloring_screen.dart';
 import 'screens/game/animals_coloring_screen.dart';
 import 'screens/game/nature_coloring_screen.dart';
 import 'screens/game/transport_coloring_screen.dart';
+import 'features/aac/presentation/aac_home_screen.dart';
 import 'services/user_service.dart';
 import 'services/tts_service.dart';
 import 'services/sound_service.dart';
@@ -61,46 +62,58 @@ class FlexiKeysApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'FlexiKeys',
-      debugShowCheckedModeBanner: false,
-      // FkTheme replaces the old AppTheme — design tokens are now canonical
-      theme: FkTheme.themeData(),
-      initialRoute: startRegistered ? '/main' : '/',
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en'),
-        Locale('uz'),
-        Locale('ru'),
-      ],
-      routes: {
-        '/': (context) => const SplashScreen(),
-        '/language': (context) => const LanguageScreen(),
-        '/register': (context) => const RegisterScreen(),
-        '/welcome': (context) => const WelcomeScreen(),
-        '/main': (context) => const MainShell(),
-        '/login': (context) => const LoginScreen(),
-        '/parent_signup': (context) => const ParentSignupScreen(),
-        '/child_picker': (context) => const ChildPickerScreen(),
-        '/game_stage1': (context) => const LettersStage1Screen(),
-        '/game_stage2': (context) => const LettersStage2Screen(),
-        '/generic_game': (context) => const GenericGameScreen(),
-        '/good_job': (context) => const GoodJobScreen(),
-        '/level_complete': (context) => const LevelCompleteScreen(),
-        '/shapes_game': (context) => const ShapesScreen(),
-        '/letter_drawing_game': (context) => const LetterDrawingScreen(),
-        '/letter_groups': (context) => const LetterGroupsScreen(),
-        '/number_drawing_game': (context) => const NumberDrawingScreen(),
-        '/object_drawing_game': (context) => const ObjectDrawingScreen(),
-        '/fruits_coloring_game': (context) => const FruitsColoringScreen(),
-        '/animals_coloring_game': (context) => const AnimalsColoringScreen(),
-        '/nature_coloring_game': (context) => const NatureColoringScreen(),
-        '/transport_coloring_game': (context) => const TransportColoringScreen(),
-      },
+    // Rebuilds MaterialApp's locale immediately when the interface language
+    // changes — from the onboarding picker or the parent dashboard's
+    // Display Language setting — same ValueNotifier pattern UserService
+    // already uses for starsNotifier/avatarNotifier. This is deliberately
+    // separate from the child's learning language (UserService.getLanguage/
+    // setLearningLanguage), which drives curriculum/AAC content, not chrome.
+    return ValueListenableBuilder<String>(
+      valueListenable: UserService.uiLanguageNotifier,
+      builder: (context, uiLanguage, _) => MaterialApp(
+        title: 'FlexiKeys',
+        debugShowCheckedModeBanner: false,
+        // FlexiKeysTheme.dark() exists (see design_system/theme/app_theme.dart)
+        // but isn't wired as `darkTheme:`/`themeMode:` yet — most screens
+        // still read AppColors.* as flat light-mode constants rather than
+        // through Theme.of(context), so toggling dark mode wouldn't
+        // actually cascade through the app yet. Wiring it live is deferred
+        // to whichever later phase makes every screen theme-driven.
+        theme: FlexiKeysTheme.light(),
+        initialRoute: startRegistered ? '/main' : '/',
+        locale: Locale(uiLanguage),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routes: {
+          '/': (context) => const SplashScreen(),
+          '/language': (context) => const LanguageScreen(),
+          '/register': (context) => const RegisterScreen(),
+          '/welcome': (context) => const WelcomeScreen(),
+          '/main': (context) => const MainShell(),
+          '/login': (context) => const LoginScreen(),
+          '/parent_signup': (context) => const ParentSignupScreen(),
+          '/child_picker': (context) => const ChildPickerScreen(),
+          '/game_stage1': (context) => const LettersStage1Screen(),
+          '/game_stage2': (context) => const LettersStage2Screen(),
+          '/generic_game': (context) => const GenericGameScreen(),
+          '/good_job': (context) => const GoodJobScreen(),
+          '/level_complete': (context) => const LevelCompleteScreen(),
+          '/shapes_game': (context) => const ShapesScreen(),
+          '/letter_drawing_game': (context) => const LetterDrawingScreen(),
+          '/letter_groups': (context) => const LetterGroupsScreen(),
+          '/number_drawing_game': (context) => const NumberDrawingScreen(),
+          '/object_drawing_game': (context) => const ObjectDrawingScreen(),
+          '/fruits_coloring_game': (context) => const FruitsColoringScreen(),
+          '/animals_coloring_game': (context) => const AnimalsColoringScreen(),
+          '/nature_coloring_game': (context) => const NatureColoringScreen(),
+          '/transport_coloring_game': (context) =>
+              const TransportColoringScreen(),
+          // "My Voice" AAC module — reachable from LevelsScreen's top tab
+          // switcher (levels_screen.dart); kept as a named route too so it
+          // stays directly deep-linkable for QA.
+          '/aac_home': (context) => const AacHomeScreen(),
+        },
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../data/coloring_items/fruits_coloring_data.dart';
+import '../../l10n/app_localizations.dart';
 import 'coloring_screen.dart';
 
 class FruitsColoringScreen extends StatelessWidget {
@@ -7,12 +8,12 @@ class FruitsColoringScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Mevalar · bo\'yash',
+      title: 'Mevalar · ${t.coloringSuffix}',
       items: kFruitsColoringItems,
       levelSlug: 'fruits_color',
-      instructionNoun: 'mevani',
-      completionTitle: 'All fruits colored!',
+      completionTitle: t.completionAllFruitsColored,
     );
   }
 }

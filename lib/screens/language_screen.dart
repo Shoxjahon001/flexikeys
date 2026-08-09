@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../l10n/app_localizations.dart';
+import '../services/user_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/cloud_mascot.dart';
 import '../widgets/dot_indicator.dart';
@@ -16,10 +18,13 @@ class _LanguageScreenState extends State<LanguageScreen>
   String? _selected;
   late AnimationController _animController;
 
+  // Each language's own native name (autonym) — shown as-is regardless of
+  // the currently active interface language, so a speaker of any of the
+  // three can always recognize their own language in this picker.
   final List<Map<String, String>> _languages = [
     {'flag': '🇺🇸', 'name': 'English', 'code': 'en'},
     {'flag': '🇷🇺', 'name': 'Русский', 'code': 'ru'},
-    {'flag': '🇺🇿', 'name': 'Ōzbek', 'code': 'uz'},
+    {'flag': '🇺🇿', 'name': "O'zbek", 'code': 'uz'},
   ];
 
   @override
@@ -39,6 +44,12 @@ class _LanguageScreenState extends State<LanguageScreen>
 
   void _selectLanguage(String code) {
     setState(() => _selected = code);
+    // Flips the interface language live — the rest of onboarding
+    // (RegisterScreen, ParentSignupScreen) renders in it immediately. This
+    // is a separate, one-time default for the child's learning language
+    // too (see UserService.saveRegistration), but the two stay
+    // independently changeable afterward.
+    UserService.setUiLanguage(code);
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
         Navigator.pushNamed(context, '/parent_signup',
@@ -49,6 +60,7 @@ class _LanguageScreenState extends State<LanguageScreen>
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     return Scaffold(
       body: Container(
         decoration: appGradientBg,
@@ -62,7 +74,7 @@ class _LanguageScreenState extends State<LanguageScreen>
 
               // Title
               Text(
-                'Choose Your Language',
+                t.chooseLanguageTitle,
                 style: GoogleFonts.nunito(
                   fontSize: 26,
                   fontWeight: FontWeight.w900,
@@ -72,7 +84,7 @@ class _LanguageScreenState extends State<LanguageScreen>
               ),
               const SizedBox(height: 6),
               Text(
-                'Select language to start',
+                t.chooseLanguageSubtitle,
                 style: GoogleFonts.nunito(
                   fontSize: 15,
                   color: AppTheme.textMedium,
@@ -126,7 +138,8 @@ class _LanguageScreenState extends State<LanguageScreen>
                               boxShadow: isSelected
                                   ? [
                                       BoxShadow(
-                                        color: AppTheme.primary.withValues(alpha: 0.2),
+                                        color: AppTheme.primary
+                                            .withValues(alpha: 0.2),
                                         blurRadius: 12,
                                         offset: const Offset(0, 4),
                                       )

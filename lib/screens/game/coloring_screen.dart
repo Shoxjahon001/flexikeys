@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../design_system/design_system.dart';
+import '../../l10n/app_localizations.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
 import '../../services/tts_service.dart';
@@ -16,13 +17,12 @@ import '../../data/coloring_items/coloring_item_def.dart';
 ///
 /// Unlike [TraceDrawingScreen] this is not accuracy-scored: the child paints
 /// freely over the line art with a finger and decides for themselves when
-/// they're done (the "Tayyor" button enables as soon as anything is
+/// they're done (the "Ready" button enables as soon as anything is
 /// painted). There is no "correct" color and no failure state.
 class ColoringScreen extends StatefulWidget {
   final String title;
   final List<ColoringItemDef> items;
   final String levelSlug;
-  final String instructionNoun;
   final String completionTitle;
 
   const ColoringScreen({
@@ -30,7 +30,6 @@ class ColoringScreen extends StatefulWidget {
     required this.title,
     required this.items,
     required this.levelSlug,
-    required this.instructionNoun,
     required this.completionTitle,
   });
 
@@ -45,7 +44,6 @@ class _PaintStroke {
 }
 
 class _ColoringScreenState extends State<ColoringScreen> {
-
   // ── State ─────────────────────────────────────────────────────────────────
 
   int _itemIndex = 0;
@@ -57,14 +55,15 @@ class _ColoringScreenState extends State<ColoringScreen> {
   bool _celebrate = false;
 
   Color _penColor = FkColors.coral;
-  Size  _canvasSize = const Size(320, 380);
+  Size _canvasSize = const Size(320, 380);
 
   ColoringItemDef get _def => widget.items[_itemIndex];
 
   bool get _canFinish =>
       !_checking && (_strokes.isNotEmpty || _current.isNotEmpty);
 
-  String get _instruction => '${_def.label} ${widget.instructionNoun} bo\'ya!';
+  String _instruction(BuildContext context) =>
+      AppLocalizations.of(context)!.coloringInstructionFor(_def.label);
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -123,7 +122,7 @@ class _ColoringScreenState extends State<ColoringScreen> {
     });
 
     SoundService.instance.playCorrect();
-    TtsService.instance.speakFunny(PraiseCopy.shapeTraced);
+    TtsService.instance.speakFunny(PraiseCopy.shapeTraced(context));
     await UserService.recordAnswer(correct: true);
     await UserService.addStars(1);
 
@@ -132,7 +131,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
     if (_itemIndex >= widget.items.length - 1) {
       await UserService.completeLevel(widget.levelSlug);
-      ProgressRepository.instance.recordLevelCompleteAndSync(widget.levelSlug, stars: 5);
+      ProgressRepository.instance
+          .recordLevelCompleteAndSync(widget.levelSlug, stars: 5);
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
         'starsEarned': 5,
@@ -166,7 +166,7 @@ class _ColoringScreenState extends State<ColoringScreen> {
             child: FkStepPills(total: widget.items.length, current: _itemIndex),
           ),
           const SizedBox(height: FkSpacing.xs),
-          _buildMascot(fk),
+          _buildMascot(context, fk),
           const SizedBox(height: FkSpacing.xs),
           // Square canvas — the line-art coordinates are normalized 0-1 in
           // both axes, so a non-square canvas would stretch every shape.
@@ -178,7 +178,7 @@ class _ColoringScreenState extends State<ColoringScreen> {
           const SizedBox(height: FkSpacing.xs),
           _buildToolbar(fk),
           const SizedBox(height: FkSpacing.xs),
-          _buildActionButton(fk),
+          _buildActionButton(context, fk),
           const SizedBox(height: FkSpacing.sm),
         ]),
       ),
@@ -195,21 +195,26 @@ class _ColoringScreenState extends State<ColoringScreen> {
         GestureDetector(
           onTap: () => Navigator.pop(context),
           child: Container(
-            width: 48, height: 48,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: fk.surface,
               borderRadius: FkRadii.smAll,
               boxShadow: FkElevation.low(fk.ink),
             ),
-            child: Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: fk.ink),
+            child:
+                Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: fk.ink),
           ),
         ),
         const SizedBox(width: FkSpacing.xs),
-        Text(widget.title, style: FkTextStyles.playHeadline.copyWith(fontSize: 19, color: fk.ink)),
+        Text(widget.title,
+            style: FkTextStyles.playHeadline
+                .copyWith(fontSize: 19, color: fk.ink)),
         const Spacer(),
         Text(
           '${_itemIndex + 1}/${widget.items.length}',
-          style: FkTextStyles.playCaption.copyWith(fontSize: 15, color: fk.inkSoft),
+          style: FkTextStyles.playCaption
+              .copyWith(fontSize: 15, color: fk.inkSoft),
         ),
       ]),
     );
@@ -217,12 +222,13 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
   // ── Mascot bubble ─────────────────────────────────────────────────────────
 
-  Widget _buildMascot(FkPlayTheme fk) {
+  Widget _buildMascot(BuildContext context, FkPlayTheme fk) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: FkSpacing.sm),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Container(
-          width: 56, height: 56,
+          width: 56,
+          height: 56,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: fk.secondary.withValues(alpha: 0.18),
@@ -244,8 +250,9 @@ class _ColoringScreenState extends State<ColoringScreen> {
               boxShadow: FkElevation.low(fk.ink),
             ),
             child: Text(
-              _instruction,
-              style: FkTextStyles.playBody.copyWith(fontSize: 15, color: fk.ink),
+              _instruction(context),
+              style:
+                  FkTextStyles.playBody.copyWith(fontSize: 15, color: fk.ink),
             ),
           ),
         ),
@@ -277,24 +284,26 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
             if (_def.isDetailed) {
               final native = _def.canvasSize!;
-              final scale = min(sz.width / native.width, sz.height / native.height);
-              final rendered = Size(native.width * scale, native.height * scale);
+              final scale =
+                  min(sz.width / native.width, sz.height / native.height);
+              final rendered =
+                  Size(native.width * scale, native.height * scale);
               return Center(
                 child: SizedBox(
                   width: rendered.width,
                   height: rendered.height,
                   child: GestureDetector(
-                    onPanStart:  (d) => _onPanStart(d, rendered),
+                    onPanStart: (d) => _onPanStart(d, rendered),
                     onPanUpdate: (d) => _onPanUpdate(d, rendered),
-                    onPanEnd:    (d) => _onPanEnd(d, rendered),
+                    onPanEnd: (d) => _onPanEnd(d, rendered),
                     child: CustomPaint(
                       size: rendered,
                       painter: _DetailedColoringPainter(
-                        def:         _def,
-                        strokes:     _strokes,
-                        current:     _current,
-                        penColor:    _penColor,
-                        celebrate:   _celebrate,
+                        def: _def,
+                        strokes: _strokes,
+                        current: _current,
+                        penColor: _penColor,
+                        celebrate: _celebrate,
                         outlineColor: fk.inkSoft,
                         confettiColors: FkColors.playful,
                         scale: scale,
@@ -306,17 +315,17 @@ class _ColoringScreenState extends State<ColoringScreen> {
             }
 
             return GestureDetector(
-              onPanStart:  (d) => _onPanStart(d, sz),
+              onPanStart: (d) => _onPanStart(d, sz),
               onPanUpdate: (d) => _onPanUpdate(d, sz),
-              onPanEnd:    (d) => _onPanEnd(d, sz),
+              onPanEnd: (d) => _onPanEnd(d, sz),
               child: CustomPaint(
                 size: sz,
                 painter: _ColoringPainter(
-                  def:         _def,
-                  strokes:     _strokes,
-                  current:     _current,
-                  penColor:    _penColor,
-                  celebrate:   _celebrate,
+                  def: _def,
+                  strokes: _strokes,
+                  current: _current,
+                  penColor: _penColor,
+                  celebrate: _celebrate,
                   outlineColor: fk.inkSoft,
                   confettiColors: FkColors.playful,
                 ),
@@ -332,7 +341,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
   Widget _buildToolbar(FkPlayTheme fk) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: FkSpacing.sm + FkSpacing.xxs),
+      padding:
+          const EdgeInsets.symmetric(horizontal: FkSpacing.sm + FkSpacing.xxs),
       child: Row(children: [
         ...List.generate(FkColors.playful.length, (i) {
           final c = FkColors.playful[i];
@@ -341,7 +351,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
             onTap: () => setState(() => _penColor = c),
             child: AnimatedContainer(
               duration: FkDurations.fast,
-              width: 44, height: 44,
+              width: 44,
+              height: 44,
               margin: const EdgeInsets.only(right: FkSpacing.xs),
               decoration: BoxDecoration(
                 color: c,
@@ -350,7 +361,14 @@ class _ColoringScreenState extends State<ColoringScreen> {
                   color: selected ? Colors.white : Colors.transparent,
                   width: 3,
                 ),
-                boxShadow: selected ? [BoxShadow(color: c.withValues(alpha: 0.55), blurRadius: 10, spreadRadius: 1)] : [],
+                boxShadow: selected
+                    ? [
+                        BoxShadow(
+                            color: c.withValues(alpha: 0.55),
+                            blurRadius: 10,
+                            spreadRadius: 1)
+                      ]
+                    : [],
               ),
             ),
           );
@@ -362,7 +380,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
         GestureDetector(
           onTap: _onClear,
           child: Container(
-            width: 48, height: 48,
+            width: 48,
+            height: 48,
             decoration: BoxDecoration(
               color: fk.surface,
               borderRadius: FkRadii.xsAll,
@@ -377,7 +396,7 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
   // ── Action button ─────────────────────────────────────────────────────────
 
-  Widget _buildActionButton(FkPlayTheme fk) {
+  Widget _buildActionButton(BuildContext context, FkPlayTheme fk) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: FkSpacing.sm),
       child: GestureDetector(
@@ -392,8 +411,9 @@ class _ColoringScreenState extends State<ColoringScreen> {
           ),
           child: Center(
             child: Text(
-              'Tayyor',
-              style: FkTextStyles.playLabel.copyWith(color: Colors.white, fontSize: 17),
+              AppLocalizations.of(context)!.colorReadyButton,
+              style: FkTextStyles.playLabel
+                  .copyWith(color: Colors.white, fontSize: 17),
             ),
           ),
         ),
@@ -404,7 +424,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
 
 // ── Shared painter helpers ──────────────────────────────────────────────────
 
-void _paintFreehandStrokes(Canvas canvas, List<_PaintStroke> strokes, List<Offset> current, Color penColor) {
+void _paintFreehandStrokes(Canvas canvas, List<_PaintStroke> strokes,
+    List<Offset> current, Color penColor) {
   for (final s in strokes) {
     _paintFreehandStroke(canvas, s.points, s.color);
   }
@@ -414,7 +435,12 @@ void _paintFreehandStrokes(Canvas canvas, List<_PaintStroke> strokes, List<Offse
 void _paintFreehandStroke(Canvas canvas, List<Offset> pts, Color color) {
   if (pts.length < 2) {
     if (pts.length == 1) {
-      canvas.drawCircle(pts[0], 11, Paint()..color = color..style = PaintingStyle.fill);
+      canvas.drawCircle(
+          pts[0],
+          11,
+          Paint()
+            ..color = color
+            ..style = PaintingStyle.fill);
     }
     return;
   }
@@ -527,27 +553,45 @@ class _DetailedColoringPainter extends CustomPainter {
     for (final el in def.elements!) {
       switch (el.model) {
         case ColoringPaintModel.ring:
-          final outer = buildElementPath(_sAll(el.points), closed: el.closed, smooth: el.smooth);
-          final inner = buildElementPath(_sAll(el.innerPoints!), closed: el.closed, smooth: el.smooth);
+          final outer = buildElementPath(_sAll(el.points),
+              closed: el.closed, smooth: el.smooth);
+          final inner = buildElementPath(_sAll(el.innerPoints!),
+              closed: el.closed, smooth: el.smooth);
           // Outer-minus-inner band: reproduces the double-edge contour
           // without filling the interior, so paint underneath stays visible.
           final band = Path.combine(PathOperation.difference, outer, inner);
-          canvas.drawPath(band, Paint()..color = outlineColor..style = PaintingStyle.fill);
+          canvas.drawPath(
+              band,
+              Paint()
+                ..color = outlineColor
+                ..style = PaintingStyle.fill);
           break;
         case ColoringPaintModel.fill:
-          final path = buildElementPath(_sAll(el.points), closed: el.closed, smooth: el.smooth);
-          canvas.drawPath(path, Paint()..color = outlineColor..style = PaintingStyle.fill);
+          final path = buildElementPath(_sAll(el.points),
+              closed: el.closed, smooth: el.smooth);
+          canvas.drawPath(
+              path,
+              Paint()
+                ..color = outlineColor
+                ..style = PaintingStyle.fill);
           break;
         case ColoringPaintModel.fillWithHoles:
-          var path = buildElementPath(_sAll(el.points), closed: el.closed, smooth: el.smooth);
+          var path = buildElementPath(_sAll(el.points),
+              closed: el.closed, smooth: el.smooth);
           for (final hole in el.holes) {
-            final holePath = buildElementPath(_sAll(hole), closed: el.closed, smooth: el.smooth);
+            final holePath = buildElementPath(_sAll(hole),
+                closed: el.closed, smooth: el.smooth);
             path = Path.combine(PathOperation.difference, path, holePath);
           }
-          canvas.drawPath(path, Paint()..color = outlineColor..style = PaintingStyle.fill);
+          canvas.drawPath(
+              path,
+              Paint()
+                ..color = outlineColor
+                ..style = PaintingStyle.fill);
           break;
         case ColoringPaintModel.stroke:
-          final path = buildElementPath(_sAll(el.points), closed: el.closed, smooth: el.smooth);
+          final path = buildElementPath(_sAll(el.points),
+              closed: el.closed, smooth: el.smooth);
           canvas.drawPath(
             path,
             Paint()

@@ -1,0 +1,107 @@
+{
+  "category": "play",
+  "cards": [
+    {
+      "id": "pa_ball",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Ball", "uz": "To'p", "ru": "Мяч"},
+      "sentence_template": {
+        "en": "I want to play with the ball.",
+        "uz": "Men to'p bilan o'ynamoqchiman.",
+        "ru": "Я хочу играть с мячом."
+      },
+      "animation_asset": "shared/aac/animations/pa_ball.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_ball.mp3",
+        "uz": "shared/aac/audio/uz/pa_ball.mp3",
+        "ru": "shared/aac/audio/ru/pa_ball.mp3"
+      }
+    },
+    {
+      "id": "pa_drawing",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Drawing", "uz": "Rasm chizish", "ru": "Рисование"},
+      "sentence_template": {
+        "en": "I want to draw.",
+        "uz": "Men rasm chizmoqchiman.",
+        "ru": "Я хочу рисовать."
+      },
+      "animation_asset": "shared/aac/animations/pa_drawing.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_drawing.mp3",
+        "uz": "shared/aac/audio/uz/pa_drawing.mp3",
+        "ru": "shared/aac/audio/ru/pa_drawing.mp3"
+      }
+    },
+    {
+      "id": "pa_music",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Music", "uz": "Musiqa", "ru": "Музыка"},
+      "sentence_template": {
+        "en": "I want to listen to music.",
+        "uz": "Men musiqa tinglamoqchiman.",
+        "ru": "Я хочу слушать музыку."
+      },
+      "animation_asset": "shared/aac/animations/pa_music.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_music.mp3",
+        "uz": "shared/aac/audio/uz/pa_music.mp3",
+        "ru": "shared/aac/audio/ru/pa_music.mp3"
+      }
+    },
+    {
+      "id": "pa_tablet",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Tablet", "uz": "Planshet", "ru": "Планшет"},
+      "sentence_template": {
+        "en": "I want the tablet.",
+        "uz": "Men planshetni xohlayman.",
+        "ru": "Я хочу планшет."
+      },
+      "animation_asset": "shared/aac/animations/pa_tablet.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_tablet.mp3",
+        "uz": "shared/aac/audio/uz/pa_tablet.mp3",
+        "ru": "shared/aac/audio/ru/pa_tablet.mp3"
+      }
+    },
+    {
+      "id": "pa_book",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Book", "uz": "Kitob", "ru": "Книга"},
+      "sentence_template": {
+        "en": "I want to read a book.",
+        "uz": "Men kitob o'qimoqchiman.",
+        "ru": "Я хочу почитать книгу."
+      },
+      "animation_asset": "shared/aac/animations/pa_book.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_book.mp3",
+        "uz": "shared/aac/audio/uz/pa_book.mp3",
+        "ru": "shared/aac/audio/ru/pa_book.mp3"
+      }
+    },
+    {
+      "id": "pa_toy",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Toy", "uz": "O'yinchoq", "ru": "Игрушка"},
+      "sentence_template": {
+        "en": "I want my toy.",
+        "uz": "Men o'yinchog'imni xohlayman.",
+        "ru": "Я хочу игрушку."
+      },
+      "animation_asset": "shared/aac/animations/pa_toy.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pa_toy.mp3",
+        "uz": "shared/aac/audio/uz/pa_toy.mp3",
+        "ru": "shared/aac/audio/ru/pa_toy.mp3"
+      }
+    }
+  ]
+}

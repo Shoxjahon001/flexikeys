@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../l10n/app_localizations.dart';
 import '../theme/app_theme.dart';
 import '../services/user_service.dart';
 import '../services/progress/progress_repository.dart';
@@ -17,7 +18,8 @@ class MainShell extends ConsumerStatefulWidget {
   ConsumerState<MainShell> createState() => _MainShellState();
 }
 
-class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserver {
+class _MainShellState extends ConsumerState<MainShell>
+    with WidgetsBindingObserver {
   int _tab = 0;
   String _name = '';
 
@@ -76,6 +78,7 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
   }
 
   Widget _buildNavBar() {
+    final t = AppLocalizations.of(context)!;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -98,9 +101,9 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              _navItem(0, Icons.home_rounded, 'Home'),
-              _navItem(1, Icons.storefront_rounded, 'Shop'),
-              _navItem(2, Icons.shield_rounded, 'Profile'),
+              _navItem(0, Icons.home_rounded, t.navHome),
+              _navItem(1, Icons.storefront_rounded, t.navShop),
+              _navItem(2, Icons.shield_rounded, t.navProfile),
             ],
           ),
         ),
@@ -110,27 +113,31 @@ class _MainShellState extends ConsumerState<MainShell> with WidgetsBindingObserv
 
   Widget _navItem(int index, IconData icon, String label) {
     final active = _tab == index;
-    return GestureDetector(
+    return Semantics(
+      button: true,
+      label: label,
+      excludeSemantics: true,
       onTap: () => setState(() => _tab = index),
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-        decoration: BoxDecoration(
-          color: active
-              ? AppTheme.cardActive
-              : Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 28,
-              color: active ? AppTheme.primary : AppTheme.textMedium,
-            ),
-          ],
+      child: GestureDetector(
+        onTap: () => setState(() => _tab = index),
+        behavior: HitTestBehavior.opaque,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          decoration: BoxDecoration(
+            color: active ? AppTheme.cardActive : Colors.transparent,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                icon,
+                size: 28,
+                color: active ? AppTheme.primary : AppTheme.textMedium,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,0 +1,90 @@
+{
+  "category": "people",
+  "cards": [
+    {
+      "id": "pe_mom",
+      "kind": "direct",
+      "difficulty_tier": 1,
+      "label": {"en": "Mom", "uz": "Onam", "ru": "Мама"},
+      "sentence_template": {
+        "en": "I want mom.",
+        "uz": "Men onamni xohlayman.",
+        "ru": "Я хочу маму."
+      },
+      "animation_asset": "shared/aac/animations/pe_mom.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pe_mom.mp3",
+        "uz": "shared/aac/audio/uz/pe_mom.mp3",
+        "ru": "shared/aac/audio/ru/pe_mom.mp3"
+      }
+    },
+    {
+      "id": "pe_dad",
+      "kind": "direct",
+      "difficulty_tier": 2,
+      "label": {"en": "Dad", "uz": "Otam", "ru": "Папа"},
+      "sentence_template": {
+        "en": "I want dad.",
+        "uz": "Men otamni xohlayman.",
+        "ru": "Я хочу папу."
+      },
+      "animation_asset": "shared/aac/animations/pe_dad.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pe_dad.mp3",
+        "uz": "shared/aac/audio/uz/pe_dad.mp3",
+        "ru": "shared/aac/audio/ru/pe_dad.mp3"
+      }
+    },
+    {
+      "id": "pe_teacher",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Teacher", "uz": "O'qituvchi", "ru": "Учитель"},
+      "sentence_template": {
+        "en": "I want my teacher.",
+        "uz": "Men o'qituvchimni xohlayman.",
+        "ru": "Я хочу своего учителя."
+      },
+      "animation_asset": "shared/aac/animations/pe_teacher.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pe_teacher.mp3",
+        "uz": "shared/aac/audio/uz/pe_teacher.mp3",
+        "ru": "shared/aac/audio/ru/pe_teacher.mp3"
+      }
+    },
+    {
+      "id": "pe_grandma",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Grandma", "uz": "Buvim", "ru": "Бабушка"},
+      "sentence_template": {
+        "en": "I want grandma.",
+        "uz": "Men buvimni xohlayman.",
+        "ru": "Я хочу бабушку."
+      },
+      "animation_asset": "shared/aac/animations/pe_grandma.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pe_grandma.mp3",
+        "uz": "shared/aac/audio/uz/pe_grandma.mp3",
+        "ru": "shared/aac/audio/ru/pe_grandma.mp3"
+      }
+    },
+    {
+      "id": "pe_doctor",
+      "kind": "direct",
+      "difficulty_tier": 4,
+      "label": {"en": "Doctor", "uz": "Shifokor", "ru": "Врач"},
+      "sentence_template": {
+        "en": "I want the doctor.",
+        "uz": "Men shifokorni xohlayman.",
+        "ru": "Я хочу врача."
+      },
+      "animation_asset": "shared/aac/animations/pe_doctor.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/pe_doctor.mp3",
+        "uz": "shared/aac/audio/uz/pe_doctor.mp3",
+        "ru": "shared/aac/audio/ru/pe_doctor.mp3"
+      }
+    }
+  ]
+}

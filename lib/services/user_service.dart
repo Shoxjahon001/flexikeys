@@ -6,6 +6,14 @@ class UserService {
   static final starsNotifier = ValueNotifier<int>(0);
   static final avatarNotifier = ValueNotifier<String>('☁️');
 
+  /// The app's INTERFACE language (buttons, menus, dashboard chrome) — a
+  /// separate concept from [getLanguage]/[_keyLanguage], which is the
+  /// child's LEARNING language (curriculum/AAC vocabulary). Kept as two
+  /// independent stored values on purpose — see CLAUDE.md: "UI language and
+  /// learning language are independent settings." `MaterialApp` listens to
+  /// this directly to rebuild its `locale:` immediately on change.
+  static final uiLanguageNotifier = ValueNotifier<String>('en');
+
   static const _itemEmojis = {
     'dino': '🦕',
     'fries': '🍟',
@@ -22,11 +30,13 @@ class UserService {
     starsNotifier.value = await getStars();
     final itemId = await getSelectedItem();
     avatarNotifier.value = _itemEmojis[itemId] ?? '☁️';
+    uiLanguageNotifier.value = await getUiLanguage();
   }
 
   static const _keyName = 'kid_name';
   static const _keyAge = 'kid_age';
   static const _keyLanguage = 'kid_language';
+  static const _keyUiLanguage = 'ui_language';
   static const _keyStars = 'stars';
   static const _keyLettersStage = 'letters_stage';
   static const _keyOwnedItems = 'owned_items';
@@ -54,6 +64,14 @@ class UserService {
     await p.setString(_keyName, name);
     await p.setInt(_keyAge, age);
     await p.setString(_keyLanguage, language);
+    // Registration sets both fields to the same initial value — a
+    // reasonable one-time default (parent and child usually share a
+    // language at signup) — but they remain independently changeable
+    // afterward via setLearningLanguage/setUiLanguage.
+    if (!p.containsKey(_keyUiLanguage)) {
+      await p.setString(_keyUiLanguage, language);
+      uiLanguageNotifier.value = language;
+    }
     await p.setBool(_keyRegistered, true);
     if (!p.containsKey(_keyOwnedItems)) {
       await p.setStringList(_keyOwnedItems, ['dino']);
@@ -78,6 +96,27 @@ class UserService {
   static Future<String> getLanguage() async {
     final p = await _prefs;
     return p.getString(_keyLanguage) ?? 'en';
+  }
+
+  /// The child's learning language, set post-registration too (e.g. from
+  /// the parent dashboard) — unlike [getLanguage], which is only ever
+  /// written once inside [saveRegistration].
+  static Future<void> setLearningLanguage(String language) async {
+    final p = await _prefs;
+    await p.setString(_keyLanguage, language);
+  }
+
+  // ─── UI (interface) language ─────────────────────────────────────────────
+
+  static Future<String> getUiLanguage() async {
+    final p = await _prefs;
+    return p.getString(_keyUiLanguage) ?? 'en';
+  }
+
+  static Future<void> setUiLanguage(String language) async {
+    final p = await _prefs;
+    await p.setString(_keyUiLanguage, language);
+    uiLanguageNotifier.value = language;
   }
 
   // ─── Stars ───────────────────────────────────────────────────────────────────
@@ -172,8 +211,7 @@ class UserService {
   static Future<void> recordAnswer({required bool correct}) async {
     final p = await _prefs;
     final total = (p.getInt(_keyTotalAnswers) ?? 0) + 1;
-    final correctCount =
-        (p.getInt(_keyTotalCorrect) ?? 0) + (correct ? 1 : 0);
+    final correctCount = (p.getInt(_keyTotalCorrect) ?? 0) + (correct ? 1 : 0);
     await p.setInt(_keyTotalAnswers, total);
     await p.setInt(_keyTotalCorrect, correctCount);
   }
@@ -228,6 +266,7 @@ class UserService {
     _cachedPrefs = null;
     starsNotifier.value = 0;
     avatarNotifier.value = '☁️';
+    uiLanguageNotifier.value = 'en';
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────

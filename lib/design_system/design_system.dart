@@ -19,3 +19,7 @@ export 'atoms/fk_progress_path.dart';
 export 'atoms/fk_step_pills.dart';
 export 'mascot/mascot_controller.dart';
 export 'mascot/mascot_renderer.dart';
+export 'aac/aac_theme.dart';
+export 'aac/aac_card.dart';
+export 'aac/aac_category_tile.dart';
+export 'aac/sentence_strip.dart';

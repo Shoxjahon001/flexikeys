@@ -1,0 +1,124 @@
+{
+  "category": "dailyActivities",
+  "cards": [
+    {
+      "id": "da_eat",
+      "kind": "direct",
+      "difficulty_tier": 1,
+      "label": {"en": "Eat", "uz": "Ovqatlanish", "ru": "Есть"},
+      "sentence_template": {
+        "en": "I want to eat.",
+        "uz": "Men ovqatlanmoqchiman.",
+        "ru": "Я хочу есть."
+      },
+      "animation_asset": "shared/aac/animations/da_eat.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_eat.mp3",
+        "uz": "shared/aac/audio/uz/da_eat.mp3",
+        "ru": "shared/aac/audio/ru/da_eat.mp3"
+      }
+    },
+    {
+      "id": "da_toilet",
+      "kind": "direct",
+      "difficulty_tier": 1,
+      "label": {"en": "Toilet", "uz": "Hojatxona", "ru": "Туалет"},
+      "sentence_template": {
+        "en": "I want to go to the toilet.",
+        "uz": "Men hojatxonaga bormoqchiman.",
+        "ru": "Я хочу в туалет."
+      },
+      "animation_asset": "shared/aac/animations/da_toilet.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_toilet.mp3",
+        "uz": "shared/aac/audio/uz/da_toilet.mp3",
+        "ru": "shared/aac/audio/ru/da_toilet.mp3"
+      }
+    },
+    {
+      "id": "da_drink",
+      "kind": "direct",
+      "difficulty_tier": 2,
+      "label": {"en": "Drink", "uz": "Ichish", "ru": "Пить"},
+      "sentence_template": {
+        "en": "I want to drink.",
+        "uz": "Men ichmoqchiman.",
+        "ru": "Я хочу пить."
+      },
+      "animation_asset": "shared/aac/animations/da_drink.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_drink.mp3",
+        "uz": "shared/aac/audio/uz/da_drink.mp3",
+        "ru": "shared/aac/audio/ru/da_drink.mp3"
+      }
+    },
+    {
+      "id": "da_brush_teeth",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Brush Teeth", "uz": "Tish yuvish", "ru": "Чистить зубы"},
+      "sentence_template": {
+        "en": "I want to brush my teeth.",
+        "uz": "Men tishimni yuvmoqchiman.",
+        "ru": "Я хочу почистить зубы."
+      },
+      "animation_asset": "shared/aac/animations/da_brush_teeth.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_brush_teeth.mp3",
+        "uz": "shared/aac/audio/uz/da_brush_teeth.mp3",
+        "ru": "shared/aac/audio/ru/da_brush_teeth.mp3"
+      }
+    },
+    {
+      "id": "da_wash_hands",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Wash Hands", "uz": "Qo'l yuvish", "ru": "Мыть руки"},
+      "sentence_template": {
+        "en": "I want to wash my hands.",
+        "uz": "Men qo'limni yuvmoqchiman.",
+        "ru": "Я хочу помыть руки."
+      },
+      "animation_asset": "shared/aac/animations/da_wash_hands.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_wash_hands.mp3",
+        "uz": "shared/aac/audio/uz/da_wash_hands.mp3",
+        "ru": "shared/aac/audio/ru/da_wash_hands.mp3"
+      }
+    },
+    {
+      "id": "da_bath",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Bath", "uz": "Cho'milish", "ru": "Купаться"},
+      "sentence_template": {
+        "en": "I want to take a bath.",
+        "uz": "Men cho'milmoqchiman.",
+        "ru": "Я хочу купаться."
+      },
+      "animation_asset": "shared/aac/animations/da_bath.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_bath.mp3",
+        "uz": "shared/aac/audio/uz/da_bath.mp3",
+        "ru": "shared/aac/audio/ru/da_bath.mp3"
+      }
+    },
+    {
+      "id": "da_sleep",
+      "kind": "direct",
+      "difficulty_tier": 3,
+      "label": {"en": "Sleep", "uz": "Uxlash", "ru": "Спать"},
+      "sentence_template": {
+        "en": "I want to sleep.",
+        "uz": "Men uxlamoqchiman.",
+        "ru": "Я хочу спать."
+      },
+      "animation_asset": "shared/aac/animations/da_sleep.json",
+      "audio_asset": {
+        "en": "shared/aac/audio/en/da_sleep.mp3",
+        "uz": "shared/aac/audio/uz/da_sleep.mp3",
+        "ru": "shared/aac/audio/ru/da_sleep.mp3"
+      }
+    }
+  ]
+}
