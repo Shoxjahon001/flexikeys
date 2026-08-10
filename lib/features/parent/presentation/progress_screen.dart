@@ -26,6 +26,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final textTheme = Theme.of(context).textTheme;
     final tsAsync = ref.watch(
       timeseriesProvider((
         childId: widget.childId,
@@ -38,19 +39,19 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
     );
 
     return ListView(
-      padding: const EdgeInsets.all(FkSpacing.sm),
+      padding: const EdgeInsets.all(AppSpacing.lg),
       children: [
         // ── Metric picker ──────────────────────────────────────────────
         _MetricPicker(
           current: _metric,
           onChanged: (m) => setState(() => _metric = m),
         ),
-        const SizedBox(height: FkSpacing.sm),
+        const SizedBox(height: AppSpacing.lg),
 
         // ── Line chart ────────────────────────────────────────────────
         FkCard(
           child: Padding(
-            padding: const EdgeInsets.all(FkSpacing.sm),
+            padding: const EdgeInsets.all(AppSpacing.lg),
             child: SizedBox(
               height: 180,
               child: tsAsync.when(
@@ -60,7 +61,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                 ),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (_, __) => Center(
-                  child: Text(t.chartLoadError, style: FkTextStyles.adultBody),
+                  child: Text(t.chartLoadError, style: textTheme.bodyLarge),
                 ),
               ),
             ),
@@ -69,13 +70,13 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
 
         // ── Range picker ───────────────────────────────────────────────
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: FkSpacing.xs),
+          padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               for (final days in [7, 14, 30])
                 Padding(
-                  padding: const EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: AppSpacing.sm),
                   child: _RangeChip(
                     label: '${days}d',
                     selected: _rangeDays == days,
@@ -86,23 +87,17 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
           ),
         ),
 
-        const SizedBox(height: FkSpacing.sm),
+        const SizedBox(height: AppSpacing.lg),
 
         // ── Mastery grid ───────────────────────────────────────────────
-        Text(t.letterMasteryHeader, style: FkTextStyles.adultHeadline),
-        const SizedBox(height: FkSpacing.xs),
-        Text(
-          t.masteryLegend,
-          style: FkTextStyles.adultCaption,
-        ),
-        const SizedBox(height: FkSpacing.xs),
+        Text(t.letterMasteryHeader, style: textTheme.headlineMedium),
+        const SizedBox(height: AppSpacing.xs),
+        Text(t.masteryLegend, style: textTheme.bodySmall),
+        const SizedBox(height: AppSpacing.sm),
         skillsAsync.when(
           data: (skills) => _MasteryGrid(skills: skills),
-          loading: () => const _Skeleton(height: 120),
-          error: (_, __) => Text(
-            t.masteryLoadError,
-            style: FkTextStyles.adultBody,
-          ),
+          loading: () => const FkSkeleton(height: 120),
+          error: (_, __) => Text(t.masteryLoadError, style: textTheme.bodyLarge),
         ),
       ],
     );
@@ -118,25 +113,15 @@ class _MetricPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final metrics = {
-      'accuracy': t.metricAccuracy,
-      'speed': t.metricSpeed,
-      'time': t.metricTime,
-    };
-    return Wrap(
-      spacing: 8,
-      children: metrics.entries
-          .map(
-            (e) => ChoiceChip(
-              label: Text(e.value, style: FkTextStyles.adultCaption),
-              selected: current == e.key,
-              onSelected: (_) => onChanged(e.key),
-              selectedColor: FkColors.lavender,
-              backgroundColor: FkColors.surface,
-              shape: const StadiumBorder(),
-            ),
-          )
-          .toList(),
+    final metrics = [
+      FkFilterChip(label: t.metricAccuracy, value: 'accuracy'),
+      FkFilterChip(label: t.metricSpeed, value: 'speed'),
+      FkFilterChip(label: t.metricTime, value: 'time'),
+    ];
+    return FkFilterChipBar(
+      chips: metrics,
+      selectedValue: current,
+      onSelected: onChanged,
     );
   }
 }
@@ -154,23 +139,23 @@ class _RangeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        padding:
+            const EdgeInsets.symmetric(horizontal: AppSpacing.md, vertical: 4),
         decoration: BoxDecoration(
-          color: selected ? FkColors.lavender : FkColors.surface,
-          borderRadius: FkRadii.pillAll,
-          border: Border.all(
-            color: selected ? FkColors.lavender : FkColors.disabled,
-          ),
+          color: selected ? colors.primary : colors.surface,
+          borderRadius: AppRadius.pillAll,
+          border: Border.all(color: selected ? colors.primary : colors.border),
         ),
         child: Text(
           label,
-          style: FkTextStyles.adultCaption.copyWith(
-            color: selected ? FkColors.ink : FkColors.disabledInk,
-            fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-          ),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: selected ? Colors.white : colors.textSecondary,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+              ),
         ),
       ),
     );
@@ -185,6 +170,7 @@ class _TimeseriesChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     final spots = <FlSpot>[];
     for (int i = 0; i < points.length; i++) {
       final v = points[i].value;
@@ -196,7 +182,7 @@ class _TimeseriesChart extends StatelessWidget {
     if (spots.isEmpty) {
       return Center(
         child: Text(AppLocalizations.of(context)!.noDataForRange,
-            style: FkTextStyles.adultBody),
+            style: Theme.of(context).textTheme.bodyLarge),
       );
     }
 
@@ -213,7 +199,7 @@ class _TimeseriesChart extends StatelessWidget {
           show: true,
           drawVerticalLine: false,
           getDrawingHorizontalLine: (_) => FlLine(
-            color: FkColors.disabled.withValues(alpha: 0.5),
+            color: colors.border,
             strokeWidth: 1,
           ),
         ),
@@ -227,7 +213,7 @@ class _TimeseriesChart extends StatelessWidget {
                 metric == 'accuracy'
                     ? '${(value * 100).toInt()}%'
                     : value.toStringAsFixed(0),
-                style: FkTextStyles.adultCaption,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ),
           ),
@@ -245,12 +231,12 @@ class _TimeseriesChart extends StatelessWidget {
           LineChartBarData(
             spots: spots,
             isCurved: true,
-            color: FkColors.lavender,
+            color: colors.primary,
             barWidth: 3,
             dotData: const FlDotData(show: false),
             belowBarData: BarAreaData(
               show: true,
-              color: FkColors.lavender.withValues(alpha: 0.15),
+              color: colors.primary.withValues(alpha: 0.15),
             ),
           ),
         ],
@@ -269,11 +255,11 @@ class _MasteryGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     if (skills.isEmpty) {
       return Text(AppLocalizations.of(context)!.noSkillsTracked,
-          style: FkTextStyles.adultBody);
+          style: Theme.of(context).textTheme.bodyLarge);
     }
     return Wrap(
-      spacing: 6,
-      runSpacing: 6,
+      spacing: AppSpacing.xs,
+      runSpacing: AppSpacing.xs,
       children: skills.map((s) => _MasteryCell(skill: s)).toList(),
     );
   }
@@ -283,49 +269,37 @@ class _MasteryCell extends StatelessWidget {
   final SkillEntry skill;
   const _MasteryCell({required this.skill});
 
-  Color get _cellColor {
-    if (skill.isMastered) return FkColors.mint;
-    if (skill.isPracticing) return FkColors.warmYellow;
-    return FkColors.lavender; // not started / low progress
+  Color _cellColor(AppColorTheme colors) {
+    if (skill.isMastered) return colors.success;
+    if (skill.isPracticing) return colors.warning;
+    return colors.primarySoft; // not started / low progress
   }
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
+    final cellColor = _cellColor(colors);
     return Tooltip(
       message: '${skill.label}: ${(skill.pKnown * 100).toStringAsFixed(0)}%',
       child: Container(
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: _cellColor,
-          borderRadius: FkRadii.smAll,
+          color: cellColor,
+          borderRadius: AppRadius.smAll,
         ),
         alignment: Alignment.center,
         child: Text(
           skill.label.length > 2
               ? skill.label.substring(skill.label.length - 2)
               : skill.label,
-          style: FkTextStyles.adultCaption.copyWith(
-            fontWeight: FontWeight.w700,
-            color: FkColors.ink,
-          ),
+          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: skill.isMastered || skill.isPracticing
+                    ? Colors.white
+                    : colors.textPrimary,
+              ),
         ),
-      ),
-    );
-  }
-}
-
-class _Skeleton extends StatelessWidget {
-  final double height;
-  const _Skeleton({required this.height});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      decoration: BoxDecoration(
-        color: FkColors.disabled.withValues(alpha: 0.4),
-        borderRadius: FkRadii.mdAll,
       ),
     );
   }

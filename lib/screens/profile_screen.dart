@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/app_theme.dart';
+import '../design_system/design_system.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
 import '../services/sound_service.dart';
@@ -59,25 +58,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     return Container(
-      decoration: appGradientBg,
+      color: colors.background,
       child: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _buildTopBar(),
-              const SizedBox(height: 8),
+              const SizedBox(height: AppSpacing.sm),
               Text(
                 t.parentDashboardHeader,
-                style: GoogleFonts.nunito(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w900,
-                  color: AppTheme.textDark,
-                ),
+                style: textTheme.headlineLarge,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSpacing.xl),
 
               // Stats grid
               Row(
@@ -93,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       '📚',
                     ),
                   ),
-                  const SizedBox(width: 14),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                     child: ValueListenableBuilder<int>(
                       valueListenable: UserService.starsNotifier,
@@ -103,162 +100,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: AppSpacing.md),
               Row(
                 children: [
                   Expanded(
                       child: _statCard(t.accuracyLabel,
                           '${(_accuracy * 100).round()}%', '✅')),
-                  const SizedBox(width: 14),
+                  const SizedBox(width: AppSpacing.md),
                   Expanded(
                       child: _statCard(
                           t.statTimeSpentLabel, '$_timeToday min', '⏱️',
                           subtitle: t.statTodaySuffix)),
                 ],
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: AppSpacing.md),
 
               // Needs practice
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.85),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                    )
-                  ],
-                ),
+              FkCard(
                 child: Row(
                   children: [
                     Expanded(
                       child: Text(
                         t.needsPracticeLabel,
-                        style: GoogleFonts.nunito(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.textDark,
-                        ),
+                        style: textTheme.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/game_stage1');
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: AppTheme.primary,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          t.practiceButton,
-                          style: GoogleFonts.nunito(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
+                    FkSecondaryButton(
+                      label: t.practiceButton,
+                      onPressed: () =>
+                          Navigator.pushNamed(context, '/game_stage1'),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 14),
+              const SizedBox(height: AppSpacing.md),
 
               // AI assistant entry point
               GestureDetector(
                 onTap: _openAssistant,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.lg, vertical: AppSpacing.xl),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFFD9D2F0), Color(0xFFFFD9C7)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withValues(alpha: 0.06),
-                        blurRadius: 10,
-                      )
-                    ],
+                    color: colors.primarySoft,
+                    borderRadius: AppRadius.lgAll,
+                    boxShadow: AppShadows.soft,
                   ),
                   child: Row(
                     children: [
                       Container(
                         width: 44,
                         height: 44,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
+                        decoration: BoxDecoration(
+                          color: colors.surface,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(Icons.auto_awesome_rounded,
-                            color: AppTheme.primary, size: 22),
+                        child: Icon(Icons.auto_awesome_rounded,
+                            color: colors.primary, size: 22),
                       ),
-                      const SizedBox(width: 14),
+                      const SizedBox(width: AppSpacing.md),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               t.askAiAssistantTitle,
-                              style: GoogleFonts.nunito(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w800,
-                                color: AppTheme.textDark,
-                              ),
+                              style: textTheme.bodyLarge
+                                  ?.copyWith(fontWeight: FontWeight.w800),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               t.askAiAssistantSubtitle,
-                              style: GoogleFonts.nunito(
-                                fontSize: 13,
-                                color: AppTheme.textMedium,
-                              ),
+                              style: textTheme.bodySmall,
                             ),
                           ],
                         ),
                       ),
-                      const Icon(Icons.arrow_forward_ios_rounded,
-                          size: 16, color: AppTheme.textMedium),
+                      Icon(Icons.arrow_forward_ios_rounded,
+                          size: 16, color: colors.textSecondary),
                     ],
                   ),
                 ),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: AppSpacing.xl),
 
               // Settings
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.85),
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                    )
-                  ],
-                ),
+              FkCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      t.settingsTitle,
-                      style: GoogleFonts.nunito(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w900,
-                        color: AppTheme.textDark,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+                    Text(t.settingsTitle, style: textTheme.headlineMedium),
+                    const SizedBox(height: AppSpacing.lg),
                     Row(
                       children: [
                         Expanded(
@@ -270,27 +203,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: _settingsBtn(t.signOutButton, _signOut),
                         ),
                       ],
                     ),
                     if (!_hasBackendAccount) ...[
-                      const SizedBox(height: 12),
+                      const SizedBox(height: AppSpacing.sm),
                       _settingsBtn(
                         t.saveProgressButton,
                         () => Navigator.pushNamed(context, '/parent_signup'),
                       ),
                     ],
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSpacing.lg),
                     Text(
                       t.volumeLabel,
-                      style: GoogleFonts.nunito(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.textDark,
-                      ),
+                      style:
+                          textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     Slider(
                       value: _volume,
@@ -299,13 +229,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         TtsService.instance.setVolume(v);
                         SoundService.instance.setVolume(v);
                       },
-                      activeColor: AppTheme.primary,
-                      inactiveColor: AppTheme.primaryLight,
+                      activeColor: colors.primary,
+                      inactiveColor: colors.primarySoft,
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: AppSpacing.xxxl),
             ],
           ),
         ),
@@ -314,33 +244,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget _buildTopBar() {
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(40),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              color: colors.surface,
+              borderRadius: AppRadius.pillAll,
+              boxShadow: AppShadows.soft,
             ),
             child: Row(
               children: [
                 Container(
                   width: 48,
                   height: 48,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFFFD6E8), Color(0xFFD6C8FF)],
-                    ),
+                    color: colors.primarySoft,
                   ),
                   child: ValueListenableBuilder<String>(
                     valueListenable: UserService.avatarNotifier,
@@ -349,32 +273,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Text(emoji, style: const TextStyle(fontSize: 26))),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   _name,
-                  style: GoogleFonts.nunito(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                    color: AppTheme.textDark,
-                  ),
+                  style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: AppSpacing.sm),
               ],
             ),
           ),
           const Spacer(),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg, vertical: AppSpacing.sm),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.85),
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.06),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
-                ),
-              ],
+              color: colors.surface,
+              borderRadius: AppRadius.pillAll,
+              boxShadow: AppShadows.soft,
             ),
             child: Row(
               children: [
@@ -382,16 +297,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   valueListenable: UserService.starsNotifier,
                   builder: (_, stars, __) => Text(
                     '$stars',
-                    style: GoogleFonts.nunito(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: AppTheme.textDark,
-                    ),
+                    style:
+                        textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w800),
                   ),
                 ),
                 const SizedBox(width: 6),
-                const Icon(Icons.star_rounded,
-                    color: AppTheme.starYellow, size: 26),
+                Icon(Icons.star_rounded, color: colors.warning, size: 26),
               ],
             ),
           ),
@@ -400,20 +311,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _statCard(String label, String value, String icon,
-      {String? subtitle}) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.9),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 10,
-          )
-        ],
-      ),
+  Widget _statCard(String label, String value, String icon, {String? subtitle}) {
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
+    return FkCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -421,54 +322,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Text(
                 label,
-                style: GoogleFonts.nunito(
-                  fontSize: 15,
+                style: textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w700,
-                  color: AppTheme.textMedium,
+                  color: colors.textSecondary,
                 ),
               ),
               const Spacer(),
               Text(icon, style: const TextStyle(fontSize: 20)),
             ],
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSpacing.sm),
           Text(
             value,
-            style: GoogleFonts.nunito(
-              fontSize: 28,
-              fontWeight: FontWeight.w900,
-              color: AppTheme.primary,
-            ),
+            style: textTheme.headlineLarge?.copyWith(color: colors.primary),
           ),
-          if (subtitle != null)
-            Text(
-              subtitle,
-              style: GoogleFonts.nunito(
-                fontSize: 13,
-                color: AppTheme.textMedium,
-              ),
-            ),
+          if (subtitle != null) Text(subtitle, style: textTheme.bodySmall),
         ],
       ),
     );
   }
 
   Widget _settingsBtn(String label, VoidCallback onTap) {
+    final colors = context.colors;
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        padding: const EdgeInsets.symmetric(
+            vertical: AppSpacing.md, horizontal: AppSpacing.lg),
         decoration: BoxDecoration(
-          color: const Color(0xFFF0F2FA),
-          borderRadius: BorderRadius.circular(16),
+          color: colors.surfaceMuted,
+          borderRadius: AppRadius.mdAll,
         ),
         child: Text(
           label,
-          style: GoogleFonts.nunito(
-            fontSize: 15,
-            fontWeight: FontWeight.w700,
-            color: AppTheme.textDark,
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium
+              ?.copyWith(fontWeight: FontWeight.w700),
         ),
       ),
     );
@@ -497,22 +387,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _signOut() async {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.signOutDialogTitle,
-            style: GoogleFonts.nunito(fontWeight: FontWeight.w900)),
-        content: Text(t.signOutDialogBody, style: GoogleFonts.nunito()),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
+        title: Text(t.signOutDialogTitle),
+        content: Text(t.signOutDialogBody),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text(t.cancelButton, style: GoogleFonts.nunito()),
+            child: Text(t.cancelButton),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(t.signOutConfirm,
-                style: GoogleFonts.nunito(color: Colors.red)),
+            child:
+                Text(t.signOutConfirm, style: TextStyle(color: colors.danger)),
           ),
         ],
       ),
@@ -532,6 +422,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   /// not the child's learning language, which stays untouched here.
   Future<void> _changeLanguage() async {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     final current = UserService.uiLanguageNotifier.value;
     final options = {
       'en': t.languageEnglish,
@@ -541,9 +432,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final selected = await showDialog<String>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(t.uiLanguageSetting,
-            style: GoogleFonts.nunito(fontWeight: FontWeight.w900)),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
+        title: Text(t.uiLanguageSetting),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: options.entries
@@ -553,10 +443,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       e.key == current
                           ? Icons.radio_button_checked_rounded
                           : Icons.radio_button_unchecked_rounded,
-                      color: AppTheme.primary,
+                      color: colors.primary,
                     ),
-                    title: Text('${_flagFor(e.key)}  ${e.value}',
-                        style: GoogleFonts.nunito()),
+                    title: Text('${_flagFor(e.key)}  ${e.value}'),
                   ))
               .toList(),
         ),

@@ -51,10 +51,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _confirmDelete() async {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: FkRadii.mdAll),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
         title: Text(t.deleteChildDialogTitle),
         content: Text(t.deleteChildDialogBody),
         actions: [
@@ -64,10 +65,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(
-              t.deleteButton,
-              style: const TextStyle(color: FkColors.peach),
-            ),
+            child: Text(t.deleteButton, style: TextStyle(color: colors.danger)),
           ),
         ],
       ),
@@ -92,145 +90,101 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    return Scaffold(
-      backgroundColor: FkColors.background,
-      appBar: AppBar(
-        backgroundColor: FkColors.background,
-        elevation: 0,
-        title: Text(t.settingsTitle, style: FkTextStyles.adultHeadline),
-      ),
+    final colors = context.colors;
+    return FkScaffold(
+      appBar: FkAppBar(title: t.settingsTitle),
       body: ListView(
-        padding: const EdgeInsets.all(FkSpacing.sm),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
           // ── Learning language ──────────────────────────────────────────
           // The child's curriculum/AAC vocabulary language — independent of
           // the interface language below. See CLAUDE.md: "UI language and
           // learning language are independent settings."
-          _SectionHeader(title: t.languageSetting),
-          FkCard(
-            child: Padding(
-              padding: const EdgeInsets.all(FkSpacing.sm),
-              child: _LanguagePicker(childId: widget.childId),
-            ),
-          ),
+          FkSectionHeader(title: t.languageSetting),
+          const SizedBox(height: AppSpacing.sm),
+          _LanguagePicker(childId: widget.childId),
 
-          const SizedBox(height: FkSpacing.sm),
+          const SizedBox(height: AppSpacing.xl),
 
           // ── Display (interface) language ────────────────────────────────
-          _SectionHeader(title: t.uiLanguageSetting),
-          FkCard(
-            child: Padding(
-              padding: const EdgeInsets.all(FkSpacing.sm),
-              child: _UiLanguagePicker(childId: widget.childId),
-            ),
-          ),
+          FkSectionHeader(title: t.uiLanguageSetting),
+          const SizedBox(height: AppSpacing.sm),
+          _UiLanguagePicker(childId: widget.childId),
 
-          const SizedBox(height: FkSpacing.sm),
+          const SizedBox(height: AppSpacing.xl),
 
           // ── Session length preference ──────────────────────────────────
-          _SectionHeader(title: t.sessionLengthHeader),
+          FkSectionHeader(title: t.sessionLengthHeader),
+          const SizedBox(height: AppSpacing.sm),
           FkCard(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: FkSpacing.sm,
-                vertical: FkSpacing.xs,
-              ),
+              padding: const EdgeInsets.all(AppSpacing.lg),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    t.sessionLengthHint,
-                    style: FkTextStyles.adultBody,
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    t.sessionLengthBody,
-                    style: FkTextStyles.adultCaption,
-                  ),
+                  Text(t.sessionLengthHint,
+                      style: Theme.of(context).textTheme.bodyLarge),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(t.sessionLengthBody,
+                      style: Theme.of(context).textTheme.bodySmall),
                 ],
               ),
             ),
           ),
 
-          const SizedBox(height: FkSpacing.sm),
+          const SizedBox(height: AppSpacing.xl),
 
           // ── Data & privacy ─────────────────────────────────────────────
-          _SectionHeader(title: t.dataPrivacyHeader),
+          FkSectionHeader(title: t.dataPrivacyHeader),
+          const SizedBox(height: AppSpacing.sm),
           FkCard(
+            padding: EdgeInsets.zero,
             child: Column(
               children: [
-                ListTile(
-                  leading: const Icon(Icons.download_rounded,
-                      color: FkColors.lavender),
-                  title: Text(
-                    t.exportDataTitle,
-                    style: FkTextStyles.adultBody,
-                  ),
-                  subtitle: Text(
-                    t.exportDataSubtitle,
-                    style: FkTextStyles.adultCaption,
-                  ),
+                FkListRow(
+                  leading: Icon(Icons.download_rounded, color: colors.primary),
+                  label: t.exportDataTitle,
+                  subtitle: t.exportDataSubtitle,
                   trailing: _exporting
                       ? const SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(Icons.chevron_right_rounded),
+                      : null,
                   onTap: _exporting ? null : _exportData,
                 ),
-                const Divider(height: 1),
-                ListTile(
-                  leading: const Icon(Icons.delete_outline_rounded,
-                      color: FkColors.peach),
-                  title: Text(
-                    t.deleteChildAccountTitle,
-                    style: FkTextStyles.adultBody,
-                  ),
-                  subtitle: Text(
-                    t.deleteChildAccountSubtitle,
-                    style: FkTextStyles.adultCaption,
-                  ),
+                FkListRow(
+                  leading:
+                      Icon(Icons.delete_outline_rounded, color: colors.danger),
+                  label: t.deleteChildAccountTitle,
+                  subtitle: t.deleteChildAccountSubtitle,
+                  showDivider: false,
                   trailing: _deleting
                       ? const SizedBox(
                           width: 20,
                           height: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(Icons.chevron_right_rounded),
+                      : null,
                   onTap: _deleting ? null : _confirmDelete,
                 ),
               ],
             ),
           ),
 
-          const SizedBox(height: FkSpacing.sm),
+          const SizedBox(height: AppSpacing.xl),
 
           // ── Consent notice ─────────────────────────────────────────────
           FkCard(
             child: Padding(
-              padding: const EdgeInsets.all(FkSpacing.sm),
-              child: Text(
-                t.dataPrivacyNotice,
-                style: FkTextStyles.adultCaption,
-              ),
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Text(t.dataPrivacyNotice,
+                  style: Theme.of(context).textTheme.bodySmall),
             ),
           ),
         ],
       ),
-    );
-  }
-}
-
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  const _SectionHeader({required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: FkSpacing.xs),
-      child: Text(title, style: FkTextStyles.adultLabel),
     );
   }
 }
@@ -295,65 +249,19 @@ class _LanguagePickerState extends ConsumerState<_LanguagePicker> {
     return summaryAsync.when(
       data: (summary) {
         final current = _pending ?? summary.learningLanguage;
-        return Column(
-          children: languages.entries
-              .map(
-                (e) => InkWell(
-                  onTap: () => _select(e.key, summary.learningLanguage),
-                  borderRadius: FkRadii.smAll,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: FkSpacing.xs,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: current == e.key
-                                  ? FkColors.lavender
-                                  : FkColors.disabled,
-                              width: 2,
-                            ),
-                            color: current == e.key
-                                ? FkColors.lavender
-                                : Colors.transparent,
-                          ),
-                          child: current == e.key
-                              ? const Icon(
-                                  Icons.check_rounded,
-                                  size: 12,
-                                  color: FkColors.ink,
-                                )
-                              : null,
-                        ),
-                        const SizedBox(width: 12),
-                        Text(e.value, style: FkTextStyles.adultBody),
-                        if (_saving && _pending == e.key) ...[
-                          const SizedBox(width: 12),
-                          const SizedBox(
-                            width: 14,
-                            height: 14,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ),
-              )
-              .toList(),
+        return _LanguageSegmentedControl(
+          languages: languages,
+          current: current,
+          saving: _saving ? _pending : null,
+          onSelected: (code) => _select(code, summary.learningLanguage),
         );
       },
       loading: () => const Padding(
-        padding: EdgeInsets.symmetric(vertical: FkSpacing.md),
+        padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
         child: Center(child: CircularProgressIndicator()),
       ),
-      error: (_, __) => Text(t.errorGeneric, style: FkTextStyles.adultBody),
+      error: (_, __) =>
+          Text(t.errorGeneric, style: Theme.of(context).textTheme.bodyLarge),
     );
   }
 }
@@ -390,51 +298,75 @@ class _UiLanguagePicker extends StatelessWidget {
 
     return ValueListenableBuilder<String>(
       valueListenable: UserService.uiLanguageNotifier,
-      builder: (context, current, _) => Column(
-        children: languages.entries
-            .map(
-              (e) => InkWell(
-                onTap: () => _select(e.key),
-                borderRadius: FkRadii.smAll,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: FkSpacing.xs,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: current == e.key
-                                ? FkColors.lavender
-                                : FkColors.disabled,
-                            width: 2,
-                          ),
-                          color: current == e.key
-                              ? FkColors.lavender
-                              : Colors.transparent,
-                        ),
-                        child: current == e.key
-                            ? const Icon(
-                                Icons.check_rounded,
-                                size: 12,
-                                color: FkColors.ink,
-                              )
-                            : null,
-                      ),
-                      const SizedBox(width: 12),
-                      Text(e.value, style: FkTextStyles.adultBody),
-                    ],
-                  ),
-                ),
-              ),
-            )
-            .toList(),
+      builder: (context, current, _) => _LanguageSegmentedControl(
+        languages: languages,
+        current: current,
+        saving: null,
+        onSelected: _select,
       ),
+    );
+  }
+}
+
+/// Shared "clear segmented control" for EN/UZ/RU, used by both language
+/// pickers above — the redesign spec's explicit ask for the Settings
+/// screen's language switcher, replacing the old vertical radio-button
+/// list.
+class _LanguageSegmentedControl extends StatelessWidget {
+  final Map<String, String> languages;
+  final String current;
+  final String? saving;
+  final ValueChanged<String> onSelected;
+
+  const _LanguageSegmentedControl({
+    required this.languages,
+    required this.current,
+    required this.saving,
+    required this.onSelected,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.colors;
+    return Row(
+      children: languages.entries.map((e) {
+        final selected = current == e.key;
+        final isSaving = saving == e.key;
+        return Expanded(
+          child: Padding(
+            padding: EdgeInsets.only(
+              right: e.key == languages.keys.last ? 0 : AppSpacing.sm,
+            ),
+            child: GestureDetector(
+              onTap: () => onSelected(e.key),
+              child: AnimatedContainer(
+                duration: AppMotion.fast,
+                curve: AppMotion.transition,
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.md),
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: selected ? colors.primary : colors.surfaceMuted,
+                  borderRadius: AppRadius.smAll,
+                ),
+                child: isSaving
+                    ? const SizedBox(
+                        width: 16,
+                        height: 16,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2, color: Colors.white),
+                      )
+                    : Text(
+                        e.value,
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: selected ? Colors.white : colors.textPrimary,
+                              fontWeight: FontWeight.w700,
+                            ),
+                      ),
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
