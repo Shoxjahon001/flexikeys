@@ -71,3 +71,7 @@ dist/
 *.sqlite
 *.sqlite3
 test/**/failures/
+
+# Xcode workspace state (per-machine, not project config — note this is
+# distinct from the .swiftpm/ rule above, which doesn't match this path)
+**/xcshareddata/swiftpm/
