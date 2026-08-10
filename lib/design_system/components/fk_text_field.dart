@@ -1,6 +1,7 @@
 library fk_text_field;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../tokens/app_color_theme.dart';
 import '../tokens/app_radius.dart';
@@ -17,6 +18,8 @@ class FkTextField extends StatefulWidget {
   final int maxLines;
   final ValueChanged<String>? onChanged;
   final TextInputAction? textInputAction;
+  final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
 
   const FkTextField({
     super.key,
@@ -28,6 +31,8 @@ class FkTextField extends StatefulWidget {
     this.maxLines = 1,
     this.onChanged,
     this.textInputAction,
+    this.keyboardType,
+    this.inputFormatters,
   });
 
   @override
@@ -83,6 +88,8 @@ class _FkTextFieldState extends State<FkTextField> {
             maxLines: widget.maxLines,
             onChanged: widget.onChanged,
             textInputAction: widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            inputFormatters: widget.inputFormatters,
             style: textTheme.bodyMedium?.copyWith(color: colors.textPrimary),
             decoration: InputDecoration(
               hintText: widget.hintText,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/app_theme.dart';
+import '../design_system/design_system.dart';
 import '../widgets/cloud_mascot.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -50,78 +49,50 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: appGradientBg,
-        child: SafeArea(
-          child: FadeTransition(
-            opacity: _fadeAnim,
-            child: SlideTransition(
-              position: _slideAnim,
-              child: Column(
-                children: [
-                  const SizedBox(height: 48),
+      backgroundColor: colors.background,
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _fadeAnim,
+          child: SlideTransition(
+            position: _slideAnim,
+            child: Column(
+              children: [
+                const SizedBox(height: AppSpacing.huge),
 
-                  // Big greeting text
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Text(
-                      _name.isNotEmpty
-                          ? t.greetingWithName(_name)
-                          : t.greetingNoName,
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.nunito(
-                        fontSize: 44,
-                        fontWeight: FontWeight.w900,
-                        color: AppTheme.textDark,
-                        height: 1.15,
-                      ),
-                    ),
+                // Big greeting text
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxxl),
+                  child: Text(
+                    _name.isNotEmpty
+                        ? t.greetingWithName(_name)
+                        : t.greetingNoName,
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
+                ),
 
-                  const Spacer(),
+                const Spacer(),
+                const CloudMascot(size: 320),
+                const Spacer(),
 
-                  // Cloud mascot
-                  const CloudMascot(size: 320),
-
-                  const Spacer(),
-
-                  // Start button
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushReplacementNamed(
-                          context,
-                          '/main',
-                          arguments: {'name': _name},
-                        );
-                      },
-                      child: Container(
-                        height: 68,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppTheme.primaryLight,
-                          borderRadius: BorderRadius.circular(34),
-                        ),
-                        child: Center(
-                          child: Text(
-                            t.startButton,
-                            style: GoogleFonts.nunito(
-                              fontSize: 28,
-                              fontWeight: FontWeight.w900,
-                              color: AppTheme.textDark,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+                  child: FkPrimaryButton(
+                    label: t.startButton,
+                    fullWidth: true,
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        '/main',
+                        arguments: {'name': _name},
+                      );
+                    },
                   ),
-                  const SizedBox(height: 32),
-                ],
-              ),
+                ),
+                const SizedBox(height: AppSpacing.xxxl),
+              ],
             ),
           ),
         ),

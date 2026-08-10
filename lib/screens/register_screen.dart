@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/app_theme.dart';
+import '../design_system/design_system.dart';
 import '../widgets/cloud_mascot.dart';
 import '../widgets/dot_indicator.dart';
 import '../services/user_service.dart';
@@ -20,8 +19,6 @@ class RegisterScreen extends ConsumerStatefulWidget {
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _nameController = TextEditingController();
   final _ageController = TextEditingController();
-  bool _nameActive = false;
-  bool _ageActive = false;
   String _selectedLanguage = 'en';
   // When true, this "kid's name + age" step also creates a real backend
   // child profile (reached from the child picker's "add child" tile).
@@ -94,12 +91,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   void _showSnack(String msg) {
+    final colors = context.colors;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(msg, style: GoogleFonts.nunito()),
-        backgroundColor: AppTheme.primary,
+        content: Text(msg),
+        backgroundColor: colors.primary,
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
       ),
     );
   }
@@ -107,180 +105,76 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        backgroundColor: colors.background,
         resizeToAvoidBottomInset: true,
-        body: Container(
-          decoration: appGradientBg,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height -
-                      MediaQuery.of(context).padding.top -
-                      MediaQuery.of(context).padding.bottom,
-                ),
-                child: IntrinsicHeight(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 32),
-                      const CloudMascot(size: 220),
-                      const SizedBox(height: 20),
-                      Text(
-                        t.registrationTitle,
-                        style: GoogleFonts.nunito(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w900,
-                          color: AppTheme.textDark,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        t.almostDoneSubtitle,
-                        style: GoogleFonts.nunito(
-                          fontSize: 15,
-                          color: AppTheme.textMedium,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 40),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 28),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              t.kidNameLabel,
-                              style: GoogleFonts.nunito(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppTheme.textMedium,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            _buildTextField(
-                              controller: _nameController,
-                              hint: t.kidNameHint,
-                              isActive: _nameActive,
-                              onFocusChange: (v) =>
-                                  setState(() => _nameActive = v),
-                              inputType: TextInputType.name,
-                            ),
-                            const SizedBox(height: 24),
-                            Text(
-                              t.kidAgeLabel,
-                              style: GoogleFonts.nunito(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppTheme.textMedium,
-                              ),
-                            ),
-                            const SizedBox(height: 8),
-                            _buildTextField(
-                              controller: _ageController,
-                              hint: t.kidAgeHint,
-                              isActive: _ageActive,
-                              onFocusChange: (v) =>
-                                  setState(() => _ageActive = v),
-                              inputType: TextInputType.number,
-                              inputFormatters: [
-                                FilteringTextInputFormatter.digitsOnly,
-                                LengthLimitingTextInputFormatter(2),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      const DotIndicator(count: 3, current: 2),
-                      const SizedBox(height: 32),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: GestureDetector(
-                          onTap: _submitting ? null : _onNext,
-                          child: Container(
-                            height: 68,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: AppTheme.primaryLight,
-                              borderRadius: BorderRadius.circular(34),
-                            ),
-                            child: Center(
-                              child: _submitting
-                                  ? const SizedBox(
-                                      width: 24,
-                                      height: 24,
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2),
-                                    )
-                                  : Text(
-                                      t.nextButton,
-                                      style: GoogleFonts.nunito(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w900,
-                                        color: AppTheme.textDark,
-                                      ),
-                                    ),
-                            ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: MediaQuery.of(context).size.height -
+                    MediaQuery.of(context).padding.top -
+                    MediaQuery.of(context).padding.bottom,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: [
+                    const SizedBox(height: AppSpacing.xxxl),
+                    const CloudMascot(size: 220),
+                    const SizedBox(height: AppSpacing.xl),
+                    Text(t.registrationTitle, style: textTheme.headlineLarge),
+                    const SizedBox(height: AppSpacing.xs),
+                    Text(
+                      t.almostDoneSubtitle,
+                      style:
+                          textTheme.bodyLarge?.copyWith(color: colors.textSecondary),
+                    ),
+                    const SizedBox(height: AppSpacing.huge),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          FkTextField(
+                            labelText: t.kidNameLabel,
+                            hintText: t.kidNameHint,
+                            controller: _nameController,
+                            textInputAction: TextInputAction.next,
                           ),
-                        ),
+                          const SizedBox(height: AppSpacing.xxl),
+                          FkTextField(
+                            labelText: t.kidAgeLabel,
+                            hintText: t.kidAgeHint,
+                            controller: _ageController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(2),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
+                    ),
+                    const Spacer(),
+                    const DotIndicator(count: 3, current: 2),
+                    const SizedBox(height: AppSpacing.xxxl),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xxl),
+                      child: FkPrimaryButton(
+                        label: t.nextButton,
+                        fullWidth: true,
+                        loading: _submitting,
+                        onPressed: _submitting ? null : _onNext,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.xxl),
+                  ],
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String hint,
-    required bool isActive,
-    required Function(bool) onFocusChange,
-    TextInputType? inputType,
-    List<TextInputFormatter>? inputFormatters,
-  }) {
-    return Focus(
-      onFocusChange: onFocusChange,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        decoration: BoxDecoration(
-          color: isActive
-              ? AppTheme.cardActive
-              : Colors.white.withValues(alpha: 0.6),
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(
-            color: isActive
-                ? AppTheme.primary
-                : AppTheme.textDark.withValues(alpha: 0.15),
-            width: isActive ? 2 : 1.5,
-          ),
-        ),
-        child: TextField(
-          controller: controller,
-          keyboardType: inputType,
-          inputFormatters: inputFormatters,
-          style: GoogleFonts.nunito(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            color: AppTheme.textDark,
-          ),
-          decoration: InputDecoration(
-            hintText: hint,
-            hintStyle: GoogleFonts.nunito(
-              fontSize: 17,
-              color: AppTheme.textMedium.withValues(alpha: 0.5),
-            ),
-            border: InputBorder.none,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: 24,
-              vertical: 18,
             ),
           ),
         ),
