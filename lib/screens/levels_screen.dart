@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/app_theme.dart';
+import '../design_system/design_system.dart';
 import '../services/user_service.dart';
 import '../data/level_configs.dart';
 import '../data/trace_items/letters_trace_data.dart';
@@ -197,14 +196,20 @@ class _LevelsScreenState extends State<LevelsScreen> {
           .then((_) => _load());
       return;
     }
+    final colors = context.colors;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!.comingSoonSnackbar,
-            style: GoogleFonts.nunito(fontWeight: FontWeight.w700)),
-        backgroundColor: const Color(0xFF4A90F7),
+        content: Text(
+          AppLocalizations.of(context)!.comingSoonSnackbar,
+          style: Theme.of(context)
+              .textTheme
+              .bodyLarge
+              ?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
+        ),
+        backgroundColor: colors.primary,
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
       ),
     );
   }
@@ -214,7 +219,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: appGradientBg,
+      color: context.colors.background,
       child: SafeArea(
         child: Column(
           children: [
@@ -230,23 +235,23 @@ class _LevelsScreenState extends State<LevelsScreen> {
   // ── Top bar ───────────────────────────────────────────────────────────────
 
   Widget _buildTopBar() {
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 14, 18, 4),
+      padding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg, AppSpacing.md, AppSpacing.lg, AppSpacing.xs),
       child: Row(
         children: [
-          // Avatar + name
+          // Avatar + name. Not FkAvatar: the child picks a free-form emoji
+          // avatar (UserService.avatarNotifier), not name-initials — a
+          // different contract than FkAvatar's fallback, so it stays a
+          // small local widget, just token-skinned.
           Container(
-            padding: const EdgeInsets.fromLTRB(5, 5, 16, 5),
+            padding: const EdgeInsets.fromLTRB(5, 5, AppSpacing.lg, 5),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(40),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              color: colors.surface,
+              borderRadius: AppRadius.pillAll,
+              boxShadow: AppShadows.soft,
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -254,13 +259,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 Container(
                   width: 38,
                   height: 38,
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFCDD6FF), Color(0xFFA7B6F5)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+                    color: colors.primarySoft,
                   ),
                   child: ValueListenableBuilder<String>(
                     valueListenable: UserService.avatarNotifier,
@@ -269,14 +270,11 @@ class _LevelsScreenState extends State<LevelsScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSpacing.sm),
                 Text(
                   _name,
-                  style: GoogleFonts.nunito(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF2A2F45),
-                  ),
+                  style: textTheme.bodyLarge
+                      ?.copyWith(color: colors.textPrimary, fontWeight: FontWeight.w800),
                 ),
               ],
             ),
@@ -284,17 +282,12 @@ class _LevelsScreenState extends State<LevelsScreen> {
           const Spacer(),
           // Stars
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
+            padding:
+                const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 9),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(30),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.08),
-                  blurRadius: 14,
-                  offset: const Offset(0, 4),
-                ),
-              ],
+              color: colors.surface,
+              borderRadius: AppRadius.pillAll,
+              boxShadow: AppShadows.soft,
             ),
             child: Row(
               children: [
@@ -302,11 +295,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   valueListenable: UserService.starsNotifier,
                   builder: (_, stars, __) => Text(
                     '$stars',
-                    style: GoogleFonts.nunito(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w900,
-                      color: const Color(0xFF2A2F45),
-                    ),
+                    style: textTheme.bodyLarge
+                        ?.copyWith(color: colors.textPrimary, fontWeight: FontWeight.w900),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -337,12 +327,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
   Widget _buildTabSwitcher() {
     final t = AppLocalizations.of(context)!;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(18, 10, 18, 4),
+      padding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xs),
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
-          color: const Color(0xFFE3E6F3),
-          borderRadius: BorderRadius.circular(18),
+          color: context.colors.surfaceMuted,
+          borderRadius: AppRadius.lgAll,
         ),
         child: Row(
           children: [
@@ -357,6 +348,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   Widget _tabBtn(int index, String label, {required bool unlocked}) {
     final active = _tab == index;
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     return Expanded(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -369,13 +362,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   // not translated, see plan: curriculum/level names stay
                   // as-is regardless of interface language.
                   AppLocalizations.of(context)!.lockedLevelSnackbar('Letters'),
-                  style: GoogleFonts.nunito(fontWeight: FontWeight.w700),
+                  style: textTheme.bodyLarge
+                      ?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
                 ),
-                backgroundColor: const Color(0xFF4A90F7),
+                backgroundColor: colors.primary,
                 behavior: SnackBarBehavior.floating,
                 duration: const Duration(seconds: 2),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+                shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
               ),
             );
             return;
@@ -383,15 +376,16 @@ class _LevelsScreenState extends State<LevelsScreen> {
           setState(() => _tab = index);
         },
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
+          duration: AppMotion.fast,
+          curve: AppMotion.transition,
           padding: const EdgeInsets.symmetric(vertical: 11),
           decoration: BoxDecoration(
-            color: active ? const Color(0xFF4A90F7) : Colors.transparent,
-            borderRadius: BorderRadius.circular(14),
+            color: active ? colors.primary : Colors.transparent,
+            borderRadius: AppRadius.mdAll,
             boxShadow: active
                 ? [
                     BoxShadow(
-                      color: const Color(0xFF4A90F7).withValues(alpha: 0.35),
+                      color: colors.primary.withValues(alpha: 0.35),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -405,14 +399,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
               Text(
                 label,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(
-                  fontSize: 14,
+                style: textTheme.bodyLarge?.copyWith(
                   fontWeight: FontWeight.w800,
                   color: active
                       ? Colors.white
                       : unlocked
-                          ? const Color(0xFF6B7186)
-                          : const Color(0xFFAEB4C8),
+                          ? colors.textSecondary
+                          : colors.textTertiary,
                 ),
               ),
               if (!unlocked) ...[
@@ -444,11 +437,10 @@ class _LevelsScreenState extends State<LevelsScreen> {
           child: Text(
             AppLocalizations.of(context)!.tabVoice,
             textAlign: TextAlign.center,
-            style: GoogleFonts.nunito(
-              fontSize: 14,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF6B7186),
-            ),
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  color: context.colors.textSecondary,
+                ),
           ),
         ),
       ),
@@ -461,21 +453,22 @@ class _LevelsScreenState extends State<LevelsScreen> {
     return CustomScrollView(
       slivers: [
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(18, 8, 18, 4),
+          padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xs),
           sliver: SliverToBoxAdapter(
             child: Text(
               AppLocalizations.of(context)!.levelsTitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.nunito(
-                fontSize: 24,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFF2A2F45),
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineLarge
+                  ?.copyWith(color: context.colors.textPrimary),
             ),
           ),
         ),
         SliverPadding(
-          padding: const EdgeInsets.fromLTRB(18, 10, 18, 24),
+          padding: const EdgeInsets.fromLTRB(
+              AppSpacing.lg, AppSpacing.md, AppSpacing.lg, AppSpacing.xxl),
           sliver: SliverGrid(
             delegate: SliverChildBuilderDelegate(
               (_, i) => _buildLearnCard(_levels[i], i),
@@ -483,8 +476,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
             ),
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
-              crossAxisSpacing: 14,
-              mainAxisSpacing: 14,
+              crossAxisSpacing: AppSpacing.md,
+              mainAxisSpacing: AppSpacing.md,
               // Shorter cards (was 0.92) to make room for a much bigger
               // icon circle below — easier for young/motor-impaired
               // children to recognize and tap accurately.
@@ -497,17 +490,18 @@ class _LevelsScreenState extends State<LevelsScreen> {
   }
 
   Widget _buildLearnCard(_LevelItem level, int index) {
+    final colors = context.colors;
     Color cardBg;
     Color borderColor;
     if (level.locked) {
-      cardBg = const Color(0xFFE9EAEF);
+      cardBg = colors.surfaceMuted;
       borderColor = Colors.transparent;
     } else if (level.done) {
-      cardBg = const Color(0xFFDFF0DB);
-      borderColor = const Color(0xFF8ED07A);
+      cardBg = colors.successSoft;
+      borderColor = colors.success;
     } else {
-      cardBg = const Color(0xFFDBEAFE);
-      borderColor = const Color(0xFF9CC6F7);
+      cardBg = colors.primarySoft;
+      borderColor = colors.primary.withValues(alpha: 0.5);
     }
 
     return TweenAnimationBuilder<double>(
@@ -522,16 +516,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
         child: Container(
           decoration: BoxDecoration(
             color: cardBg,
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: AppRadius.lgAll,
             border: Border.all(color: borderColor, width: 2),
-            boxShadow: [
-              BoxShadow(
-                color:
-                    Colors.black.withValues(alpha: level.locked ? 0.0 : 0.10),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
-              ),
-            ],
+            boxShadow: level.locked ? null : AppShadows.soft,
           ),
           child: Stack(
             children: [
@@ -550,30 +537,19 @@ class _LevelsScreenState extends State<LevelsScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: level.locked
-                          ? Colors.white.withValues(alpha: 0.5)
-                          : Colors.white,
-                      boxShadow: level.locked
-                          ? []
-                          : [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.08),
-                                blurRadius: 14,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
+                          ? colors.surface.withValues(alpha: 0.5)
+                          : colors.surface,
+                      boxShadow: level.locked ? null : AppShadows.soft,
                     ),
                     child: Center(child: _buildLearnIcon(level)),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: AppSpacing.sm),
                   Text(
                     level.title,
-                    style: GoogleFonts.nunito(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
-                      color: level.locked
-                          ? const Color(0xFFAEB4C8)
-                          : const Color(0xFF2A2F45),
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color: level.locked ? colors.textTertiary : colors.textPrimary,
+                        ),
                   ),
                 ],
               ),
@@ -585,15 +561,14 @@ class _LevelsScreenState extends State<LevelsScreen> {
   }
 
   Widget _buildLearnIcon(_LevelItem level) {
+    final colors = context.colors;
     if (level.letter != null) {
       return Text(
         level.letter!,
-        style: GoogleFonts.nunito(
-          fontSize: 66,
-          fontWeight: FontWeight.w900,
-          color:
-              level.locked ? const Color(0xFFAEB4C8) : const Color(0xFF2A2F45),
-        ),
+        style: Theme.of(context).textTheme.displayLarge?.copyWith(
+              fontSize: 66,
+              color: level.locked ? colors.textTertiary : colors.textPrimary,
+            ),
       );
     }
     if (level.customWidget != null) {
@@ -613,106 +588,108 @@ class _LevelsScreenState extends State<LevelsScreen> {
   // ── Chizish tab ───────────────────────────────────────────────────────────
 
   Widget _buildDrawTab() {
+    final colors = context.colors;
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(18, 8, 18, 24),
+      padding: const EdgeInsets.fromLTRB(
+          AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xxl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionHeader('✏️', AppLocalizations.of(context)!.drawSectionHeader),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
+            crossAxisSpacing: AppSpacing.md,
+            mainAxisSpacing: AppSpacing.md,
             childAspectRatio: 0.92,
             children: [
               _drawCard(
                 id: 'shapes',
                 title: 'Shakllar',
                 badge: '✏️',
-                badgeColor: const Color(0xFF4A90F7),
+                badgeColor: colors.primary,
                 icon: const _ShapesIcon(),
                 locked: false,
-                cardColor: const Color(0xFFDFF0DB),
-                borderColor: const Color(0xFF8ED07A),
+                cardColor: colors.successSoft,
+                borderColor: colors.success,
               ),
               _drawCard(
                 id: 'letters_draw',
                 title: 'Harflar',
                 badge: '✏️',
-                badgeColor: const Color(0xFF4A90F7),
+                badgeColor: colors.primary,
                 icon: Text('A',
-                    style: GoogleFonts.nunito(
-                        fontSize: 44,
-                        fontWeight: FontWeight.w900,
-                        color: const Color(0xFF2A2F45))),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium
+                        ?.copyWith(fontSize: 44, color: colors.textPrimary)),
                 locked: _lockedUnless('shapes'),
-                cardColor: const Color(0xFFDFF0DB),
-                borderColor: const Color(0xFF8ED07A),
+                cardColor: colors.successSoft,
+                borderColor: colors.success,
               ),
               _drawCard(
                   id: 'numbers_draw',
                   title: 'Raqamlar',
                   badge: '✏️',
-                  badgeColor: const Color(0xFF4A90F7),
-                  icon: const Text('123',
-                      style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          color: Color(0xFF5A6076))),
+                  badgeColor: colors.primary,
+                  icon: Text('123',
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall
+                          ?.copyWith(fontSize: 26, color: colors.textSecondary)),
                   locked: !_isAdmin && !_allLetterGroupsDone),
               _drawCard(
                   id: 'objects',
                   title: 'Narsalar',
                   badge: '✏️',
-                  badgeColor: const Color(0xFF4A90F7),
+                  badgeColor: colors.primary,
                   icon: const Text('🏠', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('number_drawing')),
             ],
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: AppSpacing.xl),
           _sectionHeader(
               '🖌️', AppLocalizations.of(context)!.paintSectionHeader),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSpacing.md),
           GridView.count(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             crossAxisCount: 2,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
+            crossAxisSpacing: AppSpacing.md,
+            mainAxisSpacing: AppSpacing.md,
             childAspectRatio: 0.92,
             children: [
               _drawCard(
                 id: 'fruits_color',
                 title: 'Mevalar',
                 badge: '🖌️',
-                badgeColor: const Color(0xFFEF6F9C),
+                badgeColor: colors.danger,
                 icon: const Text('🍎', style: TextStyle(fontSize: 42)),
                 locked: false,
-                cardColor: const Color(0xFFFDECD6),
-                borderColor: const Color(0xFFF3C27A),
+                cardColor: colors.warningSoft,
+                borderColor: colors.warning,
               ),
               _drawCard(
                   id: 'animals_color',
                   title: 'Hayvonlar',
                   badge: '🖌️',
-                  badgeColor: const Color(0xFFEF6F9C),
+                  badgeColor: colors.danger,
                   icon: const Text('🦁', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('fruits_color')),
               _drawCard(
                   id: 'nature',
                   title: 'Tabiat',
                   badge: '🖌️',
-                  badgeColor: const Color(0xFFEF6F9C),
+                  badgeColor: colors.danger,
                   icon: const Text('🌸', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('animals_color')),
               _drawCard(
                   id: 'transport',
                   title: 'Transport',
                   badge: '🖌️',
-                  badgeColor: const Color(0xFFEF6F9C),
+                  badgeColor: colors.danger,
                   icon: const Text('🚗', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('nature_color')),
             ],
@@ -726,14 +703,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
     return Row(
       children: [
         Text(emoji, style: const TextStyle(fontSize: 20)),
-        const SizedBox(width: 8),
+        const SizedBox(width: AppSpacing.sm),
         Text(
           title,
-          style: GoogleFonts.nunito(
-            fontSize: 20,
-            fontWeight: FontWeight.w900,
-            color: const Color(0xFF2A2F45),
-          ),
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall
+              ?.copyWith(color: context.colors.textPrimary),
         ),
       ],
     );
@@ -746,28 +722,21 @@ class _LevelsScreenState extends State<LevelsScreen> {
     required Color badgeColor,
     required Widget icon,
     required bool locked,
-    Color cardColor = const Color(0xFFE9EAEF),
-    Color borderColor = Colors.transparent,
+    Color? cardColor,
+    Color? borderColor,
   }) {
+    final colors = context.colors;
     return GestureDetector(
       onTap: locked ? null : () => _onDrawTap(id),
       child: Container(
         decoration: BoxDecoration(
-          color: locked ? const Color(0xFFE9EAEF) : cardColor,
-          borderRadius: BorderRadius.circular(22),
+          color: locked ? colors.surfaceMuted : (cardColor ?? colors.surfaceMuted),
+          borderRadius: AppRadius.lgAll,
           border: Border.all(
-            color: locked ? Colors.transparent : borderColor,
+            color: locked ? Colors.transparent : (borderColor ?? Colors.transparent),
             width: 2,
           ),
-          boxShadow: locked
-              ? []
-              : [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.10),
-                    blurRadius: 18,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
+          boxShadow: locked ? null : AppShadows.soft,
         ),
         child: Stack(
           children: [
@@ -789,17 +758,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                         height: 88,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color:
-                              locked ? const Color(0xFFF3F4F7) : Colors.white,
-                          boxShadow: locked
-                              ? []
-                              : [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.08),
-                                    blurRadius: 14,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
+                          color: locked ? colors.surfaceMuted : colors.surface,
+                          boxShadow: locked ? null : AppShadows.soft,
                         ),
                         child: Center(
                           child: Opacity(
@@ -835,16 +795,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: AppSpacing.sm),
                 Text(
                   title,
-                  style: GoogleFonts.nunito(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w800,
-                    color: locked
-                        ? const Color(0xFFAEB4C8)
-                        : const Color(0xFF2A2F45),
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: locked ? colors.textTertiary : colors.textPrimary,
+                      ),
                 ),
               ],
             ),
@@ -862,24 +819,25 @@ class _NumbersIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.colors;
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         Text('1',
-            style: GoogleFonts.nunito(
-                fontSize: 32,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFFEF6F9C))),
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontSize: 32, color: colors.danger)),
         Text('2',
-            style: GoogleFonts.nunito(
-                fontSize: 38,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFF4A90F7))),
+            style: Theme.of(context)
+                .textTheme
+                .headlineLarge
+                ?.copyWith(fontSize: 38, color: colors.primary)),
         Text('3',
-            style: GoogleFonts.nunito(
-                fontSize: 30,
-                fontWeight: FontWeight.w900,
-                color: const Color(0xFF22B07D))),
+            style: Theme.of(context)
+                .textTheme
+                .headlineMedium
+                ?.copyWith(fontSize: 30, color: colors.success)),
       ],
     );
   }
@@ -893,17 +851,20 @@ class _ShapesIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       size: const Size(58, 42),
-      painter: _ShapesIconPainter(),
+      painter: _ShapesIconPainter(context.colors),
     );
   }
 }
 
 class _ShapesIconPainter extends CustomPainter {
+  final AppColorTheme colors;
+  const _ShapesIconPainter(this.colors);
+
   @override
   void paint(Canvas canvas, Size size) {
     // Square
     final pSquare = Paint()
-      ..color = const Color(0xFF4A90F7)
+      ..color = colors.primary
       ..style = PaintingStyle.fill;
     canvas.drawRRect(
       RRect.fromRectAndRadius(
@@ -914,13 +875,13 @@ class _ShapesIconPainter extends CustomPainter {
     );
     // Circle
     final pCircle = Paint()
-      ..color = const Color(0xFFEF6F9C)
+      ..color = colors.danger
       ..style = PaintingStyle.fill;
     canvas.drawCircle(Offset(size.width * 0.62, size.height * 0.38),
         size.height * 0.32, pCircle);
     // Triangle
     final pTri = Paint()
-      ..color = const Color(0xFF22B07D)
+      ..color = colors.success
       ..style = PaintingStyle.fill;
     final triPath = Path()
       ..moveTo(size.width * 0.82, size.height * 0.58)
@@ -931,5 +892,6 @@ class _ShapesIconPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_) => false;
+  bool shouldRepaint(covariant _ShapesIconPainter oldDelegate) =>
+      oldDelegate.colors != colors;
 }

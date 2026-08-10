@@ -2,10 +2,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../l10n/app_localizations.dart';
-import '../theme/app_theme.dart';
+import '../design_system/design_system.dart';
 import '../services/user_service.dart';
 import '../services/progress/progress_repository.dart';
-import '../design_system/atoms/fk_parent_gate.dart';
 import '../features/auth/application/auth_controller.dart';
 import 'levels_screen.dart';
 import 'shop_screen.dart';
@@ -79,25 +78,21 @@ class _MainShellState extends ConsumerState<MainShell>
 
   Widget _buildNavBar() {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: colors.surface,
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(28),
-          topRight: Radius.circular(28),
+          topLeft: Radius.circular(AppRadius.xl),
+          topRight: Radius.circular(AppRadius.xl),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 16,
-            offset: const Offset(0, -4),
-          )
-        ],
+        boxShadow: AppShadows.lifted,
       ),
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xxl, vertical: AppSpacing.sm),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -113,6 +108,7 @@ class _MainShellState extends ConsumerState<MainShell>
 
   Widget _navItem(int index, IconData icon, String label) {
     final active = _tab == index;
+    final colors = context.colors;
     return Semantics(
       button: true,
       label: label,
@@ -122,11 +118,13 @@ class _MainShellState extends ConsumerState<MainShell>
         onTap: () => setState(() => _tab = index),
         behavior: HitTestBehavior.opaque,
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 200),
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          duration: AppMotion.fast,
+          curve: AppMotion.transition,
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.xl, vertical: AppSpacing.sm),
           decoration: BoxDecoration(
-            color: active ? AppTheme.cardActive : Colors.transparent,
-            borderRadius: BorderRadius.circular(20),
+            color: active ? colors.primarySoft : Colors.transparent,
+            borderRadius: AppRadius.mdAll,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -134,7 +132,7 @@ class _MainShellState extends ConsumerState<MainShell>
               Icon(
                 icon,
                 size: 28,
-                color: active ? AppTheme.primary : AppTheme.textMedium,
+                color: active ? colors.primary : colors.textTertiary,
               ),
             ],
           ),
