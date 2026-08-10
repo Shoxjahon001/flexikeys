@@ -70,14 +70,15 @@ void main() {
       await tester.tap(find.widgetWithText(ChoiceChip, 'play'));
       await _settle(tester);
 
-      // Invoked directly rather than via tester.tap(): FkButton's own
+      // Invoked directly rather than via tester.tap(): FkPrimaryButton's own
       // tap-scale animation defers the onPressed call until that animation
       // completes, and the combination with this form's height (it can
       // exceed the default test surface once the live preview appears)
       // made gesture-based taps unreliable here. Calling onPressed directly
       // still exercises the real save logic without depending on gesture/
       // animation/scroll timing.
-      final saveButton = tester.widget<FkButton>(find.widgetWithText(FkButton, 'Add card'));
+      final saveButton = tester
+          .widget<FkPrimaryButton>(find.widgetWithText(FkPrimaryButton, 'Add card'));
       saveButton.onPressed!();
       // Generous settle: the pop transition + AacCustomCardStore.add() +
       // _load() (another SharedPreferences round trip) chain needs more

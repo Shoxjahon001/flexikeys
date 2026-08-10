@@ -121,56 +121,39 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
 
     return Scaffold(
       backgroundColor: aac.background,
+      appBar: FkAppBar(
+        title: widget.categoryLabel,
+        onBack: () => Navigator.of(context).maybePop(),
+        actions: [
+          FkAppBarAction(
+            icon: Icons.forum_rounded,
+            semanticLabel: AacStrings.of(widget.language).buildSentenceTooltip,
+            onPressed: _cards.isEmpty ? null : _openSentenceStrip,
+          ),
+        ],
+      ),
       body: SafeArea(
+        top: false,
         child: _loading
             ? Center(child: CircularProgressIndicator(color: accent))
-            : Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(FkSpacing.md),
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: () => Navigator.of(context).maybePop(),
-                          icon: Icon(Icons.arrow_back_rounded, color: aac.ink),
-                        ),
-                        Expanded(
-                          child: Text(
-                            widget.categoryLabel,
-                            style: FkTextStyles.playHeadline.copyWith(color: aac.ink),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: _cards.isEmpty ? null : _openSentenceStrip,
-                          tooltip: AacStrings.of(widget.language).buildSentenceTooltip,
-                          icon: Icon(Icons.forum_rounded, color: aac.ink),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: Wrap(
-                        spacing: AacSizes.gridGapAdvanced,
-                        runSpacing: AacSizes.gridGapAdvanced,
-                        alignment: WrapAlignment.center,
-                        children: _cards.map((card) {
-                          return AacCard(
-                            category: widget.category,
-                            label: _labelFor(card),
-                            glyph: glyphForCard(card),
-                            size: _settings.cardSize.pixels,
-                            dwellEnabled: _settings.dwellEnabled,
-                            dwellDuration: _settings.dwellDuration,
-                            highContrast: _settings.highContrast,
-                            onActivate: () => _onCardActivate(card),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
+            : Center(
+                child: Wrap(
+                  spacing: AacSizes.gridGapAdvanced,
+                  runSpacing: AacSizes.gridGapAdvanced,
+                  alignment: WrapAlignment.center,
+                  children: _cards.map((card) {
+                    return AacCard(
+                      category: widget.category,
+                      label: _labelFor(card),
+                      glyph: glyphForCard(card),
+                      size: _settings.cardSize.pixels,
+                      dwellEnabled: _settings.dwellEnabled,
+                      dwellDuration: _settings.dwellDuration,
+                      highContrast: _settings.highContrast,
+                      onActivate: () => _onCardActivate(card),
+                    );
+                  }).toList(),
+                ),
               ),
       ),
     );

@@ -68,10 +68,11 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
 
   Future<void> _delete(AacCardDef card) async {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: FkRadii.mdAll),
+        shape: const RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
         title: Text(t.removeCardDialogTitle),
         content: Text(t
             .removeCardDialogBody(card.label.values.firstOrNull ?? card.id)),
@@ -81,8 +82,7 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
               child: Text(t.cancelButton)),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child:
-                Text(t.removeButton, style: const TextStyle(color: FkColors.peach)),
+            child: Text(t.removeButton, style: TextStyle(color: colors.danger)),
           ),
         ],
       ),
@@ -95,14 +95,13 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
     return Scaffold(
-      backgroundColor: FkColors.background,
-      appBar: AppBar(
-        backgroundColor: FkColors.background,
-        elevation: 0,
-        title: Text(t.manageCardsAppBarTitle, style: FkTextStyles.adultHeadline),
-      ),
+      backgroundColor: colors.background,
+      appBar: FkAppBar(title: t.manageCardsAppBarTitle),
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: colors.primary,
+        foregroundColor: Colors.white,
         onPressed: () => _addOrEdit(),
         icon: const Icon(Icons.add_rounded),
         label: Text(t.addCardButton),
@@ -110,50 +109,39 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _cards.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(FkSpacing.lg),
-                    child: Text(
-                      t.noCustomCardsEmptyState,
-                      style: FkTextStyles.adultBody,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+              ? FkEmptyState(
+                  illustration: Icon(Icons.style_outlined,
+                      size: 56, color: colors.textTertiary),
+                  title: t.noCustomCardsEmptyState,
+                  description: '',
                 )
-              : ListView.separated(
-                  padding: const EdgeInsets.all(FkSpacing.sm),
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
                   itemCount: _cards.length,
-                  separatorBuilder: (_, __) =>
-                      const SizedBox(height: FkSpacing.xs),
                   itemBuilder: (context, i) {
                     final card = _cards[i];
-                    return FkCard(
-                      child: ListTile(
-                        leading: SizedBox(
-                          width: 44,
-                          height: 44,
-                          child: glyphForCard(card, size: 32),
-                        ),
-                        title: Text(
-                          card.label.values.firstOrNull ?? card.id,
-                          style: FkTextStyles.adultBody,
-                        ),
-                        subtitle: Text(card.category.name,
-                            style: FkTextStyles.adultCaption),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            IconButton(
-                              icon: const Icon(Icons.edit_rounded),
-                              onPressed: () => _addOrEdit(existing: card),
-                            ),
-                            IconButton(
-                              icon: const Icon(Icons.delete_outline_rounded,
-                                  color: FkColors.peach),
-                              onPressed: () => _delete(card),
-                            ),
-                          ],
-                        ),
+                    return FkListRow(
+                      leading: SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: glyphForCard(card, size: 32),
+                      ),
+                      label: card.label.values.firstOrNull ?? card.id,
+                      subtitle: card.category.name,
+                      showChevron: false,
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.edit_rounded),
+                            onPressed: () => _addOrEdit(existing: card),
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete_outline_rounded,
+                                color: colors.danger),
+                            onPressed: () => _delete(card),
+                          ),
+                        ],
                       ),
                     );
                   },
@@ -207,7 +195,7 @@ class _CardFormScreenState extends State<_CardFormScreen> {
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(FkRadii.md)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
       ),
       builder: (ctx) => SafeArea(
         child: Column(
@@ -284,18 +272,18 @@ class _CardFormScreenState extends State<_CardFormScreen> {
   Widget build(BuildContext context) {
     final isEditing = widget.existing != null;
     final aac = AacTheme.of(context);
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     final t = AppLocalizations.of(context)!;
 
     return Scaffold(
-      backgroundColor: FkColors.background,
-      appBar: AppBar(
-        backgroundColor: FkColors.background,
-        elevation: 0,
-        title: Text(isEditing ? t.editCardTitle : t.newCardTitle,
-            style: FkTextStyles.adultHeadline),
+      backgroundColor: colors.background,
+      appBar: FkAppBar(
+        title: isEditing ? t.editCardTitle : t.newCardTitle,
+        onBack: () => Navigator.of(context).maybePop(),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(FkSpacing.sm),
+        padding: const EdgeInsets.all(AppSpacing.lg),
         children: [
           Center(
             child: GestureDetector(
@@ -318,45 +306,38 @@ class _CardFormScreenState extends State<_CardFormScreen> {
                             Icon(Icons.add_a_photo_rounded,
                                 color: aac.colorFor(_category)),
                             const SizedBox(height: 4),
-                            Text(t.addPhotoLabel,
-                                style: FkTextStyles.adultCaption),
+                            Text(t.addPhotoLabel, style: textTheme.bodySmall),
                           ],
                         ),
                       ),
               ),
             ),
           ),
-          const SizedBox(height: FkSpacing.md),
-          Text(t.cardLabelField, style: FkTextStyles.adultCaption),
-          const SizedBox(height: FkSpacing.xxs),
-          TextField(
+          const SizedBox(height: AppSpacing.xl),
+          FkTextField(
+            labelText: t.cardLabelField,
+            hintText: t.cardLabelHint,
             controller: _labelController,
-            maxLength: 40,
-            decoration: InputDecoration(
-              hintText: t.cardLabelHint,
-              border: const OutlineInputBorder(),
-            ),
             onChanged: (_) => setState(() {}),
           ),
-          const SizedBox(height: FkSpacing.sm),
-          Text(t.voiceOptionalLabel, style: FkTextStyles.adultCaption),
-          const SizedBox(height: FkSpacing.xxs),
+          const SizedBox(height: AppSpacing.lg),
+          Text(t.voiceOptionalLabel, style: textTheme.bodySmall),
+          const SizedBox(height: AppSpacing.xs),
           Text(
             t.voiceHelperText,
-            style:
-                FkTextStyles.adultCaption.copyWith(color: FkColors.disabledInk),
+            style: textTheme.bodySmall?.copyWith(color: colors.textTertiary),
           ),
-          const SizedBox(height: FkSpacing.xs),
+          const SizedBox(height: AppSpacing.sm),
           _VoiceRecorderField(
             initialPath: _recordedAudioPath,
             onChanged: (path) => setState(() => _recordedAudioPath = path),
           ),
-          const SizedBox(height: FkSpacing.sm),
-          Text(t.categoryLabel, style: FkTextStyles.adultCaption),
-          const SizedBox(height: FkSpacing.xxs),
+          const SizedBox(height: AppSpacing.lg),
+          Text(t.categoryLabel, style: textTheme.bodySmall),
+          const SizedBox(height: AppSpacing.xs),
           Wrap(
-            spacing: FkSpacing.xs,
-            runSpacing: FkSpacing.xs,
+            spacing: AppSpacing.xs,
+            runSpacing: AppSpacing.xs,
             children: AacCategory.values.map((c) {
               final selected = c == _category;
               return ChoiceChip(
@@ -364,23 +345,23 @@ class _CardFormScreenState extends State<_CardFormScreen> {
                 selected: selected,
                 onSelected: (_) => setState(() => _category = c),
                 selectedColor: aac.colorFor(c),
-                labelStyle: FkTextStyles.adultCaption.copyWith(
-                  color: selected ? Colors.white : FkColors.ink,
+                labelStyle: textTheme.bodySmall?.copyWith(
+                  color: selected ? Colors.white : colors.textPrimary,
                 ),
               );
             }).toList(),
           ),
-          const SizedBox(height: FkSpacing.md),
+          const SizedBox(height: AppSpacing.xl),
           if (_labelController.text.trim().isNotEmpty) ...[
-            Text(t.previewLabel, style: FkTextStyles.adultCaption),
-            const SizedBox(height: FkSpacing.xs),
+            Text(t.previewLabel, style: textTheme.bodySmall),
+            const SizedBox(height: AppSpacing.sm),
             Center(
               child: AacCard(
                 category: _category,
                 label: _labelController.text.trim(),
                 glyph: _photoPath != null
                     ? ClipRRect(
-                        borderRadius: BorderRadius.circular(FkRadii.xs),
+                        borderRadius: AppRadius.smAll,
                         child: Image.file(File(_photoPath!),
                             width: 78, height: 78, fit: BoxFit.cover),
                       )
@@ -388,11 +369,11 @@ class _CardFormScreenState extends State<_CardFormScreen> {
                 onActivate: () {},
               ),
             ),
-            const SizedBox(height: FkSpacing.md),
+            const SizedBox(height: AppSpacing.xl),
           ],
-          FkButton(
+          FkPrimaryButton(
             label: isEditing ? t.saveChangesButton : t.addCardButton,
-            size: FkButtonSize.adult,
+            fullWidth: true,
             onPressed: _labelController.text.trim().isEmpty ? null : _save,
           ),
         ],
@@ -509,21 +490,23 @@ class _VoiceRecorderFieldState extends State<_VoiceRecorderField> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final colors = context.colors;
+    final textTheme = Theme.of(context).textTheme;
     if (_recording) {
       return Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: FkSpacing.sm, vertical: FkSpacing.xs),
+            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
         decoration: BoxDecoration(
-          border: Border.all(color: FkColors.peach),
-          borderRadius: FkRadii.smAll,
+          border: Border.all(color: colors.danger),
+          borderRadius: AppRadius.smAll,
         ),
         child: Row(
           children: [
-            const Icon(Icons.fiber_manual_record_rounded,
-                color: FkColors.peach, size: 16),
-            const SizedBox(width: FkSpacing.xs),
+            Icon(Icons.fiber_manual_record_rounded,
+                color: colors.danger, size: 16),
+            const SizedBox(width: AppSpacing.xs),
             Text(t.recordingStatusLabel(_elapsed.inSeconds),
-                style: FkTextStyles.adultBody),
+                style: textTheme.bodyMedium),
             const Spacer(),
             IconButton(
               icon: const Icon(Icons.stop_circle_rounded),
@@ -538,10 +521,10 @@ class _VoiceRecorderFieldState extends State<_VoiceRecorderField> {
     if (_path != null) {
       return Container(
         padding: const EdgeInsets.symmetric(
-            horizontal: FkSpacing.sm, vertical: FkSpacing.xxs),
+            horizontal: AppSpacing.sm, vertical: AppSpacing.xs),
         decoration: BoxDecoration(
-          border: Border.all(color: FkColors.disabled),
-          borderRadius: FkRadii.smAll,
+          border: Border.all(color: colors.border),
+          borderRadius: AppRadius.smAll,
         ),
         child: Row(
           children: [
@@ -553,7 +536,7 @@ class _VoiceRecorderFieldState extends State<_VoiceRecorderField> {
               onPressed: _togglePreview,
             ),
             Expanded(
-              child: Text(t.voiceRecordedLabel, style: FkTextStyles.adultBody),
+              child: Text(t.voiceRecordedLabel, style: textTheme.bodyMedium),
             ),
             TextButton(onPressed: _reRecord, child: Text(t.reRecordButton)),
           ],

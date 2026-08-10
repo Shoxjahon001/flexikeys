@@ -72,49 +72,29 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
 
     return Scaffold(
       backgroundColor: aac.background,
+      appBar: FkAppBar(
+        title: _title[_language.code] ?? _title['en']!,
+        onBack: () => Navigator.of(context).maybePop(),
+      ),
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(FkSpacing.md),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () => Navigator.of(context).maybePop(),
-                    icon: Icon(Icons.arrow_back_rounded, color: aac.ink),
-                  ),
-                  Expanded(
-                    child: Text(
-                      _title[_language.code] ?? _title['en']!,
-                      style: FkTextStyles.playHeadline.copyWith(color: aac.ink),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(width: 48),
-                ],
-              ),
+        top: false,
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+            child: Wrap(
+              spacing: AacSizes.gridGapAdvanced,
+              runSpacing: AacSizes.gridGapAdvanced,
+              alignment: WrapAlignment.center,
+              children: AacCategory.values.map((category) {
+                return AacCategoryTile(
+                  category: category,
+                  label: _categoryLabel(category),
+                  glyph: aacGlyph(emojiForCategory(category)),
+                  onTap: () => _openCategory(category),
+                );
+              }).toList(),
             ),
-            Expanded(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: FkSpacing.md),
-                  child: Wrap(
-                    spacing: AacSizes.gridGapAdvanced,
-                    runSpacing: AacSizes.gridGapAdvanced,
-                    alignment: WrapAlignment.center,
-                    children: AacCategory.values.map((category) {
-                      return AacCategoryTile(
-                        category: category,
-                        label: _categoryLabel(category),
-                        glyph: aacGlyph(emojiForCategory(category)),
-                        onTap: () => _openCategory(category),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

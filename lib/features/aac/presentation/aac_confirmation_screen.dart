@@ -61,7 +61,7 @@ class _AacConfirmationScreenState extends State<AacConfirmationScreen>
         .instance.platformDispatcher.accessibilityFeatures.disableAnimations;
     _entrance = AnimationController(
       vsync: this,
-      duration: reduced ? Duration.zero : FkDurations.normal,
+      duration: reduced ? Duration.zero : AppMotion.base,
     )..forward();
     _loop = AnimationController(
       vsync: this,
@@ -106,12 +106,12 @@ class _AacConfirmationScreenState extends State<AacConfirmationScreen>
         child: FadeTransition(
           opacity: _entrance,
           child: ScaleTransition(
-            scale: CurvedAnimation(parent: _entrance, curve: FkCurves.gentle),
+            scale: CurvedAnimation(parent: _entrance, curve: AppMotion.entrance),
             child: Stack(
               children: [
                 Positioned(
-                  top: FkSpacing.md,
-                  left: FkSpacing.md,
+                  top: AppSpacing.md,
+                  left: AppSpacing.md,
                   child: IconButton(
                     onPressed: () => Navigator.of(context).maybePop(),
                     tooltip: AacStrings.of(widget.language).closeTooltip,
@@ -128,14 +128,16 @@ class _AacConfirmationScreenState extends State<AacConfirmationScreen>
                         controller: _loop,
                         reduced: reduced,
                       ),
-                      const SizedBox(height: FkSpacing.lg),
+                      const SizedBox(height: AppSpacing.lg),
                       Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: FkSpacing.lg),
+                            horizontal: AppSpacing.lg),
                         child: Text(
                           widget.sentence,
-                          style: FkTextStyles.playDisplay
-                              .copyWith(color: Colors.white),
+                          style: Theme.of(context)
+                              .textTheme
+                              .displayLarge
+                              ?.copyWith(color: Colors.white),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -143,7 +145,7 @@ class _AacConfirmationScreenState extends State<AacConfirmationScreen>
                   ),
                 ),
                 Positioned(
-                  bottom: FkSpacing.lg,
+                  bottom: AppSpacing.lg,
                   left: 0,
                   right: 0,
                   child: Center(
@@ -160,7 +162,7 @@ class _AacConfirmationScreenState extends State<AacConfirmationScreen>
                           decoration: BoxDecoration(
                             color: Colors.white,
                             shape: BoxShape.circle,
-                            boxShadow: FkElevation.medium(Colors.black),
+                            boxShadow: AppShadows.lifted,
                           ),
                           child: Icon(Icons.check_rounded,
                               color: accent, size: 48),
