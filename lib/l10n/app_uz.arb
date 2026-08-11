@@ -291,6 +291,12 @@
   "followUpHowChildOverall": "Bolam umuman qanday bajaryapti?",
 
   "myVoiceDashboardSubheader": "Bolangiz muloqot kartalaridan qanday foydalanmoqda.",
+  "aacCategoryDaily": "Kunlik ishlar",
+  "aacCategoryNeeds": "Ehtiyojlar",
+  "aacCategoryFeelings": "His-tuyg'ular",
+  "aacCategoryPeople": "Odamlar",
+  "aacCategoryPlaces": "Joylar",
+  "aacMyCardsLabel": "Mening kartochkalarim",
   "manageCardsTooltip": "Kartalarni boshqarish",
   "thisWeekSectionHeader": "Shu hafta",
   "weekTrendLoadError": "Shu haftalik tendensiyani yuklab bo'lmadi",

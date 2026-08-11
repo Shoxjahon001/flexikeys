@@ -294,6 +294,12 @@
   "followUpHowChildOverall": "How is my child doing overall?",
 
   "myVoiceDashboardSubheader": "How your child is using their communication cards.",
+  "aacCategoryDaily": "Daily",
+  "aacCategoryNeeds": "Needs",
+  "aacCategoryFeelings": "Feelings",
+  "aacCategoryPeople": "People",
+  "aacCategoryPlaces": "Places",
+  "aacMyCardsLabel": "My Cards",
   "manageCardsTooltip": "Manage cards",
   "thisWeekSectionHeader": "This Week",
   "weekTrendLoadError": "Could not load this week's trend",

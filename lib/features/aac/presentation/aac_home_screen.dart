@@ -3,6 +3,7 @@ library aac_home_screen;
 import 'package:flutter/material.dart';
 
 import '../../../design_system/design_system.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../services/user_service.dart';
 import '../domain/aac_card_def.dart';
 import 'aac_card_grid_screen.dart';
@@ -18,6 +19,15 @@ import 'parent/aac_card_manager_screen.dart';
 /// content isn't deleted, it's just not one of the 6 home tiles anymore,
 /// matching what the mockup actually shows. Six tiles = the hard ceiling,
 /// not a starting point.
+///
+/// The screen title, category names, and "My Cards" label are UI CHROME —
+/// they follow the app's interface language (AppLocalizations), same as
+/// every other screen, and update immediately when it changes. This is
+/// deliberately different from the actual vocabulary CARDS inside each
+/// category (Water, Help, Happy, ...), which stay on the independent
+/// LEARNING language ([_language] below) per CLAUDE.md's "UI language and
+/// learning language are independent settings" — a category folder name
+/// is navigation furniture, not curriculum content to be learned.
 class AacHomeScreen extends StatefulWidget {
   const AacHomeScreen({super.key});
 
@@ -28,8 +38,6 @@ class AacHomeScreen extends StatefulWidget {
 class _AacHomeScreenState extends State<AacHomeScreen> {
   AacLanguage _language = AacLanguage.en;
 
-  static const Map<String, String> _title = {'en': 'My Voice', 'uz': 'Mening Ovozim', 'ru': 'Мой Голос'};
-
   // Mockup order: Daily, Feelings, Needs, People, Places — not the
   // AacCategory enum's declaration order (Daily, Needs, Feelings, ...).
   static const List<AacCategory> _homeCategories = [
@@ -39,20 +47,6 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
     AacCategory.people,
     AacCategory.places,
   ];
-
-  static const Map<AacCategory, Map<String, String>> _categoryLabels = {
-    AacCategory.dailyActivities: {'en': 'Daily', 'uz': 'Kunlik ishlar', 'ru': 'Повседневные'},
-    AacCategory.needs: {'en': 'Needs', 'uz': 'Ehtiyojlar', 'ru': 'Потребности'},
-    AacCategory.feelings: {'en': 'Feelings', 'uz': "His-tuyg'ular", 'ru': 'Чувства'},
-    AacCategory.people: {'en': 'People', 'uz': 'Odamlar', 'ru': 'Люди'},
-    AacCategory.places: {'en': 'Places', 'uz': 'Joylar', 'ru': 'Места'},
-  };
-
-  static const Map<String, String> _myCardsLabel = {
-    'en': 'My Cards',
-    'uz': 'Mening kartochkalarim',
-    'ru': 'Мои карточки',
-  };
 
   @override
   void initState() {
@@ -69,18 +63,23 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
     if (mounted) setState(() => _language = lang);
   }
 
-  String _categoryLabel(AacCategory category) =>
-      _categoryLabels[category]?[_language.code] ??
-      _categoryLabels[category]?['en'] ??
-      category.name;
+  String _categoryLabel(AacCategory category, AppLocalizations t) =>
+      switch (category) {
+        AacCategory.dailyActivities => t.aacCategoryDaily,
+        AacCategory.needs => t.aacCategoryNeeds,
+        AacCategory.feelings => t.aacCategoryFeelings,
+        AacCategory.people => t.aacCategoryPeople,
+        AacCategory.places => t.aacCategoryPlaces,
+        AacCategory.play => category.name,
+      };
 
-  void _openCategory(AacCategory category) {
+  void _openCategory(AacCategory category, AppLocalizations t) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => AacCardGridScreen(
           category: category,
-          categoryLabel: _categoryLabel(category),
+          categoryLabel: _categoryLabel(category, t),
           language: _language,
         ),
       ),
@@ -105,12 +104,12 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final aac = AacTheme.of(context);
-    final myCardsLabel = _myCardsLabel[_language.code] ?? _myCardsLabel['en']!;
+    final t = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: aac.background,
       appBar: FkAppBar(
-        title: _title[_language.code] ?? _title['en']!,
+        title: t.navVoiceTab,
         onBack: () => Navigator.of(context).maybePop(),
       ),
       body: SafeArea(
@@ -130,10 +129,10 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
                 ..._homeCategories.map((category) {
                   return AacCategoryTile(
                     category: category,
-                    label: _categoryLabel(category),
+                    label: _categoryLabel(category, t),
                     glyph: aacGlyph(emojiForCategory(category),
                         size: AacSizes.cardMax * 0.5),
-                    onTap: () => _openCategory(category),
+                    onTap: () => _openCategory(category, t),
                   );
                 }),
                 // "My Cards" isn't a real AacCategory, so there's no
@@ -143,7 +142,7 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
                 // adding a new color mapping for a non-vocabulary tile.
                 AacCategoryTile(
                   category: AacCategory.play,
-                  label: myCardsLabel,
+                  label: t.aacMyCardsLabel,
                   glyph: aacGlyph('🗂️', size: AacSizes.cardMax * 0.5),
                   onTap: _openMyCards,
                 ),

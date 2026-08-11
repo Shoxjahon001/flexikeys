@@ -704,6 +704,24 @@ class AppLocalizationsUz extends AppLocalizations {
   String get myVoiceDashboardSubheader => 'Bolangiz muloqot kartalaridan qanday foydalanmoqda.';
 
   @override
+  String get aacCategoryDaily => 'Kunlik ishlar';
+
+  @override
+  String get aacCategoryNeeds => 'Ehtiyojlar';
+
+  @override
+  String get aacCategoryFeelings => 'His-tuyg\'ular';
+
+  @override
+  String get aacCategoryPeople => 'Odamlar';
+
+  @override
+  String get aacCategoryPlaces => 'Joylar';
+
+  @override
+  String get aacMyCardsLabel => 'Mening kartochkalarim';
+
+  @override
   String get manageCardsTooltip => 'Kartalarni boshqarish';
 
   @override

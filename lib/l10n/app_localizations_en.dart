@@ -704,6 +704,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myVoiceDashboardSubheader => 'How your child is using their communication cards.';
 
   @override
+  String get aacCategoryDaily => 'Daily';
+
+  @override
+  String get aacCategoryNeeds => 'Needs';
+
+  @override
+  String get aacCategoryFeelings => 'Feelings';
+
+  @override
+  String get aacCategoryPeople => 'People';
+
+  @override
+  String get aacCategoryPlaces => 'Places';
+
+  @override
+  String get aacMyCardsLabel => 'My Cards';
+
+  @override
   String get manageCardsTooltip => 'Manage cards';
 
   @override

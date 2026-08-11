@@ -704,6 +704,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get myVoiceDashboardSubheader => 'Как ваш ребёнок использует карточки для общения.';
 
   @override
+  String get aacCategoryDaily => 'Повседневные';
+
+  @override
+  String get aacCategoryNeeds => 'Потребности';
+
+  @override
+  String get aacCategoryFeelings => 'Чувства';
+
+  @override
+  String get aacCategoryPeople => 'Люди';
+
+  @override
+  String get aacCategoryPlaces => 'Места';
+
+  @override
+  String get aacMyCardsLabel => 'Мои карточки';
+
+  @override
   String get manageCardsTooltip => 'Управление карточками';
 
   @override

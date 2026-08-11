@@ -1447,6 +1447,42 @@ abstract class AppLocalizations {
   /// **'How your child is using their communication cards.'**
   String get myVoiceDashboardSubheader;
 
+  /// No description provided for @aacCategoryDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get aacCategoryDaily;
+
+  /// No description provided for @aacCategoryNeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs'**
+  String get aacCategoryNeeds;
+
+  /// No description provided for @aacCategoryFeelings.
+  ///
+  /// In en, this message translates to:
+  /// **'Feelings'**
+  String get aacCategoryFeelings;
+
+  /// No description provided for @aacCategoryPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'People'**
+  String get aacCategoryPeople;
+
+  /// No description provided for @aacCategoryPlaces.
+  ///
+  /// In en, this message translates to:
+  /// **'Places'**
+  String get aacCategoryPlaces;
+
+  /// No description provided for @aacMyCardsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'My Cards'**
+  String get aacMyCardsLabel;
+
   /// No description provided for @manageCardsTooltip.
   ///
   /// In en, this message translates to:

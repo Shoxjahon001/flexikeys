@@ -291,6 +291,12 @@
   "followUpHowChildOverall": "Как в целом дела у моего ребёнка?",
 
   "myVoiceDashboardSubheader": "Как ваш ребёнок использует карточки для общения.",
+  "aacCategoryDaily": "Повседневные",
+  "aacCategoryNeeds": "Потребности",
+  "aacCategoryFeelings": "Чувства",
+  "aacCategoryPeople": "Люди",
+  "aacCategoryPlaces": "Места",
+  "aacMyCardsLabel": "Мои карточки",
   "manageCardsTooltip": "Управление карточками",
   "thisWeekSectionHeader": "На этой неделе",
   "weekTrendLoadError": "Не удалось загрузить тренд за неделю",
