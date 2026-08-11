@@ -90,17 +90,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     );
   }
 
-  void _showSnack(String msg) {
-    final colors = context.colors;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(msg),
-        backgroundColor: colors.primary,
-        behavior: SnackBarBehavior.floating,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
-      ),
-    );
-  }
+  void _showSnack(String msg) => FkToast.show(context, msg, type: FkToastType.error);
 
   @override
   Widget build(BuildContext context) {

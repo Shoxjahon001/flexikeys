@@ -59,7 +59,7 @@ class _ProgressScreenState extends ConsumerState<ProgressScreen> {
                   points: points,
                   metric: _metric,
                 ),
-                loading: () => const Center(child: CircularProgressIndicator()),
+                loading: () => const Center(child: FkLoadingIndicator()),
                 error: (_, __) => Center(
                   child: Text(t.chartLoadError, style: textTheme.bodyLarge),
                 ),

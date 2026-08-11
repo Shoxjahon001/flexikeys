@@ -38,10 +38,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
       );
       if (!mounted) return;
       if (resp.statusCode == 200) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content:
-                  Text(AppLocalizations.of(context)!.exportSuccessSnackbar)),
+        FkToast.show(
+          context,
+          AppLocalizations.of(context)!.exportSuccessSnackbar,
+          type: FkToastType.success,
         );
       }
     } finally {
@@ -51,24 +51,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Future<void> _confirmDelete() async {
     final t = AppLocalizations.of(context)!;
-    final colors = context.colors;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
-        title: Text(t.deleteChildDialogTitle),
-        content: Text(t.deleteChildDialogBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(t.cancelButton),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(t.deleteButton, style: TextStyle(color: colors.danger)),
-          ),
-        ],
-      ),
+    final confirmed = await FkDialog.confirm(
+      context,
+      title: t.deleteChildDialogTitle,
+      message: t.deleteChildDialogBody,
+      confirmLabel: t.deleteButton,
+      cancelLabel: t.cancelButton,
+      isDestructive: true,
     );
 
     if (confirmed != true || !mounted) return;
@@ -146,11 +135,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   label: t.exportDataTitle,
                   subtitle: t.exportDataSubtitle,
                   trailing: _exporting
-                      ? const SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
+                      ? const FkLoadingIndicator(size: 20, strokeWidth: 2)
                       : null,
                   onTap: _exporting ? null : _exportData,
                 ),
@@ -221,15 +206,13 @@ class _LanguagePickerState extends ConsumerState<_LanguagePicker> {
         await UserService.setLearningLanguage(code);
         ref.invalidate(childSummaryProvider(widget.childId));
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.errorGeneric)),
-        );
+        FkToast.show(context, AppLocalizations.of(context)!.errorGeneric,
+            type: FkToastType.error);
       }
     } catch (_) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(AppLocalizations.of(context)!.errorNetwork)),
-        );
+        FkToast.show(context, AppLocalizations.of(context)!.errorNetwork,
+            type: FkToastType.error);
       }
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -258,7 +241,7 @@ class _LanguagePickerState extends ConsumerState<_LanguagePicker> {
       },
       loading: () => const Padding(
         padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
-        child: Center(child: CircularProgressIndicator()),
+        child: Center(child: FkLoadingIndicator()),
       ),
       error: (_, __) =>
           Text(t.errorGeneric, style: Theme.of(context).textTheme.bodyLarge),

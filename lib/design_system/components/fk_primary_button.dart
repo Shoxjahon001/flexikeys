@@ -23,6 +23,12 @@ class FkPrimaryButton extends StatefulWidget {
   final bool loading;
   final Widget? leadingIcon;
 
+  /// Overrides the fill color (default `context.colors.primary`) — used
+  /// for a destructive confirm action (e.g. [FkDialog.confirm]'s delete
+  /// button), which needs this button's exact visual contract with
+  /// `colors.danger` instead of the brand color.
+  final Color? color;
+
   const FkPrimaryButton({
     super.key,
     required this.label,
@@ -30,6 +36,7 @@ class FkPrimaryButton extends StatefulWidget {
     this.fullWidth = false,
     this.loading = false,
     this.leadingIcon,
+    this.color,
   });
 
   @override
@@ -64,7 +71,7 @@ class _FkPrimaryButtonState extends State<FkPrimaryButton>
   @override
   Widget build(BuildContext context) {
     final disabled = !_enabled;
-    final primary = context.colors.primary;
+    final primary = widget.color ?? context.colors.primary;
     final bg = disabled ? primary.withValues(alpha: 0.4) : primary;
 
     final content = widget.loading

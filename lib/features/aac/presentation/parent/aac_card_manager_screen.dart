@@ -68,24 +68,14 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
 
   Future<void> _delete(AacCardDef card) async {
     final t = AppLocalizations.of(context)!;
-    final colors = context.colors;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.mdAll),
-        title: Text(t.removeCardDialogTitle),
-        content: Text(t
-            .removeCardDialogBody(card.label.values.firstOrNull ?? card.id)),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(ctx, false),
-              child: Text(t.cancelButton)),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: Text(t.removeButton, style: TextStyle(color: colors.danger)),
-          ),
-        ],
-      ),
+    final confirmed = await FkDialog.confirm(
+      context,
+      title: t.removeCardDialogTitle,
+      message:
+          t.removeCardDialogBody(card.label.values.firstOrNull ?? card.id),
+      confirmLabel: t.removeButton,
+      cancelLabel: t.cancelButton,
+      isDestructive: true,
     );
     if (confirmed != true) return;
     await AacCustomCardStore.instance.remove(card.id);
@@ -107,7 +97,7 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
         label: Text(t.addCardButton),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? const Center(child: FkLoadingIndicator())
           : _cards.isEmpty
               ? FkEmptyState(
                   illustration: Icon(Icons.style_outlined,
@@ -192,27 +182,22 @@ class _CardFormScreenState extends State<_CardFormScreen> {
 
   Future<void> _pickPhoto() async {
     final t = AppLocalizations.of(context)!;
-    final source = await showModalBottomSheet<ImageSource>(
-      context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.lg)),
-      ),
-      builder: (ctx) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.photo_library_rounded),
-              title: Text(t.chooseFromPhotos),
-              onTap: () => Navigator.pop(ctx, ImageSource.gallery),
-            ),
-            ListTile(
-              leading: const Icon(Icons.camera_alt_rounded),
-              title: Text(t.takePhoto),
-              onTap: () => Navigator.pop(ctx, ImageSource.camera),
-            ),
-          ],
-        ),
+    final source = await FkBottomSheet.show<ImageSource>(
+      context,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: const Icon(Icons.photo_library_rounded),
+            title: Text(t.chooseFromPhotos),
+            onTap: () => Navigator.pop(context, ImageSource.gallery),
+          ),
+          ListTile(
+            leading: const Icon(Icons.camera_alt_rounded),
+            title: Text(t.takePhoto),
+            onTap: () => Navigator.pop(context, ImageSource.camera),
+          ),
+        ],
       ),
     );
     if (source == null) return;
@@ -424,11 +409,10 @@ class _VoiceRecorderFieldState extends State<_VoiceRecorderField> {
     final hasPermission = await _recorder.hasPermission();
     if (!hasPermission) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content:
-                Text(AppLocalizations.of(context)!.micPermissionSnackbar),
-          ),
+        FkToast.show(
+          context,
+          AppLocalizations.of(context)!.micPermissionSnackbar,
+          type: FkToastType.error,
         );
       }
       return;

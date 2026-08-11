@@ -392,25 +392,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Future<void> _signOut() async {
     final t = AppLocalizations.of(context)!;
-    final colors = context.colors;
-    final confirmed = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
-        title: Text(t.signOutDialogTitle),
-        content: Text(t.signOutDialogBody),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: Text(t.cancelButton),
-          ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child:
-                Text(t.signOutConfirm, style: TextStyle(color: colors.danger)),
-          ),
-        ],
-      ),
+    final confirmed = await FkDialog.confirm(
+      context,
+      title: t.signOutDialogTitle,
+      message: t.signOutDialogBody,
+      confirmLabel: t.signOutConfirm,
+      cancelLabel: t.cancelButton,
+      isDestructive: true,
     );
     if (confirmed == true) {
       await UserService.signOut();
@@ -436,9 +424,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     };
     final selected = await showDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.lgAll),
-        title: Text(t.uiLanguageSetting),
+      builder: (ctx) => FkDialog(
+        title: t.uiLanguageSetting,
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: options.entries
@@ -454,6 +441,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ))
               .toList(),
         ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(t.cancelButton),
+          ),
+        ],
       ),
     );
     if (selected != null && selected != current) {
