@@ -183,6 +183,14 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
                           dwellDuration: _settings.dwellDuration,
                           highContrast: _settings.highContrast,
                           onActivate: () => _addCard(card),
+                          onSpeak: () => AacAudioPlayer.instance.speak(
+                            bundledAssetPath: card.audioAsset[widget.language],
+                            sentence: card.sentenceFor(widget.language),
+                            language: widget.language,
+                            isDeviceFile: card.isCustom,
+                          ),
+                          speakLabel:
+                              AacStrings.of(widget.language).speakTooltip,
                         );
                       }).toList(),
                     ),

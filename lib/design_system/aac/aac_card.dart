@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../fk_tokens.dart';
+import '../tokens/app_color_theme.dart';
 import '../tokens/app_motion.dart';
 import 'aac_theme.dart';
 
@@ -34,6 +35,21 @@ class AacCard extends StatefulWidget {
   final double size;
   final VoidCallback onActivate;
 
+  /// Replays this card's audio in place, without triggering [onActivate]'s
+  /// navigation/confirmation flow — the reference mockup's dedicated
+  /// speaker button, for a child who wants to hear a word again without
+  /// leaving the grid. Callers already hold everything needed to speak the
+  /// card (`AacAudioPlayer.instance.speak(...)`) at their existing
+  /// [onActivate] call sites, so this stays a plain callback rather than
+  /// this widget importing the audio player itself.
+  final VoidCallback onSpeak;
+
+  /// Accessible label for the speaker button (e.g. "Speak"/"Gapirish"/
+  /// "Сказать" — see `AacStrings.speakTooltip`). Passed in rather than
+  /// looked up here to keep this design-system widget independent of the
+  /// `features/aac` string catalog.
+  final String speakLabel;
+
   /// Alternate activation trigger for severe motor impairment (parent
   /// setting) — touch-and-hold for [dwellDuration] activates instead of
   /// tap-release; releasing early cancels. See §4 "Dwell-time activation".
@@ -51,6 +67,8 @@ class AacCard extends StatefulWidget {
     required this.label,
     required this.glyph,
     required this.onActivate,
+    required this.onSpeak,
+    required this.speakLabel,
     this.size = AacSizes.cardMax,
     this.dwellEnabled = false,
     this.dwellDuration = AacSizes.dwellDefault,
@@ -156,51 +174,81 @@ class _AacCardState extends State<AacCard> with TickerProviderStateMixin {
     final aac = AacTheme.of(context);
     final reduced = AppMotion.reduced(context);
     final accent = aac.colorFor(widget.category);
-    final tint = aac.tintFor(widget.category);
+    final primary = context.colors.primary;
+    final speakerSize = (widget.size * 0.26).clamp(32.0, 44.0);
 
-    final showBorder = reduced || widget.highContrast;
+    // Reference mockup: a plain white card (category color now lives only
+    // on the border, not as a fill) with the illustration sitting directly
+    // on white, and label + a dedicated speaker button sharing a bottom row
+    // instead of the label owning its own tinted band.
     final card = Container(
       width: widget.size,
       height: widget.size,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: widget.highContrast ? aac.surface : tint,
+        color: aac.surface,
         borderRadius: BorderRadius.circular(AacSizes.cardRadius),
-        boxShadow: FkElevation.medium(accent),
-        border: showBorder
-            ? Border.all(color: accent, width: widget.highContrast ? 3 : 2)
-            : null,
+        boxShadow: FkElevation.low(aac.inkSoft),
+        border: Border.all(
+          color: widget.highContrast
+              ? accent
+              : aac.inkSoft.withValues(alpha: 0.14),
+          width: widget.highContrast ? 3 : 1,
+        ),
       ),
       child: Column(
         children: [
           Expanded(
-            flex: 65,
-            child: Container(
-              width: double.infinity,
-              color: accent,
+            child: Padding(
               padding: const EdgeInsets.all(FkSpacing.sm),
               child: Center(
-                child: _AnimationArea(
-                  controller: _loopController,
-                  reduced: reduced,
-                  child: widget.glyph,
+                child: ExcludeSemantics(
+                  child: _AnimationArea(
+                    controller: _loopController,
+                    reduced: reduced,
+                    child: widget.glyph,
+                  ),
                 ),
               ),
             ),
           ),
-          Expanded(
-            flex: 35,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: FkSpacing.xs),
-              child: Center(
-                child: Text(
-                  widget.label,
-                  style: FkTextStyles.playHeadline.copyWith(color: aac.ink),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+                FkSpacing.sm, 0, FkSpacing.xs, FkSpacing.sm),
+            child: Row(
+              children: [
+                Expanded(
+                  child: ExcludeSemantics(
+                    child: Text(
+                      widget.label,
+                      style: FkTextStyles.playHeadline
+                          .copyWith(color: aac.ink, fontSize: 15),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ),
-              ),
+                const SizedBox(width: FkSpacing.xxs),
+                Semantics(
+                  button: true,
+                  label: widget.speakLabel,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () {
+                      HapticFeedback.selectionClick();
+                      widget.onSpeak();
+                    },
+                    child: Container(
+                      width: speakerSize,
+                      height: speakerSize,
+                      decoration:
+                          BoxDecoration(color: primary, shape: BoxShape.circle),
+                      child: Icon(Icons.volume_up_rounded,
+                          color: Colors.white, size: speakerSize * 0.55),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -208,15 +256,20 @@ class _AacCardState extends State<AacCard> with TickerProviderStateMixin {
     );
 
     return Semantics(
-      // One clean actionable node for screen readers/switch access — the
-      // internal Text/Icon subtree's own semantics are suppressed
-      // (excludeSemantics) so the label isn't announced twice. Routes
+      // One clean actionable node for screen readers/switch access covering
+      // the card's main activation. NOT excludeSemantics: true — the label
+      // Text and glyph are individually wrapped in ExcludeSemantics above
+      // (so this node's own `label` isn't announced twice), but the speaker
+      // button further down needs to surface as its own reachable,
+      // independently-actionable node (two focus stops, like a ListTile
+      // with a trailing IconButton) rather than being swallowed into this
+      // one — a screen-reader/switch-access user must be able to replay
+      // the word without also triggering the full activation flow. Routes
       // straight to _activate() regardless of dwellEnabled: dwell timing
       // exists to filter imprecise touch input, which doesn't apply to a
       // switch-access "select" action.
       label: widget.label,
       button: true,
-      excludeSemantics: true,
       onTap: _activate,
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,

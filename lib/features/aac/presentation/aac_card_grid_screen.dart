@@ -3,6 +3,7 @@ library aac_card_grid_screen;
 import 'package:flutter/material.dart';
 
 import '../../../design_system/design_system.dart';
+import '../data/aac_audio_player.dart';
 import '../data/aac_card_repository.dart';
 import '../data/aac_event_repository.dart';
 import '../data/aac_settings_store.dart';
@@ -79,7 +80,8 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) => AacFringeScreen(card: card, language: widget.language),
+          builder: (_) =>
+              AacFringeScreen(card: card, language: widget.language),
         ),
       );
       return;
@@ -172,6 +174,20 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
                       dwellDuration: _settings.dwellDuration,
                       highContrast: _settings.highContrast,
                       onActivate: () => _onCardActivate(card),
+                      onSpeak: () => AacAudioPlayer.instance.speak(
+                        bundledAssetPath: card.audioAsset[widget.language],
+                        // A branch card's sentenceTemplate has an unfilled
+                        // {noun} placeholder until a fringe option is
+                        // chosen (see AacCardDef.sentenceFor) — the label
+                        // itself ("Food") is what the speaker button should
+                        // say for those, not the raw template.
+                        sentence: card.kind == AacCardKind.branch
+                            ? _labelFor(card)
+                            : card.sentenceFor(widget.language),
+                        language: widget.language,
+                        isDeviceFile: card.isCustom,
+                      ),
+                      speakLabel: AacStrings.of(widget.language).speakTooltip,
                     );
                   }).toList(),
                 ),

@@ -3,11 +3,13 @@ library aac_fringe_screen;
 import 'package:flutter/material.dart';
 
 import '../../../design_system/design_system.dart';
+import '../data/aac_audio_player.dart';
 import '../data/aac_event_repository.dart';
 import '../data/aac_settings_store.dart';
 import '../domain/aac_card_def.dart';
 import 'aac_confirmation_screen.dart';
 import 'aac_glyphs.dart';
+import 'aac_strings.dart';
 
 /// The second step of a branch card's two-step (core+fringe) flow — docs/
 /// aac_design_system.md §2.4. E.g. tapping "Food" on the Card Grid opens
@@ -20,7 +22,8 @@ class AacFringeScreen extends StatefulWidget {
   final AacCardDef card;
   final AacLanguage language;
 
-  const AacFringeScreen({super.key, required this.card, required this.language});
+  const AacFringeScreen(
+      {super.key, required this.card, required this.language});
 
   @override
   State<AacFringeScreen> createState() => _AacFringeScreenState();
@@ -44,7 +47,8 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
       map[widget.language] ?? map[AacLanguage.en] ?? fallbackId;
 
   void _onOptionActivate(AacFringeOption option) {
-    final sentence = widget.card.sentenceFor(widget.language, chosenFringe: option);
+    final sentence =
+        widget.card.sentenceFor(widget.language, chosenFringe: option);
     AacEventRepository.instance.logTap(
       card: widget.card,
       category: widget.card.category,
@@ -110,6 +114,12 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
                       dwellDuration: _settings.dwellDuration,
                       highContrast: _settings.highContrast,
                       onActivate: () => _onOptionActivate(option),
+                      onSpeak: () => AacAudioPlayer.instance.speak(
+                        bundledAssetPath: option.audioAsset[widget.language],
+                        sentence: _labelFor(option.label, option.id),
+                        language: widget.language,
+                      ),
+                      speakLabel: AacStrings.of(widget.language).speakTooltip,
                     );
                   }).toList(),
                 ),

@@ -11,9 +11,11 @@ import 'package:record/record.dart';
 
 import '../../../../design_system/design_system.dart';
 import '../../../../l10n/app_localizations.dart';
+import '../../data/aac_audio_player.dart';
 import '../../data/aac_custom_card_store.dart';
 import '../../domain/aac_card_def.dart';
 import '../aac_glyphs.dart';
+import '../aac_strings.dart';
 
 /// Parent-created custom AAC cards — docs/aac_design_system.md Phase 4.
 ///
@@ -71,8 +73,7 @@ class _AacCardManagerScreenState extends State<AacCardManagerScreen> {
     final confirmed = await FkDialog.confirm(
       context,
       title: t.removeCardDialogTitle,
-      message:
-          t.removeCardDialogBody(card.label.values.firstOrNull ?? card.id),
+      message: t.removeCardDialogBody(card.label.values.firstOrNull ?? card.id),
       confirmLabel: t.removeButton,
       cancelLabel: t.cancelButton,
       isDestructive: true,
@@ -352,6 +353,13 @@ class _CardFormScreenState extends State<_CardFormScreen> {
                       )
                     : aacGlyph('💬'),
                 onActivate: () {},
+                onSpeak: () => AacAudioPlayer.instance.speak(
+                  bundledAssetPath: _recordedAudioPath,
+                  sentence: _labelController.text.trim(),
+                  language: AacLanguage.en,
+                  isDeviceFile: true,
+                ),
+                speakLabel: AacStrings.of(AacLanguage.en).speakTooltip,
               ),
             ),
             const SizedBox(height: AppSpacing.xl),
