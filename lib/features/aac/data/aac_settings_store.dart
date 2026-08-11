@@ -7,18 +7,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../design_system/aac/aac_theme.dart';
 
 /// Parent-configurable card size (docs/aac_design_system.md §2-3 originally
-/// specified a 120-160px tier; doubled to 240-320px per product direction —
-/// bigger cards read more clearly and are easier to hit accurately, at the
-/// cost of fewer cards per row). Deliberately literal values rather than
-/// `AacSizes.cardMin`/`cardMax` — those still back [AacCategoryTile]'s Home-
-/// screen tiles, a separate surface not part of this size change.
+/// specified a 120-160px tier). Sized so the default (`l`) tier reliably
+/// keeps 2 cards per row on phone-width screens — the card grid's Wrap
+/// reflows to 1/row past that, which is why `xxl` is allowed to run tight
+/// on smaller phones (it's an opt-in "bigger" accessibility choice, not the
+/// default). Deliberately literal values rather than
+/// `AacSizes.cardMin`/`cardMax` — those still back [AacCategoryTile]'s
+/// Home-screen tiles, a separate surface not part of this size change.
 enum AacCardSizeSetting { l, xl, xxl }
 
 extension AacCardSizeSettingPixels on AacCardSizeSetting {
   double get pixels => switch (this) {
-        AacCardSizeSetting.l => 240,
-        AacCardSizeSetting.xl => 280,
-        AacCardSizeSetting.xxl => 320,
+        AacCardSizeSetting.l => 140,
+        AacCardSizeSetting.xl => 155,
+        AacCardSizeSetting.xxl => 170,
       };
 }
 

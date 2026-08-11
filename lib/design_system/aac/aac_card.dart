@@ -206,11 +206,21 @@ class _AacCardState extends State<AacCard> with TickerProviderStateMixin {
             child: Padding(
               padding: const EdgeInsets.all(FkSpacing.sm),
               child: Center(
-                child: ExcludeSemantics(
-                  child: _AnimationArea(
-                    controller: _loopController,
-                    reduced: reduced,
-                    child: widget.glyph,
+                // FittedBox guards against clipping regardless of how big a
+                // glyph's own intrinsic size is (an emoji Text's fontSize,
+                // or glyphForCard's fixed-size Image for a custom photo) —
+                // callers pass a size proportional to the card, and without
+                // this the illustration could render larger than the space
+                // actually available and get cut off by the card's
+                // clipBehavior: Clip.antiAlias.
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: ExcludeSemantics(
+                    child: _AnimationArea(
+                      controller: _loopController,
+                      reduced: reduced,
+                      child: widget.glyph,
+                    ),
                   ),
                 ),
               ),
