@@ -135,13 +135,23 @@ class _AacCategoryTileState extends State<AacCategoryTile>
                     padding:
                         const EdgeInsets.symmetric(horizontal: FkSpacing.xs),
                     child: Center(
-                      child: Text(
-                        widget.label,
-                        style:
-                            FkTextStyles.playHeadline.copyWith(color: aac.ink),
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      // maxLines/ellipsis alone only guards a line's width —
+                      // a longer word in some languages (e.g. Russian
+                      // "Повседневные") can still make the 2-line block
+                      // *taller* than this flex area, which then gets cut
+                      // off by the tile's clipBehavior: Clip.antiAlias
+                      // instead of showing an ellipsis. FittedBox scales
+                      // the whole label down uniformly so it always fits,
+                      // regardless of language/word length.
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          widget.label,
+                          style: FkTextStyles.playHeadline
+                              .copyWith(color: aac.ink),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                        ),
                       ),
                     ),
                   ),

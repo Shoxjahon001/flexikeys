@@ -232,13 +232,21 @@ class _AacCardState extends State<AacCard> with TickerProviderStateMixin {
             child: Row(
               children: [
                 Expanded(
+                  // FittedBox (same reasoning as the illustration area
+                  // above and AacCategoryTile's label) — without it, a
+                  // longer word in some languages wrapping to 2 lines grows
+                  // this row taller and squeezes the illustration area
+                  // above it instead of just shrinking the label itself.
                   child: ExcludeSemantics(
-                    child: Text(
-                      widget.label,
-                      style: FkTextStyles.playHeadline
-                          .copyWith(color: aac.ink, fontSize: 15),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        widget.label,
+                        style: FkTextStyles.playHeadline
+                            .copyWith(color: aac.ink, fontSize: 15),
+                        maxLines: 2,
+                      ),
                     ),
                   ),
                 ),
