@@ -151,10 +151,16 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
             // fill the screen edge-to-edge rather than float in the middle
             // with unused space on either side.
             : SingleChildScrollView(
+                // Tighter than AppSpacing.lg/AacSizes.gridGapAdvanced
+                // (this screen's only deviation from those) — at the
+                // current 170-200px card tiers, the roomier defaults
+                // pushed 2-per-row past standard ~390pt phone widths,
+                // dropping to a lopsided 1-per-row. This reclaims just
+                // enough width to keep 2 equal-width cards on one row.
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
+                    horizontal: AppSpacing.md, vertical: AppSpacing.lg),
                 child: Wrap(
-                  spacing: AacSizes.gridGapAdvanced,
+                  spacing: FkSpacing.sm,
                   runSpacing: AacSizes.gridGapAdvanced,
                   alignment: WrapAlignment.center,
                   children: _cards.map((card) {
