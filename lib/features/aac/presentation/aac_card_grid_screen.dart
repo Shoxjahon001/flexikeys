@@ -150,53 +150,65 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
             // this must never overflow. Padding lets the grid genuinely
             // fill the screen edge-to-edge rather than float in the middle
             // with unused space on either side.
-            : SingleChildScrollView(
-                // Tighter than AppSpacing.lg/AacSizes.gridGapAdvanced
-                // (this screen's only deviation from those) — at the
-                // current 170-200px card tiers, the roomier defaults
-                // pushed 2-per-row past standard ~390pt phone widths,
-                // dropping to a lopsided 1-per-row. This reclaims just
-                // enough width to keep 2 equal-width cards on one row.
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.md, vertical: AppSpacing.lg),
-                child: Wrap(
-                  spacing: FkSpacing.sm,
-                  runSpacing: AacSizes.gridGapAdvanced,
-                  alignment: WrapAlignment.center,
-                  children: _cards.map((card) {
-                    // The glyph helper's own default (56) is a fixed
-                    // absolute size that never scaled with the card itself,
-                    // so a 160px "xxl" card rendered the same small emoji
-                    // as a 120px "l" one — proportional instead, ~50% of
-                    // the card so it actually fills the accent-colored
-                    // icon area (Expanded flex:65 in AacCard).
-                    return AacCard(
-                      category: widget.category,
-                      label: _labelFor(card),
-                      glyph: glyphForCard(card,
-                          size: _settings.cardSize.pixels * 0.5),
-                      size: _settings.cardSize.pixels,
-                      dwellEnabled: _settings.dwellEnabled,
-                      dwellDuration: _settings.dwellDuration,
-                      highContrast: _settings.highContrast,
-                      onActivate: () => _onCardActivate(card),
-                      onSpeak: () => AacAudioPlayer.instance.speak(
-                        bundledAssetPath: card.audioAsset[widget.language],
-                        // A branch card's sentenceTemplate has an unfilled
-                        // {noun} placeholder until a fringe option is
-                        // chosen (see AacCardDef.sentenceFor) — the label
-                        // itself ("Food") is what the speaker button should
-                        // say for those, not the raw template.
-                        sentence: card.kind == AacCardKind.branch
-                            ? _labelFor(card)
-                            : card.sentenceFor(widget.language),
-                        language: widget.language,
-                        isDeviceFile: card.isCustom,
-                      ),
-                      speakLabel: AacStrings.of(widget.language).speakTooltip,
-                    );
-                  }).toList(),
-                ),
+            //
+            // LayoutBuilder computes the actual 2-column card width from
+            // the real available width, rather than rendering
+            // _settings.cardSize.pixels literally and hoping 2 happen to
+            // fit — a fixed pixel size only fits on some device widths, and
+            // guessing new magic numbers per device report doesn't scale.
+            // cardSize.pixels is now a ceiling (the parent's size
+            // preference), not a guaranteed literal size: on a narrow phone
+            // the card shrinks to whatever actually fits 2-per-row; on a
+            // wide tablet it's capped at the preference instead of
+            // stretching arbitrarily large.
+            : LayoutBuilder(
+                builder: (context, constraints) {
+                  const horizontalPadding = AppSpacing.md;
+                  const gap = FkSpacing.sm;
+                  final available =
+                      constraints.maxWidth - horizontalPadding * 2;
+                  final fitWidth = (available - gap) / 2;
+                  final cardSize =
+                      fitWidth.clamp(96.0, _settings.cardSize.pixels);
+
+                  return SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: horizontalPadding, vertical: AppSpacing.lg),
+                    child: Wrap(
+                      spacing: gap,
+                      runSpacing: AacSizes.gridGapAdvanced,
+                      alignment: WrapAlignment.center,
+                      children: _cards.map((card) {
+                        return AacCard(
+                          category: widget.category,
+                          label: _labelFor(card),
+                          glyph: glyphForCard(card, size: cardSize * 0.5),
+                          size: cardSize,
+                          dwellEnabled: _settings.dwellEnabled,
+                          dwellDuration: _settings.dwellDuration,
+                          highContrast: _settings.highContrast,
+                          onActivate: () => _onCardActivate(card),
+                          onSpeak: () => AacAudioPlayer.instance.speak(
+                            bundledAssetPath: card.audioAsset[widget.language],
+                            // A branch card's sentenceTemplate has an
+                            // unfilled {noun} placeholder until a fringe
+                            // option is chosen (see
+                            // AacCardDef.sentenceFor) — the label itself
+                            // ("Food") is what the speaker button should
+                            // say for those, not the raw template.
+                            sentence: card.kind == AacCardKind.branch
+                                ? _labelFor(card)
+                                : card.sentenceFor(widget.language),
+                            language: widget.language,
+                            isDeviceFile: card.isCustom,
+                          ),
+                          speakLabel:
+                              AacStrings.of(widget.language).speakTooltip,
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
               ),
       ),
     );
