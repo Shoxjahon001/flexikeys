@@ -175,7 +175,11 @@ class _AacCardState extends State<AacCard> with TickerProviderStateMixin {
     final reduced = AppMotion.reduced(context);
     final accent = aac.colorFor(widget.category);
     final primary = context.colors.primary;
-    final speakerSize = (widget.size * 0.26).clamp(32.0, 44.0);
+    // Upper bound raised from 44 alongside AacCardSizeSetting's 240-320px
+    // range (was 120-160) — the old ceiling capped the button well below
+    // its proportional 0.26 share once cards got bigger, leaving it looking
+    // undersized next to the larger card.
+    final speakerSize = (widget.size * 0.26).clamp(32.0, 88.0);
 
     // Reference mockup: a plain white card (category color now lives only
     // on the border, not as a fill) with the illustration sitting directly
