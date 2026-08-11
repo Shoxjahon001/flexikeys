@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
 import '../design_system/design_system.dart';
 import '../services/user_service.dart';
@@ -45,6 +46,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
   String _name = '';
   Set<String> _completed = {};
   int _tab = 0; // 0 = O'rganish, 1 = Chizish
+  bool _loading = true;
 
   // Dev/QA backdoor: registering the kid's name as "admin" unlocks every
   // level and task, regardless of actual progress. Any other name behaves
@@ -80,6 +82,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
       } else if (_name.isEmpty && name.isNotEmpty) {
         _name = name;
       }
+      _loading = false;
     });
   }
 
@@ -199,22 +202,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
           .then((_) => _load());
       return;
     }
-    final colors = context.colors;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          AppLocalizations.of(context)!.comingSoonSnackbar,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge
-              ?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
-        ),
-        backgroundColor: colors.primary,
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
-      ),
-    );
+    FkToast.show(context, AppLocalizations.of(context)!.comingSoonSnackbar,
+        type: FkToastType.info);
   }
 
   // ── Build ──────────────────────────────────────────────────────────────────
@@ -228,7 +217,11 @@ class _LevelsScreenState extends State<LevelsScreen> {
           children: [
             _buildTopBar(),
             _buildTabSwitcher(),
-            Expanded(child: _tab == 0 ? _buildLearnTab() : _buildDrawTab()),
+            Expanded(
+              child: _loading
+                  ? const Center(child: FkLoadingIndicator())
+                  : (_tab == 0 ? _buildLearnTab() : _buildDrawTab()),
+            ),
           ],
         ),
       ),
@@ -276,8 +269,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 const SizedBox(width: AppSpacing.sm),
                 Text(
                   _name,
-                  style: textTheme.bodyLarge
-                      ?.copyWith(color: colors.textPrimary, fontWeight: FontWeight.w800),
+                  style: textTheme.bodyLarge?.copyWith(
+                      color: colors.textPrimary, fontWeight: FontWeight.w800),
                 ),
               ],
             ),
@@ -285,8 +278,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
           const Spacer(),
           // Stars
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: AppSpacing.lg, vertical: 9),
+            padding: const EdgeInsets.symmetric(
+                horizontal: AppSpacing.lg, vertical: 9),
             decoration: BoxDecoration(
               color: colors.surface,
               borderRadius: AppRadius.pillAll,
@@ -298,8 +291,8 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   valueListenable: UserService.starsNotifier,
                   builder: (_, stars, __) => Text(
                     '$stars',
-                    style: textTheme.bodyLarge
-                        ?.copyWith(color: colors.textPrimary, fontWeight: FontWeight.w900),
+                    style: textTheme.bodyLarge?.copyWith(
+                        color: colors.textPrimary, fontWeight: FontWeight.w900),
                   ),
                 ),
                 const SizedBox(width: 5),
@@ -358,22 +351,12 @@ class _LevelsScreenState extends State<LevelsScreen> {
         behavior: HitTestBehavior.opaque,
         onTap: () {
           if (!unlocked) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(
-                  // "Letters" is the curriculum level name — deliberately
-                  // not translated, see plan: curriculum/level names stay
-                  // as-is regardless of interface language.
-                  AppLocalizations.of(context)!.lockedLevelSnackbar('Letters'),
-                  style: textTheme.bodyLarge
-                      ?.copyWith(color: Colors.white, fontWeight: FontWeight.w700),
-                ),
-                backgroundColor: colors.primary,
-                behavior: SnackBarBehavior.floating,
-                duration: const Duration(seconds: 2),
-                shape: const RoundedRectangleBorder(borderRadius: AppRadius.smAll),
-              ),
-            );
+            // "Letters" is the curriculum level name — deliberately not
+            // translated, see plan: curriculum/level names stay as-is
+            // regardless of interface language.
+            FkToast.show(context,
+                AppLocalizations.of(context)!.lockedLevelSnackbar('Letters'),
+                type: FkToastType.info);
             return;
           }
           setState(() => _tab = index);
@@ -507,14 +490,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
       borderColor = colors.primary.withValues(alpha: 0.5);
     }
 
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.0, end: 1.0),
-      duration: Duration(milliseconds: 380 + index * 70),
-      curve: Curves.easeOut,
-      builder: (_, v, child) => Opacity(
-          opacity: v,
-          child: Transform.scale(scale: 0.85 + 0.15 * v, child: child)),
-      child: GestureDetector(
+    return _GridEntrance(
+      index: index,
+      child: _PressableCard(
         onTap: level.locked ? null : () => _onLevelTap(level),
         child: Container(
           decoration: BoxDecoration(
@@ -551,7 +529,9 @@ class _LevelsScreenState extends State<LevelsScreen> {
                     level.title,
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           fontWeight: FontWeight.w800,
-                          color: level.locked ? colors.textTertiary : colors.textPrimary,
+                          color: level.locked
+                              ? colors.textTertiary
+                              : colors.textPrimary,
                         ),
                   ),
                 ],
@@ -616,6 +596,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 badgeColor: colors.primary,
                 icon: const _ShapesIcon(),
                 locked: false,
+                index: 0,
                 cardColor: colors.successSoft,
                 borderColor: colors.success,
               ),
@@ -630,6 +611,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                         .headlineMedium
                         ?.copyWith(fontSize: 44, color: colors.textPrimary)),
                 locked: _lockedUnless('shapes'),
+                index: 1,
                 cardColor: colors.successSoft,
                 borderColor: colors.success,
               ),
@@ -642,15 +624,18 @@ class _LevelsScreenState extends State<LevelsScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall
-                          ?.copyWith(fontSize: 26, color: colors.textSecondary)),
-                  locked: !_isAdmin && !_allLetterGroupsDone),
+                          ?.copyWith(
+                              fontSize: 26, color: colors.textSecondary)),
+                  locked: !_isAdmin && !_allLetterGroupsDone,
+                  index: 2),
               _drawCard(
                   id: 'objects',
                   title: t.drawTitleObjects,
                   badge: '✏️',
                   badgeColor: colors.primary,
                   icon: const Text('🏠', style: TextStyle(fontSize: 40)),
-                  locked: _lockedUnless('number_drawing')),
+                  locked: _lockedUnless('number_drawing'),
+                  index: 3),
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
@@ -671,6 +656,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                 badgeColor: colors.danger,
                 icon: const Text('🍎', style: TextStyle(fontSize: 42)),
                 locked: false,
+                index: 0,
                 cardColor: colors.warningSoft,
                 borderColor: colors.warning,
               ),
@@ -680,21 +666,24 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🦁', style: TextStyle(fontSize: 40)),
-                  locked: _lockedUnless('fruits_color')),
+                  locked: _lockedUnless('fruits_color'),
+                  index: 1),
               _drawCard(
                   id: 'nature',
                   title: t.colorTitleNature,
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🌸', style: TextStyle(fontSize: 40)),
-                  locked: _lockedUnless('animals_color')),
+                  locked: _lockedUnless('animals_color'),
+                  index: 2),
               _drawCard(
                   id: 'transport',
                   title: t.colorTitleTransport,
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🚗', style: TextStyle(fontSize: 40)),
-                  locked: _lockedUnless('nature_color')),
+                  locked: _lockedUnless('nature_color'),
+                  index: 3),
             ],
           ),
         ],
@@ -725,91 +714,189 @@ class _LevelsScreenState extends State<LevelsScreen> {
     required Color badgeColor,
     required Widget icon,
     required bool locked,
+    required int index,
     Color? cardColor,
     Color? borderColor,
   }) {
     final colors = context.colors;
-    return GestureDetector(
-      onTap: locked ? null : () => _onDrawTap(id),
-      child: Container(
-        decoration: BoxDecoration(
-          color: locked ? colors.surfaceMuted : (cardColor ?? colors.surfaceMuted),
-          borderRadius: AppRadius.lgAll,
-          border: Border.all(
-            color: locked ? Colors.transparent : (borderColor ?? Colors.transparent),
-            width: 2,
-          ),
-          boxShadow: locked ? null : AppShadows.soft,
-        ),
-        child: Stack(
-          children: [
-            if (locked)
-              const Positioned(
-                top: 12,
-                right: 13,
-                child: Text('🔒', style: TextStyle(fontSize: 18)),
-              ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      Container(
-                        width: 88,
-                        height: 88,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: locked ? colors.surfaceMuted : colors.surface,
-                          boxShadow: locked ? null : AppShadows.soft,
-                        ),
-                        child: Center(
-                          child: Opacity(
-                            opacity: locked ? 0.45 : 1.0,
-                            child: icon,
-                          ),
-                        ),
-                      ),
-                      if (!locked)
-                        Positioned(
-                          right: -3,
-                          bottom: -3,
-                          child: Container(
-                            width: 30,
-                            height: 30,
-                            decoration: BoxDecoration(
-                              color: badgeColor,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: badgeColor.withValues(alpha: 0.4),
-                                  blurRadius: 6,
-                                  offset: const Offset(0, 2),
-                                ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(badge,
-                                  style: const TextStyle(fontSize: 14)),
-                            ),
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  title,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        fontWeight: FontWeight.w800,
-                        color: locked ? colors.textTertiary : colors.textPrimary,
-                      ),
-                ),
-              ],
+    return _GridEntrance(
+      index: index,
+      child: _PressableCard(
+        onTap: locked ? null : () => _onDrawTap(id),
+        child: Container(
+          decoration: BoxDecoration(
+            color: locked
+                ? colors.surfaceMuted
+                : (cardColor ?? colors.surfaceMuted),
+            borderRadius: AppRadius.lgAll,
+            border: Border.all(
+              color: locked
+                  ? Colors.transparent
+                  : (borderColor ?? Colors.transparent),
+              width: 2,
             ),
-          ],
+            boxShadow: locked ? null : AppShadows.soft,
+          ),
+          child: Stack(
+            children: [
+              if (locked)
+                const Positioned(
+                  top: 12,
+                  right: 13,
+                  child: Text('🔒', style: TextStyle(fontSize: 18)),
+                ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        Container(
+                          width: 88,
+                          height: 88,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color:
+                                locked ? colors.surfaceMuted : colors.surface,
+                            boxShadow: locked ? null : AppShadows.soft,
+                          ),
+                          child: Center(
+                            child: Opacity(
+                              opacity: locked ? 0.45 : 1.0,
+                              child: icon,
+                            ),
+                          ),
+                        ),
+                        if (!locked)
+                          Positioned(
+                            right: -3,
+                            bottom: -3,
+                            child: Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                color: badgeColor,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: badgeColor.withValues(alpha: 0.4),
+                                    blurRadius: 6,
+                                    offset: const Offset(0, 2),
+                                  ),
+                                ],
+                              ),
+                              child: Center(
+                                child: Text(badge,
+                                    style: const TextStyle(fontSize: 14)),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w800,
+                          color:
+                              locked ? colors.textTertiary : colors.textPrimary,
+                        ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
+      ),
+    );
+  }
+}
+
+// ── Grid card motion ─────────────────────────────────────────────────────────
+
+/// Staggered fade + slide-up entrance for a grid card — the canonical
+/// pattern documented on [AppMotion] (`entranceSlideOffset`/`staggerDelay`),
+/// applied here to the level/draw grids. Skips the animation under reduced
+/// motion rather than merely shortening it, per [AppMotion.reduced]'s
+/// contract.
+class _GridEntrance extends StatelessWidget {
+  final int index;
+  final Widget child;
+
+  const _GridEntrance({required this.index, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (AppMotion.reduced(context)) return child;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: AppMotion.base + AppMotion.staggerDelay * index,
+      curve: AppMotion.entrance,
+      builder: (_, v, builtChild) => Opacity(
+        opacity: v,
+        child: Transform.translate(
+          offset: Offset(0, AppMotion.entranceSlideOffset * (1 - v)),
+          child: builtChild,
+        ),
+      ),
+      child: child,
+    );
+  }
+}
+
+/// Press-scale + haptic feedback for a tappable grid card — mirrors
+/// [FkCategoryCard]'s press contract so level/draw cards feel consistent
+/// with the rest of the redesigned surfaces. `onTap == null` (locked cards)
+/// disables both the tap and the press animation.
+class _PressableCard extends StatefulWidget {
+  final VoidCallback? onTap;
+  final Widget child;
+
+  const _PressableCard({required this.onTap, required this.child});
+
+  @override
+  State<_PressableCard> createState() => _PressableCardState();
+}
+
+class _PressableCardState extends State<_PressableCard>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _scaleController = AnimationController(
+    vsync: this,
+    duration: AppMotion.fast,
+    lowerBound: AppMotion.pressScale,
+    upperBound: 1.0,
+    value: 1.0,
+  );
+
+  @override
+  void dispose() {
+    _scaleController.dispose();
+    super.dispose();
+  }
+
+  void _setPressed(bool pressed) {
+    if (widget.onTap == null) return;
+    if (!AppMotion.reduced(context)) {
+      _scaleController.animateTo(pressed ? AppMotion.pressScale : 1.0,
+          curve: AppMotion.press);
+    }
+    if (pressed) HapticFeedback.selectionClick();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => _setPressed(true),
+      onTapUp: (_) => _setPressed(false),
+      onTapCancel: () => _setPressed(false),
+      onTap: widget.onTap,
+      child: AnimatedBuilder(
+        animation: _scaleController,
+        builder: (context, child) =>
+            Transform.scale(scale: _scaleController.value, child: child),
+        child: widget.child,
       ),
     );
   }
