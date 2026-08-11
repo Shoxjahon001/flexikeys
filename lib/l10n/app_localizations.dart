@@ -679,6 +679,90 @@ abstract class AppLocalizations {
   /// **'Coloring'**
   String get paintSectionHeader;
 
+  /// No description provided for @levelTitleLetters.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters'**
+  String get levelTitleLetters;
+
+  /// No description provided for @levelTitleNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers'**
+  String get levelTitleNumbers;
+
+  /// No description provided for @levelTitleColors.
+  ///
+  /// In en, this message translates to:
+  /// **'Colors'**
+  String get levelTitleColors;
+
+  /// No description provided for @levelTitleFruits.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruits'**
+  String get levelTitleFruits;
+
+  /// No description provided for @levelTitleAnimals.
+  ///
+  /// In en, this message translates to:
+  /// **'Animals'**
+  String get levelTitleAnimals;
+
+  /// No description provided for @levelTitleFood.
+  ///
+  /// In en, this message translates to:
+  /// **'Food'**
+  String get levelTitleFood;
+
+  /// No description provided for @drawTitleShapes.
+  ///
+  /// In en, this message translates to:
+  /// **'Shapes'**
+  String get drawTitleShapes;
+
+  /// No description provided for @drawTitleLetters.
+  ///
+  /// In en, this message translates to:
+  /// **'Letters'**
+  String get drawTitleLetters;
+
+  /// No description provided for @drawTitleNumbers.
+  ///
+  /// In en, this message translates to:
+  /// **'Numbers'**
+  String get drawTitleNumbers;
+
+  /// No description provided for @drawTitleObjects.
+  ///
+  /// In en, this message translates to:
+  /// **'Objects'**
+  String get drawTitleObjects;
+
+  /// No description provided for @colorTitleFruits.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruits'**
+  String get colorTitleFruits;
+
+  /// No description provided for @colorTitleAnimals.
+  ///
+  /// In en, this message translates to:
+  /// **'Animals'**
+  String get colorTitleAnimals;
+
+  /// No description provided for @colorTitleNature.
+  ///
+  /// In en, this message translates to:
+  /// **'Nature'**
+  String get colorTitleNature;
+
+  /// No description provided for @colorTitleTransport.
+  ///
+  /// In en, this message translates to:
+  /// **'Transport'**
+  String get colorTitleTransport;
+
   /// No description provided for @parentDashboardHeader.
   ///
   /// In en, this message translates to:

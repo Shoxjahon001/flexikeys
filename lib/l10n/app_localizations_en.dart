@@ -308,6 +308,48 @@ class AppLocalizationsEn extends AppLocalizations {
   String get paintSectionHeader => 'Coloring';
 
   @override
+  String get levelTitleLetters => 'Letters';
+
+  @override
+  String get levelTitleNumbers => 'Numbers';
+
+  @override
+  String get levelTitleColors => 'Colors';
+
+  @override
+  String get levelTitleFruits => 'Fruits';
+
+  @override
+  String get levelTitleAnimals => 'Animals';
+
+  @override
+  String get levelTitleFood => 'Food';
+
+  @override
+  String get drawTitleShapes => 'Shapes';
+
+  @override
+  String get drawTitleLetters => 'Letters';
+
+  @override
+  String get drawTitleNumbers => 'Numbers';
+
+  @override
+  String get drawTitleObjects => 'Objects';
+
+  @override
+  String get colorTitleFruits => 'Fruits';
+
+  @override
+  String get colorTitleAnimals => 'Animals';
+
+  @override
+  String get colorTitleNature => 'Nature';
+
+  @override
+  String get colorTitleTransport => 'Transport';
+
+  @override
   String get parentDashboardHeader => 'Parent dashboard';
 
   @override

@@ -231,6 +231,30 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
   // ─── Header ────────────────────────────────────────────────────────────────
 
+  /// [LevelConfig.title] is an internal English identifier, not display
+  /// copy — curriculum/spelling word content intentionally stays
+  /// untranslated (see localization plan), but this header IS chrome (a
+  /// screen title, not a word to spell), so it maps [LevelConfig.id] to
+  /// the same localized level-title strings the level-select card
+  /// (levels_screen.dart) already uses, rather than showing English
+  /// regardless of app language.
+  String _localizedTitle(AppLocalizations t) {
+    switch (_config!.id) {
+      case 'numbers':
+        return t.levelTitleNumbers;
+      case 'colors':
+        return t.levelTitleColors;
+      case 'fruits':
+        return t.levelTitleFruits;
+      case 'animals':
+        return t.levelTitleAnimals;
+      case 'food':
+        return t.levelTitleFood;
+      default:
+        return _config!.title;
+    }
+  }
+
   Widget _buildHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -251,7 +275,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
           ),
           const SizedBox(width: 12),
           Text(
-            _config!.title,
+            _localizedTitle(AppLocalizations.of(context)!),
             style: GoogleFonts.nunito(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,

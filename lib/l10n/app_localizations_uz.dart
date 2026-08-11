@@ -308,6 +308,48 @@ class AppLocalizationsUz extends AppLocalizations {
   String get paintSectionHeader => 'Bo\'yash';
 
   @override
+  String get levelTitleLetters => 'Harflar';
+
+  @override
+  String get levelTitleNumbers => 'Raqamlar';
+
+  @override
+  String get levelTitleColors => 'Ranglar';
+
+  @override
+  String get levelTitleFruits => 'Mevalar';
+
+  @override
+  String get levelTitleAnimals => 'Hayvonlar';
+
+  @override
+  String get levelTitleFood => 'Ovqatlar';
+
+  @override
+  String get drawTitleShapes => 'Shakllar';
+
+  @override
+  String get drawTitleLetters => 'Harflar';
+
+  @override
+  String get drawTitleNumbers => 'Raqamlar';
+
+  @override
+  String get drawTitleObjects => 'Narsalar';
+
+  @override
+  String get colorTitleFruits => 'Mevalar';
+
+  @override
+  String get colorTitleAnimals => 'Hayvonlar';
+
+  @override
+  String get colorTitleNature => 'Tabiat';
+
+  @override
+  String get colorTitleTransport => 'Transport';
+
+  @override
   String get parentDashboardHeader => 'Ota-ona paneli';
 
   @override

@@ -114,38 +114,41 @@ class _LevelsScreenState extends State<LevelsScreen> {
     }
   }
 
-  List<_LevelItem> get _levels => [
-        _LevelItem(
-            id: 'letters',
-            title: 'Letters',
-            letter: 'A',
-            lockState: _stateOf('letters')),
-        _LevelItem(
-            id: 'numbers',
-            title: 'Numbers',
-            customWidget: const _NumbersIcon(),
-            lockState: _stateOf('numbers')),
-        _LevelItem(
-            id: 'colors',
-            title: 'Colors',
-            emoji: '🌈',
-            lockState: _stateOf('colors')),
-        _LevelItem(
-            id: 'fruits',
-            title: 'Fruits',
-            emoji: '🍎',
-            lockState: _stateOf('fruits')),
-        _LevelItem(
-            id: 'animals',
-            title: 'Animals',
-            emoji: '🦁',
-            lockState: _stateOf('animals')),
-        _LevelItem(
-            id: 'food',
-            title: 'Food',
-            emoji: '🍽️',
-            lockState: _stateOf('food')),
-      ];
+  List<_LevelItem> get _levels {
+    final t = AppLocalizations.of(context)!;
+    return [
+      _LevelItem(
+          id: 'letters',
+          title: t.levelTitleLetters,
+          letter: 'A',
+          lockState: _stateOf('letters')),
+      _LevelItem(
+          id: 'numbers',
+          title: t.levelTitleNumbers,
+          customWidget: const _NumbersIcon(),
+          lockState: _stateOf('numbers')),
+      _LevelItem(
+          id: 'colors',
+          title: t.levelTitleColors,
+          emoji: '🌈',
+          lockState: _stateOf('colors')),
+      _LevelItem(
+          id: 'fruits',
+          title: t.levelTitleFruits,
+          emoji: '🍎',
+          lockState: _stateOf('fruits')),
+      _LevelItem(
+          id: 'animals',
+          title: t.levelTitleAnimals,
+          emoji: '🦁',
+          lockState: _stateOf('animals')),
+      _LevelItem(
+          id: 'food',
+          title: t.levelTitleFood,
+          emoji: '🍽️',
+          lockState: _stateOf('food')),
+    ];
+  }
 
   Future<void> _onLevelTap(_LevelItem level) async {
     if (level.locked) return;
@@ -589,13 +592,14 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   Widget _buildDrawTab() {
     final colors = context.colors;
+    final t = AppLocalizations.of(context)!;
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
           AppSpacing.lg, AppSpacing.sm, AppSpacing.lg, AppSpacing.xxl),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionHeader('✏️', AppLocalizations.of(context)!.drawSectionHeader),
+          _sectionHeader('✏️', t.drawSectionHeader),
           const SizedBox(height: AppSpacing.md),
           GridView.count(
             shrinkWrap: true,
@@ -607,7 +611,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
             children: [
               _drawCard(
                 id: 'shapes',
-                title: 'Shakllar',
+                title: t.drawTitleShapes,
                 badge: '✏️',
                 badgeColor: colors.primary,
                 icon: const _ShapesIcon(),
@@ -617,7 +621,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
               ),
               _drawCard(
                 id: 'letters_draw',
-                title: 'Harflar',
+                title: t.drawTitleLetters,
                 badge: '✏️',
                 badgeColor: colors.primary,
                 icon: Text('A',
@@ -631,7 +635,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
               ),
               _drawCard(
                   id: 'numbers_draw',
-                  title: 'Raqamlar',
+                  title: t.drawTitleNumbers,
                   badge: '✏️',
                   badgeColor: colors.primary,
                   icon: Text('123',
@@ -642,7 +646,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   locked: !_isAdmin && !_allLetterGroupsDone),
               _drawCard(
                   id: 'objects',
-                  title: 'Narsalar',
+                  title: t.drawTitleObjects,
                   badge: '✏️',
                   badgeColor: colors.primary,
                   icon: const Text('🏠', style: TextStyle(fontSize: 40)),
@@ -650,8 +654,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
             ],
           ),
           const SizedBox(height: AppSpacing.xl),
-          _sectionHeader(
-              '🖌️', AppLocalizations.of(context)!.paintSectionHeader),
+          _sectionHeader('🖌️', t.paintSectionHeader),
           const SizedBox(height: AppSpacing.md),
           GridView.count(
             shrinkWrap: true,
@@ -663,7 +666,7 @@ class _LevelsScreenState extends State<LevelsScreen> {
             children: [
               _drawCard(
                 id: 'fruits_color',
-                title: 'Mevalar',
+                title: t.colorTitleFruits,
                 badge: '🖌️',
                 badgeColor: colors.danger,
                 icon: const Text('🍎', style: TextStyle(fontSize: 42)),
@@ -673,21 +676,21 @@ class _LevelsScreenState extends State<LevelsScreen> {
               ),
               _drawCard(
                   id: 'animals_color',
-                  title: 'Hayvonlar',
+                  title: t.colorTitleAnimals,
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🦁', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('fruits_color')),
               _drawCard(
                   id: 'nature',
-                  title: 'Tabiat',
+                  title: t.colorTitleNature,
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🌸', style: TextStyle(fontSize: 40)),
                   locked: _lockedUnless('animals_color')),
               _drawCard(
                   id: 'transport',
-                  title: 'Transport',
+                  title: t.colorTitleTransport,
                   badge: '🖌️',
                   badgeColor: colors.danger,
                   icon: const Text('🚗', style: TextStyle(fontSize: 40)),

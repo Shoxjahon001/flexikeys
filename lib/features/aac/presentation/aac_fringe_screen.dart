@@ -103,7 +103,8 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
                     return AacCard(
                       category: widget.card.category,
                       label: _labelFor(option.label, option.id),
-                      glyph: aacGlyph(emojiForCard(option.id)),
+                      glyph: aacGlyph(emojiForCard(option.id),
+                          size: _settings.cardSize.pixels * 0.5),
                       size: _settings.cardSize.pixels,
                       dwellEnabled: _settings.dwellEnabled,
                       dwellDuration: _settings.dwellDuration,

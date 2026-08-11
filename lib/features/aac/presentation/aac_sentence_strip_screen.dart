@@ -176,7 +176,8 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
                         return AacCard(
                           category: widget.category,
                           label: _labelFor(card),
-                          glyph: glyphForCard(card),
+                          glyph: glyphForCard(card,
+                              size: _settings.cardSize.pixels * 0.5),
                           size: _settings.cardSize.pixels,
                           dwellEnabled: _settings.dwellEnabled,
                           dwellDuration: _settings.dwellDuration,

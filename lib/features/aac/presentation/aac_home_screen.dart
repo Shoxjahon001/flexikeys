@@ -123,11 +123,16 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
               runSpacing: AacSizes.gridGapAdvanced,
               alignment: WrapAlignment.center,
               children: [
+                // Glyph sized proportionally to the tile (default
+                // AacCategoryTile.size = AacSizes.cardMax = 160) — aacGlyph's
+                // own default (56) doesn't scale with the tile, so it read
+                // small/sparse inside the much bigger accent-colored area.
                 ..._homeCategories.map((category) {
                   return AacCategoryTile(
                     category: category,
                     label: _categoryLabel(category),
-                    glyph: aacGlyph(emojiForCategory(category)),
+                    glyph: aacGlyph(emojiForCategory(category),
+                        size: AacSizes.cardMax * 0.5),
                     onTap: () => _openCategory(category),
                   );
                 }),
@@ -139,7 +144,7 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
                 AacCategoryTile(
                   category: AacCategory.play,
                   label: myCardsLabel,
-                  glyph: aacGlyph('🗂️'),
+                  glyph: aacGlyph('🗂️', size: AacSizes.cardMax * 0.5),
                   onTap: _openMyCards,
                 ),
               ],

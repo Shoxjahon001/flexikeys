@@ -308,6 +308,48 @@ class AppLocalizationsRu extends AppLocalizations {
   String get paintSectionHeader => 'Раскрашивание';
 
   @override
+  String get levelTitleLetters => 'Буквы';
+
+  @override
+  String get levelTitleNumbers => 'Числа';
+
+  @override
+  String get levelTitleColors => 'Цвета';
+
+  @override
+  String get levelTitleFruits => 'Фрукты';
+
+  @override
+  String get levelTitleAnimals => 'Животные';
+
+  @override
+  String get levelTitleFood => 'Еда';
+
+  @override
+  String get drawTitleShapes => 'Фигуры';
+
+  @override
+  String get drawTitleLetters => 'Буквы';
+
+  @override
+  String get drawTitleNumbers => 'Числа';
+
+  @override
+  String get drawTitleObjects => 'Предметы';
+
+  @override
+  String get colorTitleFruits => 'Фрукты';
+
+  @override
+  String get colorTitleAnimals => 'Животные';
+
+  @override
+  String get colorTitleNature => 'Природа';
+
+  @override
+  String get colorTitleTransport => 'Транспорт';
+
+  @override
   String get parentDashboardHeader => 'Панель родителя';
 
   @override

@@ -37,8 +37,6 @@ class AacCardGridScreen extends StatefulWidget {
 }
 
 class _AacCardGridScreenState extends State<AacCardGridScreen> {
-  static const _maxCardsPerScreen = 6; // docs §3 grid rule — hard ceiling
-
   List<AacCardDef> _cards = const [];
   AacSettings _settings = const AacSettings();
   bool _loading = true;
@@ -54,11 +52,20 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
       AacCardRepository.instance.loadCategory(widget.category),
       AacSettingsStore.instance.get(),
     ]);
-    final cards = (results[0] as List<AacCardDef>)
+    final all = results[0] as List<AacCardDef>;
+    // No cap: every card in the category shows, not just the first 6 by
+    // difficulty tier. Built-in cards keep the tier-based teaching
+    // progression; custom cards (always tier 1, see
+    // aac_card_manager_screen.dart's _save()) are appended after in the
+    // order they were created rather than sorted into that progression —
+    // a newly-added card must land at the end, never bump an existing
+    // built-in card out of view the way the old sort+take(6) could.
+    final builtIn = all.where((c) => !c.isCustom).toList()
       ..sort((a, b) => a.difficultyTier.compareTo(b.difficultyTier));
+    final custom = all.where((c) => c.isCustom).toList();
     if (!mounted) return;
     setState(() {
-      _cards = cards.take(_maxCardsPerScreen).toList();
+      _cards = [...builtIn, ...custom];
       _settings = results[1] as AacSettings;
       _loading = false;
     });
@@ -136,16 +143,30 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
         top: false,
         child: _loading
             ? Center(child: CircularProgressIndicator(color: accent))
-            : Center(
+            // Scrollable, not Center-only: with the per-screen cap removed
+            // a category can hold more cards than fit one viewport, and
+            // this must never overflow. Padding lets the grid genuinely
+            // fill the screen edge-to-edge rather than float in the middle
+            // with unused space on either side.
+            : SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: AppSpacing.lg, vertical: AppSpacing.lg),
                 child: Wrap(
                   spacing: AacSizes.gridGapAdvanced,
                   runSpacing: AacSizes.gridGapAdvanced,
                   alignment: WrapAlignment.center,
                   children: _cards.map((card) {
+                    // The glyph helper's own default (56) is a fixed
+                    // absolute size that never scaled with the card itself,
+                    // so a 160px "xxl" card rendered the same small emoji
+                    // as a 120px "l" one — proportional instead, ~50% of
+                    // the card so it actually fills the accent-colored
+                    // icon area (Expanded flex:65 in AacCard).
                     return AacCard(
                       category: widget.category,
                       label: _labelFor(card),
-                      glyph: glyphForCard(card),
+                      glyph: glyphForCard(card,
+                          size: _settings.cardSize.pixels * 0.5),
                       size: _settings.cardSize.pixels,
                       dwellEnabled: _settings.dwellEnabled,
                       dwellDuration: _settings.dwellDuration,

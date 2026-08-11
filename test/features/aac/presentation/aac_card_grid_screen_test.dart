@@ -37,12 +37,15 @@ void main() {
       );
 
   group('AacCardGridScreen', () {
-    testWidgets('shows at most 6 cards (grid-rule ceiling), lowest tier first', (tester) async {
+    testWidgets('shows every card in the category — no per-screen cap', (tester) async {
       await tester.pumpWidget(wrap());
       await _settle(tester);
 
-      expect(find.byType(AacCard).evaluate().length, lessThanOrEqualTo(6));
-      // Needs has 7 real cards; tier-1 "Water"/"Help" must always survive the cap.
+      // Needs has 7 real built-in cards; the old 6-card ceiling used to
+      // hide one (and risked hiding an existing card whenever a new one
+      // was added) — all of them must be present now, scrollable instead
+      // of capped.
+      expect(find.byType(AacCard).evaluate().length, 7);
       expect(find.text('Water'), findsOneWidget);
       expect(find.text('Help'), findsOneWidget);
     });
@@ -69,6 +72,33 @@ void main() {
       expect(find.byType(AacFringeScreen), findsOneWidget);
       expect(find.text('Apple'), findsOneWidget);
       expect(find.text('Banana'), findsOneWidget);
+    });
+
+    testWidgets('adding a new custom card never hides an existing one',
+        (tester) async {
+      // A custom card is always tier 1 (aac_card_manager_screen.dart's
+      // _save()) — under the old sort-by-tier-then-take(6) behavior, a new
+      // tier-1 card could push an existing card out of the visible set.
+      await AacCustomCardStore.instance.add(const AacCardDef(
+        id: 'custom_test_card',
+        category: AacCategory.needs,
+        kind: AacCardKind.direct,
+        label: {AacLanguage.en: 'Brand New Card'},
+        sentenceTemplate: {AacLanguage.en: 'I want brand new card.'},
+        animationAsset: '',
+        audioAsset: {},
+        difficultyTier: 1,
+        isCustom: true,
+      ));
+
+      await tester.pumpWidget(wrap());
+      await _settle(tester);
+
+      // All 7 original built-in cards are still there, plus the new one.
+      expect(find.byType(AacCard).evaluate().length, 8);
+      expect(find.text('Water'), findsOneWidget);
+      expect(find.text('Help'), findsOneWidget);
+      expect(find.text('Brand New Card'), findsOneWidget);
     });
   });
 }
