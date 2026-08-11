@@ -378,27 +378,34 @@ class _LevelsScreenState extends State<LevelsScreen> {
                   ]
                 : null,
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                label,
-                textAlign: TextAlign.center,
-                style: textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: active
-                      ? Colors.white
-                      : unlocked
-                          ? colors.textSecondary
-                          : colors.textTertiary,
+          // FittedBox: a longer word in some languages (e.g. Russian
+          // "Рисование") can be wider than this tab's share of the 3-way
+          // switcher — Row doesn't shrink non-flexible children to fit, so
+          // without this it overflows instead of scaling down.
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  label,
+                  textAlign: TextAlign.center,
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: active
+                        ? Colors.white
+                        : unlocked
+                            ? colors.textSecondary
+                            : colors.textTertiary,
+                  ),
                 ),
-              ),
-              if (!unlocked) ...[
-                const SizedBox(width: 4),
-                const Text('🔒', style: TextStyle(fontSize: 12)),
+                if (!unlocked) ...[
+                  const SizedBox(width: 4),
+                  const Text('🔒', style: TextStyle(fontSize: 12)),
+                ],
               ],
-            ],
+            ),
           ),
         ),
       ),
@@ -420,13 +427,19 @@ class _LevelsScreenState extends State<LevelsScreen> {
         ),
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 11),
-          child: Text(
-            AppLocalizations.of(context)!.tabVoice,
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: context.colors.textSecondary,
-                ),
+          // Same FittedBox reasoning as the other two tabs — keeps this
+          // tab single-line and matching their height instead of a longer
+          // label wrapping to 2 lines and misaligning the tab bar.
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              AppLocalizations.of(context)!.tabVoice,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w800,
+                    color: context.colors.textSecondary,
+                  ),
+            ),
           ),
         ),
       ),
