@@ -18,9 +18,9 @@ enum AacCardSizeSetting { l, xl, xxl }
 
 extension AacCardSizeSettingPixels on AacCardSizeSetting {
   double get pixels => switch (this) {
-        AacCardSizeSetting.l => 140,
-        AacCardSizeSetting.xl => 155,
-        AacCardSizeSetting.xxl => 170,
+        AacCardSizeSetting.l => 150,
+        AacCardSizeSetting.xl => 165,
+        AacCardSizeSetting.xxl => 180,
       };
 }
 
