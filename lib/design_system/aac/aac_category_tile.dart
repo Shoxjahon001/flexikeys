@@ -119,7 +119,14 @@ class _AacCategoryTileState extends State<AacCategoryTile>
                     width: double.infinity,
                     color: accent,
                     padding: const EdgeInsets.all(FkSpacing.sm),
-                    child: Center(child: widget.glyph),
+                    // Same fix as AacCard: without this, the glyph's own
+                    // intrinsic size (an emoji Text's fontSize) can exceed
+                    // the space actually available and get cut off by this
+                    // tile's clipBehavior: Clip.antiAlias.
+                    child: Center(
+                      child:
+                          FittedBox(fit: BoxFit.contain, child: widget.glyph),
+                    ),
                   ),
                 ),
                 Expanded(
