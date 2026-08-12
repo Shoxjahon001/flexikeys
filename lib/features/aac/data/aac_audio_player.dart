@@ -1,20 +1,28 @@
 library aac_audio_player;
 
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../services/tts_service.dart';
 import '../domain/aac_card_def.dart';
+import 'aac_neural_tts_service.dart';
 
 /// Speaks a card or fringe-option's sentence when a child taps it.
 ///
-/// Primary path: the pre-produced audio asset bundled for the active
-/// language (one calm professional voice per language, see
-/// docs/aac_design_system.md) — e.g. `shared/aac/audio/en/ne_water.mp3`.
-/// Falls back to [TtsService] reading [sentence] aloud when that asset is
-/// missing or fails to decode, which is true for every starter-vocabulary
-/// card today since no audio has been recorded yet (see
-/// docs/aac_phase1_architecture.md). Without this fallback a tap would be
-/// silent — never acceptable for an AAC device.
+/// Three-tier fallback, each strictly better-effort than the next:
+///   1. The pre-produced audio asset bundled for the active language (one
+///      calm professional voice per language, see docs/aac_design_system.md
+///      and tools/generate_aac_audio.py) — e.g.
+///      `shared/aac/audio/en/ne_water.mp3`. Covers every fixed vocabulary
+///      card/fringe-option/sentence.
+///   2. [AacNeuralTtsService] — the backend's Azure neural TTS, disk-cached.
+///      Only reached for text with no bundled asset, which today means an
+///      ad-hoc Sentence Strip composition (bundledAssetPath is always null
+///      for those — see AacSentenceStripScreen._speak()).
+///   3. [TtsService] (online, cached) reading [sentence] aloud — the
+///      original, still-real last resort if the backend is unreachable or
+///      has no Azure key configured. Without this tier a tap could go
+///      silent — never acceptable for an AAC device.
 ///
 /// Vocabulary asset paths (e.g. `shared/aac/audio/en/ne_water.mp3`) are
 /// declared exactly as registered under `flutter: assets:` in pubspec.yaml
@@ -30,8 +38,19 @@ class AacAudioPlayer {
 
   final AudioPlayer _player = AudioPlayer();
 
-  /// Plays [bundledAssetPath] if present and loadable; otherwise falls back
-  /// to on-device TTS reading [sentence] aloud in [language].
+  // Monotonic generation guard: a `stop()` (or a newer `speak()`) bumps
+  // this, and every stage below checks it before actually starting
+  // playback — so a neural-TTS network fetch that's still in flight when
+  // the active locale changes can never start speaking the old language
+  // after the fact. Mirrors TtsService's own `_playId`.
+  int _playId = 0;
+
+  void _log(String message) {
+    if (kDebugMode) debugPrint('AacAudioPlayer: $message');
+  }
+
+  /// Plays [bundledAssetPath] if present and loadable; otherwise tries
+  /// backend neural TTS; otherwise falls back to [TtsService].
   ///
   /// [isDeviceFile] distinguishes a parent-recorded custom-card voice (a
   /// real absolute file path under the app's documents directory, played
@@ -46,9 +65,12 @@ class AacAudioPlayer {
     required AacLanguage language,
     bool isDeviceFile = false,
   }) async {
+    final id = ++_playId;
+
     if (bundledAssetPath != null && bundledAssetPath.isNotEmpty) {
       try {
         await _player.stop();
+        if (id != _playId) return; // superseded while stopping
         final source = isDeviceFile
             ? DeviceFileSource(bundledAssetPath)
             : AssetSource(bundledAssetPath);
@@ -65,16 +87,52 @@ class AacAudioPlayer {
         // decode silently instead of throwing) — it does not fail the call.
         final completed = _player.onPlayerComplete.first;
         await _player.play(source);
+        if (id != _playId) {
+          await _player.stop();
+          return;
+        }
         await completed.timeout(const Duration(seconds: 20), onTimeout: () {});
+        _log('played bundled asset ($bundledAssetPath)');
         return;
       } catch (_) {
-        // Asset/file missing or undecodable — fall through to the TTS fallback.
+        // Asset/file missing or undecodable — fall through to neural TTS.
+        _log('bundled asset failed/missing ($bundledAssetPath) — trying neural TTS');
       }
     }
+
+    final neuralFile = await AacNeuralTtsService.instance.synthesize(
+      text: sentence,
+      lang: language.code,
+    );
+    if (id != _playId) return; // language/word changed while fetching
+
+    if (neuralFile != null) {
+      try {
+        await _player.stop();
+        if (id != _playId) return;
+        final completed = _player.onPlayerComplete.first;
+        await _player.play(DeviceFileSource(neuralFile.path));
+        if (id != _playId) {
+          await _player.stop();
+          return;
+        }
+        await completed.timeout(const Duration(seconds: 20), onTimeout: () {});
+        _log('played neural TTS (backend/disk cache)');
+        return;
+      } catch (_) {
+        _log('neural TTS file failed to play — falling back to device TTS');
+      }
+    } else {
+      _log('neural TTS unavailable — falling back to device TTS');
+    }
+
+    if (id != _playId) return;
     await TtsService.instance.speak(sentence, locale: language.code);
+    _log('played device TTS (TtsService) for "$sentence" [${language.code}]');
   }
 
   Future<void> stop() async {
+    _playId++;
     try {
       await _player.stop();
     } catch (_) {}

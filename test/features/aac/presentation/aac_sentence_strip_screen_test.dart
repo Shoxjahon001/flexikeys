@@ -70,13 +70,13 @@ void main() {
     testWidgets('excludes branch cards from the tappable grid', (tester) async {
       final cards = await loadNeedsCards();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: AacSentenceStripScreen(
           category: AacCategory.needs,
           categoryLabel: 'Needs',
           cards: cards,
-          language: AacLanguage.en,
         ),
       ));
       await _settle(tester);
@@ -90,13 +90,13 @@ void main() {
     testWidgets('tapping direct cards appends words to the strip, in order', (tester) async {
       final cards = await loadNeedsCards();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: AacSentenceStripScreen(
           category: AacCategory.needs,
           categoryLabel: 'Needs',
           cards: cards,
-          language: AacLanguage.en,
         ),
       ));
       await _settle(tester);
@@ -114,13 +114,13 @@ void main() {
     testWidgets('clear empties the strip', (tester) async {
       final cards = await loadNeedsCards();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: AacSentenceStripScreen(
           category: AacCategory.needs,
           categoryLabel: 'Needs',
           cards: cards,
-          language: AacLanguage.en,
         ),
       ));
       await _settle(tester);
@@ -147,13 +147,13 @@ void main() {
     testWidgets('renders an inactive celebration overlay by default', (tester) async {
       final cards = await loadNeedsCards();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: AacSentenceStripScreen(
           category: AacCategory.needs,
           categoryLabel: 'Needs',
           cards: cards,
-          language: AacLanguage.en,
         ),
       ));
       await _settle(tester);

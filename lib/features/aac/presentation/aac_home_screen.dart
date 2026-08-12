@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../../../design_system/design_system.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../services/user_service.dart';
-import '../domain/aac_card_def.dart';
 import 'aac_card_grid_screen.dart';
 import 'aac_glyphs.dart';
 import 'parent/aac_card_manager_screen.dart';
@@ -20,23 +18,15 @@ import 'parent/aac_card_manager_screen.dart';
 /// matching what the mockup actually shows. Six tiles = the hard ceiling,
 /// not a starting point.
 ///
-/// The screen title, category names, and "My Cards" label are UI CHROME —
-/// they follow the app's interface language (AppLocalizations), same as
-/// every other screen, and update immediately when it changes. This is
-/// deliberately different from the actual vocabulary CARDS inside each
-/// category (Water, Help, Happy, ...), which stay on the independent
-/// LEARNING language ([_language] below) per CLAUDE.md's "UI language and
-/// learning language are independent settings" — a category folder name
-/// is navigation furniture, not curriculum content to be learned.
-class AacHomeScreen extends StatefulWidget {
+/// The screen title, category names, "My Cards" label, AND the vocabulary
+/// language of the categories themselves all follow the app's interface
+/// language now (see [aacLanguageOf]) — AAC is a communication tool, not
+/// curriculum, so its output must match the language of the person the
+/// child is talking to. This reverses an earlier decision where AAC
+/// content followed the separate curriculum learning language; see
+/// CLAUDE.md "AAC voice follows UI language" for the full reasoning.
+class AacHomeScreen extends StatelessWidget {
   const AacHomeScreen({super.key});
-
-  @override
-  State<AacHomeScreen> createState() => _AacHomeScreenState();
-}
-
-class _AacHomeScreenState extends State<AacHomeScreen> {
-  AacLanguage _language = AacLanguage.en;
 
   // Mockup order: Daily, Feelings, Needs, People, Places — not the
   // AacCategory enum's declaration order (Daily, Needs, Feelings, ...).
@@ -48,21 +38,6 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
     AacCategory.places,
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadLanguage();
-  }
-
-  Future<void> _loadLanguage() async {
-    final code = await UserService.getLanguage();
-    final lang = AacLanguage.values.firstWhere(
-      (l) => l.code == code,
-      orElse: () => AacLanguage.en,
-    );
-    if (mounted) setState(() => _language = lang);
-  }
-
   String _categoryLabel(AacCategory category, AppLocalizations t) =>
       switch (category) {
         AacCategory.dailyActivities => t.aacCategoryDaily,
@@ -73,14 +48,13 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
         AacCategory.play => category.name,
       };
 
-  void _openCategory(AacCategory category, AppLocalizations t) {
+  void _openCategory(BuildContext context, AacCategory category, AppLocalizations t) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (_) => AacCardGridScreen(
           category: category,
           categoryLabel: _categoryLabel(category, t),
-          language: _language,
         ),
       ),
     );
@@ -89,7 +63,7 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
   /// Same parent gate the main app shell already uses for Profile
   /// (main_shell.dart) — a child tapping "My Cards" must not reach the
   /// create/edit/delete form directly.
-  void _openMyCards() {
+  void _openMyCards(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -132,7 +106,7 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
                     label: _categoryLabel(category, t),
                     glyph: aacGlyph(emojiForCategory(category),
                         size: AacSizes.cardMax * 0.5),
-                    onTap: () => _openCategory(category, t),
+                    onTap: () => _openCategory(context, category, t),
                   );
                 }),
                 // "My Cards" isn't a real AacCategory, so there's no
@@ -144,7 +118,7 @@ class _AacHomeScreenState extends State<AacHomeScreen> {
                   category: AacCategory.play,
                   label: t.aacMyCardsLabel,
                   glyph: aacGlyph('🗂️', size: AacSizes.cardMax * 0.5),
-                  onTap: _openMyCards,
+                  onTap: () => _openMyCards(context),
                 ),
               ],
             ),

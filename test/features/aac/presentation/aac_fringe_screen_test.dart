@@ -34,9 +34,10 @@ void main() {
     testWidgets('shows every fringe option for the branch card', (tester) async {
       final card = await loadFoodCard();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: AacFringeScreen(card: card, language: AacLanguage.en),
+        home: AacFringeScreen(card: card),
       ));
       await _settle(tester);
 
@@ -49,9 +50,10 @@ void main() {
     testWidgets('picking an option speaks the completed sentence', (tester) async {
       final card = await loadFoodCard();
       await tester.pumpWidget(MaterialApp(
+        locale: const Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: AacFringeScreen(card: card, language: AacLanguage.en),
+        home: AacFringeScreen(card: card),
       ));
       await _settle(tester);
 

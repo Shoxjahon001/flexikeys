@@ -26,13 +26,16 @@ void main() {
     AacCustomCardStore.instance.resetCacheForTesting();
   });
 
+  // AacCardGridScreen no longer takes `language` as a constructor param —
+  // it follows the app's UI language (Localizations.localeOf), so tests
+  // set that via MaterialApp's `locale` instead.
   Widget wrap() => const MaterialApp(
+        locale: Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
         home: AacCardGridScreen(
           category: AacCategory.needs,
           categoryLabel: 'Needs',
-          language: AacLanguage.en,
         ),
       );
 
@@ -99,6 +102,27 @@ void main() {
       expect(find.text('Water'), findsOneWidget);
       expect(find.text('Help'), findsOneWidget);
       expect(find.text('Brand New Card'), findsOneWidget);
+    });
+
+    testWidgets('card labels switch language live if the UI language changes while open',
+        (tester) async {
+      await tester.pumpWidget(wrap());
+      await _settle(tester);
+      expect(find.text('Water'), findsOneWidget);
+
+      await tester.pumpWidget(const MaterialApp(
+        locale: Locale('ru'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: AacCardGridScreen(
+          category: AacCategory.needs,
+          categoryLabel: 'Needs',
+        ),
+      ));
+      await _settle(tester);
+
+      expect(find.text('Water'), findsNothing);
+      expect(find.text('Вода'), findsOneWidget);
     });
   });
 }

@@ -11,6 +11,7 @@ import '../domain/aac_card_def.dart';
 import 'aac_confirmation_screen.dart';
 import 'aac_fringe_screen.dart';
 import 'aac_glyphs.dart';
+import 'aac_language.dart';
 import 'aac_sentence_strip_screen.dart';
 import 'aac_strings.dart';
 
@@ -24,13 +25,11 @@ import 'aac_strings.dart';
 class AacCardGridScreen extends StatefulWidget {
   final AacCategory category;
   final String categoryLabel;
-  final AacLanguage language;
 
   const AacCardGridScreen({
     super.key,
     required this.category,
     required this.categoryLabel,
-    required this.language,
   });
 
   @override
@@ -41,11 +40,29 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
   List<AacCardDef> _cards = const [];
   AacSettings _settings = const AacSettings();
   bool _loading = true;
+  AacLanguage _language = AacLanguage.en;
 
   @override
   void initState() {
     super.initState();
     _load();
+  }
+
+  // aacLanguageOf(context) reads Localizations.localeOf(context), so this
+  // re-runs whenever the app's interface language changes — even if this
+  // screen was already open when that happened (see aac_language.dart).
+  // Cards don't need re-fetching: every AacCardDef already carries all 3
+  // languages, _labelFor just re-indexes into the new one on rebuild.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final next = aacLanguageOf(context);
+    if (next != _language) {
+      // A word mid-speech in the old language must not keep playing over
+      // the new one.
+      AacAudioPlayer.instance.stop();
+      setState(() => _language = next);
+    }
   }
 
   Future<void> _load() async {
@@ -73,7 +90,7 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
   }
 
   String _labelFor(AacCardDef card) =>
-      card.label[widget.language] ?? card.label[AacLanguage.en] ?? card.id;
+      card.label[_language] ?? card.label[AacLanguage.en] ?? card.id;
 
   void _onCardActivate(AacCardDef card) {
     if (card.kind == AacCardKind.branch) {
@@ -81,18 +98,18 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
         context,
         MaterialPageRoute(
           builder: (_) =>
-              AacFringeScreen(card: card, language: widget.language),
+              AacFringeScreen(card: card),
         ),
       );
       return;
     }
 
-    final sentence = card.sentenceFor(widget.language);
+    final sentence = card.sentenceFor(_language);
     AacEventRepository.instance.logTap(
       card: card,
       category: widget.category,
       sentenceSpoken: sentence,
-      language: widget.language,
+      language: _language,
     );
     Navigator.push(
       context,
@@ -101,9 +118,9 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
           category: widget.category,
           glyph: glyphForCard(card, size: 120),
           sentence: sentence,
-          bundledAudioAsset: card.audioAsset[widget.language],
+          bundledAudioAsset: card.audioAsset[_language],
           isDeviceAudioFile: card.isCustom,
-          language: widget.language,
+          language: _language,
         ),
       ),
     );
@@ -117,7 +134,6 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
           category: widget.category,
           categoryLabel: widget.categoryLabel,
           cards: _cards,
-          language: widget.language,
         ),
       ),
     );
@@ -136,7 +152,7 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
         actions: [
           FkAppBarAction(
             icon: Icons.forum_rounded,
-            semanticLabel: AacStrings.of(widget.language).buildSentenceTooltip,
+            semanticLabel: AacStrings.of(_language).buildSentenceTooltip,
             onPressed: _cards.isEmpty ? null : _openSentenceStrip,
           ),
         ],
@@ -189,7 +205,7 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
                           highContrast: _settings.highContrast,
                           onActivate: () => _onCardActivate(card),
                           onSpeak: () => AacAudioPlayer.instance.speak(
-                            bundledAssetPath: card.audioAsset[widget.language],
+                            bundledAssetPath: card.audioAsset[_language],
                             // A branch card's sentenceTemplate has an
                             // unfilled {noun} placeholder until a fringe
                             // option is chosen (see
@@ -198,12 +214,12 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
                             // say for those, not the raw template.
                             sentence: card.kind == AacCardKind.branch
                                 ? _labelFor(card)
-                                : card.sentenceFor(widget.language),
-                            language: widget.language,
+                                : card.sentenceFor(_language),
+                            language: _language,
                             isDeviceFile: card.isCustom,
                           ),
                           speakLabel:
-                              AacStrings.of(widget.language).speakTooltip,
+                              AacStrings.of(_language).speakTooltip,
                         );
                       }).toList(),
                     ),

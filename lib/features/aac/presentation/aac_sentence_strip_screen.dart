@@ -10,6 +10,7 @@ import '../data/aac_sentence_composer_service.dart';
 import '../data/aac_settings_store.dart';
 import '../domain/aac_card_def.dart';
 import 'aac_glyphs.dart';
+import 'aac_language.dart';
 import 'aac_strings.dart';
 
 /// Level-4 "sentence building" mode (docs/aac_design_system.md §Phase
@@ -23,14 +24,12 @@ class AacSentenceStripScreen extends StatefulWidget {
   final AacCategory category;
   final String categoryLabel;
   final List<AacCardDef> cards;
-  final AacLanguage language;
 
   const AacSentenceStripScreen({
     super.key,
     required this.category,
     required this.categoryLabel,
     required this.cards,
-    required this.language,
   });
 
   @override
@@ -41,6 +40,7 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
   final List<SentenceStripEntry> _entries = [];
   final List<AacCardDef> _entryCards = [];
   AacSettings _settings = const AacSettings();
+  AacLanguage _language = AacLanguage.en;
   bool _composing = false;
   bool _celebrating = false;
 
@@ -50,13 +50,37 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
     _loadSettings();
   }
 
+  // See AacCardGridScreen.didChangeDependencies for why this is reactive
+  // rather than a one-shot constructor parameter. Unlike the grid/fringe
+  // screens, an already-composed strip holds pre-rendered label strings
+  // (SentenceStripEntry.word), so a language change also has to rebuild
+  // _entries from _entryCards — the actual AacCardDefs/ids never change,
+  // only which language they're rendered in.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final next = aacLanguageOf(context);
+    if (next != _language) {
+      AacAudioPlayer.instance.stop();
+      setState(() {
+        _language = next;
+        _entries
+          ..clear()
+          ..addAll(_entryCards.map((card) => SentenceStripEntry(
+                emoji: emojiForCard(card.id),
+                word: _labelFor(card),
+              )));
+      });
+    }
+  }
+
   Future<void> _loadSettings() async {
     final settings = await AacSettingsStore.instance.get();
     if (mounted) setState(() => _settings = settings);
   }
 
   String _labelFor(AacCardDef card) =>
-      card.label[widget.language] ?? card.label[AacLanguage.en] ?? card.id;
+      card.label[_language] ?? card.label[AacLanguage.en] ?? card.id;
 
   void _addCard(AacCardDef card) {
     setState(() {
@@ -80,7 +104,7 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
     // AacSentenceComposerService) — never silence either way.
     final sentence = await AacSentenceComposerService.instance.compose(
       words: _entries.map((e) => e.word).toList(),
-      language: widget.language,
+      language: _language,
     );
 
     if (!mounted) return;
@@ -93,13 +117,13 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
       card: _entryCards.first,
       category: widget.category,
       sentenceSpoken: sentence,
-      language: widget.language,
+      language: _language,
     );
     // No bundled audio exists for an ad-hoc word sequence — always TTS.
     await AacAudioPlayer.instance.speak(
       bundledAssetPath: null,
       sentence: sentence,
-      language: widget.language,
+      language: _language,
     );
 
     await _maybeCelebrateFirstSentence();
@@ -161,9 +185,9 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
                   onSpeak: _composing ? null : _speak,
                   onClear: _composing ? null : _clear,
                   placeholderText:
-                      AacStrings.of(widget.language).sentenceStripPlaceholder,
-                  speakTooltip: AacStrings.of(widget.language).speakTooltip,
-                  clearTooltip: AacStrings.of(widget.language).clearTooltip,
+                      AacStrings.of(_language).sentenceStripPlaceholder,
+                  speakTooltip: AacStrings.of(_language).speakTooltip,
+                  clearTooltip: AacStrings.of(_language).clearTooltip,
                 ),
                 const SizedBox(height: FkSpacing.md),
                 Expanded(
@@ -184,13 +208,13 @@ class _AacSentenceStripScreenState extends State<AacSentenceStripScreen> {
                           highContrast: _settings.highContrast,
                           onActivate: () => _addCard(card),
                           onSpeak: () => AacAudioPlayer.instance.speak(
-                            bundledAssetPath: card.audioAsset[widget.language],
-                            sentence: card.sentenceFor(widget.language),
-                            language: widget.language,
+                            bundledAssetPath: card.audioAsset[_language],
+                            sentence: card.sentenceFor(_language),
+                            language: _language,
                             isDeviceFile: card.isCustom,
                           ),
                           speakLabel:
-                              AacStrings.of(widget.language).speakTooltip,
+                              AacStrings.of(_language).speakTooltip,
                         );
                       }).toList(),
                     ),

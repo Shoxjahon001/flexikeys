@@ -9,6 +9,7 @@ import '../data/aac_settings_store.dart';
 import '../domain/aac_card_def.dart';
 import 'aac_confirmation_screen.dart';
 import 'aac_glyphs.dart';
+import 'aac_language.dart';
 import 'aac_strings.dart';
 
 /// The second step of a branch card's two-step (core+fringe) flow — docs/
@@ -20,10 +21,8 @@ import 'aac_strings.dart';
 /// scoped to one branch.
 class AacFringeScreen extends StatefulWidget {
   final AacCardDef card;
-  final AacLanguage language;
 
-  const AacFringeScreen(
-      {super.key, required this.card, required this.language});
+  const AacFringeScreen({super.key, required this.card});
 
   @override
   State<AacFringeScreen> createState() => _AacFringeScreenState();
@@ -31,11 +30,24 @@ class AacFringeScreen extends StatefulWidget {
 
 class _AacFringeScreenState extends State<AacFringeScreen> {
   AacSettings _settings = const AacSettings();
+  AacLanguage _language = AacLanguage.en;
 
   @override
   void initState() {
     super.initState();
     _loadSettings();
+  }
+
+  // See AacCardGridScreen.didChangeDependencies for why this is reactive
+  // rather than a one-shot constructor parameter.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final next = aacLanguageOf(context);
+    if (next != _language) {
+      AacAudioPlayer.instance.stop();
+      setState(() => _language = next);
+    }
   }
 
   Future<void> _loadSettings() async {
@@ -44,16 +56,16 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
   }
 
   String _labelFor(Map<AacLanguage, String> map, String fallbackId) =>
-      map[widget.language] ?? map[AacLanguage.en] ?? fallbackId;
+      map[_language] ?? map[AacLanguage.en] ?? fallbackId;
 
   void _onOptionActivate(AacFringeOption option) {
     final sentence =
-        widget.card.sentenceFor(widget.language, chosenFringe: option);
+        widget.card.sentenceFor(_language, chosenFringe: option);
     AacEventRepository.instance.logTap(
       card: widget.card,
       category: widget.card.category,
       sentenceSpoken: sentence,
-      language: widget.language,
+      language: _language,
     );
     Navigator.push(
       context,
@@ -62,8 +74,8 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
           category: widget.card.category,
           glyph: aacGlyph(emojiForCard(option.id), size: 120),
           sentence: sentence,
-          bundledAudioAsset: option.audioAsset[widget.language],
-          language: widget.language,
+          bundledAudioAsset: option.audioAsset[_language],
+          language: _language,
         ),
       ),
     );
@@ -115,11 +127,11 @@ class _AacFringeScreenState extends State<AacFringeScreen> {
                       highContrast: _settings.highContrast,
                       onActivate: () => _onOptionActivate(option),
                       onSpeak: () => AacAudioPlayer.instance.speak(
-                        bundledAssetPath: option.audioAsset[widget.language],
+                        bundledAssetPath: option.audioAsset[_language],
                         sentence: _labelFor(option.label, option.id),
-                        language: widget.language,
+                        language: _language,
                       ),
-                      speakLabel: AacStrings.of(widget.language).speakTooltip,
+                      speakLabel: AacStrings.of(_language).speakTooltip,
                     );
                   }).toList(),
                 ),
