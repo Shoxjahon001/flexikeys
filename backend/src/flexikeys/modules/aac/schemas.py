@@ -45,6 +45,14 @@ class ComposeSentenceResponse(BaseModel):
     source: Literal["ai", "template"]
 
 
+# ── Neural TTS (Sentence Strip playback — ad-hoc text, no bundled asset) ───────
+
+
+class TtsRequest(BaseModel):
+    text: str = Field(min_length=1, max_length=500)
+    lang: Literal["en", "uz", "ru"]
+
+
 # ── Pattern-analysis insights (parent dashboard) ───────────────────────────────
 
 

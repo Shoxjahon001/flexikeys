@@ -4,7 +4,7 @@ import uuid
 from datetime import UTC, datetime
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from flexikeys.core.config import get_settings
@@ -19,11 +19,13 @@ from flexikeys.modules.aac.schemas import (
     AacStatsResponse,
     ComposeSentenceRequest,
     ComposeSentenceResponse,
+    TtsRequest,
 )
-from flexikeys.modules.aac.service import AacService
+from flexikeys.modules.aac.service import AacService, TtsUnavailableError
 from flexikeys.modules.parent.repository import ParentRepository
 from flexikeys.modules.users.models import User
 from flexikeys.services.ai_service import build_provider
+from flexikeys.services.tts_provider import TtsSynthesisError, build_tts_provider
 
 router = APIRouter(prefix="/aac", tags=["aac"])
 
@@ -31,7 +33,8 @@ router = APIRouter(prefix="/aac", tags=["aac"])
 def _svc(db: AsyncSession, redis: object) -> AacService:
     settings = get_settings()
     provider = build_provider(settings)
-    return AacService(session=db, redis=redis, provider=provider)  # type: ignore[arg-type]
+    tts_provider = build_tts_provider(settings)
+    return AacService(session=db, redis=redis, provider=provider, tts_provider=tts_provider)  # type: ignore[arg-type]
 
 
 async def _compose_sentence_rate_limit(request: Request) -> None:
@@ -53,6 +56,15 @@ async def _stats_rate_limit(request: Request) -> None:
     redis = get_redis_client()
     ip = get_client_ip(request)
     await sliding_window_rate_limit(redis, f"ratelimit:aac_stats:{ip}", 20, 60)
+
+
+async def _tts_rate_limit(request: Request) -> None:
+    """30 req / 60s per IP — same budget as compose-sentence; a child
+    building a Sentence Strip can trigger this on every word tap plus a
+    final playback, and it hits a paid external API on a cache miss."""
+    redis = get_redis_client()
+    ip = get_client_ip(request)
+    await sliding_window_rate_limit(redis, f"ratelimit:aac_tts:{ip}", 30, 60)
 
 
 @router.post("/events", response_model=AacEventBatchOut)
@@ -82,6 +94,28 @@ async def compose_sentence(
 ) -> ComposeSentenceResponse:
     svc = _svc(db, redis)
     return await svc.compose_sentence(body)
+
+
+@router.post("/tts", dependencies=[Depends(_tts_rate_limit)])
+async def synthesize_speech(
+    body: TtsRequest,
+    _claims: Annotated[dict[str, object], Depends(get_child_claims)],
+    db: Annotated[AsyncSession, Depends(get_db)],
+    redis: Annotated[object, Depends(get_redis)],
+) -> Response:
+    """Neural TTS for ad-hoc Sentence Strip text — see AacService.
+    synthesize_speech's doc comment for why bundled per-card audio can't
+    cover this. Raw audio bytes, not a JSON envelope: the Flutter client
+    plays this directly, and a 503/502 (rather than a 200 with an error
+    field) is what drives its documented on-device-TTS fallback."""
+    svc = _svc(db, redis)
+    try:
+        audio = await svc.synthesize_speech(body.text, body.lang)
+    except TtsUnavailableError as e:
+        raise HTTPException(status_code=503, detail="tts_unavailable") from e
+    except TtsSynthesisError as e:
+        raise HTTPException(status_code=502, detail="tts_synthesis_failed") from e
+    return Response(content=audio, media_type="audio/mpeg")
 
 
 @router.get(

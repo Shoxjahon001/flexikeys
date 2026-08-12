@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 import hashlib
 import json
 import uuid
@@ -23,6 +24,14 @@ from flexikeys.modules.aac.schemas import (
     ComposeSentenceResponse,
 )
 from flexikeys.services.ai_service import MEDICAL_DISCLAIMER, LlmProvider
+from flexikeys.services.tts_provider import VOICES, AzureSpeechProvider
+
+
+class TtsUnavailableError(Exception):
+    """No Azure Speech key configured — router surfaces this as 503 so the
+    Flutter client falls back to on-device TTS immediately, same as it
+    would on a network timeout."""
+
 
 _BATCH_DEDUP_TTL = 86_400  # 24 h, matches sessions' ingest dedup window
 
@@ -42,6 +51,10 @@ _COMPOSE_SYSTEM_PROMPT = (
 )
 
 _COMPOSE_CACHE_TTL = 60 * 60 * 24 * 30  # 30 days — same word sequence -> same sentence
+
+# ~6 months — a given (text, lang, voice) triple's audio never changes, so
+# this is really "cache until we change voices," not a freshness window.
+_TTS_CACHE_TTL = 60 * 60 * 24 * 180
 
 # Categories/cards where a frequency spike is worth a gentle, non-diagnostic
 # note to the parent (see docs/aac_phase3_ai_layer.md). Deliberately narrow
@@ -105,10 +118,12 @@ class AacService:
         session: AsyncSession,
         redis: Redis,
         provider: LlmProvider,
+        tts_provider: AzureSpeechProvider | None = None,
     ) -> None:
         self._repo = AacRepository(session)
         self._redis = redis
         self._provider = provider
+        self._tts_provider = tts_provider
 
     # ── Event ingest ────────────────────────────────────────────────────────
 
@@ -189,6 +204,41 @@ class AacService:
             ("|".join(w.lower() for w in words) + f"::{language}").encode("utf-8")
         ).hexdigest()
         return f"aac:compose:{digest}"
+
+    # ── Neural TTS (Sentence Strip playback) ────────────────────────────────
+    # Bundled per-card audio (generated offline by tools/generate_aac_audio.py)
+    # covers every fixed card/fringe-option label and sentence — this path
+    # exists only for text that isn't known ahead of time: an ad-hoc
+    # multi-card Sentence Strip composition. See aac_audio_player.dart /
+    # AacSentenceStripScreen._speak(), which always has bundledAssetPath=null
+    # for exactly that reason.
+
+    async def synthesize_speech(self, text: str, lang: str) -> bytes:
+        # The shared Redis client is configured with decode_responses=True
+        # (core/redis.py) — it decodes every stored value as UTF-8 on read,
+        # which raw MP3 bytes are not. Base64 round-trip keeps this cache on
+        # the same client as everything else instead of standing up a
+        # second binary-safe connection just for this one path.
+        cache_key = self._tts_cache_key(text, lang)
+        cached = await self._redis.get(cache_key)
+        if cached is not None:
+            return base64.b64decode(cached)
+
+        if self._tts_provider is None:
+            raise TtsUnavailableError("no_azure_speech_key_configured")
+
+        audio = await self._tts_provider.synthesize(text, lang)
+        await self._redis.set(cache_key, base64.b64encode(audio).decode("ascii"), ex=_TTS_CACHE_TTL)
+        return audio
+
+    @staticmethod
+    def _tts_cache_key(text: str, lang: str) -> str:
+        # Voice is part of the key (not just text+lang) so a future voice
+        # change for a language naturally invalidates the old cache instead
+        # of serving a stale voice under a matching key.
+        voice = VOICES.get(lang, ("", ""))[1]
+        digest = hashlib.sha256(f"{text}::{lang}::{voice}".encode()).hexdigest()
+        return f"aac:tts:{digest}"
 
     # ── Pattern-analysis insights (parent dashboard) ───────────────────────
 

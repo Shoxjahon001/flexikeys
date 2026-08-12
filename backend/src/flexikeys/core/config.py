@@ -60,6 +60,11 @@ class Settings(BaseSettings):
     ai_api_key: str = ""
     ai_model: str = ""
 
+    # Azure Speech (AAC neural TTS) — empty means the /aac/tts endpoint
+    # returns 503 and the Flutter client falls back to on-device TTS.
+    azure_speech_key: str = ""
+    azure_speech_region: str = ""
+
     # Observability
     log_level: str = "INFO"
     sentry_dsn: str = ""

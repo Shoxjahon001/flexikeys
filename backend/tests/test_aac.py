@@ -10,6 +10,7 @@ from types import SimpleNamespace
 from typing import Any
 from unittest.mock import AsyncMock, MagicMock
 
+import httpx
 import pytest
 
 from flexikeys.modules.aac.schemas import (
@@ -17,8 +18,9 @@ from flexikeys.modules.aac.schemas import (
     AacEventIn,
     ComposeSentenceRequest,
 )
-from flexikeys.modules.aac.service import AacService
+from flexikeys.modules.aac.service import AacService, TtsUnavailableError
 from flexikeys.services.ai_service import ChatCompletion
+from flexikeys.services.tts_provider import AzureSpeechProvider, TtsSynthesisError
 
 # ── Fake Redis (dict-backed, SET NX / GET / DEL semantics) ────────────────────
 
@@ -66,11 +68,13 @@ def _svc(
     repo: MagicMock | None = None,
     redis: Any | None = None,
     provider: Any | None = None,
+    tts_provider: Any | None = None,
 ) -> AacService:
     svc: AacService = object.__new__(AacService)
     svc._repo = repo or MagicMock()  # type: ignore[attr-defined]
     svc._redis = redis or _fake_redis()  # type: ignore[attr-defined]
     svc._provider = provider or _degraded_provider()  # type: ignore[attr-defined]
+    svc._tts_provider = tts_provider  # type: ignore[attr-defined]
     return svc
 
 
@@ -202,6 +206,86 @@ async def test_compose_sentence_caches_ai_result_and_skips_second_provider_call(
 
     assert first.sentence == second.sentence == "I want water."
     assert provider.complete.await_count == 1  # second call served from cache
+
+
+# ── synthesize_speech (neural TTS for Sentence Strip) ──────────────────────────
+
+
+def _mock_azure_provider(handler) -> AzureSpeechProvider:
+    return AzureSpeechProvider(
+        key="test-key", region="eastus", transport=httpx.MockTransport(handler)
+    )
+
+
+@pytest.mark.asyncio
+async def test_synthesize_speech_raises_unavailable_when_no_provider_configured() -> None:
+    svc = _svc(tts_provider=None)
+    with pytest.raises(TtsUnavailableError):
+        await svc.synthesize_speech("Water", "en")
+
+
+@pytest.mark.asyncio
+async def test_synthesize_speech_calls_provider_and_returns_audio_on_cache_miss() -> None:
+    tts_provider = _mock_azure_provider(lambda r: httpx.Response(200, content=b"mp3-bytes"))
+    svc = _svc(tts_provider=tts_provider)
+
+    audio = await svc.synthesize_speech("Water", "en")
+
+    assert audio == b"mp3-bytes"
+
+
+@pytest.mark.asyncio
+async def test_synthesize_speech_caches_and_skips_second_provider_call() -> None:
+    call_count = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal call_count
+        call_count += 1
+        return httpx.Response(200, content=b"mp3-bytes")
+
+    tts_provider = _mock_azure_provider(handler)
+    redis = _fake_redis()
+    svc = _svc(redis=redis, tts_provider=tts_provider)
+
+    first = await svc.synthesize_speech("Water", "en")
+    second = await svc.synthesize_speech("Water", "en")
+
+    assert first == second == b"mp3-bytes"
+    assert call_count == 1  # second call served from cache
+
+
+@pytest.mark.asyncio
+async def test_synthesize_speech_different_lang_is_a_separate_cache_entry() -> None:
+    call_count = 0
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        nonlocal call_count
+        call_count += 1
+        return httpx.Response(200, content=f"audio-{call_count}".encode())
+
+    tts_provider = _mock_azure_provider(handler)
+    redis = _fake_redis()
+    svc = _svc(redis=redis, tts_provider=tts_provider)
+
+    en_audio = await svc.synthesize_speech("Water", "en")
+    ru_audio = await svc.synthesize_speech("Water", "ru")
+
+    assert call_count == 2
+    assert en_audio != ru_audio
+
+
+@pytest.mark.asyncio
+async def test_synthesize_speech_propagates_synthesis_error_uncached() -> None:
+    tts_provider = _mock_azure_provider(lambda r: httpx.Response(401, text="unauthorized"))
+    redis = _fake_redis()
+    svc = _svc(redis=redis, tts_provider=tts_provider)
+
+    with pytest.raises(TtsSynthesisError):
+        await svc.synthesize_speech("Water", "en")
+
+    # A failed synthesis must not poison the cache with a bad/empty entry.
+    cache_key = AacService._tts_cache_key("Water", "en")
+    assert await redis.get(cache_key) is None
 
 
 # ── generate_insights / _compute_insights (pure logic) ────────────────────────
