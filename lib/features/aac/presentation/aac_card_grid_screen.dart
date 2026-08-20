@@ -97,8 +97,7 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (_) =>
-              AacFringeScreen(card: card),
+          builder: (_) => AacFringeScreen(card: card),
         ),
       );
       return;
@@ -190,38 +189,50 @@ class _AacCardGridScreenState extends State<AacCardGridScreen> {
                   return SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(
                         horizontal: horizontalPadding, vertical: AppSpacing.lg),
-                    child: Wrap(
-                      spacing: gap,
-                      runSpacing: AacSizes.gridGapAdvanced,
-                      alignment: WrapAlignment.center,
-                      children: _cards.map((card) {
-                        return AacCard(
-                          category: widget.category,
-                          label: _labelFor(card),
-                          glyph: glyphForCard(card, size: cardSize * 0.5),
-                          size: cardSize,
-                          dwellEnabled: _settings.dwellEnabled,
-                          dwellDuration: _settings.dwellDuration,
-                          highContrast: _settings.highContrast,
-                          onActivate: () => _onCardActivate(card),
-                          onSpeak: () => AacAudioPlayer.instance.speak(
-                            bundledAssetPath: card.audioAsset[_language],
-                            // A branch card's sentenceTemplate has an
-                            // unfilled {noun} placeholder until a fringe
-                            // option is chosen (see
-                            // AacCardDef.sentenceFor) — the label itself
-                            // ("Food") is what the speaker button should
-                            // say for those, not the raw template.
-                            sentence: card.kind == AacCardKind.branch
-                                ? _labelFor(card)
-                                : card.sentenceFor(_language),
-                            language: _language,
-                            isDeviceFile: card.isCustom,
-                          ),
-                          speakLabel:
-                              AacStrings.of(_language).speakTooltip,
-                        );
-                      }).toList(),
+                    // Center, not just Wrap's own `alignment: center` —
+                    // SingleChildScrollView gives its child loose (not
+                    // tight) cross-axis constraints, so Wrap shrinks to fit
+                    // its own content instead of filling the screen width.
+                    // WrapAlignment.center then only centers within that
+                    // already-shrunk box (a no-op once it's exactly as wide
+                    // as its content), and the scroll view left-aligns the
+                    // whole narrower block by default — cards hugging the
+                    // left edge with all the leftover space pushed to the
+                    // right, exactly the reported bug. Center forces the
+                    // Wrap to actually center against the full width.
+                    child: Center(
+                      child: Wrap(
+                        spacing: gap,
+                        runSpacing: AacSizes.gridGapAdvanced,
+                        alignment: WrapAlignment.center,
+                        children: _cards.map((card) {
+                          return AacCard(
+                            category: widget.category,
+                            label: _labelFor(card),
+                            glyph: glyphForCard(card, size: cardSize * 0.5),
+                            size: cardSize,
+                            dwellEnabled: _settings.dwellEnabled,
+                            dwellDuration: _settings.dwellDuration,
+                            highContrast: _settings.highContrast,
+                            onActivate: () => _onCardActivate(card),
+                            onSpeak: () => AacAudioPlayer.instance.speak(
+                              bundledAssetPath: card.audioAsset[_language],
+                              // A branch card's sentenceTemplate has an
+                              // unfilled {noun} placeholder until a fringe
+                              // option is chosen (see
+                              // AacCardDef.sentenceFor) — the label itself
+                              // ("Food") is what the speaker button should
+                              // say for those, not the raw template.
+                              sentence: card.kind == AacCardKind.branch
+                                  ? _labelFor(card)
+                                  : card.sentenceFor(_language),
+                              language: _language,
+                              isDeviceFile: card.isCustom,
+                            ),
+                            speakLabel: AacStrings.of(_language).speakTooltip,
+                          );
+                        }).toList(),
+                      ),
                     ),
                   );
                 },
