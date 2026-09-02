@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/pe_mom.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pe_mom.mp3",
-        "uz": "shared/aac/audio/uz/pe_mom.mp3",
+        "uz": "shared/aac/audio/uz/pe_mom.m4a",
         "ru": "shared/aac/audio/ru/pe_mom.mp3"
       }
     },
@@ -48,7 +48,7 @@
       "animation_asset": "shared/aac/animations/pe_teacher.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pe_teacher.mp3",
-        "uz": "shared/aac/audio/uz/pe_teacher.mp3",
+        "uz": "shared/aac/audio/uz/pe_teacher.m4a",
         "ru": "shared/aac/audio/ru/pe_teacher.mp3"
       }
     },
@@ -65,7 +65,7 @@
       "animation_asset": "shared/aac/animations/pe_grandma.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pe_grandma.mp3",
-        "uz": "shared/aac/audio/uz/pe_grandma.mp3",
+        "uz": "shared/aac/audio/uz/pe_grandma.m4a",
         "ru": "shared/aac/audio/ru/pe_grandma.mp3"
       }
     },
@@ -82,7 +82,7 @@
       "animation_asset": "shared/aac/animations/pe_doctor.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pe_doctor.mp3",
-        "uz": "shared/aac/audio/uz/pe_doctor.mp3",
+        "uz": "shared/aac/audio/uz/pe_doctor.m4a",
         "ru": "shared/aac/audio/ru/pe_doctor.mp3"
       }
     }

@@ -52,6 +52,16 @@ flutter:
     - assets/images/
     - assets/fonts/
     - shared/aac/
+    # Flutter's directory-style asset declaration is NOT recursive — a
+    # nested subfolder like shared/aac/audio/uz/ is invisible to the asset
+    # bundler unless separately declared, proven empirically (a clean
+    # `flutter test` rebuild produced zero files under shared/aac/audio/
+    # despite shared/aac/ being declared above). shared/aac/audio/en/ and
+    # .../ru/ aren't listed here yet because those directories don't exist
+    # on disk (tools/generate_aac_audio.py hasn't been run for them) —
+    # declaring a nonexistent directory fails the Flutter build. Add them
+    # here once they're populated.
+    - shared/aac/audio/uz/
   fonts:
     - family: Nunito
       fonts:

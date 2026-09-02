@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/pa_ball.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pa_ball.mp3",
-        "uz": "shared/aac/audio/uz/pa_ball.mp3",
+        "uz": "shared/aac/audio/uz/pa_ball.m4a",
         "ru": "shared/aac/audio/ru/pa_ball.mp3"
       }
     },
@@ -31,7 +31,7 @@
       "animation_asset": "shared/aac/animations/pa_drawing.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pa_drawing.mp3",
-        "uz": "shared/aac/audio/uz/pa_drawing.mp3",
+        "uz": "shared/aac/audio/uz/pa_drawing.m4a",
         "ru": "shared/aac/audio/ru/pa_drawing.mp3"
       }
     },
@@ -48,7 +48,7 @@
       "animation_asset": "shared/aac/animations/pa_music.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pa_music.mp3",
-        "uz": "shared/aac/audio/uz/pa_music.mp3",
+        "uz": "shared/aac/audio/uz/pa_music.m4a",
         "ru": "shared/aac/audio/ru/pa_music.mp3"
       }
     },
@@ -82,7 +82,7 @@
       "animation_asset": "shared/aac/animations/pa_book.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pa_book.mp3",
-        "uz": "shared/aac/audio/uz/pa_book.mp3",
+        "uz": "shared/aac/audio/uz/pa_book.m4a",
         "ru": "shared/aac/audio/ru/pa_book.mp3"
       }
     },
@@ -99,7 +99,7 @@
       "animation_asset": "shared/aac/animations/pa_toy.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pa_toy.mp3",
-        "uz": "shared/aac/audio/uz/pa_toy.mp3",
+        "uz": "shared/aac/audio/uz/pa_toy.m4a",
         "ru": "shared/aac/audio/ru/pa_toy.mp3"
       }
     }

@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/fe_pain.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_pain.mp3",
-        "uz": "shared/aac/audio/uz/fe_pain.mp3",
+        "uz": "shared/aac/audio/uz/fe_pain.m4a",
         "ru": "shared/aac/audio/ru/fe_pain.mp3"
       },
       "fringe_options": [
@@ -25,7 +25,7 @@
           "animation_asset": "shared/aac/animations/fe_pain_head.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/fe_pain_head.mp3",
-            "uz": "shared/aac/audio/uz/fe_pain_head.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_head.m4a",
             "ru": "shared/aac/audio/ru/fe_pain_head.mp3"
           }
         },
@@ -36,7 +36,7 @@
           "animation_asset": "shared/aac/animations/fe_pain_stomach.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/fe_pain_stomach.mp3",
-            "uz": "shared/aac/audio/uz/fe_pain_stomach.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_stomach.m4a",
             "ru": "shared/aac/audio/ru/fe_pain_stomach.mp3"
           }
         },
@@ -47,7 +47,7 @@
           "animation_asset": "shared/aac/animations/fe_pain_tooth.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/fe_pain_tooth.mp3",
-            "uz": "shared/aac/audio/uz/fe_pain_tooth.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_tooth.m4a",
             "ru": "shared/aac/audio/ru/fe_pain_tooth.mp3"
           }
         },
@@ -58,7 +58,7 @@
           "animation_asset": "shared/aac/animations/fe_pain_leg.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/fe_pain_leg.mp3",
-            "uz": "shared/aac/audio/uz/fe_pain_leg.mp3",
+            "uz": "shared/aac/audio/uz/fe_pain_leg.m4a",
             "ru": "shared/aac/audio/ru/fe_pain_leg.mp3"
           }
         }
@@ -77,7 +77,7 @@
       "animation_asset": "shared/aac/animations/fe_happy.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_happy.mp3",
-        "uz": "shared/aac/audio/uz/fe_happy.mp3",
+        "uz": "shared/aac/audio/uz/fe_happy.m4a",
         "ru": "shared/aac/audio/ru/fe_happy.mp3"
       }
     },
@@ -94,7 +94,7 @@
       "animation_asset": "shared/aac/animations/fe_sad.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_sad.mp3",
-        "uz": "shared/aac/audio/uz/fe_sad.mp3",
+        "uz": "shared/aac/audio/uz/fe_sad.m4a",
         "ru": "shared/aac/audio/ru/fe_sad.mp3"
       }
     },
@@ -111,7 +111,7 @@
       "animation_asset": "shared/aac/animations/fe_angry.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_angry.mp3",
-        "uz": "shared/aac/audio/uz/fe_angry.mp3",
+        "uz": "shared/aac/audio/uz/fe_angry.m4a",
         "ru": "shared/aac/audio/ru/fe_angry.mp3"
       }
     },
@@ -128,7 +128,7 @@
       "animation_asset": "shared/aac/animations/fe_scared.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_scared.mp3",
-        "uz": "shared/aac/audio/uz/fe_scared.mp3",
+        "uz": "shared/aac/audio/uz/fe_scared.m4a",
         "ru": "shared/aac/audio/ru/fe_scared.mp3"
       }
     },
@@ -145,7 +145,7 @@
       "animation_asset": "shared/aac/animations/fe_tired.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/fe_tired.mp3",
-        "uz": "shared/aac/audio/uz/fe_tired.mp3",
+        "uz": "shared/aac/audio/uz/fe_tired.m4a",
         "ru": "shared/aac/audio/ru/fe_tired.mp3"
       }
     }

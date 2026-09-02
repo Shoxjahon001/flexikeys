@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/ne_water.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_water.mp3",
-        "uz": "shared/aac/audio/uz/ne_water.mp3",
+        "uz": "shared/aac/audio/uz/ne_water.m4a",
         "ru": "shared/aac/audio/ru/ne_water.mp3"
       }
     },
@@ -31,7 +31,7 @@
       "animation_asset": "shared/aac/animations/ne_help.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_help.mp3",
-        "uz": "shared/aac/audio/uz/ne_help.mp3",
+        "uz": "shared/aac/audio/uz/ne_help.m4a",
         "ru": "shared/aac/audio/ru/ne_help.mp3"
       }
     },
@@ -48,7 +48,7 @@
       "animation_asset": "shared/aac/animations/ne_food.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_food.mp3",
-        "uz": "shared/aac/audio/uz/ne_food.mp3",
+        "uz": "shared/aac/audio/uz/ne_food.m4a",
         "ru": "shared/aac/audio/ru/ne_food.mp3"
       },
       "fringe_options": [
@@ -59,7 +59,7 @@
           "animation_asset": "shared/aac/animations/ne_food_apple.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/ne_food_apple.mp3",
-            "uz": "shared/aac/audio/uz/ne_food_apple.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_apple.m4a",
             "ru": "shared/aac/audio/ru/ne_food_apple.mp3"
           }
         },
@@ -70,7 +70,7 @@
           "animation_asset": "shared/aac/animations/ne_food_banana.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/ne_food_banana.mp3",
-            "uz": "shared/aac/audio/uz/ne_food_banana.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_banana.m4a",
             "ru": "shared/aac/audio/ru/ne_food_banana.mp3"
           }
         },
@@ -81,7 +81,7 @@
           "animation_asset": "shared/aac/animations/ne_food_bread.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/ne_food_bread.mp3",
-            "uz": "shared/aac/audio/uz/ne_food_bread.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_bread.m4a",
             "ru": "shared/aac/audio/ru/ne_food_bread.mp3"
           }
         },
@@ -92,7 +92,7 @@
           "animation_asset": "shared/aac/animations/ne_food_rice.json",
           "audio_asset": {
             "en": "shared/aac/audio/en/ne_food_rice.mp3",
-            "uz": "shared/aac/audio/uz/ne_food_rice.mp3",
+            "uz": "shared/aac/audio/uz/ne_food_rice.m4a",
             "ru": "shared/aac/audio/ru/ne_food_rice.mp3"
           }
         }
@@ -111,7 +111,7 @@
       "animation_asset": "shared/aac/animations/ne_hug.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_hug.mp3",
-        "uz": "shared/aac/audio/uz/ne_hug.mp3",
+        "uz": "shared/aac/audio/uz/ne_hug.m4a",
         "ru": "shared/aac/audio/ru/ne_hug.mp3"
       }
     },
@@ -128,7 +128,7 @@
       "animation_asset": "shared/aac/animations/ne_blanket.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_blanket.mp3",
-        "uz": "shared/aac/audio/uz/ne_blanket.mp3",
+        "uz": "shared/aac/audio/uz/ne_blanket.m4a",
         "ru": "shared/aac/audio/ru/ne_blanket.mp3"
       }
     },
@@ -145,7 +145,7 @@
       "animation_asset": "shared/aac/animations/ne_medicine.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_medicine.mp3",
-        "uz": "shared/aac/audio/uz/ne_medicine.mp3",
+        "uz": "shared/aac/audio/uz/ne_medicine.m4a",
         "ru": "shared/aac/audio/ru/ne_medicine.mp3"
       }
     },
@@ -162,7 +162,7 @@
       "animation_asset": "shared/aac/animations/ne_break.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/ne_break.mp3",
-        "uz": "shared/aac/audio/uz/ne_break.mp3",
+        "uz": "shared/aac/audio/uz/ne_break.m4a",
         "ru": "shared/aac/audio/ru/ne_break.mp3"
       }
     }

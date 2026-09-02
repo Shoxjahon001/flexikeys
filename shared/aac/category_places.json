@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/pl_bathroom.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pl_bathroom.mp3",
-        "uz": "shared/aac/audio/uz/pl_bathroom.mp3",
+        "uz": "shared/aac/audio/uz/pl_bathroom.m4a",
         "ru": "shared/aac/audio/ru/pl_bathroom.mp3"
       }
     },
@@ -31,7 +31,7 @@
       "animation_asset": "shared/aac/animations/pl_outside.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pl_outside.mp3",
-        "uz": "shared/aac/audio/uz/pl_outside.mp3",
+        "uz": "shared/aac/audio/uz/pl_outside.m4a",
         "ru": "shared/aac/audio/ru/pl_outside.mp3"
       }
     },
@@ -48,7 +48,7 @@
       "animation_asset": "shared/aac/animations/pl_kitchen.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pl_kitchen.mp3",
-        "uz": "shared/aac/audio/uz/pl_kitchen.mp3",
+        "uz": "shared/aac/audio/uz/pl_kitchen.m4a",
         "ru": "shared/aac/audio/ru/pl_kitchen.mp3"
       }
     },
@@ -82,7 +82,7 @@
       "animation_asset": "shared/aac/animations/pl_school.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pl_school.mp3",
-        "uz": "shared/aac/audio/uz/pl_school.mp3",
+        "uz": "shared/aac/audio/uz/pl_school.m4a",
         "ru": "shared/aac/audio/ru/pl_school.mp3"
       }
     },
@@ -99,7 +99,7 @@
       "animation_asset": "shared/aac/animations/pl_hospital.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/pl_hospital.mp3",
-        "uz": "shared/aac/audio/uz/pl_hospital.mp3",
+        "uz": "shared/aac/audio/uz/pl_hospital.m4a",
         "ru": "shared/aac/audio/ru/pl_hospital.mp3"
       }
     }

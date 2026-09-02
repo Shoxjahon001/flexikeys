@@ -14,7 +14,7 @@
       "animation_asset": "shared/aac/animations/da_eat.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_eat.mp3",
-        "uz": "shared/aac/audio/uz/da_eat.mp3",
+        "uz": "shared/aac/audio/uz/da_eat.m4a",
         "ru": "shared/aac/audio/ru/da_eat.mp3"
       }
     },
@@ -31,7 +31,7 @@
       "animation_asset": "shared/aac/animations/da_toilet.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_toilet.mp3",
-        "uz": "shared/aac/audio/uz/da_toilet.mp3",
+        "uz": "shared/aac/audio/uz/da_toilet.m4a",
         "ru": "shared/aac/audio/ru/da_toilet.mp3"
       }
     },
@@ -48,7 +48,7 @@
       "animation_asset": "shared/aac/animations/da_drink.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_drink.mp3",
-        "uz": "shared/aac/audio/uz/da_drink.mp3",
+        "uz": "shared/aac/audio/uz/da_drink.m4a",
         "ru": "shared/aac/audio/ru/da_drink.mp3"
       }
     },
@@ -65,7 +65,7 @@
       "animation_asset": "shared/aac/animations/da_brush_teeth.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_brush_teeth.mp3",
-        "uz": "shared/aac/audio/uz/da_brush_teeth.mp3",
+        "uz": "shared/aac/audio/uz/da_brush_teeth.m4a",
         "ru": "shared/aac/audio/ru/da_brush_teeth.mp3"
       }
     },
@@ -82,7 +82,7 @@
       "animation_asset": "shared/aac/animations/da_wash_hands.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_wash_hands.mp3",
-        "uz": "shared/aac/audio/uz/da_wash_hands.mp3",
+        "uz": "shared/aac/audio/uz/da_wash_hands.m4a",
         "ru": "shared/aac/audio/ru/da_wash_hands.mp3"
       }
     },
@@ -99,7 +99,7 @@
       "animation_asset": "shared/aac/animations/da_bath.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_bath.mp3",
-        "uz": "shared/aac/audio/uz/da_bath.mp3",
+        "uz": "shared/aac/audio/uz/da_bath.m4a",
         "ru": "shared/aac/audio/ru/da_bath.mp3"
       }
     },
@@ -116,7 +116,7 @@
       "animation_asset": "shared/aac/animations/da_sleep.json",
       "audio_asset": {
         "en": "shared/aac/audio/en/da_sleep.mp3",
-        "uz": "shared/aac/audio/uz/da_sleep.mp3",
+        "uz": "shared/aac/audio/uz/da_sleep.m4a",
         "ru": "shared/aac/audio/ru/da_sleep.mp3"
       }
     }

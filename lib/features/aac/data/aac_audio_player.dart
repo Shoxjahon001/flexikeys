@@ -14,11 +14,18 @@ import 'aac_neural_tts_service.dart';
 ///      calm professional voice per language, see docs/aac_design_system.md
 ///      and tools/generate_aac_audio.py) — e.g.
 ///      `shared/aac/audio/en/ne_water.mp3`. Covers every fixed vocabulary
-///      card/fringe-option/sentence.
+///      card/fringe-option/sentence. Container isn't uniform across
+///      languages: en/ru are Azure-generated MP3 (via generate_aac_audio.py,
+///      not yet run as of this writing); uz is human-recorded AAC/M4A (see
+///      voice_uzb/mapping.csv) — `AssetSource` doesn't care, it just plays
+///      whatever the JSON's `audio_asset[lang]` path points to.
 ///   2. [AacNeuralTtsService] — the backend's Azure neural TTS, disk-cached.
 ///      Only reached for text with no bundled asset, which today means an
 ///      ad-hoc Sentence Strip composition (bundledAssetPath is always null
-///      for those — see AacSentenceStripScreen._speak()).
+///      for those — see AacSentenceStripScreen._speak()), OR a starter card
+///      whose bundled asset doesn't exist yet (e.g. pe_dad/pa_tablet/
+///      pl_bedroom in uz — see voice_uzb/mapping.csv for why those three
+///      were deliberately left unrecorded).
 ///   3. [TtsService] (online, cached) reading [sentence] aloud — the
 ///      original, still-real last resort if the backend is unreachable or
 ///      has no Azure key configured. Without this tier a tap could go
