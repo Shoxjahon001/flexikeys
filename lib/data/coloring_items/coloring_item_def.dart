@@ -237,6 +237,25 @@ List<Offset> scallopedBlobPoints({
   return pts;
 }
 
+/// Samples a quadratic Bezier curve (start [p0], control [p1], end [p2])
+/// into a point list — for reproducing a source geometry's
+/// `Path.quadraticBezierTo` curves as a [ColoringElement.stroke] (whose
+/// points get Catmull-Rom-smoothed through, a different curve family than
+/// a true quadratic Bezier; sampling densely here and letting the caller
+/// pass `smooth: false` keeps the traced shape faithful to the original
+/// curve instead of approximating it a second time).
+List<Offset> quadraticBezierPoints(Offset p0, Offset p1, Offset p2, {int segments = 16}) {
+  final pts = <Offset>[];
+  for (int i = 0; i <= segments; i++) {
+    final t = i / segments;
+    final mt = 1 - t;
+    final x = mt * mt * p0.dx + 2 * mt * t * p1.dx + t * t * p2.dx;
+    final y = mt * mt * p0.dy + 2 * mt * t * p1.dy + t * t * p2.dy;
+    pts.add(Offset(x, y));
+  }
+  return pts;
+}
+
 /// Generates a closed, smooth-reading oval as a point list (normalized 0-1
 /// space) — straight-line segments densely spaced enough to read as a
 /// rounded curve at typical canvas sizes. Used for petals, leaves, and any
