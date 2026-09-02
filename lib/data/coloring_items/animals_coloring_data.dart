@@ -206,28 +206,94 @@ final ColoringItemDef _quyon = ColoringItemDef.detailed(
   ],
 );
 
+// Baliq (Fish) — replaces the old hand-tuned normalized-outline fish with a
+// faithful trace of a purpose-built 400x400 geometry (body, tail, dorsal
+// fin, pelvic fin, side fin, eye, mouth), native pixel space via
+// ColoringItemDef.detailed rather than degrading it into the legacy 0-1
+// model. Scale arcs and the gill line omitted, matching the source
+// geometry's own trace-step list — decoration, not meant for tracing.
+// Stroke widths mirror the source's reference painter (FishPainter): 7 for
+// body/fins/eye, 6 for the mouth. Left as outline-only (no .fill) so the
+// child paints every part themselves, matching every other item here.
+final ColoringItemDef _baliq = ColoringItemDef.detailed(
+  label: 'Baliq',
+  canvasSize: const Size(400, 400),
+  elements: [
+    // Body — four chained cubic-Bezier segments forming one closed silhouette
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(120, 205), const Offset(152, 158), const Offset(212, 130), const Offset(272, 130)),
+        cubicBezierPoints(const Offset(272, 130), const Offset(336, 130), const Offset(372, 165), const Offset(372, 205)),
+        cubicBezierPoints(const Offset(372, 205), const Offset(372, 245), const Offset(336, 280), const Offset(272, 280)),
+        cubicBezierPoints(const Offset(272, 280), const Offset(212, 280), const Offset(152, 252), const Offset(120, 205)),
+      ]),
+    ),
+    // Tail
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(120, 205), const Offset(98, 174), const Offset(60, 142), const Offset(32, 146)),
+        cubicBezierPoints(const Offset(32, 146), const Offset(44, 174), const Offset(50, 192), const Offset(68, 205)),
+        cubicBezierPoints(const Offset(68, 205), const Offset(50, 218), const Offset(44, 236), const Offset(32, 264)),
+        cubicBezierPoints(const Offset(32, 264), const Offset(60, 268), const Offset(98, 236), const Offset(120, 205)),
+      ]),
+    ),
+    // Dorsal fin
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(208, 142), const Offset(216, 106), const Offset(240, 82), const Offset(276, 82)),
+        cubicBezierPoints(const Offset(276, 82), const Offset(284, 98), const Offset(286, 118), const Offset(282, 132)),
+        cubicBezierPoints(const Offset(282, 132), const Offset(258, 128), const Offset(228, 134), const Offset(208, 142)),
+      ]),
+    ),
+    // Pelvic fin
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(196, 268), const Offset(202, 298), const Offset(222, 318), const Offset(248, 314)),
+        cubicBezierPoints(const Offset(248, 314), const Offset(252, 298), const Offset(248, 284), const Offset(242, 278)),
+        cubicBezierPoints(const Offset(242, 278), const Offset(224, 280), const Offset(208, 274), const Offset(196, 268)),
+      ]),
+    ),
+    // Side fin
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(286, 236), const Offset(308, 220), const Offset(342, 232), const Offset(350, 258)),
+        cubicBezierPoints(const Offset(350, 258), const Offset(340, 284), const Offset(304, 284), const Offset(288, 262)),
+      ]),
+    ),
+    // Eye
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      points: ellipsePoints(cx: 334, cy: 180, rx: 18, ry: 18, segments: 24),
+    ),
+    // Mouth
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      smooth: false,
+      points: quadraticBezierPoints(const Offset(348, 204), const Offset(360, 214), const Offset(346, 224)),
+    ),
+  ],
+);
+
 /// Not const: several shapes below are built with [ellipsePoints], a
 /// function call that isn't const-evaluable.
 final List<ColoringItemDef> kAnimalsColoringItems = [
   _mushuk,
   _quyon,
-
-  // Baliq (Fish) ───────────────────────────────────────────────────────────
-  ColoringItemDef(label: 'Baliq', outline: [
-    // Body
-    ellipsePoints(cx: 0.42, cy: 0.55, rx: 0.26, ry: 0.19, segments: 32),
-    // Eye
-    ellipsePoints(cx: 0.26, cy: 0.48, rx: 0.032, ry: 0.032, segments: 16),
-    // Mouth (small pucker at the front tip)
-    const [Offset(0.17, 0.53), Offset(0.20, 0.56), Offset(0.17, 0.59)],
-    // Dorsal fin (single clean triangle sail on the back half)
-    const [Offset(0.38, 0.38), Offset(0.50, 0.16), Offset(0.60, 0.37), Offset(0.38, 0.38)],
-    // Pectoral (side) fin — small, centered on the belly, clear of the mouth
-    const [Offset(0.36, 0.64), Offset(0.42, 0.74), Offset(0.28, 0.72), Offset(0.36, 0.64)],
-    // Tail fin
-    const [
-      Offset(0.66, 0.42), Offset(0.88, 0.26), Offset(0.76, 0.55), Offset(0.88, 0.80),
-      Offset(0.66, 0.68), Offset(0.66, 0.42),
-    ],
-  ]),
+  _baliq,
 ];
