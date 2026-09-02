@@ -113,14 +113,82 @@ final ColoringItemDef _gilos = ColoringItemDef.detailed(
   ],
 );
 
-// Normalized 0-1 line-art outlines for Olma/Apelsin, no scoring — just a
-// coloring-book guide.
+// Olma (Apple) — replaces the old hand-tuned normalized-outline apple with a
+// faithful trace of a purpose-built 400x400 geometry (body, stem, two
+// leaves, eyes, mouth), native pixel space via ColoringItemDef.detailed
+// rather than degrading it into the legacy 0-1 model. Brows deliberately
+// omitted, matching the source geometry's own trace-step list — too thin
+// for a child's finger to follow. Stroke widths mirror the source's
+// reference painter (AppleFacePainter): 7 for body/leaves, 9 for the stem,
+// 6 for the mouth. Left as outline-only (no .fill) so the child paints
+// every part themselves, matching every other item here.
+final ColoringItemDef _olma = ColoringItemDef.detailed(
+  label: 'Olma',
+  canvasSize: const Size(400, 400),
+  elements: [
+    // Body — six chained cubic-Bezier segments forming one closed silhouette
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(200, 118), const Offset(236, 86), const Offset(300, 92), const Offset(328, 140)),
+        cubicBezierPoints(const Offset(328, 140), const Offset(352, 180), const Offset(350, 268), const Offset(316, 330)),
+        cubicBezierPoints(const Offset(316, 330), const Offset(292, 372), const Offset(236, 388), const Offset(200, 352)),
+        cubicBezierPoints(const Offset(200, 352), const Offset(164, 388), const Offset(108, 372), const Offset(84, 330)),
+        cubicBezierPoints(const Offset(84, 330), const Offset(50, 268), const Offset(48, 180), const Offset(72, 140)),
+        cubicBezierPoints(const Offset(72, 140), const Offset(100, 92), const Offset(164, 86), const Offset(200, 118)),
+      ]),
+    ),
+    // Stem
+    ColoringElement.stroke(
+      strokeWidth: 9,
+      smooth: false,
+      points: cubicBezierPoints(const Offset(200, 120), const Offset(198, 96), const Offset(200, 74), const Offset(208, 58)),
+    ),
+    // Leaves — each a closed loop of two chained quadratic-Bezier segments
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        quadraticBezierPoints(const Offset(210, 70), const Offset(258, 26), const Offset(308, 40)),
+        quadraticBezierPoints(const Offset(308, 40), const Offset(282, 84), const Offset(210, 70)),
+      ]),
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        quadraticBezierPoints(const Offset(196, 78), const Offset(158, 48), const Offset(118, 62)),
+        quadraticBezierPoints(const Offset(118, 62), const Offset(142, 96), const Offset(196, 78)),
+      ]),
+    ),
+    // Eyes
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      points: ellipsePoints(cx: 156, cy: 235, rx: 30, ry: 30, segments: 24),
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      points: ellipsePoints(cx: 244, cy: 235, rx: 30, ry: 30, segments: 24),
+    ),
+    // Mouth
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      smooth: false,
+      points: quadraticBezierPoints(const Offset(172, 288), const Offset(200, 316), const Offset(228, 288)),
+    ),
+  ],
+);
+
+/// Normalized 0-1 line-art outline for Apelsin, no scoring — just a
+/// coloring-book guide.
 final List<ColoringItemDef> kFruitsColoringItems = [
-  const ColoringItemDef(label: 'Olma', outline: [
-    [Offset(0.50,0.20),Offset(0.68,0.25),Offset(0.80,0.42),Offset(0.78,0.62),Offset(0.65,0.80),Offset(0.50,0.85),Offset(0.35,0.80),Offset(0.22,0.62),Offset(0.20,0.42),Offset(0.32,0.25),Offset(0.46,0.20),Offset(0.50,0.20)],
-    [Offset(0.50,0.20),Offset(0.52,0.10)],
-    [Offset(0.52,0.13),Offset(0.65,0.08),Offset(0.60,0.18),Offset(0.52,0.13)],
-  ]),
+  _olma,
   _banan,
   const ColoringItemDef(label: 'Apelsin', outline: [
     [Offset(0.50,0.20),Offset(0.68,0.27),Offset(0.78,0.45),Offset(0.75,0.65),Offset(0.60,0.80),Offset(0.40,0.80),Offset(0.25,0.65),Offset(0.22,0.45),Offset(0.32,0.27),Offset(0.50,0.20)],

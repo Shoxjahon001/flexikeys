@@ -256,6 +256,42 @@ List<Offset> quadraticBezierPoints(Offset p0, Offset p1, Offset p2, {int segment
   return pts;
 }
 
+/// Samples a cubic Bezier curve (start [p0], controls [p1]/[p2], end [p3])
+/// into a point list — the `Path.cubicTo` counterpart to
+/// [quadraticBezierPoints], for reproducing a source geometry's cubic
+/// curves. Same rationale: sample densely, pass `smooth: false`.
+List<Offset> cubicBezierPoints(Offset p0, Offset p1, Offset p2, Offset p3, {int segments = 16}) {
+  final pts = <Offset>[];
+  for (int i = 0; i <= segments; i++) {
+    final t = i / segments;
+    final mt = 1 - t;
+    final x = mt * mt * mt * p0.dx +
+        3 * mt * mt * t * p1.dx +
+        3 * mt * t * t * p2.dx +
+        t * t * t * p3.dx;
+    final y = mt * mt * mt * p0.dy +
+        3 * mt * mt * t * p1.dy +
+        3 * mt * t * t * p2.dy +
+        t * t * t * p3.dy;
+    pts.add(Offset(x, y));
+  }
+  return pts;
+}
+
+/// Chains several curve segments (each already sampled by
+/// [quadraticBezierPoints]/[cubicBezierPoints]) into a single continuous
+/// point list, dropping each segment's duplicate leading point (it equals
+/// the previous segment's trailing point) — for silhouettes traced as one
+/// unbroken multi-curve outline (e.g. a body built from several `cubicTo`
+/// calls in sequence) rather than as separate disconnected strokes.
+List<Offset> chainCurvePoints(List<List<Offset>> segments) {
+  final pts = <Offset>[];
+  for (final seg in segments) {
+    pts.addAll(pts.isEmpty ? seg : seg.skip(1));
+  }
+  return pts;
+}
+
 /// Generates a closed, smooth-reading oval as a point list (normalized 0-1
 /// space) — straight-line segments densely spaced enough to read as a
 /// rounded curve at typical canvas sizes. Used for petals, leaves, and any
