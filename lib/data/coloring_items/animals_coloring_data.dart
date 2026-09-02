@@ -117,41 +117,100 @@ final ColoringItemDef _mushuk = ColoringItemDef.detailed(
   ],
 );
 
+// Quyon (Rabbit) — replaces the old hand-tuned normalized-outline rabbit
+// with a faithful trace of a purpose-built 400x400 geometry (head, ears,
+// eyes, nose, mouth), native pixel space via ColoringItemDef.detailed
+// rather than degrading it into the legacy 0-1 model. Inner-ear creases,
+// forehead tuft, and cheek lines omitted, matching the source geometry's
+// own trace-step list — too thin/decorative for a child's finger to
+// follow. Stroke widths mirror the source's reference painter
+// (RabbitHeadPainter): 7 for head/ears, 6 for eyes/mouth, 5 for the nose.
+// Left as outline-only (no .fill) so the child paints every part
+// themselves, matching every other item here.
+final ColoringItemDef _quyon = ColoringItemDef.detailed(
+  label: 'Quyon',
+  canvasSize: const Size(400, 400),
+  elements: [
+    // Head — six chained cubic-Bezier segments forming one closed silhouette
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(128, 272), const Offset(132, 218), const Offset(162, 194), const Offset(200, 194)),
+        cubicBezierPoints(const Offset(200, 194), const Offset(238, 194), const Offset(268, 218), const Offset(272, 272)),
+        cubicBezierPoints(const Offset(272, 272), const Offset(292, 300), const Offset(320, 306), const Offset(336, 300)),
+        cubicBezierPoints(const Offset(336, 300), const Offset(340, 348), const Offset(300, 384), const Offset(200, 384)),
+        cubicBezierPoints(const Offset(200, 384), const Offset(100, 384), const Offset(60, 348), const Offset(64, 300)),
+        cubicBezierPoints(const Offset(64, 300), const Offset(80, 306), const Offset(108, 300), const Offset(128, 272)),
+      ]),
+    ),
+    // Ears — each a closed loop of three chained cubic-Bezier segments
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(150, 196), const Offset(130, 160), const Offset(124, 80), const Offset(144, 40)),
+        cubicBezierPoints(const Offset(144, 40), const Offset(158, 16), const Offset(180, 34), const Offset(184, 96)),
+        cubicBezierPoints(const Offset(184, 96), const Offset(187, 140), const Offset(180, 180), const Offset(168, 202)),
+      ]),
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 7,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        cubicBezierPoints(const Offset(250, 196), const Offset(270, 160), const Offset(276, 80), const Offset(256, 40)),
+        cubicBezierPoints(const Offset(256, 40), const Offset(242, 16), const Offset(220, 34), const Offset(216, 96)),
+        cubicBezierPoints(const Offset(216, 96), const Offset(213, 140), const Offset(220, 180), const Offset(232, 202)),
+      ]),
+    ),
+    // Eyes
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      closed: true,
+      points: ellipsePoints(cx: 162, cy: 262, rx: 20, ry: 26, segments: 24),
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      closed: true,
+      points: ellipsePoints(cx: 238, cy: 262, rx: 20, ry: 26, segments: 24),
+    ),
+    // Nose — three chained quadratic-Bezier segments forming a closed loop
+    ColoringElement.stroke(
+      strokeWidth: 5,
+      closed: true,
+      smooth: false,
+      points: chainCurvePoints([
+        quadraticBezierPoints(const Offset(182, 300), const Offset(200, 292), const Offset(218, 300)),
+        quadraticBezierPoints(const Offset(218, 300), const Offset(214, 320), const Offset(200, 328)),
+        quadraticBezierPoints(const Offset(200, 328), const Offset(186, 320), const Offset(182, 300)),
+      ]),
+    ),
+    // Mouth — a straight chin line then two curved smile lobes
+    const ColoringElement.stroke(
+      strokeWidth: 6,
+      points: [Offset(200, 328), Offset(200, 338)],
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      smooth: false,
+      points: quadraticBezierPoints(const Offset(200, 338), const Offset(184, 358), const Offset(170, 344)),
+    ),
+    ColoringElement.stroke(
+      strokeWidth: 6,
+      smooth: false,
+      points: quadraticBezierPoints(const Offset(200, 338), const Offset(216, 358), const Offset(230, 344)),
+    ),
+  ],
+);
+
 /// Not const: several shapes below are built with [ellipsePoints], a
 /// function call that isn't const-evaluable.
 final List<ColoringItemDef> kAnimalsColoringItems = [
   _mushuk,
-
-  // Quyon (Rabbit) ───────────────────────────────────────────────────────────
-  ColoringItemDef(label: 'Quyon', outline: [
-    // Head
-    ellipsePoints(cx: 0.50, cy: 0.62, rx: 0.24, ry: 0.26, segments: 32),
-    // Left ear
-    const [
-      Offset(0.44, 0.60), Offset(0.40, 0.35), Offset(0.32, 0.15), Offset(0.28, 0.06),
-      Offset(0.24, 0.16), Offset(0.26, 0.38), Offset(0.30, 0.58), Offset(0.44, 0.60),
-    ],
-    // Right ear
-    const [
-      Offset(0.56, 0.60), Offset(0.60, 0.35), Offset(0.68, 0.15), Offset(0.72, 0.06),
-      Offset(0.76, 0.16), Offset(0.74, 0.38), Offset(0.70, 0.58), Offset(0.56, 0.60),
-    ],
-    // Eyes
-    ellipsePoints(cx: 0.40, cy: 0.62, rx: 0.035, ry: 0.04, segments: 16),
-    ellipsePoints(cx: 0.60, cy: 0.62, rx: 0.035, ry: 0.04, segments: 16),
-    // Nose
-    const [Offset(0.47, 0.70), Offset(0.53, 0.70), Offset(0.50, 0.735), Offset(0.47, 0.70)],
-    // Mouth
-    const [Offset(0.50, 0.735), Offset(0.50, 0.76), Offset(0.45, 0.79), Offset(0.50, 0.77), Offset(0.55, 0.79)],
-    // Whiskers (left)
-    const [Offset(0.28, 0.64), Offset(0.08, 0.61)],
-    const [Offset(0.28, 0.68), Offset(0.06, 0.68)],
-    const [Offset(0.28, 0.72), Offset(0.08, 0.76)],
-    // Whiskers (right)
-    const [Offset(0.72, 0.64), Offset(0.92, 0.61)],
-    const [Offset(0.72, 0.68), Offset(0.94, 0.68)],
-    const [Offset(0.72, 0.72), Offset(0.92, 0.76)],
-  ]),
+  _quyon,
 
   // Baliq (Fish) ───────────────────────────────────────────────────────────
   ColoringItemDef(label: 'Baliq', outline: [
