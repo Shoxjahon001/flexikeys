@@ -23,12 +23,22 @@ class ContentItem {
 
   final Color? tileColor;
 
+  /// Overrides what's spoken for TTS when it must differ from [word] — the
+  /// only known case today is Cyrillic Ь/Ъ, which have no standalone letter
+  /// sound and are spoken by their letter *name* instead (e.g. "мягкий
+  /// знак"). Null (every other item) means "speak [word] as-is".
+  final String? pronunciation;
+
   const ContentItem({
     required this.id,
     required this.display,
     required this.word,
     this.tileColor,
+    this.pronunciation,
   });
+
+  /// The text actually passed to TTS.
+  String get spokenText => pronunciation ?? word;
 }
 
 /// One category's content for one locale (e.g. "animals" in `ru`).

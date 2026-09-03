@@ -23,6 +23,13 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   ContentPack? _pack;
   late List<String> _letters;
 
+  /// word -> spokenText, for letters whose TTS pronunciation differs from
+  /// their on-screen glyph (Ь/Ъ have no standalone sound — see
+  /// [ContentItem.spokenText]). Letters not in this map are simply spoken
+  /// as their own glyph.
+  late Map<String, String> _spokenTextByLetter;
+  String _speakTextFor(String letter) => _spokenTextByLetter[letter] ?? letter;
+
   int _current = 0;
   String? _selected;
   bool _answered = false;
@@ -57,10 +64,14 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       if (args is ContentPack) {
         _pack = args;
         _letters = _pack!.items.map((i) => i.word).toList();
+        _spokenTextByLetter = {
+          for (final i in _pack!.items) i.word: i.spokenText,
+        };
         _buildChoicesDirect();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            TtsService.instance.speak(_letters[_current], locale: _pack!.locale);
+            TtsService.instance.speak(_speakTextFor(_letters[_current]),
+                locale: _pack!.locale);
           }
         });
       }
@@ -86,10 +97,10 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   void _generateChoices() {
     _buildChoicesDirect();
     setState(() {});
-    final capturedTarget = _currentTarget;
+    final capturedSpeech = _speakTextFor(_currentTarget);
     final locale = _pack!.locale;
     Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) TtsService.instance.speak(capturedTarget, locale: locale);
+      if (mounted) TtsService.instance.speak(capturedSpeech, locale: locale);
     });
   }
 
@@ -125,7 +136,11 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       return;
     }
 
-    if (_current == 7) {
+    // Fires once, roughly halfway through the run — `_letters.length ~/ 2`
+    // reproduces the exact previous hardcoded `7` for the old fixed 15-item
+    // English list (15 ~/ 2 == 7), and generalizes correctly now that list
+    // length varies by locale (26 for English, 33 for Russian).
+    if (_current == _letters.length ~/ 2) {
       Navigator.pushNamed(context, '/good_job', arguments: {
         'onContinue': () {
           if (!mounted) return;
@@ -378,8 +393,8 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                   ),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () =>
-                        TtsService.instance.speak(target, locale: _pack!.locale),
+                    onTap: () => TtsService.instance
+                        .speak(_speakTextFor(target), locale: _pack!.locale),
                     child: Container(
                       width: 44,
                       height: 44,

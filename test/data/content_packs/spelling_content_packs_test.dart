@@ -193,16 +193,21 @@ void main() {
     });
   });
 
-  group('locale fallback (uz/ru have no packs yet)', () {
+  group('locale fallback (uz has no pack yet; ru now does)', () {
     for (final categoryId in ['numbers', 'colors', 'fruits', 'animals', 'food']) {
-      test('$categoryId: uz and ru both resolve to the exact en pack', () {
+      test('$categoryId: uz resolves to the exact en pack', () {
         final en = SpellingContentPacks.resolve(categoryId, 'en');
         final uz = SpellingContentPacks.resolve(categoryId, 'uz');
-        final ru = SpellingContentPacks.resolve(categoryId, 'ru');
         expect(identical(uz, en), isTrue,
             reason: 'uz must be byte-identical to en until a uz pack exists');
-        expect(identical(ru, en), isTrue,
-            reason: 'ru must fall back to en until a ru pack is added');
+      });
+
+      test('$categoryId: ru now resolves to its own pack, not the en '
+          'fallback', () {
+        final en = SpellingContentPacks.resolve(categoryId, 'en');
+        final ru = SpellingContentPacks.resolve(categoryId, 'ru');
+        expect(identical(ru, en), isFalse);
+        expect(ru!.locale, 'ru');
       });
     }
 
@@ -221,5 +226,81 @@ void main() {
             reason: '${item.id}: "${item.word}"');
       }
     }
+  });
+
+  group('ru content — script purity, safety, and shape', () {
+    const categories = ['numbers', 'colors', 'fruits', 'animals', 'food'];
+    // U+0410-042F (А-Я), U+0401 (Ё) — every ru word/alphabet character must
+    // fall in this set. Explicitly excludes the whole Latin range, so this
+    // test fails loudly the moment an answer or a distractor mixes scripts.
+    final cyrillicOnly = RegExp(r'^[А-ЯЁ]+$');
+
+    for (final categoryId in categories) {
+      test('$categoryId: every word is uppercase Cyrillic only, no Latin '
+          'characters', () {
+        final pack = SpellingContentPacks.resolve(categoryId, 'ru')!;
+        for (final item in pack.items) {
+          expect(item.word, item.word.toUpperCase(), reason: item.id);
+          expect(cyrillicOnly.hasMatch(item.word), isTrue,
+              reason: '${item.id}: "${item.word}"');
+        }
+      });
+
+      test('$categoryId: the distractor alphabet is Cyrillic-only and '
+          'contains every letter used by every word (never crashes the '
+          'grid-size clamp, never forces an answer letter it can\'t supply)',
+          () {
+        final pack = SpellingContentPacks.resolve(categoryId, 'ru')!;
+        expect(cyrillicOnly.hasMatch(pack.alphabet), isTrue);
+        final alphabetSet = pack.alphabet.split('').toSet();
+        for (final item in pack.items) {
+          for (final letter in item.word.split('')) {
+            expect(alphabetSet.contains(letter), isTrue,
+                reason: '${item.id}: "$letter" missing from pack.alphabet');
+          }
+        }
+      });
+
+      test('$categoryId: no word exceeds 10 unique letters (the current '
+          'grid-size ceiling in generic_game_screen.dart — GridSize.clamp('
+          'uniqueCount, 10) throws above that until Phase 3 redesigns it)',
+          () {
+        final pack = SpellingContentPacks.resolve(categoryId, 'ru')!;
+        for (final item in pack.items) {
+          final uniqueCount = item.word.split('').toSet().length;
+          expect(uniqueCount, lessThanOrEqualTo(10), reason: item.id);
+        }
+      });
+
+      test('$categoryId: ru item count matches en item count (same '
+          'concepts, just a different word per locale)', () {
+        final en = SpellingContentPacks.resolve(categoryId, 'en')!;
+        final ru = SpellingContentPacks.resolve(categoryId, 'ru')!;
+        expect(ru.items.length, en.items.length);
+      });
+
+      test('$categoryId: every ru item has a unique, ascii, locale-scoped '
+          'id', () {
+        final pack = SpellingContentPacks.resolve(categoryId, 'ru')!;
+        final ids = pack.items.map((i) => i.id).toSet();
+        expect(ids.length, pack.items.length);
+        for (final item in pack.items) {
+          expect(item.id, startsWith('ru.$categoryId.'));
+          expect(RegExp(r'^[a-z0-9_.]+$').hasMatch(item.id), isTrue,
+              reason: item.id);
+        }
+      });
+    }
+
+    test('numbers stay in numeric order (the length-sort exemption applies '
+        'from Phase 2b onward, but numeric order must already hold)', () {
+      final pack = SpellingContentPacks.resolve('numbers', 'ru')!;
+      expect(pack.ordered, isTrue);
+      const expectedOrder = [
+        '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13',
+        '15', '20',
+      ];
+      expect(pack.items.map((i) => i.display).toList(), expectedOrder);
+    });
   });
 }

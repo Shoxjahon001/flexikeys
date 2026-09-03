@@ -1,5 +1,83 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 2: Russian content (2026-09-03)
+
+**What changed**
+
+- `ContentItem` gained an optional `pronunciation` field + `spokenText`
+  getter (`pronunciation ?? word`) — needed because Cyrillic Ь/Ъ have no
+  standalone letter sound and must be spoken by *name* ("мягкий знак" /
+  "твёрдый знак") rather than the raw glyph. Every other item is unaffected
+  (`pronunciation: null`, `spokenText == word`).
+- `letters_content_packs.dart`: English completed from A-O (15) to the full
+  A-Z (26). Added the Russian pack — all 33 letters of the modern alphabet,
+  in order; Ё included as its own letter (distinct from Е, real "yo"
+  sound, no override needed); Ь/Ъ use the `pronunciation` override above.
+- `spelling_content_packs.dart`: added `ru` packs for Numbers, Colors,
+  Fruits, Animals, Food — same item counts and concepts as `en`
+  (e.g. `animals.zebra` → ЗЕБРА), each with `alphabet` set to the full
+  33-letter Cyrillic string (`_cyrillicAlphabet`, one shared constant so it
+  can't drift). Numbers stay `ordered: true` in numeric order, matching en.
+- `letters_stage1_screen.dart`: the hardcoded mid-level celebration trigger
+  (`_current == 7`, tuned for the old fixed 15-letter English list) is now
+  `_current == _letters.length ~/ 2` — verified to reproduce the exact same
+  trigger point for N=15 (`15 ~/ 2 == 7`), and generalizes correctly for
+  N=26 (English) and N=33 (Russian). Every TTS call site now routes through
+  `_speakTextFor()`, which looks up `spokenText` so Ь/Ъ are pronounced
+  correctly instead of TTS trying to voice the bare glyph.
+
+**A known interim UX gap, flagged rather than silently shipped**: Russian
+Letters is 33 items in a single flat run today — Phase 2b (not yet built)
+is what chunks this into digestible groups via the `LetterGroup`/
+`LetterGroupsScreen` pattern already proven in the Drawing module. Until
+2b lands, a Russian child does one longer continuous letters run with one
+proportional celebration break in the middle — functional and not a
+"failure" by CLAUDE.md's rules, just not optimally paced yet.
+
+**Words with a real length "jump" worth a second look** (flagging per your
+own instruction, not silently avoided): Colors jumps from 4-7 unique
+letters up to ФИОЛЕТОВЫЙ (9) and КОРИЧНЕВЫЙ (10, right at the current
+technical ceiling — see below); Fruits jumps from 3 up to АПЕЛЬСИН/
+ВИНОГРАД (8). These are the standard, correct Russian words — I didn't
+find shorter true synonyms — but call them out per your instruction rather
+than deciding unilaterally.
+
+**Real technical ceiling, not just a UX nicety**: `generic_game_screen.dart`'s
+`_gridSize` does `target.clamp(uniqueCount, 10)`, which *throws* if a
+word's unique-letter count exceeds 10 — untouched in this phase (that's
+Phase 3's job). Every ru word was individually checked and is verified
+by a test to be ≤10 unique letters (max: КОРИЧНЕВЫЙ at exactly 10, which
+is safe but leaves zero distractor room — the single most
+Phase-3-motivating data point in this set).
+
+**Tests** (49 new/changed, 292/292 total passing)
+
+- Letters: full 33-letter Russian alphabet order/ids, Ё distinctness,
+  Ъ/Ь pronunciation overrides, English A-Z snapshot, ascii-id checks.
+- Spelling packs: per-category script-purity (every `ru` word and the
+  `alphabet` pool match `^[А-ЯЁ]+$`, i.e. zero Latin characters can appear
+  — this is the "assertion that fails loudly on mixed scripts" the spec
+  asked for), alphabet-pool coverage (every word's letters exist in the
+  pool), the ≤10-unique-letter safety ceiling, item-count parity with en,
+  ascii-id uniqueness, and numbers-stay-numeric-order.
+
+**Verification**: `flutter analyze` clean (1 pre-existing unrelated lint);
+`flutter test` 292/292 passing.
+
+**What's left to do**
+
+1. Your review of the Russian word list (see chat) before anything further
+   lands on top of it.
+2. Phase 2b — propose the exact 33-letter grouping split and the group
+   navigation UX (sequential unlock vs. all-visible) for approval before
+   building.
+3. Phase 3 — Cyrillic keyboard: length-scaled key count, narrow-device
+   touch-target fix, and — informed by this phase's data — a proper answer
+   for the КОРИЧНЕВЫЙ-style zero-distractor edge case.
+4. Phase 4 — Russian audio pipeline (still no bundled audio for level
+   content at all; this is a new build against `ru-RU-SvetlanaNeural`,
+   not an extension of an existing one).
+
 ## Russian learning-content localization — Phase 1: content architecture (2026-09-03)
 
 **Context**: FlexiKeys' Letters/Numbers/Colors/Fruits/Animals/Food spelling
