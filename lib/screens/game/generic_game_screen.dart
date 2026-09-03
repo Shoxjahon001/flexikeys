@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../data/level_configs.dart';
+import '../../data/content_packs/content_pack.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
@@ -10,9 +10,9 @@ import '../../services/tts_service.dart';
 import '../../services/sound_service.dart';
 import '../../services/progress/progress_repository.dart';
 
-/// [LevelConfig.instruction] can't be a localized string on a `const`
-/// config (no `BuildContext` at compile time), so the mascot instruction is
-/// derived from the stable `LevelConfig.id` at render time instead.
+/// A localized instruction string can't live on a `const` [ContentPack]
+/// (no `BuildContext` at compile time), so the mascot instruction is
+/// derived from the stable `ContentPack.categoryId` at render time instead.
 String _instructionFor(BuildContext context, String configId) {
   final t = AppLocalizations.of(context)!;
   switch (configId) {
@@ -39,8 +39,8 @@ class GenericGameScreen extends StatefulWidget {
 }
 
 class _GenericGameScreenState extends State<GenericGameScreen> {
-  LevelConfig? _config;
-  List<GameItem> _questions = [];
+  ContentPack? _config;
+  List<ContentItem> _questions = [];
   int _current = 0;
 
   /// Letters tapped so far for the current word (in order).
@@ -62,7 +62,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     super.didChangeDependencies();
     if (_config == null) {
       final args = ModalRoute.of(context)?.settings.arguments;
-      if (args is LevelConfig) {
+      if (args is ContentPack) {
         _config = args;
         _initQuestions();
       }
@@ -72,7 +72,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   void _initQuestions() {
     final cfg = _config!;
     final count = cfg.questionCount.clamp(1, cfg.items.length);
-    final list = List<GameItem>.from(cfg.items);
+    final list = List<ContentItem>.from(cfg.items);
     if (!cfg.ordered) list.shuffle(_rng);
     _questions = list.take(count).toList();
     _resetWord();
@@ -85,8 +85,9 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       _grid = _buildGrid(_questions[_current].word, _gridSize);
     });
     final capturedWord = _questions[_current].word;
+    final locale = _config!.locale;
     Future.delayed(const Duration(milliseconds: 350), () {
-      TtsService.instance.speak(capturedWord);
+      TtsService.instance.speak(capturedWord, locale: locale);
     });
   }
 
@@ -113,8 +114,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
   List<String> _buildGrid(String word, int count) {
     final needed = word.split('').toSet().toList();
-    final pool = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
-      ..removeWhere(needed.contains);
+    final pool = _config!.alphabet.split('')..removeWhere(needed.contains);
     pool.shuffle(_rng);
     final extras = pool.take((count - needed.length).clamp(0, 26)).toList();
     return ([...needed, ...extras]..shuffle(_rng)).take(count).toList();
@@ -145,7 +145,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       final next = [..._tapped, letter];
       setState(() => _tapped = next);
       if (next.length >= _word.length) {
-        TtsService.instance.speak(_word);
+        TtsService.instance.speak(_word, locale: _config!.locale);
         Future.delayed(const Duration(milliseconds: 500), _advance);
       }
     } else {
@@ -183,10 +183,10 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   Future<void> _onComplete() async {
     final cfg = _config!;
     await UserService.addStars(cfg.starsReward);
-    await UserService.completeLevel(cfg.id);
+    await UserService.completeLevel(cfg.categoryId);
     await UserService.addTimeSpent(5);
     ProgressRepository.instance
-        .recordLevelCompleteAndSync(cfg.id, stars: cfg.starsReward);
+        .recordLevelCompleteAndSync(cfg.categoryId, stars: cfg.starsReward);
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/level_complete',
         arguments: {'starsEarned': cfg.starsReward});
@@ -231,15 +231,13 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
   // ─── Header ────────────────────────────────────────────────────────────────
 
-  /// [LevelConfig.title] is an internal English identifier, not display
-  /// copy — curriculum/spelling word content intentionally stays
-  /// untranslated (see localization plan), but this header IS chrome (a
-  /// screen title, not a word to spell), so it maps [LevelConfig.id] to
-  /// the same localized level-title strings the level-select card
-  /// (levels_screen.dart) already uses, rather than showing English
-  /// regardless of app language.
+  /// [ContentPack.title] is an internal identifier, not display copy — the
+  /// pack's locale governs the spelling *word*, but this header IS chrome (a
+  /// screen title, not a word to spell), so it maps [ContentPack.categoryId]
+  /// to the same localized level-title strings the level-select card
+  /// (levels_screen.dart) already uses.
   String _localizedTitle(AppLocalizations t) {
-    switch (_config!.id) {
+    switch (_config!.categoryId) {
       case 'numbers':
         return t.levelTitleNumbers;
       case 'colors':
@@ -347,7 +345,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
                 ],
               ),
               child: Text(
-                _instructionFor(context, _config!.id),
+                _instructionFor(context, _config!.categoryId),
                 style: GoogleFonts.nunito(
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
@@ -362,7 +360,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
   // ─── Question card ─────────────────────────────────────────────────────────
 
-  Widget _buildQuestionCard(GameItem item) {
+  Widget _buildQuestionCard(ContentItem item) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
@@ -393,7 +391,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
                   _buildHint(item),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () => TtsService.instance.speak(item.word),
+                    onTap: () => TtsService.instance
+                        .speak(item.word, locale: _config!.locale),
                     child: Container(
                       width: 44,
                       height: 44,
@@ -419,7 +418,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     );
   }
 
-  Widget _buildHint(GameItem item) {
+  Widget _buildHint(ContentItem item) {
     // ── Color swatch ──
     if (item.tileColor != null) {
       return Container(

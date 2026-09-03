@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import '../l10n/app_localizations.dart';
 import '../design_system/design_system.dart';
 import '../services/user_service.dart';
-import '../data/level_configs.dart';
+import '../data/content_packs/spelling_content_packs.dart';
+import '../data/content_packs/letters_content_packs.dart';
 import '../data/trace_items/letters_trace_data.dart';
 import '../features/aac/presentation/aac_home_screen.dart';
 
@@ -155,10 +156,12 @@ class _LevelsScreenState extends State<LevelsScreen> {
 
   Future<void> _onLevelTap(_LevelItem level) async {
     if (level.locked) return;
+    final uiLocale = Localizations.localeOf(context).languageCode;
     if (level.id == 'letters') {
-      await Navigator.pushNamed(context, '/game_stage1');
+      final pack = LettersContentPacks.resolve(uiLocale);
+      await Navigator.pushNamed(context, '/game_stage1', arguments: pack);
     } else {
-      final config = LevelConfigs.getById(level.id);
+      final config = SpellingContentPacks.resolve(level.id, uiLocale);
       if (config == null) return;
       await Navigator.pushNamed(context, '/generic_game', arguments: config);
     }

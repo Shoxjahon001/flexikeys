@@ -1,5 +1,90 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 1: content architecture (2026-09-03)
+
+**Context**: FlexiKeys' Letters/Numbers/Colors/Fruits/Animals/Food spelling
+tasks were English-only regardless of UI language. Phase 0 investigation
+(not repeated here) found two disconnected systems in the codebase — the
+one that actually ships (`lib/data/level_configs.dart` +
+`GenericGameScreen`/`LettersStage1Screen`, hardcoded English) and a fully
+localized but completely unwired one (`shared/curriculum/*.json` +
+`LessonPlayerScreen`, unreachable from the app). Decision: target the
+shipped system only; the dormant one stays untouched.
+
+**What changed (pure architecture — no new words added yet)**
+
+- New `lib/data/content_packs/` module:
+  - `content_pack.dart` — `ContentItem` (stable locale-scoped id, e.g.
+    `'en.animals.zebra'`, used for audio lookup/progress — never a
+    positional index), `ContentPack` (one category's content for one
+    locale), `ContentPackResolver` (resolves a UI locale to its pack,
+    falling back to `en` with a loud `debugPrint` when a locale has no
+    pack of its own — a silent fallback would ship English words to a
+    non-English child with no visible sign anything was wrong).
+  - `spelling_content_packs.dart` — `en` packs for numbers/colors/fruits/
+    animals/food, migrated verbatim from the old `LevelConfig`/`GameItem`
+    data (same ids, words, order, star rewards, colors).
+  - `letters_content_packs.dart` — `en` pack for Letters (A-O, 15 letters),
+    migrated verbatim from `LettersStage1Screen`'s old hardcoded list.
+    Completing English to the full A-Z, and adding the Russian pack, are
+    both deferred to Phase 2 (content-writing) — kept out of this
+    architecture-only phase so its "behavior unchanged" claim stays exact.
+- `lib/screens/levels_screen.dart` — `_onLevelTap` now resolves the
+  category's pack via `SpellingContentPacks.resolve`/
+  `LettersContentPacks.resolve` using `Localizations.localeOf(context)`
+  (the UI language notifier, not a separate content-language setting, per
+  spec) and passes the resolved `ContentPack` as the route argument.
+- `lib/screens/game/generic_game_screen.dart` and
+  `lib/screens/game/letters_stage1_screen.dart` — consume `ContentPack`/
+  `ContentItem` instead of `LevelConfig`/`GameItem`; the distractor
+  alphabet pool moved from a hardcoded literal into `ContentPack.alphabet`
+  (still `'ABCDEFGHIJKLMNOPQRSTUVWXYZ'` for `en`, ready for a Cyrillic pool
+  in Phase 3); every `TtsService.speak(...)` call now passes
+  `locale: pack.locale` explicitly (was implicitly `'en'` before — for
+  every pack that exists today that's the same value, so behavior is
+  unchanged, but the plumbing is now real end-to-end for Phase 4).
+- Deleted `lib/data/level_configs.dart` (fully superseded, zero remaining
+  references).
+- `LettersStage2Screen` (a redundant, unreachable `ONE`-`TEN` spelling
+  screen — confirmed dead code, no navigation path reaches it) was
+  deliberately left untouched, per an explicit decision to keep it out of
+  scope.
+
+**Tests** (28 new, 255/255 total passing)
+
+- `test/data/content_packs/{content_pack,spelling_content_packs,
+  letters_content_packs}_test.dart` — snapshot every id/word/color/flag in
+  every `en` pack against the pre-refactor data; verify `uz`/`ru` both
+  resolve to the byte-identical `en` pack instance today (proving the
+  hard "EN/UZ behavior unchanged" constraint at the data layer).
+- `test/screens/game/{generic_game_screen,letters_stage1_screen}_test.dart`
+  — widget-level wiring smoke tests (push the real route with a resolved
+  pack argument, assert the right word/letter renders) — catches route-
+  argument-plumbing mistakes a data-only test can't. Needed a realistic
+  phone-sized test surface (390x844); the default 800x600 test canvas is
+  shorter than any real phone and overflowed this screen's `Column` —
+  same class of viewport issue Phase 0 flagged as a pre-existing risk on
+  narrow real devices, now also visible in the test harness.
+
+**Verification**: `flutter analyze` clean (1 pre-existing unrelated lint);
+`flutter test` 255/255 passing.
+
+**What's left to do (see PHASE 0 report in conversation for full plan)**
+
+1. Phase 2 — write the Russian content packs (all 5 categories + full
+   33-letter alphabet) and complete English Letters to A-Z alongside it;
+   propose the full word list for review before landing.
+2. Phase 2b — chunk Russian's 33 letters (English's 26 stays a single flat
+   run, unchanged) into groups using the existing `LetterGroup`/
+   `LetterGroupsScreen` pattern already proven in the Drawing module.
+3. Phase 3 — Cyrillic keyboard: `ContentPack.alphabet` already threads a
+   locale-specific distractor pool through; still need the length-scaled
+   key-count function and narrow-device layout fix (see Phase 0's flagged
+   pre-existing touch-target gap at 10-key boards).
+4. Phase 4 — Russian audio pipeline (level content currently has *no*
+   bundled audio at all, live Google-Translate TTS only — this is a new
+   build, not an extension, following AAC's `ru-RU-SvetlanaNeural` voice).
+
 ## Uzbek AAC voiceovers — human recordings wired in (2026-09-02)
 
 **What changed**

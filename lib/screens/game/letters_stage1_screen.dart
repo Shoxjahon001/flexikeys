@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../data/content_packs/content_pack.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
@@ -19,23 +20,8 @@ class LettersStage1Screen extends StatefulWidget {
 
 class _LettersStage1ScreenState extends State<LettersStage1Screen>
     with TickerProviderStateMixin {
-  static const _letters = [
-    'A',
-    'B',
-    'C',
-    'D',
-    'E',
-    'F',
-    'G',
-    'H',
-    'I',
-    'J',
-    'K',
-    'L',
-    'M',
-    'N',
-    'O'
-  ];
+  ContentPack? _pack;
+  late List<String> _letters;
 
   int _current = 0;
   String? _selected;
@@ -61,10 +47,24 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
         vsync: this, duration: const Duration(milliseconds: 300));
     _correctScale = Tween<double>(begin: 1.0, end: 1.12).animate(
         CurvedAnimation(parent: _correctCtrl, curve: Curves.elasticOut));
-    _buildChoicesDirect();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) TtsService.instance.speak(_letters[_current]);
-    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_pack == null) {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      if (args is ContentPack) {
+        _pack = args;
+        _letters = _pack!.items.map((i) => i.word).toList();
+        _buildChoicesDirect();
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) {
+            TtsService.instance.speak(_letters[_current], locale: _pack!.locale);
+          }
+        });
+      }
+    }
   }
 
   @override
@@ -87,8 +87,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
     _buildChoicesDirect();
     setState(() {});
     final capturedTarget = _currentTarget;
+    final locale = _pack!.locale;
     Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) TtsService.instance.speak(capturedTarget);
+      if (mounted) TtsService.instance.speak(capturedTarget, locale: locale);
     });
   }
 
@@ -175,6 +176,9 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
 
   @override
   Widget build(BuildContext context) {
+    if (_pack == null) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
     final target = _currentTarget;
     return Scaffold(
       body: Container(
@@ -374,7 +378,8 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                   ),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () => TtsService.instance.speak(target),
+                    onTap: () =>
+                        TtsService.instance.speak(target, locale: _pack!.locale),
                     child: Container(
                       width: 44,
                       height: 44,
