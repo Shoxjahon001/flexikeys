@@ -1,5 +1,70 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 3: Cyrillic keyboard (2026-09-03)
+
+**What changed**
+
+- New `lib/data/content_packs/keyboard_key_count.dart`: `keyCountFor(int
+  uniqueLetterCount)` — the single, unit-tested mapping from an answer's
+  unique-letter count to board size (6→8→10, targeting ~3 distractors,
+  degrading gracefully to as few as 0 once the 10-key ceiling can't fit
+  the target — true today only for КОРИЧНЕВЫЙ, exactly 10 unique letters).
+  Full generated table reviewed and approved before wiring (see chat).
+  Also `stableHash(text)` — the same DJB2 hash `TtsService._key` already
+  uses, reused here to seed a deterministic per-item `Random` so a given
+  item's keyboard always shuffles the same way (a retry/relaunch shows
+  the identical board).
+- `ContentPack` gained `answerDrivenKeyCount: bool` (default false). When
+  true: `GenericGameScreen`'s key count comes from `keyCountFor` instead
+  of the old position-based 6/8/10 stages, and the grid shuffle is seeded
+  from `stableHash(item.id)` instead of the screen's shared unseeded
+  `Random`. Set `true` on all 5 `ru` spelling packs; every `en`/`uz` pack
+  leaves it `false` and is provably byte-identical to before this phase
+  (see the regression-guard test below) — applying this universally would
+  have changed English's existing behavior (a real tension between the
+  spec's general framing and the hard "EN/UZ unchanged" constraint,
+  resolved in favor of the constraint, flagged and confirmed in chat).
+- Narrow-device layout fix: 8- and 10-key boards (when
+  `answerDrivenKeyCount`) now share a 4-column layout — a plain 2×5 grid
+  computed to ~53pt tiles on a 320pt-wide device, well under the 64dp
+  child touch-target minimum; 4 columns (10 wraps to 3 rows) holds ≥64dp
+  down to that same width. En/uz keep the exact original 5-column layout
+  at >8 keys, untouched. Reclaiming the vertical room a 3rd grid row
+  needs on a short device required trimming several paddings/gaps
+  (section gaps, question-card padding, the digit-hint tile size) — all
+  gated behind the same flag, so en/uz spacing is pixel-for-pixel
+  unchanged.
+- Answer slots: no new code needed — the existing `FittedBox(fit:
+  BoxFit.scaleDown)` around the word-boxes row already scales the whole
+  row down uniformly rather than clipping/overflowing, verified to hold
+  up at the longest real word (ОДИННАДЦАТЬ, 11 characters) on the
+  narrowest device.
+
+**Tests** (13 new, 323/323 total passing):
+- `keyCountFor`/`stableHash` unit tests (monotonic, never below the
+  answer's own letter count, deterministic, no collisions among real ids).
+- The exact scenario the spec named: ОДИННАДЦАТЬ (longest ru word, 10-key
+  board) rendered at 320×568 — asserts zero exceptions, all 10 tiles
+  ≥64dp, every letter still findable (not clipped).
+- КОРИЧНЕВЫЙ (the zero-distractor edge case) — renders without crashing.
+- Regression guard: an `en` word forced onto a 10-key board still uses
+  5 columns, not the new 4-column ru layout (this test exists because I
+  initially wrote the layout fix unconditionally and caught the EN
+  regression myself before it shipped).
+- Determinism: pushing the identical `ru` item twice produces the
+  identical keyboard tile order both times.
+
+**Verification**: `flutter analyze` clean (1 pre-existing unrelated lint);
+`flutter test` 323/323 passing.
+
+**What's left to do**
+
+1. Phase 4 — Russian audio pipeline (still no bundled audio for level
+   content at all; a new build against `ru-RU-SvetlanaNeural`).
+2. Manual QA once Phase 4 lands: a real device playthrough — Phase 3 was
+   verified with widget tests (including an actual 320×568 render) but
+   not a physical device.
+
 ## Russian learning-content localization — Phase 2b: sequencing & grouping (2026-09-03)
 
 **What changed**

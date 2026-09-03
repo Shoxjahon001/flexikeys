@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../data/content_packs/content_pack.dart';
+import '../../data/content_packs/keyboard_key_count.dart';
 import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
@@ -81,7 +82,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     setState(() {
       _tapped = [];
       _flashWrong = null;
-      _grid = _buildGrid(_questions[_current].word, _gridSize);
+      _grid = _buildGrid(_questions[_current], _gridSize);
     });
     final capturedWord = _questions[_current].word;
     final locale = _config!.locale;
@@ -92,13 +93,16 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
 
   // ─── Progressive difficulty ────────────────────────────────────────────────
 
-  /// Grid tile count grows in three stages as the level progresses:
-  ///   First  third → 6 tiles (easier start)
-  ///   Middle third → 8 tiles
-  ///   Last   third → 10 tiles (most distractors, hardest)
-  /// Always at least as many tiles as unique letters in the current word.
+  /// Grid tile count. When `_config!.answerDrivenKeyCount` is set
+  /// (Russian's word categories), driven by the current answer's own
+  /// unique-letter count via [keyCountFor] — see keyboard_key_count.dart
+  /// for the exact mapping. Otherwise (every en/uz category, unchanged
+  /// from before this existed): grows in three stages as the level
+  /// progresses — first third → 6 tiles, middle third → 8, last third →
+  /// 10 — clamped to be at least the current word's unique-letter count.
   int get _gridSize {
     final uniqueCount = _word.split('').toSet().length;
+    if (_config!.answerDrivenKeyCount) return keyCountFor(uniqueCount);
     final total = _questions.length;
     final int target;
     if (_current < total ~/ 3) {
@@ -111,12 +115,20 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     return target.clamp(uniqueCount, 10);
   }
 
-  List<String> _buildGrid(String word, int count) {
-    final needed = word.split('').toSet().toList();
+  /// [rng] is seeded from the item's own stable id when
+  /// `answerDrivenKeyCount` is set, so the same item always shuffles the
+  /// same way (a retry/relaunch shows the same board) — otherwise the
+  /// screen's own shared, unseeded [_rng], unchanged from before this
+  /// existed.
+  List<String> _buildGrid(ContentItem item, int count) {
+    final rng = _config!.answerDrivenKeyCount
+        ? Random(stableHash(item.id))
+        : _rng;
+    final needed = item.word.split('').toSet().toList();
     final pool = _config!.alphabet.split('')..removeWhere(needed.contains);
-    pool.shuffle(_rng);
+    pool.shuffle(rng);
     final extras = pool.take((count - needed.length).clamp(0, 26)).toList();
-    return ([...needed, ...extras]..shuffle(_rng)).take(count).toList();
+    return ([...needed, ...extras]..shuffle(rng)).take(count).toList();
   }
 
   // ─── Helpers ───────────────────────────────────────────────────────────────
@@ -214,13 +226,13 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
             children: [
               _buildHeader(),
               _buildProgressBar(),
-              const SizedBox(height: 14),
+              SizedBox(height: _sectionGap),
               _buildMascotBubble(),
-              const SizedBox(height: 14),
+              SizedBox(height: _sectionGap),
               _buildQuestionCard(item),
               const Spacer(),
               _buildLetterGrid(),
-              const SizedBox(height: 36),
+              SizedBox(height: _bottomGap),
             ],
           ),
         ),
@@ -364,7 +376,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+        padding: EdgeInsets.symmetric(
+            vertical: _useWideKeyLayout ? 12 : 20, horizontal: 16),
         decoration: BoxDecoration(
           color: Colors.white.withValues(alpha: 0.9),
           borderRadius: BorderRadius.circular(24),
@@ -409,7 +422,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
                 ],
               ),
             ),
-            const SizedBox(height: 18),
+            SizedBox(height: _useWideKeyLayout ? 10 : 18),
             _buildWordBoxes(item.word),
           ],
         ),
@@ -440,9 +453,13 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
     // ── Number digit (display contains only digit characters) ──
     final isDigit = item.display.codeUnits.every((c) => c >= 48 && c <= 57);
     if (isDigit) {
+      // Shrunk for wide-key (Russian) layouts only — reclaims vertical
+      // room a 3-row keyboard needs; en/uz keep the original 124x112.
+      final tileHeight = _useWideKeyLayout ? 86.0 : 112.0;
+      final tileWidth = _useWideKeyLayout ? 108.0 : 124.0;
       return Container(
-        width: 124,
-        height: 112,
+        width: tileWidth,
+        height: tileHeight,
         decoration: BoxDecoration(
           color: AppTheme.primary,
           borderRadius: BorderRadius.circular(24),
@@ -521,14 +538,50 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   // ─── Letter grid ───────────────────────────────────────────────────────────
 
   // Layout adapts to tile count so larger grids still look clean on screen.
-  int get _crossAxisCount =>
-      _grid.length <= 6 ? 3 : (_grid.length <= 8 ? 4 : 5);
-  double get _gridSidePad =>
-      _grid.length <= 6 ? 32.0 : (_grid.length <= 8 ? 20.0 : 12.0);
-  double get _gridItemSpacing =>
-      _grid.length <= 6 ? 14.0 : (_grid.length <= 8 ? 10.0 : 8.0);
-  double get _tileFontSize =>
-      _grid.length <= 6 ? 30.0 : (_grid.length <= 8 ? 24.0 : 20.0);
+  //
+  // For `answerDrivenKeyCount` packs (Russian's word categories, where an
+  // 8/10-key board is now common rather than rare), 8 and 10 keys share a
+  // 4-column layout — 10 wraps to a 4+4+2, 3-row grid rather than a
+  // 5-column row, which computed to ~53pt tiles on a 320pt-wide device,
+  // well under the 64dp child touch-target minimum; 4 columns holds
+  // ≥64dp down to that same width. For every en/uz pack this stays the
+  // exact original 5-column/20pad/10spacing/20font layout, unchanged —
+  // widening this fix to en/uz would itself be a visible behavior change,
+  // which the hard "EN/UZ byte-for-byte identical" rule forbids even
+  // though the narrow-device gap it fixes is real and pre-existing there
+  // too (see PROGRESS.md).
+  bool get _useWideKeyLayout => _config!.answerDrivenKeyCount;
+
+  // A 3-row (10-key) grid needs more vertical room than the original
+  // 2-row layout ever did — tightened section gaps reclaim it. Only
+  // engaged for `_useWideKeyLayout` packs; en/uz keep the original 14/36
+  // spacing exactly.
+  double get _sectionGap => _useWideKeyLayout ? 8.0 : 14.0;
+  double get _bottomGap => _useWideKeyLayout ? 12.0 : 36.0;
+
+  int get _crossAxisCount {
+    if (_grid.length <= 6) return 3;
+    if (_useWideKeyLayout) return 4;
+    return _grid.length <= 8 ? 4 : 5;
+  }
+
+  double get _gridSidePad {
+    if (_grid.length <= 6) return 32.0;
+    if (_useWideKeyLayout) return 12.0;
+    return _grid.length <= 8 ? 20.0 : 12.0;
+  }
+
+  double get _gridItemSpacing {
+    if (_grid.length <= 6) return 14.0;
+    if (_useWideKeyLayout) return 6.0;
+    return _grid.length <= 8 ? 10.0 : 8.0;
+  }
+
+  double get _tileFontSize {
+    if (_grid.length <= 6) return 30.0;
+    if (_useWideKeyLayout) return 24.0;
+    return _grid.length <= 8 ? 24.0 : 20.0;
+  }
 
   Widget _buildLetterGrid() {
     final spacing = _gridItemSpacing;

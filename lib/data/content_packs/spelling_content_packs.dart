@@ -55,6 +55,7 @@ const Map<String, ContentPack> _numbersPacks = {
     questionCount: 15,
     ordered: true,
     alphabet: _cyrillicAlphabet,
+    answerDrivenKeyCount: true,
     nextLevelToUnlock: 'colors',
     items: [
       ContentItem(id: 'ru.numbers.1', display: '1', word: 'ОДИН'),
@@ -145,6 +146,7 @@ const Map<String, ContentPack> _colorsPacks = {
     alphabet: _cyrillicAlphabet,
     // Difficulty ramps by answer length ascending — see Phase 2b design.
     lengthSort: true,
+    answerDrivenKeyCount: true,
     nextLevelToUnlock: 'fruits',
     items: [
       ContentItem(
@@ -232,6 +234,7 @@ const Map<String, ContentPack> _fruitsPacks = {
     questionCount: 12,
     alphabet: _cyrillicAlphabet,
     lengthSort: true,
+    answerDrivenKeyCount: true,
     nextLevelToUnlock: 'animals',
     items: [
       ContentItem(id: 'ru.fruits.apple', display: '🍎', word: 'ЯБЛОКО'),
@@ -280,6 +283,7 @@ const Map<String, ContentPack> _animalsPacks = {
     questionCount: 12,
     alphabet: _cyrillicAlphabet,
     lengthSort: true,
+    answerDrivenKeyCount: true,
     nextLevelToUnlock: 'food',
     items: [
       ContentItem(id: 'ru.animals.cat', display: '🐱', word: 'КОШКА'),
@@ -326,6 +330,7 @@ const Map<String, ContentPack> _foodPacks = {
     questionCount: 10,
     alphabet: _cyrillicAlphabet,
     lengthSort: true,
+    answerDrivenKeyCount: true,
     nextLevelToUnlock: null,
     items: [
       ContentItem(id: 'ru.food.pizza', display: '🍕', word: 'ПИЦЦА'),

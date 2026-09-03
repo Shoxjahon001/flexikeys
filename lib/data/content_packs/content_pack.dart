@@ -85,6 +85,17 @@ class ContentPack {
   /// (e.g. Numbers, which must stay numeric — use [ordered] for that).
   final bool lengthSort;
 
+  /// When true, the spelling-task keyboard's key count is driven by each
+  /// answer's own unique-letter count via [keyCountFor] (see
+  /// keyboard_key_count.dart), and its distractor shuffle is seeded
+  /// deterministically per [ContentItem.id] (a retry/relaunch always shows
+  /// the same board for the same item). False (default) preserves today's
+  /// exact position-based sizing (`GenericGameScreen._gridSize`) and
+  /// unseeded per-session shuffle — switching this to true is an
+  /// observable behavior change, so it must stay false for every existing
+  /// `en`/`uz` pack per the hard "EN/UZ byte-for-byte identical" rule.
+  final bool answerDrivenKeyCount;
+
   const ContentPack({
     required this.categoryId,
     required this.locale,
@@ -97,6 +108,7 @@ class ContentPack {
     this.starsReward = 10,
     this.groupSizes,
     this.lengthSort = false,
+    this.answerDrivenKeyCount = false,
   });
 }
 
