@@ -699,6 +699,16 @@ class _TracePainter extends CustomPainter {
       ..style = PaintingStyle.stroke;
 
     for (final path in def.ghost) {
+      // A single-point ghost "path" (e.g. Cyrillic Ё's two diaeresis dots —
+      // a real point in the source data, not a line) has no segment to
+      // stroke; draw it as a filled ghost dot instead of silently
+      // dropping it. This is the only ghost element that isn't a traced
+      // line — [_drawDemo] mirrors this same case.
+      if (path.length == 1) {
+        final p = Offset(path[0].dx * size.width, path[0].dy * size.height);
+        canvas.drawCircle(p, 5, Paint()..color = const Color(0xFFC2CFEE));
+        continue;
+      }
       if (path.length < 2) continue;
       final pts = path
           .map((p) => Offset(p.dx * size.width, p.dy * size.height))
@@ -793,6 +803,15 @@ class _TracePainter extends CustomPainter {
     for (int i = 0; i < fullIdx; i++) {
       final (pt, isNew) = flat[i];
       final (ptNext, nextIsNew) = flat[i + 1];
+      // An orphan single-point "stroke" (e.g. one of Cyrillic Ё's two
+      // diaeresis dots — a real point in the source data, not a line) has
+      // no segment to draw a line to; render it as a filled dot instead,
+      // matching [_drawGhost]'s same case.
+      if (isNew && nextIsNew) {
+        canvas.drawCircle(pt, 5, Paint()..color = penColor);
+        path = null;
+        continue;
+      }
       if (isNew || path == null) {
         path = Path()..moveTo(pt.dx, pt.dy);
       }
@@ -808,6 +827,12 @@ class _TracePainter extends CustomPainter {
     // Partial current segment
     final (curPt, curIsNew) = flat[fullIdx];
     final (nxtPt, nxtIsNew) = flat[fullIdx + 1];
+    if (curIsNew && nxtIsNew) {
+      // The demo's progress marker is currently sitting exactly on an
+      // orphan single-point stroke — show it as already placed rather
+      // than skipping straight past it.
+      canvas.drawCircle(curPt, 5, Paint()..color = penColor);
+    }
     if (!nxtIsNew) {
       final partialEnd = curPt + (nxtPt - curPt) * frac;
       canvas.drawLine(curPt, partialEnd, paint);

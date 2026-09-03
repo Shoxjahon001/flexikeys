@@ -1,5 +1,95 @@
 # Progress Log
 
+## Cyrillic letter-tracing geometry — transcription + render/animate wiring (2026-09-03, awaiting contact-sheet review before validation tolerance is touched)
+
+Transcribed the provided 33-letter Cyrillic stroke spec (SVG-path-style
+M/L/Q/DOT commands, verbatim, into the existing `TraceItemDef` schema) and
+wired it into the Drawing module's Letters section for `ru`. Per the
+request's own explicit gate, **validation-tolerance tuning is
+deliberately not done yet** — everything else (transcription, transform,
+rendering, animation, grouping, safety checks) is done and live.
+
+**Coordinate transform** — one uniform scale, no shear (a different scale
+per axis would shear the letters): the existing Latin data uses a 0-1
+canvas with y=0.15 (cap line) / y=0.87 (baseline), a span of 0.72. Applying
+that *same* scale factor to x, centered on the source box's x midpoint:
+`scale = 0.0072`, `x_out = x_in*scale + 0.14`, `y_out = y_in*scale + 0.15`.
+Verified: Cyrillic А's apex lands at y=0.15, identical to Latin A's own
+apex — same cap line, as expected from a correct transform.
+
+**Real schema gap found and fixed, not silently faked**: the existing
+renderer has no concept of a filled "dot" ghost mark — only numbered
+waypoint circles (derived from stroke endpoints) and traced lines. Ё's two
+`DOT` commands (the diaeresis) don't fit either. Represented each as its
+own single-point "stroke" (gets a waypoint number, like every other point)
+and added a small, explicit rendering case to both `_drawGhost` and
+`_drawDemo` in `trace_drawing_screen.dart` — draws a filled circle for a
+1-point ghost path instead of silently skipping it (both functions
+previously did `if (path.length < 2) continue/return`). Documented inline;
+not a "fake with tiny line segments."
+
+**Verified, not assumed**:
+- No stroke-count assumption exists anywhere in the ghost/demo/dot
+  rendering or accuracy scoring — confirmed by reading every code path,
+  then proven with a widget test that renders Д (5 strokes) and Ё (6
+  strokes, more than any Latin letter) through the real screen, including
+  stepping through the full demo animation.
+- Descenders don't clip: the canvas has no clip boundary at the
+  0.87-baseline guide line (that's just a drawn reference line, not a
+  clip rect) — Д/У/Ц/Щ's descenders land as high as y=0.9564, comfortably
+  inside the 0-1 canvas. Tested numerically for all four letters.
+- No `ru` label collides with an `en` label — Cyrillic А/В/Е/К/М/Н/О/Р/С/Т/Х
+  look identical to Latin twins but are separate items with their own
+  audio lookup (`labelFor`/`ContentItem.id`-style resolution, not shared).
+
+**Grouping made data-driven** (was hardcoded per locale): extracted
+`computeGroupSizes(total)` — front-loaded 4s then 3s, the same scheme
+already used for English's 26 letters and (independently, for the Learn
+tab) Russian's 33 — into `trace_item_def.dart`, and `letters_trace_data.dart`
+now calls it instead of hardcoding `[4,4,4,4,4,3,3]`. Verified byte-identical
+output for English (7 groups, same ids/labels) and produces the expected
+9-group Russian split (А-Г, Д-Ж, З-К, Л-О, П-Т, У-Ц, Ч-Щ, Ъ-Ь, Э-Я) —
+matching, independently, the exact split already approved for the Learn
+tab's own Russian letters.
+
+**Wired into the app**: `letter_groups_screen.dart` now resolves
+`kLetterGroups` (en) vs. `kLetterGroupsRu` based on
+`Localizations.localeOf(context)`, same pattern as everywhere else in this
+project — a Russian UI now reaches real Cyrillic tracing content, not the
+Latin alphabet. `letter_drawing_screen.dart` (the *ungrouped* full-alphabet
+screen) is confirmed dead code — no navigation path reaches it — left
+untouched, consistent with this project's established precedent.
+
+**Deliverables**:
+- `tool/generate_ru_letters_trace_data.dart` — the permanent, re-runnable
+  generator. The stroke spec is transcribed once, verbatim, as structured
+  Dart data; the computer does the affine transform and curve sampling,
+  eliminating hand-arithmetic transcription risk entirely. Regenerates
+  `lib/data/trace_items/letters_trace_data_ru.dart` on demand — never
+  hand-edit that file's coordinates directly.
+- Contact sheet: published as a Claude artifact — all 33 letters rendered
+  directly from the *native, untransformed* coordinate space (independent
+  of the Flutter-space transform above), numbered dots, for a one-pass
+  visual check against the original spec. Link posted in chat.
+- 15 new tests (345/345 total passing): data-integrity (33 letters, exact
+  stroke/dot counts matching the spec, alphabetical order), the aliasing
+  check, descender-fit checks, Ё/Й dot/shift checks, grouping checks
+  (including that `computeGroupSizes` isn't special-cased to 26/33), and
+  the Д/Ё widget-render + demo-animation smoke tests.
+
+**What's still open, on purpose**:
+1. Validation-tolerance tuning (per-letter) — explicitly deferred pending
+   contact-sheet review. Found while investigating: no per-letter
+   tolerance mechanism exists *at all* today, even for the Latin letters —
+   `_computeAccuracy` is one fixed distance-to-nearest-edge formula for
+   every item. Adding real per-letter tolerance would be new schema, not
+   a re-tune of an existing field.
+2. Whether tracing the base shape alone should count as correct for Е (no
+   dots) vs Ё (2 dots) and И (no breve) vs Й (breve) — not decided.
+3. `Ъ`/`Ы`/`Ь` are visually close (all end in the same rounded-bowl
+   shape); whether the current generic distance-based scoring
+   discriminates between them meaningfully hasn't been checked.
+
 ## Russian TTS silence + Drawing-module localization bug fix (2026-09-03)
 
 **The report**: in Russian UI language, Learn-tab TTS produced no sound,

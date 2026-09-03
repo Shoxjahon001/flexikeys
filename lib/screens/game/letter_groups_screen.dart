@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import '../../design_system/design_system.dart';
 import '../../l10n/app_localizations.dart';
 import '../../services/user_service.dart';
+import '../../data/trace_items/trace_item_def.dart';
 import '../../data/trace_items/letters_trace_data.dart';
+import '../../data/trace_items/letters_trace_data_ru.dart';
 import 'trace_drawing_screen.dart';
 
-/// Sub-task picker for the Letters drawing section — 7 small groups of 3-4
-/// letters each (unlocked in sequence) instead of all 26 letters in one
-/// sitting. Tapping an unlocked group opens [TraceDrawingScreen] scoped to
-/// just that group's letters; finishing it awards 5 stars on its own.
+/// Sub-task picker for the Letters drawing section — small groups of 3-4
+/// letters each (unlocked in sequence) instead of all letters in one
+/// sitting (7 groups for English's 26 letters, 9 for Russian's 33 — see
+/// computeGroupSizes in trace_item_def.dart). Tapping an unlocked group
+/// opens [TraceDrawingScreen] scoped to just that group's letters;
+/// finishing it awards 5 stars on its own.
 class LetterGroupsScreen extends StatefulWidget {
   const LetterGroupsScreen({super.key});
 
@@ -18,6 +22,11 @@ class LetterGroupsScreen extends StatefulWidget {
 
 class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
   Set<String> _completed = {};
+
+  List<LetterGroup> _groups(BuildContext context) =>
+      Localizations.localeOf(context).languageCode == 'ru'
+          ? kLetterGroupsRu
+          : kLetterGroups;
 
   @override
   void initState() {
@@ -31,9 +40,9 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
     setState(() => _completed = completed);
   }
 
-  bool _isUnlocked(int index) {
+  bool _isUnlocked(List<LetterGroup> groups, int index) {
     if (index == 0) return true;
-    return _completed.contains(kLetterGroups[index - 1].id);
+    return _completed.contains(groups[index - 1].id);
   }
 
   void _openGroup(LetterGroup group) {
@@ -53,14 +62,14 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
   @override
   Widget build(BuildContext context) {
     final fk = FkPlayTheme.of(context);
-    final doneCount =
-        kLetterGroups.where((g) => _completed.contains(g.id)).length;
+    final groups = _groups(context);
+    final doneCount = groups.where((g) => _completed.contains(g.id)).length;
 
     return Scaffold(
       backgroundColor: fk.background,
       body: SafeArea(
         child: Column(children: [
-          _buildHeader(fk, doneCount),
+          _buildHeader(fk, groups, doneCount),
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(FkSpacing.sm),
@@ -70,8 +79,8 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
                 mainAxisSpacing: FkSpacing.sm,
                 childAspectRatio: 1.05,
               ),
-              itemCount: kLetterGroups.length,
-              itemBuilder: (context, i) => _buildGroupCard(fk, i),
+              itemCount: groups.length,
+              itemBuilder: (context, i) => _buildGroupCard(fk, groups, i),
             ),
           ),
         ]),
@@ -79,7 +88,7 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
     );
   }
 
-  Widget _buildHeader(FkPlayTheme fk, int doneCount) {
+  Widget _buildHeader(FkPlayTheme fk, List<LetterGroup> groups, int doneCount) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(
           FkSpacing.sm, FkSpacing.xs, FkSpacing.sm, 0),
@@ -104,7 +113,7 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
                 .copyWith(fontSize: 20, color: fk.ink)),
         const Spacer(),
         Text(
-          '$doneCount/${kLetterGroups.length}',
+          '$doneCount/${groups.length}',
           style: FkTextStyles.playCaption
               .copyWith(fontSize: 15, color: fk.inkSoft),
         ),
@@ -112,9 +121,9 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
     );
   }
 
-  Widget _buildGroupCard(FkPlayTheme fk, int index) {
-    final group = kLetterGroups[index];
-    final unlocked = _isUnlocked(index);
+  Widget _buildGroupCard(FkPlayTheme fk, List<LetterGroup> groups, int index) {
+    final group = groups[index];
+    final unlocked = _isUnlocked(groups, index);
     final done = _completed.contains(group.id);
 
     final Color bg = done

@@ -173,38 +173,9 @@ const List<TraceItemDef> kLetterTraceItems = [
     ghost: [[Offset(0.28,0.15),Offset(0.72,0.15),Offset(0.28,0.87),Offset(0.72,0.87)]]),
 ];
 
-/// A small sub-task inside the Letters drawing section — 3-4 letters at a
-/// time instead of all 26 in one sitting, so a session feels achievable and
-/// each one earns its own reward.
-class LetterGroup {
-  /// Also used as the level-progress slug (e.g. 'letters_group_1').
-  final String id;
-
-  /// Shown on the group's card, e.g. 'A-D'.
-  final String label;
-
-  final List<TraceItemDef> items;
-
-  const LetterGroup({required this.id, required this.label, required this.items});
-}
-
-/// 26 letters split into 7 groups of 3-4, computed from [kLetterTraceItems]
-/// so the grouping always stays in sync with the underlying letter list.
-final List<LetterGroup> kLetterGroups = _buildLetterGroups();
-
-List<LetterGroup> _buildLetterGroups() {
-  const groupSizes = [4, 4, 4, 4, 4, 3, 3]; // sums to 26
-  final groups = <LetterGroup>[];
-  int start = 0;
-  for (int i = 0; i < groupSizes.length; i++) {
-    final size = groupSizes[i];
-    final slice = kLetterTraceItems.sublist(start, start + size);
-    groups.add(LetterGroup(
-      id: 'letters_group_${i + 1}',
-      label: '${slice.first.label}-${slice.last.label}',
-      items: slice,
-    ));
-    start += size;
-  }
-  return groups;
-}
+/// 26 letters split into groups of 3-4, computed from [kLetterTraceItems]
+/// (via [computeGroupSizes]/[buildLetterGroups] in trace_item_def.dart) so
+/// the grouping always stays in sync with the underlying letter list and
+/// its count is never hardcoded here.
+final List<LetterGroup> kLetterGroups =
+    buildLetterGroups(kLetterTraceItems, 'letters_group');
