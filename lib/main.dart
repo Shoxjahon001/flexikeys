@@ -14,6 +14,7 @@ import 'features/auth/presentation/parent_signup_screen.dart';
 import 'features/auth/presentation/child_picker_screen.dart';
 import 'screens/game/letters_stage1_screen.dart';
 import 'screens/game/letters_stage2_screen.dart';
+import 'screens/game/letters_group_picker_screen.dart';
 import 'screens/game/generic_game_screen.dart';
 import 'screens/game/good_job_screen.dart';
 import 'screens/game/level_complete_screen.dart';
@@ -95,6 +96,8 @@ class FlexiKeysApp extends StatelessWidget {
           '/child_picker': (context) => const ChildPickerScreen(),
           '/game_stage1': (context) => const LettersStage1Screen(),
           '/game_stage2': (context) => const LettersStage2Screen(),
+          '/letters_group_picker': (context) =>
+              const LettersGroupPickerScreen(),
           '/generic_game': (context) => const GenericGameScreen(),
           '/good_job': (context) => const GoodJobScreen(),
           '/level_complete': (context) => const LevelCompleteScreen(),

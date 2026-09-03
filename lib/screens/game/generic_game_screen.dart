@@ -72,8 +72,7 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
   void _initQuestions() {
     final cfg = _config!;
     final count = cfg.questionCount.clamp(1, cfg.items.length);
-    final list = List<ContentItem>.from(cfg.items);
-    if (!cfg.ordered) list.shuffle(_rng);
+    final list = orderItemsForSession(cfg, _rng);
     _questions = list.take(count).toList();
     _resetWord();
   }

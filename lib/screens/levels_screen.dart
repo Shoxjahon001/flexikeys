@@ -159,7 +159,13 @@ class _LevelsScreenState extends State<LevelsScreen> {
     final uiLocale = Localizations.localeOf(context).languageCode;
     if (level.id == 'letters') {
       final pack = LettersContentPacks.resolve(uiLocale);
-      await Navigator.pushNamed(context, '/game_stage1', arguments: pack);
+      // groupSizes (data-driven, not a locale check) decides whether this
+      // pack is too long for one sitting and needs the group picker first
+      // — today only ru's 33-letter pack sets it; en/uz go straight to
+      // the task screen exactly as before.
+      final route =
+          pack.groupSizes != null ? '/letters_group_picker' : '/game_stage1';
+      await Navigator.pushNamed(context, route, arguments: pack);
     } else {
       final config = SpellingContentPacks.resolve(level.id, uiLocale);
       if (config == null) return;

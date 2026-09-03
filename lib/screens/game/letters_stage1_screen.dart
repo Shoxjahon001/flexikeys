@@ -172,19 +172,32 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   }
 
   Future<void> _onComplete() async {
-    await UserService.addStars(10);
-    await UserService.setLettersStage(1);
+    final slug = _pack!.categoryId;
+    final stars = _pack!.starsReward;
+    await UserService.addStars(stars);
     await UserService.addTimeSpent(5);
-    // Mirrors UserService.setLettersStage(1): completes both 'letters_1' and
-    // the umbrella 'letters' level.
-    ProgressRepository.instance
-        .recordLevelCompleteAndSync('letters_1', stars: 10);
-    ProgressRepository.instance
-        .recordLevelCompleteAndSync('letters', stars: 10);
+    if (slug == 'letters') {
+      // The ungrouped pack (en/uz today) — mirrors
+      // UserService.setLettersStage(1): completes both 'letters_1' and the
+      // umbrella 'letters' level. Reproduces the exact prior hardcoded
+      // behavior byte-for-byte (both packs' starsReward default to 10).
+      await UserService.setLettersStage(1);
+      ProgressRepository.instance
+          .recordLevelCompleteAndSync('letters_1', stars: stars);
+      ProgressRepository.instance
+          .recordLevelCompleteAndSync('letters', stars: stars);
+    } else {
+      // A single letter group (Russian's grouped flow — see
+      // letters_group_picker_screen.dart) completes only its own slug; the
+      // picker screen marks the umbrella 'letters'/'letters_1' complete
+      // once every group is done.
+      await UserService.completeLevel(slug);
+      ProgressRepository.instance.recordLevelCompleteAndSync(slug, stars: stars);
+    }
     if (!mounted) return;
     final title = AppLocalizations.of(context)!.correctFeedback;
     Navigator.pushReplacementNamed(context, '/level_complete', arguments: {
-      'starsEarned': 10,
+      'starsEarned': stars,
       'title': title,
     });
   }

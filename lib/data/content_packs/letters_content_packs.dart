@@ -63,6 +63,20 @@ const ContentPack _lettersRu = ContentPack(
   questionCount: 33,
   ordered: true,
   nextLevelToUnlock: 'numbers',
+  // 5, not the default 10 — this pack is presented as 9 separate groups
+  // (see groupSizes below), each independently rewarded via
+  // splitIntoGroups inheriting this value, matching the exact per-group
+  // reward already used for the Drawing module's letter groups
+  // (trace_drawing_screen.dart). The umbrella 'letters'/'letters_1'
+  // completion once every group is done (letters_group_picker_screen.dart)
+  // awards 0 additional stars — each group already paid out its own.
+  starsReward: 5,
+  // 33 letters is too long for one sitting — chunked into 9 groups of 3-4,
+  // front-loading groups of 4 then 3, the same convention already proven
+  // for English's 26 letters in lib/data/trace_items/letters_trace_data.dart
+  // (kLetterGroups: [4,4,4,4,4,3,3]). English's own Letters pack has no
+  // groupSizes — it stays a flat run, unchanged from today.
+  groupSizes: [4, 4, 4, 4, 4, 4, 3, 3, 3],
   items: [
     ContentItem(id: 'ru.letters.a', display: 'А', word: 'А'),
     ContentItem(id: 'ru.letters.be', display: 'Б', word: 'Б'),

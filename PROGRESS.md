@@ -1,5 +1,79 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 2b: sequencing & grouping (2026-09-03)
+
+**What changed**
+
+- `ContentPack` gained two new fields, both data-driven (no `if (locale ==
+  'ru')` branches anywhere):
+  - `groupSizes: List<int>?` — when set, the pack is too long for one
+    sitting and should be presented as small groups (null = flat run,
+    today's behavior for every existing pack). New `splitIntoGroups(pack)`
+    turns it into real, independently-progress-trackable `ContentPack`s.
+  - `lengthSort: bool` — when true, items are presented shortest-word-first
+    (deterministic tie-break by original position, never random) instead
+    of `ordered`'s fixed-vs-shuffled choice.
+- New `orderItemsForSession(pack, rng)` (in `content_pack.dart`) is the one
+  place both the shuffle/fixed/length-sort decision lives — `generic_game_
+  screen.dart`'s `_initQuestions()` now just calls it instead of carrying
+  the logic inline, so it's unit-testable directly.
+- Russian Letters pack (33 letters) now sets `groupSizes: [4,4,4,4,4,4,3,
+  3,3]` — 9 groups (А-Г, Д-Ж, З-К, Л-О, П-Т, У-Ц, Ч-Щ, Ъ-Ь, Э-Я), the same
+  front-load-4s-then-3s convention already proven for English's 26 letters
+  in the Drawing module's `kLetterGroups`. Its `starsReward` dropped to 5
+  (from the default 10) — it's now 9 separately-rewarded units, matching
+  the Drawing module's own per-group reward value, not one lump sum.
+  English/Uzbek Letters packs are untouched (no `groupSizes` — stay a flat
+  run exactly as Phase 2 shipped).
+- Russian Colors/Fruits/Animals/Food now set `lengthSort: true`. Numbers
+  stays exempt (`ordered: true`, already-numeric item order, untouched) —
+  confirmed no other category has an inherent order that would be broken
+  by length-sorting.
+- New `lib/screens/game/letters_group_picker_screen.dart` — reuses the
+  exact UX already shipped for the Drawing module's letter groups
+  (`letter_groups_screen.dart`): all groups visible as cards, sequential
+  unlock with lock icons, but built on this feature's own legacy
+  `AppTheme` surface rather than that screen's `FkPlayTheme` (per
+  CLAUDE.md's design-system migration boundary — Learn-tab gameplay stays
+  legacy). Registered at `/letters_group_picker`.
+- `levels_screen.dart`'s `_onLevelTap` now branches on `pack.groupSizes !=
+  null` (data, not a locale check) to decide whether tapping "Letters"
+  goes to the new picker first or straight to `/game_stage1` as before.
+- `letters_stage1_screen.dart`'s `_onComplete()` generalized from
+  hardcoded `'letters_1'`/`'letters'`/`10` to the pack's own
+  `categoryId`/`starsReward` — verified to reproduce the exact prior
+  behavior byte-for-byte for the ungrouped case (both en/uz packs default
+  to `starsReward: 10`). A single group's completion instead just marks
+  its own slug (`letters_ru_group_N`); the picker screen detects "every
+  group done" and fires the umbrella `letters`/`letters_1` completion
+  (0 additional stars — each group already paid out its own), which is
+  what actually unlocks Numbers for a Russian child, same as it always
+  has for English.
+
+**Tests** (17 new, 311/311 total passing): `splitIntoGroups` correctness
+(9 groups, exact `[4,4,4,4,4,4,3,3,3]` split, unique slugs, ids reused
+verbatim, no gaps/dupes across all 33 letters); `orderItemsForSession`
+exercised directly (not re-implemented in the test) — deterministic
+length-ramp for all 4 `ru` word categories, numbers untouched, en/uz
+still shuffle exactly as before; a widget test pushing the real picker
+screen and confirming a tap on the first group opens `LettersStage1Screen`
+scoped to just 4 letters, not the full 33.
+
+**Verification**: `flutter analyze` clean (1 pre-existing unrelated lint);
+`flutter test` 311/311 passing.
+
+**What's left to do**
+
+1. Phase 3 — Cyrillic keyboard: length-scaled key count (a documented,
+   unit-tested function, not magic numbers at call sites), narrow-device
+   layout fix for the pre-existing touch-target gap, and the
+   КОРИЧНЕВЫЙ-style zero-distractor edge case this phase's data surfaced.
+2. Phase 4 — Russian audio pipeline (still no bundled audio for level
+   content at all; a new build against `ru-RU-SvetlanaNeural`).
+3. Manual QA once Phase 3/4 land: a real Russian playthrough of the new
+   group picker on a physical device — this phase was verified with
+   widget tests only, not a real device run.
+
 ## Russian learning-content localization — Phase 2: Russian content (2026-09-03)
 
 **What changed**
