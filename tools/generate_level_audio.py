@@ -9,10 +9,11 @@ shared/level_content/audio_manifest.json (generated from the real content
 packs by `flutter test tool/export_audio_manifest.dart` — run that first,
 or whenever lib/data/content_packs/*.dart changes) and, for every entry,
 synthesizes the matching MP3 via Azure Speech neural TTS and writes it to
-the declared path. Uses the exact same Azure-calling mechanism and voice
-table as tools/generate_aac_audio.py (VOICES below is a re-declared,
-independent copy, kept identical on purpose — the two scripts cover
-different content and are meant to be run separately).
+the declared path. Uses the exact same Azure-calling mechanism as
+tools/generate_aac_audio.py, and imports its voice/prosody/format settings
+from the shared tools/tts_voices.py — the two scripts cover different
+content and are meant to be run separately, but must never disagree on
+what a given locale sounds like.
 
 Usage:
     flutter test tool/export_audio_manifest.dart   # regenerate the manifest
@@ -36,23 +37,21 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from tts_voices import OUTPUT_FORMAT, PROSODY_RATE, VOICES
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 log = logging.getLogger("generate_level_audio")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = REPO_ROOT / "shared" / "level_content" / "audio_manifest.json"
+
+# VOICES (imported above) has an entry for every AAC-supported locale,
+# including uz — but SUPPORTED_LANGS here is deliberately narrower: no `uz`
+# ContentPack exists yet for level content (Phase 1 left `uz` on the `en`
+# content fallback, see PROGRESS.md), so the manifest never has a `uz` key
+# and there is nothing to generate for it. Add "uz" here once a real uz
+# content pack exists — the voice is already registered and ready.
 SUPPORTED_LANGS = ["en", "ru"]
-
-# lang code -> (Azure locale, neural voice name) — identical to
-# tools/generate_aac_audio.py's VOICES table (same voice per language,
-# reused so level-content and AAC narration sound like the same speaker).
-VOICES: dict[str, tuple[str, str]] = {
-    "en": ("en-US", "en-US-AnaNeural"),
-    "ru": ("ru-RU", "ru-RU-SvetlanaNeural"),
-}
-
-# Slower delivery for a 3-7 year old audience — matches generate_aac_audio.py.
-PROSODY_RATE = "-15%"
 
 TOKEN_URL_FMT = "https://{region}.api.cognitive.microsoft.com/sts/v1.0/issueToken"
 TTS_URL_FMT = "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
@@ -95,7 +94,7 @@ class AzureSpeechClient:
             headers={
                 "Authorization": f"Bearer {self._token}",
                 "Content-Type": "application/ssml+xml",
-                "X-Microsoft-OutputFormat": "audio-24khz-96kbitrate-mono-mp3",
+                "X-Microsoft-OutputFormat": OUTPUT_FORMAT,
                 "User-Agent": "flexikeys-level-audio-gen",
             },
             method="POST",

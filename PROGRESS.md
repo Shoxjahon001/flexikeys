@@ -1,5 +1,53 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 4b: voice-config parity audit (2026-09-03)
+
+Before running any real generation, verified — by direct quote comparison,
+not inference — that `tools/generate_level_audio.py` would speak with the
+exact same voice/prosody/format AAC already uses, for every locale that
+overlaps. Full comparison table posted in chat; summary:
+
+- `en`/`ru` voice, rate (`-15%`), format (`audio-24khz-96kbitrate-mono-mp3`),
+  and SSML shape were already identical across the AAC script, the AAC
+  `/aac/tts` backend endpoint, and my level-content script — confirmed, not
+  assumed.
+- **Real defect found**: `uz` exists in AAC (`uz-UZ-MadinaNeural`) but was
+  entirely absent from `generate_level_audio.py`'s voice table — not a
+  default substitution, a missing entry. Root cause: no `uz` `ContentPack`
+  exists yet for level content (Phase 1 left `uz` on the `en` fallback),
+  so there was nothing to generate for it — but the script should still
+  know the voice exists.
+- The two AAC sources (script and backend endpoint) already had this same
+  problem *before* this phase's work — an independent inline copy each,
+  kept in sync by comment/convention only. That's out of scope here (a
+  separate Python package boundary — see `tools/tts_voices.py`'s docstring)
+  and hasn't been touched; flagged for a future decision.
+
+**Fix**: new `tools/tts_voices.py` — the single source of truth (`VOICES`,
+with `uz` restored, `PROSODY_RATE`, `OUTPUT_FORMAT`). Both
+`generate_aac_audio.py` and `generate_level_audio.py` now import from it;
+neither declares its own copy anymore. Changing a voice for any locale now
+requires editing exactly one file.
+
+**Proof the AAC script's actual output is unchanged**: no Azure credentials
+are available in this environment, so a literal before/after live-generation
+hash comparison wasn't possible (flagged to the user, who accepted the
+substitute). Instead: captured the exact SSML string `AzureSpeechClient.
+synthesize()` would send for one sample per locale (en/ru/uz) using the
+*unmodified* script, then again using the *refactored* script — SHA-256 of
+both snapshots is `683661c8...` — byte-for-byte identical. `git diff` on
+`generate_aac_audio.py` shows only the VOICES/PROSODY_RATE declarations
+were removed in favor of an import, and the hardcoded output-format string
+replaced with the same-valued imported constant — nothing else touched.
+
+**New drift guard**: `tools/test_tts_voices_parity.py` (stdlib `unittest`,
+matching the scripts' own zero-dependency design) — asserts both scripts
+import the exact same `VOICES`/`PROSODY_RATE`/`OUTPUT_FORMAT` objects (not
+just equal values), every `SUPPORTED_LANGS` entry has a registered voice,
+level content's locale set stays a subset of AAC's, and pins the values
+`tts_voices.py` must keep matching in the backend's independent copy.
+`python3 tools/test_tts_voices_parity.py` — 7/7 passing.
+
 ## Russian learning-content localization — Phase 4: audio pipeline (in progress, blocked on Azure credentials) (2026-09-03)
 
 **Status: pipeline built and verified end-to-end; no real audio generated

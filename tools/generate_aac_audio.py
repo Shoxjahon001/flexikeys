@@ -40,22 +40,14 @@ import urllib.error
 import urllib.request
 from pathlib import Path
 
+from tts_voices import OUTPUT_FORMAT, PROSODY_RATE, VOICES
+
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 log = logging.getLogger("generate_aac_audio")
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CATEGORY_GLOB = str(REPO_ROOT / "shared" / "aac" / "category_*.json")
 SUPPORTED_LANGS = ["en", "uz", "ru"]
-
-# lang code -> (Azure locale, neural voice name)
-VOICES: dict[str, tuple[str, str]] = {
-    "en": ("en-US", "en-US-AnaNeural"),
-    "uz": ("uz-UZ", "uz-UZ-MadinaNeural"),
-    "ru": ("ru-RU", "ru-RU-SvetlanaNeural"),
-}
-
-# Slower delivery for a 3-7 year old audience.
-PROSODY_RATE = "-15%"
 
 TOKEN_URL_FMT = "https://{region}.api.cognitive.microsoft.com/sts/v1.0/issueToken"
 TTS_URL_FMT = "https://{region}.tts.speech.microsoft.com/cognitiveservices/v1"
@@ -98,7 +90,7 @@ class AzureSpeechClient:
             headers={
                 "Authorization": f"Bearer {self._token}",
                 "Content-Type": "application/ssml+xml",
-                "X-Microsoft-OutputFormat": "audio-24khz-96kbitrate-mono-mp3",
+                "X-Microsoft-OutputFormat": OUTPUT_FORMAT,
                 "User-Agent": "flexikeys-aac-audio-gen",
             },
             method="POST",
