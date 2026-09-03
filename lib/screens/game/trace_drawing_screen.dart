@@ -69,9 +69,13 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
   bool get _canCheck =>
       !_checking && (_strokes.isNotEmpty || _current.isNotEmpty);
 
+  String _locale(BuildContext context) =>
+      Localizations.localeOf(context).languageCode;
+
   String get _instruction {
     final seq = List.generate(_def.dots.length, (i) => '${i + 1}').join(' → ');
-    return AppLocalizations.of(context)!.traceInstructionFor(seq, _def.label);
+    return AppLocalizations.of(context)!
+        .traceInstructionFor(seq, _def.labelFor(_locale(context)));
   }
 
   static const List<Color> _palette = [
@@ -105,7 +109,9 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
       });
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      TtsService.instance.speak(_def.label);
+      if (!mounted) return;
+      final locale = _locale(context);
+      TtsService.instance.speak(_def.labelFor(locale), locale: locale);
     });
   }
 
@@ -191,7 +197,7 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
     final praise = score >= 7
         ? PraiseCopy.letterTraced(context)
         : AppLocalizations.of(context)!.traceGoodJobFallback;
-    TtsService.instance.speakFunny(praise);
+    TtsService.instance.speakFunny(praise, locale: _locale(context));
     await UserService.recordAnswer(correct: true);
     await UserService.addStars(1);
 
@@ -217,7 +223,8 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
         _checking = false;
         _isDemoPlaying = false;
       });
-      TtsService.instance.speak(_def.label);
+      final locale = _locale(context);
+      TtsService.instance.speak(_def.labelFor(locale), locale: locale);
     }
   }
 
@@ -299,12 +306,15 @@ class _TraceDrawingScreenState extends State<TraceDrawingScreen>
           ),
         ),
         const SizedBox(width: 12),
-        Text(
-          widget.title,
-          style: GoogleFonts.nunito(
-              fontSize: 18,
-              fontWeight: FontWeight.w800,
-              color: const Color(0xFF2A2F45)),
+        Flexible(
+          child: Text(
+            widget.title,
+            overflow: TextOverflow.ellipsis,
+            style: GoogleFonts.nunito(
+                fontSize: 18,
+                fontWeight: FontWeight.w800,
+                color: const Color(0xFF2A2F45)),
+          ),
         ),
         const Spacer(),
         Text(

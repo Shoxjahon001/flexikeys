@@ -10,7 +10,7 @@ class NatureColoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Tabiat · ${t.coloringSuffix}',
+      title: '${t.colorTitleNature} · ${t.coloringSuffix}',
       items: kNatureColoringItems,
       levelSlug: 'nature_color',
       completionTitle: t.completionAllNatureColored,

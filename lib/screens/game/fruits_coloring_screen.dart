@@ -10,7 +10,7 @@ class FruitsColoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Mevalar · ${t.coloringSuffix}',
+      title: '${t.colorTitleFruits} · ${t.coloringSuffix}',
       items: kFruitsColoringItems,
       levelSlug: 'fruits_color',
       completionTitle: t.completionAllFruitsColored,

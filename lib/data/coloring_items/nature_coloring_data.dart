@@ -7,7 +7,7 @@ import 'coloring_item_def.dart';
 // petal's near edge just touches the center circle rather than crossing
 // through the opposite petal, so the middle reads as a clean junction
 // instead of a tangled knot.
-final ColoringItemDef _gul = ColoringItemDef(label: 'Gul', outline: [
+final ColoringItemDef _gul = ColoringItemDef(label: 'Gul', ruLabel: 'Цветок', outline: [
   // 4 petals in a plus arrangement, each just touching the center circle.
   ellipsePoints(cx: 0.50, cy: 0.325, rx: 0.085, ry: 0.115), // top
   ellipsePoints(cx: 0.675, cy: 0.50, rx: 0.115, ry: 0.085), // right
@@ -30,6 +30,7 @@ final ColoringItemDef _gul = ColoringItemDef(label: 'Gul', outline: [
 // The trunk's traced points read coherently and are used as-is.
 final ColoringItemDef _daraxt = ColoringItemDef.detailed(
   label: 'Daraxt',
+  ruLabel: 'Дерево',
   canvasSize: const Size(1113, 1446),
   elements: [
     ColoringElement.stroke(
@@ -62,6 +63,7 @@ final ColoringItemDef _daraxt = ColoringItemDef.detailed(
 // Quyosh (Sun) — traced from a 926x887 source asset (strokeWidth 12).
 final ColoringItemDef _quyosh = ColoringItemDef.detailed(
   label: 'Quyosh',
+  ruLabel: 'Солнце',
   canvasSize: const Size(926, 887),
   elements: [
     // 14-spike ray star — kept faceted (smooth:false), a smoothed zigzag

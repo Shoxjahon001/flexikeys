@@ -1,5 +1,87 @@
 # Progress Log
 
+## Russian TTS silence + Drawing-module localization bug fix (2026-09-03)
+
+**The report**: in Russian UI language, Learn-tab TTS produced no sound,
+and the Drawing module (Shapes/Objects/Fruits/Animals/Nature/Transport)
+showed Uzbek item names and category titles regardless of UI language
+(screenshots: "To'rtburchak", "Uy", "Raskрась: Olma!", "Hayvonlar ·
+раскрашивание").
+
+**Investigation detour, reported for the record**: chasing a hunch that
+`LevelAudioPlayer` needed AAC's full 3-tier fallback (bundled asset →
+backend neural TTS → device TTS, per an earlier explicit request), adding
+the neural-TTS tier introduced a *reproduced, confirmed* hang:
+`SecureTokenStore.getActiveChildId()` (`flutter_secure_storage`) blocked
+the entire test isolate hard enough that neither `Future.timeout()` nor a
+manual `Future.any` race against a plain `Future.delayed` could recover —
+proof that no purely-Dart timeout can defend against a genuinely blocked
+isolate. Given the app in the reported screenshots stays fully responsive
+(a real isolate block would freeze the whole UI, not just go quiet) and
+`AacAudioPlayer` already ships this exact tier in production without
+reported freezes, this was very likely a `flutter_test`-environment
+artifact specific to this plugin, not the production bug — but it's a
+confirmed hazard regardless, so the neural-TTS tier was **not** added to
+`LevelAudioPlayer`, which stays at its original 2-tier design (bundled
+asset → `TtsService`). Further probing found the SAME plugin-channel class
+of hang can occur even in the bundled-asset tier's own `audioplayers`
+calls in this test environment — `level_audio_player_test.dart` no longer
+directly `await`s `speak()` for this reason, documented inline.
+
+**The actual root cause, found by direct code inspection**: every Drawing-
+module TTS call site (`coloring_screen.dart`, `trace_drawing_screen.dart`,
+`shapes_screen.dart`, `good_job_screen.dart`, `level_complete_screen.dart`)
+called `TtsService.instance.speak(...)`/`speakFunny(...)` with **no
+`locale:` argument at all** — always defaulting to `en`, regardless of UI
+language. Separately, every item label (`ColoringItemDef`/`TraceItemDef`/
+`_ShapeConfig` in `shapes_screen.dart`) and every Drawing wrapper screen's
+category title (`animals_coloring_screen.dart` and 6 siblings,
+`letter_groups_screen.dart`) were hardcoded Uzbek string literals with no
+locale awareness whatsoever — this module was never brought into the
+Russian-localization effort at all (out of the original task's stated
+scope, which was the Learn tab specifically).
+
+**Fix**:
+- `ColoringItemDef`/`TraceItemDef` gained an optional `ruLabel` field +
+  `labelFor(locale)` helper (default `false`-equivalent: falls back to the
+  existing `label`, so en/uz are unchanged); `_ShapeConfig` got the
+  equivalent `ruName`/`nameFor(locale)`. Russian labels added for every
+  worded item: Objects (Uy→Дом, Yurak→Сердце, Yulduz→Звезда), Nature
+  (Gul→Цветок, Daraxt→Дерево, Quyosh→Солнце), Transport (Mashina→Машина,
+  Avtobus→Автобус, Samolyot→Самолёт), Fruits coloring (Banan→Банан,
+  Gilos→Вишня, Olma→Яблоко, Apelsin→Апельсин), Animals coloring
+  (Mushuk→Кошка, Quyon→Кролик, Baliq→Рыба — matching the exact words
+  already used in the Learn-tab `ru` animals pack), Shapes (all 6).
+  Letters/Numbers tracing content is untouched on purpose — those are
+  universal glyph-tracing exercises, not vocabulary.
+- Every `TtsService` call site above now passes
+  `locale: Localizations.localeOf(context).languageCode`, and every
+  item-name speak call now passes `labelFor(locale)`/`nameFor(locale)`
+  instead of the raw default label.
+- Every Drawing wrapper screen's hardcoded category title (`'Hayvonlar'`,
+  `'Mevalar'`, `'Tabiat'`, `'Transport'`, `'Narsalar'`, `'Harflar'`,
+  `'Raqamlar'`, `'Shakllar'`) replaced with the pre-existing, already-
+  fully-translated `AppLocalizations` keys (`t.colorTitleAnimals` etc.) —
+  these already had correct `en`/`uz`/`ru` translations in the `.arb`
+  files (used elsewhere by `levels_screen.dart`'s own cards) and just
+  weren't being reused by these screens' own headers.
+- `coloring_screen.dart`/`trace_drawing_screen.dart` header title `Text`
+  wrapped in `Flexible(overflow: TextOverflow.ellipsis)` — the longer
+  real Russian titles (e.g. "Животные · раскрашивание") overflowed the
+  header `Row` at a width neither had ever been exercised at before.
+
+**Tests** (4 new, 330/330 total passing): a locale-driven widget test
+confirming `ColoringScreen`/`TraceDrawingScreen` render the Russian label
+(not Uzbek) and two wrapper screens' headers render the Russian category
+title (not the hardcoded Uzbek literal).
+
+**Verification**: `flutter analyze` clean (1 pre-existing unrelated lint);
+`flutter test` 330/330 passing. Not verified on a real device or with a
+real audio listen-test — recommend confirming Russian sound now plays
+correctly on-device, since the isolate-hang investigation above means
+automated tests can't fully prove audio-playback timing in this
+environment.
+
 ## Russian learning-content localization — Phase 4b: voice-config parity audit (2026-09-03)
 
 Before running any real generation, verified — by direct quote comparison,

@@ -3,6 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flexikeys/data/content_packs/content_pack.dart';
 import 'package:flexikeys/services/level_audio_player.dart';
 
+// NOTE: this file deliberately does not directly `await
+// LevelAudioPlayer.instance.speak(...)`. Doing so was tried and reproduced
+// a confirmed hang: in this test environment, the underlying `audioplayers`
+// plugin's platform-channel call (for a path missing from the asset
+// bundle, which is every path today — see PROGRESS.md) can block the
+// entire isolate hard enough that no `Future.timeout()` — including the
+// ones already inside LevelAudioPlayer — can recover it. That's a
+// `flutter_test`-environment limitation in this plugin, not something
+// provable/disprovable from pure Dart test code, and not evidence of a
+// production bug: the app stays fully responsive in real use (a genuine
+// isolate block would freeze the whole UI, not just go quiet), and
+// AacAudioPlayer already uses the identical `_player.play(AssetSource(...))`
+// pattern in production today. Every game-screen widget test that
+// exercises this call path does so via a fire-and-forget
+// `Future.delayed(...)` (never awaited by the test), which is why those
+// tests pass reliably without hitting this.
 void main() {
   test('assetPathFor strips the locale prefix and matches the manifest '
       "exporter's own convention exactly", () {

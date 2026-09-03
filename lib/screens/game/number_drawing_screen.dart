@@ -10,7 +10,7 @@ class NumberDrawingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return TraceDrawingScreen(
-      title: 'Raqamlar · ${t.drawingSuffix}',
+      title: '${t.drawTitleNumbers} · ${t.drawingSuffix}',
       items: kNumberTraceItems,
       levelSlug: 'number_drawing',
       completionTitle: t.completionAllNumbersDone,

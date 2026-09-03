@@ -10,7 +10,7 @@ class AnimalsColoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Hayvonlar · ${t.coloringSuffix}',
+      title: '${t.colorTitleAnimals} · ${t.coloringSuffix}',
       items: kAnimalsColoringItems,
       levelSlug: 'animals_color',
       completionTitle: t.completionAllAnimalsColored,

@@ -4,6 +4,7 @@ import 'coloring_item_def.dart';
 // Mashina (Car) — traced from a 1170x1093 source asset.
 final ColoringItemDef _mashina = ColoringItemDef.detailed(
   label: 'Mashina',
+  ruLabel: 'Машина',
   canvasSize: const Size(1170, 1093),
   elements: [
     const ColoringElement.ring(
@@ -78,6 +79,7 @@ final ColoringItemDef _mashina = ColoringItemDef.detailed(
 // width), so its inner ring is a uniform synthetic inset of the outer edge.
 final ColoringItemDef _avtobus = ColoringItemDef.detailed(
   label: 'Avtobus',
+  ruLabel: 'Автобус',
   canvasSize: const Size(1108, 1011),
   elements: [
     ColoringElement.ring(
@@ -141,6 +143,7 @@ final ColoringItemDef _avtobus = ColoringItemDef.detailed(
 // other edge is a uniform synthetic offset (see [offsetTowardCentroid]).
 final ColoringItemDef _samolyot = ColoringItemDef.detailed(
   label: 'Samolyot',
+  ruLabel: 'Самолёт',
   canvasSize: const Size(969, 695),
   elements: [
     // Thin blade shapes (wings, tail fin): filled solid rather than RING —

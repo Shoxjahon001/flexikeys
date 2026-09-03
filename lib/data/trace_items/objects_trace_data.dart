@@ -5,11 +5,11 @@ import 'trace_item_def.dart';
 // roughly between y≈0.15 and y≈0.87. Five simple, recognizable outlines.
 const List<TraceItemDef> kObjectTraceItems = [
   // Uy (House) ─────────────────────────────────────────────────────────────────
-  TraceItemDef(label: 'Uy',
+  TraceItemDef(label: 'Uy', ruLabel: 'Дом',
     dots: [Offset(0.22,0.85), Offset(0.22,0.50), Offset(0.50,0.20), Offset(0.78,0.50), Offset(0.78,0.85)],
     ghost: [[Offset(0.22,0.85),Offset(0.22,0.50),Offset(0.50,0.20),Offset(0.78,0.50),Offset(0.78,0.85),Offset(0.22,0.85)]]),
   // Yurak (Heart) ──────────────────────────────────────────────────────────────
-  TraceItemDef(label: 'Yurak',
+  TraceItemDef(label: 'Yurak', ruLabel: 'Сердце',
     dots: [Offset(0.50,0.35), Offset(0.30,0.18), Offset(0.15,0.40), Offset(0.50,0.85), Offset(0.85,0.40), Offset(0.70,0.18)],
     ghost: [[
       Offset(0.50,0.35),
@@ -19,7 +19,7 @@ const List<TraceItemDef> kObjectTraceItems = [
       Offset(0.50,0.35),
     ]]),
   // Yulduz (Star) ──────────────────────────────────────────────────────────────
-  TraceItemDef(label: 'Yulduz',
+  TraceItemDef(label: 'Yulduz', ruLabel: 'Звезда',
     dots: [Offset(0.50,0.12), Offset(0.82,0.38), Offset(0.70,0.80), Offset(0.30,0.80), Offset(0.18,0.38)],
     ghost: [[
       Offset(0.50,0.12),Offset(0.60,0.38),Offset(0.82,0.38),Offset(0.63,0.55),Offset(0.70,0.80),

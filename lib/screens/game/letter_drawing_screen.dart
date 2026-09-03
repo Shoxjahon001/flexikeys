@@ -10,7 +10,7 @@ class LetterDrawingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return TraceDrawingScreen(
-      title: "Harflar · ${t.drawingSuffix}",
+      title: '${t.drawTitleLetters} · ${t.drawingSuffix}',
       items: kLetterTraceItems,
       levelSlug: 'letter_drawing',
       completionTitle: t.completionAllLettersDone,

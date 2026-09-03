@@ -41,7 +41,7 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
       context,
       MaterialPageRoute(
         builder: (_) => TraceDrawingScreen(
-          title: 'Harflar · ${group.label}',
+          title: '${AppLocalizations.of(context)!.drawTitleLetters} · ${group.label}',
           items: group.items,
           levelSlug: group.id,
           completionTitle: AppLocalizations.of(context)!.groupReadyHeadline,
@@ -99,7 +99,7 @@ class _LetterGroupsScreenState extends State<LetterGroupsScreen> {
           ),
         ),
         const SizedBox(width: FkSpacing.xs),
-        Text('Harflar',
+        Text(AppLocalizations.of(context)!.drawTitleLetters,
             style: FkTextStyles.playHeadline
                 .copyWith(fontSize: 20, color: fk.ink)),
         const Spacer(),

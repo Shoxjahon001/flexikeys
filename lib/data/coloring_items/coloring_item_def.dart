@@ -13,8 +13,12 @@ import 'package:flutter/material.dart';
 ///    ([ColoringElement.ring]/[.fill]/[.stroke]) and stroke widths, smoothed
 ///    with Catmull-Rom curves. Use this for pixel-accurate reproductions.
 class ColoringItemDef {
-  /// Spoken by TTS and shown in the instruction text (e.g. 'Olma').
+  /// Spoken by TTS and shown in the instruction text (e.g. 'Olma'). The
+  /// default/fallback for every locale without its own [ruLabel].
   final String label;
+
+  /// Russian translation of [label] — see [labelFor].
+  final String? ruLabel;
 
   /// Legacy content: one or more closed polylines, normalized 0-1. Null for
   /// [ColoringItemDef.detailed] items.
@@ -32,15 +36,22 @@ class ColoringItemDef {
 
   const ColoringItemDef({
     required this.label,
+    this.ruLabel,
     required this.outline,
   })  : canvasSize = null,
         elements = null;
 
   const ColoringItemDef.detailed({
     required this.label,
+    this.ruLabel,
     required this.canvasSize,
     required this.elements,
   }) : outline = null;
+
+  /// The label to show/speak for [locale] — [ruLabel] when [locale] is
+  /// `'ru'` and set, otherwise [label] (today's behavior, unchanged).
+  String labelFor(String locale) =>
+      (locale == 'ru' && ruLabel != null) ? ruLabel! : label;
 }
 
 /// How a [ColoringElement] is painted. Matches the source-asset paint model

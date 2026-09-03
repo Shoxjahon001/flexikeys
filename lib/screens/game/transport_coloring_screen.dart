@@ -10,7 +10,7 @@ class TransportColoringScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return ColoringScreen(
-      title: 'Transport · ${t.coloringSuffix}',
+      title: '${t.colorTitleTransport} · ${t.coloringSuffix}',
       items: kTransportColoringItems,
       levelSlug: 'transport_color',
       completionTitle: t.completionAllTransportColored,

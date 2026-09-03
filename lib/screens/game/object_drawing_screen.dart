@@ -10,7 +10,7 @@ class ObjectDrawingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return TraceDrawingScreen(
-      title: 'Narsalar · ${t.drawingSuffix}',
+      title: '${t.drawTitleObjects} · ${t.drawingSuffix}',
       items: kObjectTraceItems,
       levelSlug: 'object_drawing',
       completionTitle: t.completionAllObjectsDone,

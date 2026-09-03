@@ -11,6 +11,7 @@ import 'coloring_item_def.dart';
 // the child paints every part themselves, matching every other item here.
 final ColoringItemDef _mushuk = ColoringItemDef.detailed(
   label: 'Mushuk',
+  ruLabel: 'Кошка',
   canvasSize: const Size(400, 400),
   elements: [
     // Head
@@ -129,6 +130,7 @@ final ColoringItemDef _mushuk = ColoringItemDef.detailed(
 // themselves, matching every other item here.
 final ColoringItemDef _quyon = ColoringItemDef.detailed(
   label: 'Quyon',
+  ruLabel: 'Кролик',
   canvasSize: const Size(400, 400),
   elements: [
     // Head — six chained cubic-Bezier segments forming one closed silhouette
@@ -217,6 +219,7 @@ final ColoringItemDef _quyon = ColoringItemDef.detailed(
 // child paints every part themselves, matching every other item here.
 final ColoringItemDef _baliq = ColoringItemDef.detailed(
   label: 'Baliq',
+  ruLabel: 'Рыба',
   canvasSize: const Size(400, 400),
   elements: [
     // Body — four chained cubic-Bezier segments forming one closed silhouette

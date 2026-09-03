@@ -8,6 +8,7 @@ import 'coloring_item_def.dart';
 // this elongated (same lesson learned from the airplane's wings).
 final ColoringItemDef _banan = ColoringItemDef.detailed(
   label: 'Banan',
+  ruLabel: 'Банан',
   canvasSize: const Size(1160, 976),
   elements: [
     const ColoringElement.stroke(
@@ -41,6 +42,7 @@ final ColoringItemDef _banan = ColoringItemDef.detailed(
 // Gilos (Cherries) — traced from a 1170x919 source asset.
 final ColoringItemDef _gilos = ColoringItemDef.detailed(
   label: 'Gilos',
+  ruLabel: 'Вишня',
   canvasSize: const Size(1170, 919),
   elements: [
     const ColoringElement.stroke(strokeWidth: 21, points: [
@@ -124,6 +126,7 @@ final ColoringItemDef _gilos = ColoringItemDef.detailed(
 // every part themselves, matching every other item here.
 final ColoringItemDef _olma = ColoringItemDef.detailed(
   label: 'Olma',
+  ruLabel: 'Яблоко',
   canvasSize: const Size(400, 400),
   elements: [
     // Body — six chained cubic-Bezier segments forming one closed silhouette
@@ -190,7 +193,7 @@ final ColoringItemDef _olma = ColoringItemDef.detailed(
 final List<ColoringItemDef> kFruitsColoringItems = [
   _olma,
   _banan,
-  const ColoringItemDef(label: 'Apelsin', outline: [
+  const ColoringItemDef(label: 'Apelsin', ruLabel: 'Апельсин', outline: [
     [Offset(0.50,0.20),Offset(0.68,0.27),Offset(0.78,0.45),Offset(0.75,0.65),Offset(0.60,0.80),Offset(0.40,0.80),Offset(0.25,0.65),Offset(0.22,0.45),Offset(0.32,0.27),Offset(0.50,0.20)],
     [Offset(0.50,0.20),Offset(0.50,0.12)],
   ]),

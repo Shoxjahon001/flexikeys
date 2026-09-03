@@ -44,7 +44,8 @@ class _LevelCompleteScreenState extends State<LevelCompleteScreen>
         const Duration(milliseconds: 500), () => _starsCtrl.forward());
     Future.delayed(const Duration(milliseconds: 400), () {
       if (mounted) {
-        TtsService.instance.speakFunny(PraiseCopy.levelComplete(context));
+        TtsService.instance.speakFunny(PraiseCopy.levelComplete(context),
+            locale: Localizations.localeOf(context).languageCode);
       }
     });
   }

@@ -62,8 +62,11 @@ class _ColoringScreenState extends State<ColoringScreen> {
   bool get _canFinish =>
       !_checking && (_strokes.isNotEmpty || _current.isNotEmpty);
 
-  String _instruction(BuildContext context) =>
-      AppLocalizations.of(context)!.coloringInstructionFor(_def.label);
+  String _locale(BuildContext context) =>
+      Localizations.localeOf(context).languageCode;
+
+  String _instruction(BuildContext context) => AppLocalizations.of(context)!
+      .coloringInstructionFor(_def.labelFor(_locale(context)));
 
   // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -71,7 +74,9 @@ class _ColoringScreenState extends State<ColoringScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      TtsService.instance.speak(_def.label);
+      if (!mounted) return;
+      final locale = _locale(context);
+      TtsService.instance.speak(_def.labelFor(locale), locale: locale);
     });
   }
 
@@ -122,7 +127,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
     });
 
     SoundService.instance.playCorrect();
-    TtsService.instance.speakFunny(PraiseCopy.shapeTraced(context));
+    TtsService.instance.speakFunny(PraiseCopy.shapeTraced(context),
+        locale: _locale(context));
     await UserService.recordAnswer(correct: true);
     await UserService.addStars(1);
 
@@ -146,7 +152,8 @@ class _ColoringScreenState extends State<ColoringScreen> {
         _celebrate = false;
         _checking = false;
       });
-      TtsService.instance.speak(_def.label);
+      final locale = _locale(context);
+      TtsService.instance.speak(_def.labelFor(locale), locale: locale);
     }
   }
 
@@ -207,9 +214,12 @@ class _ColoringScreenState extends State<ColoringScreen> {
           ),
         ),
         const SizedBox(width: FkSpacing.xs),
-        Text(widget.title,
-            style: FkTextStyles.playHeadline
-                .copyWith(fontSize: 19, color: fk.ink)),
+        Flexible(
+          child: Text(widget.title,
+              overflow: TextOverflow.ellipsis,
+              style: FkTextStyles.playHeadline
+                  .copyWith(fontSize: 19, color: fk.ink)),
+        ),
         const Spacer(),
         Text(
           '${_itemIndex + 1}/${widget.items.length}',

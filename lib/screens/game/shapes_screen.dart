@@ -15,47 +15,53 @@ import '../../data/praise_copy.dart';
 class _ShapeConfig {
   final String id;
   final String name;
+  final String? ruName;
   final List<Offset> dots; // normalised 0–1 inside inner canvas
 
   const _ShapeConfig({
     required this.id,
     required this.name,
+    this.ruName,
     required this.dots,
   });
+
+  /// The name to show for [locale] — [ruName] when [locale] is `'ru'` and
+  /// set, otherwise [name] (today's behavior, unchanged).
+  String nameFor(String locale) => (locale == 'ru' && ruName != null) ? ruName! : name;
 }
 
 const _kShapes = <_ShapeConfig>[
-  _ShapeConfig(id: 'square', name: 'Kvadrat', dots: [
+  _ShapeConfig(id: 'square', name: 'Kvadrat', ruName: 'Квадрат', dots: [
     Offset(0.22, 0.22),
     Offset(0.78, 0.22),
     Offset(0.78, 0.78),
     Offset(0.22, 0.78),
   ]),
-  _ShapeConfig(id: 'triangle', name: 'Uchburchak', dots: [
+  _ShapeConfig(id: 'triangle', name: 'Uchburchak', ruName: 'Треугольник', dots: [
     Offset(0.50, 0.14),
     Offset(0.84, 0.84),
     Offset(0.16, 0.84),
   ]),
-  _ShapeConfig(id: 'rect', name: "To'rtburchak", dots: [
+  _ShapeConfig(id: 'rect', name: "To'rtburchak", ruName: 'Прямоугольник', dots: [
     Offset(0.14, 0.32),
     Offset(0.86, 0.32),
     Offset(0.86, 0.68),
     Offset(0.14, 0.68),
   ]),
-  _ShapeConfig(id: 'diamond', name: 'Romb', dots: [
+  _ShapeConfig(id: 'diamond', name: 'Romb', ruName: 'Ромб', dots: [
     Offset(0.50, 0.14),
     Offset(0.86, 0.50),
     Offset(0.50, 0.86),
     Offset(0.14, 0.50),
   ]),
-  _ShapeConfig(id: 'pentagon', name: 'Beshburchak', dots: [
+  _ShapeConfig(id: 'pentagon', name: 'Beshburchak', ruName: 'Пятиугольник', dots: [
     Offset(0.50, 0.13),
     Offset(0.87, 0.42),
     Offset(0.72, 0.86),
     Offset(0.28, 0.86),
     Offset(0.13, 0.42),
   ]),
-  _ShapeConfig(id: 'hexagon', name: 'Olti burchak', dots: [
+  _ShapeConfig(id: 'hexagon', name: 'Olti burchak', ruName: 'Шестиугольник', dots: [
     Offset(0.50, 0.13),
     Offset(0.85, 0.32),
     Offset(0.85, 0.68),
@@ -197,9 +203,11 @@ class _ShapesScreenState extends State<ShapesScreen>
           _accuracy = score;
         });
         SoundService.instance.playCorrect();
-        TtsService.instance.speakFunny(score >= 7
-            ? PraiseCopy.shapeTraced(context)
-            : AppLocalizations.of(context)!.goodJobKeepGoing);
+        TtsService.instance.speakFunny(
+            score >= 7
+                ? PraiseCopy.shapeTraced(context)
+                : AppLocalizations.of(context)!.goodJobKeepGoing,
+            locale: Localizations.localeOf(context).languageCode);
       }
     }
   }
@@ -327,7 +335,7 @@ class _ShapesScreenState extends State<ShapesScreen>
             ),
           ),
           const SizedBox(width: 12),
-          Text('Shakllar',
+          Text(AppLocalizations.of(context)!.drawTitleShapes,
               style: GoogleFonts.nunito(
                   fontSize: 21,
                   fontWeight: FontWeight.w800,
@@ -467,7 +475,7 @@ class _ShapesScreenState extends State<ShapesScreen>
                   painter: _IconPainter(_shape.dots))),
         ),
         const SizedBox(width: 10),
-        Text(_shape.name,
+        Text(_shape.nameFor(Localizations.localeOf(context).languageCode),
             style: GoogleFonts.nunito(
                 fontSize: 17,
                 fontWeight: FontWeight.w900,

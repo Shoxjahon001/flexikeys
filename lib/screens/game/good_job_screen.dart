@@ -29,7 +29,8 @@ class _GoodJobScreenState extends State<GoodJobScreen>
     _ctrl.forward();
     Future.delayed(const Duration(milliseconds: 300), () {
       if (mounted) {
-        TtsService.instance.speakFunny(PraiseCopy.midLevelCheckpoint(context));
+        TtsService.instance.speakFunny(PraiseCopy.midLevelCheckpoint(context),
+            locale: Localizations.localeOf(context).languageCode);
       }
     });
   }
