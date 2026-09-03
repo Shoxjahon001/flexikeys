@@ -7,7 +7,7 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
-import '../../services/tts_service.dart';
+import '../../services/level_audio_player.dart';
 import '../../services/sound_service.dart';
 import '../../services/progress/progress_repository.dart';
 
@@ -84,10 +84,10 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       _flashWrong = null;
       _grid = _buildGrid(_questions[_current], _gridSize);
     });
-    final capturedWord = _questions[_current].word;
+    final capturedItem = _questions[_current];
     final locale = _config!.locale;
     Future.delayed(const Duration(milliseconds: 350), () {
-      TtsService.instance.speak(capturedWord, locale: locale);
+      LevelAudioPlayer.instance.speak(capturedItem, locale: locale);
     });
   }
 
@@ -156,7 +156,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
       final next = [..._tapped, letter];
       setState(() => _tapped = next);
       if (next.length >= _word.length) {
-        TtsService.instance.speak(_word, locale: _config!.locale);
+        LevelAudioPlayer.instance
+            .speak(_questions[_current], locale: _config!.locale);
         Future.delayed(const Duration(milliseconds: 500), _advance);
       }
     } else {
@@ -403,8 +404,8 @@ class _GenericGameScreenState extends State<GenericGameScreen> {
                   _buildHint(item),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () => TtsService.instance
-                        .speak(item.word, locale: _config!.locale),
+                    onTap: () => LevelAudioPlayer.instance
+                        .speak(item, locale: _config!.locale),
                     child: Container(
                       width: 44,
                       height: 44,

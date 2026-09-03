@@ -6,7 +6,7 @@ import '../../l10n/app_localizations.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/cloud_mascot.dart';
 import '../../services/user_service.dart';
-import '../../services/tts_service.dart';
+import '../../services/level_audio_player.dart';
 import '../../services/sound_service.dart';
 import '../../services/progress/progress_repository.dart';
 import '../../design_system/fk_tokens.dart';
@@ -23,12 +23,12 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   ContentPack? _pack;
   late List<String> _letters;
 
-  /// word -> spokenText, for letters whose TTS pronunciation differs from
-  /// their on-screen glyph (Ь/Ъ have no standalone sound — see
-  /// [ContentItem.spokenText]). Letters not in this map are simply spoken
-  /// as their own glyph.
-  late Map<String, String> _spokenTextByLetter;
-  String _speakTextFor(String letter) => _spokenTextByLetter[letter] ?? letter;
+  /// word -> item, so a TTS call site that only has the on-screen glyph
+  /// (a `String`, e.g. from [_choices]) can still reach the full
+  /// [ContentItem] — needed for [ContentItem.spokenText] (Ь/Ъ have no
+  /// standalone sound) and [LevelAudioPlayer], which speaks items, not
+  /// bare strings.
+  late Map<String, ContentItem> _itemByLetter;
 
   int _current = 0;
   String? _selected;
@@ -64,13 +64,12 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
       if (args is ContentPack) {
         _pack = args;
         _letters = _pack!.items.map((i) => i.word).toList();
-        _spokenTextByLetter = {
-          for (final i in _pack!.items) i.word: i.spokenText,
-        };
+        _itemByLetter = {for (final i in _pack!.items) i.word: i};
         _buildChoicesDirect();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           if (mounted) {
-            TtsService.instance.speak(_speakTextFor(_letters[_current]),
+            LevelAudioPlayer.instance.speak(
+                _itemByLetter[_letters[_current]]!,
                 locale: _pack!.locale);
           }
         });
@@ -97,10 +96,10 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
   void _generateChoices() {
     _buildChoicesDirect();
     setState(() {});
-    final capturedSpeech = _speakTextFor(_currentTarget);
+    final capturedItem = _itemByLetter[_currentTarget]!;
     final locale = _pack!.locale;
     Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) TtsService.instance.speak(capturedSpeech, locale: locale);
+      if (mounted) LevelAudioPlayer.instance.speak(capturedItem, locale: locale);
     });
   }
 
@@ -406,8 +405,8 @@ class _LettersStage1ScreenState extends State<LettersStage1Screen>
                   ),
                   const SizedBox(width: 12),
                   GestureDetector(
-                    onTap: () => TtsService.instance
-                        .speak(_speakTextFor(target), locale: _pack!.locale),
+                    onTap: () => LevelAudioPlayer.instance
+                        .speak(_itemByLetter[target]!, locale: _pack!.locale),
                     child: Container(
                       width: 44,
                       height: 44,

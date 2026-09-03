@@ -1,0 +1,891 @@
+{
+  "en": [
+    {
+      "id": "letters.a",
+      "text": "A",
+      "path": "shared/level_content/audio/en/letters.a.mp3"
+    },
+    {
+      "id": "letters.b",
+      "text": "B",
+      "path": "shared/level_content/audio/en/letters.b.mp3"
+    },
+    {
+      "id": "letters.c",
+      "text": "C",
+      "path": "shared/level_content/audio/en/letters.c.mp3"
+    },
+    {
+      "id": "letters.d",
+      "text": "D",
+      "path": "shared/level_content/audio/en/letters.d.mp3"
+    },
+    {
+      "id": "letters.e",
+      "text": "E",
+      "path": "shared/level_content/audio/en/letters.e.mp3"
+    },
+    {
+      "id": "letters.f",
+      "text": "F",
+      "path": "shared/level_content/audio/en/letters.f.mp3"
+    },
+    {
+      "id": "letters.g",
+      "text": "G",
+      "path": "shared/level_content/audio/en/letters.g.mp3"
+    },
+    {
+      "id": "letters.h",
+      "text": "H",
+      "path": "shared/level_content/audio/en/letters.h.mp3"
+    },
+    {
+      "id": "letters.i",
+      "text": "I",
+      "path": "shared/level_content/audio/en/letters.i.mp3"
+    },
+    {
+      "id": "letters.j",
+      "text": "J",
+      "path": "shared/level_content/audio/en/letters.j.mp3"
+    },
+    {
+      "id": "letters.k",
+      "text": "K",
+      "path": "shared/level_content/audio/en/letters.k.mp3"
+    },
+    {
+      "id": "letters.l",
+      "text": "L",
+      "path": "shared/level_content/audio/en/letters.l.mp3"
+    },
+    {
+      "id": "letters.m",
+      "text": "M",
+      "path": "shared/level_content/audio/en/letters.m.mp3"
+    },
+    {
+      "id": "letters.n",
+      "text": "N",
+      "path": "shared/level_content/audio/en/letters.n.mp3"
+    },
+    {
+      "id": "letters.o",
+      "text": "O",
+      "path": "shared/level_content/audio/en/letters.o.mp3"
+    },
+    {
+      "id": "letters.p",
+      "text": "P",
+      "path": "shared/level_content/audio/en/letters.p.mp3"
+    },
+    {
+      "id": "letters.q",
+      "text": "Q",
+      "path": "shared/level_content/audio/en/letters.q.mp3"
+    },
+    {
+      "id": "letters.r",
+      "text": "R",
+      "path": "shared/level_content/audio/en/letters.r.mp3"
+    },
+    {
+      "id": "letters.s",
+      "text": "S",
+      "path": "shared/level_content/audio/en/letters.s.mp3"
+    },
+    {
+      "id": "letters.t",
+      "text": "T",
+      "path": "shared/level_content/audio/en/letters.t.mp3"
+    },
+    {
+      "id": "letters.u",
+      "text": "U",
+      "path": "shared/level_content/audio/en/letters.u.mp3"
+    },
+    {
+      "id": "letters.v",
+      "text": "V",
+      "path": "shared/level_content/audio/en/letters.v.mp3"
+    },
+    {
+      "id": "letters.w",
+      "text": "W",
+      "path": "shared/level_content/audio/en/letters.w.mp3"
+    },
+    {
+      "id": "letters.x",
+      "text": "X",
+      "path": "shared/level_content/audio/en/letters.x.mp3"
+    },
+    {
+      "id": "letters.y",
+      "text": "Y",
+      "path": "shared/level_content/audio/en/letters.y.mp3"
+    },
+    {
+      "id": "letters.z",
+      "text": "Z",
+      "path": "shared/level_content/audio/en/letters.z.mp3"
+    },
+    {
+      "id": "numbers.1",
+      "text": "ONE",
+      "path": "shared/level_content/audio/en/numbers.1.mp3"
+    },
+    {
+      "id": "numbers.2",
+      "text": "TWO",
+      "path": "shared/level_content/audio/en/numbers.2.mp3"
+    },
+    {
+      "id": "numbers.3",
+      "text": "THREE",
+      "path": "shared/level_content/audio/en/numbers.3.mp3"
+    },
+    {
+      "id": "numbers.4",
+      "text": "FOUR",
+      "path": "shared/level_content/audio/en/numbers.4.mp3"
+    },
+    {
+      "id": "numbers.5",
+      "text": "FIVE",
+      "path": "shared/level_content/audio/en/numbers.5.mp3"
+    },
+    {
+      "id": "numbers.6",
+      "text": "SIX",
+      "path": "shared/level_content/audio/en/numbers.6.mp3"
+    },
+    {
+      "id": "numbers.7",
+      "text": "SEVEN",
+      "path": "shared/level_content/audio/en/numbers.7.mp3"
+    },
+    {
+      "id": "numbers.8",
+      "text": "EIGHT",
+      "path": "shared/level_content/audio/en/numbers.8.mp3"
+    },
+    {
+      "id": "numbers.9",
+      "text": "NINE",
+      "path": "shared/level_content/audio/en/numbers.9.mp3"
+    },
+    {
+      "id": "numbers.10",
+      "text": "TEN",
+      "path": "shared/level_content/audio/en/numbers.10.mp3"
+    },
+    {
+      "id": "numbers.11",
+      "text": "ELEVEN",
+      "path": "shared/level_content/audio/en/numbers.11.mp3"
+    },
+    {
+      "id": "numbers.12",
+      "text": "TWELVE",
+      "path": "shared/level_content/audio/en/numbers.12.mp3"
+    },
+    {
+      "id": "numbers.13",
+      "text": "THIRTEEN",
+      "path": "shared/level_content/audio/en/numbers.13.mp3"
+    },
+    {
+      "id": "numbers.15",
+      "text": "FIFTEEN",
+      "path": "shared/level_content/audio/en/numbers.15.mp3"
+    },
+    {
+      "id": "numbers.20",
+      "text": "TWENTY",
+      "path": "shared/level_content/audio/en/numbers.20.mp3"
+    },
+    {
+      "id": "colors.red",
+      "text": "RED",
+      "path": "shared/level_content/audio/en/colors.red.mp3"
+    },
+    {
+      "id": "colors.blue",
+      "text": "BLUE",
+      "path": "shared/level_content/audio/en/colors.blue.mp3"
+    },
+    {
+      "id": "colors.green",
+      "text": "GREEN",
+      "path": "shared/level_content/audio/en/colors.green.mp3"
+    },
+    {
+      "id": "colors.yellow",
+      "text": "YELLOW",
+      "path": "shared/level_content/audio/en/colors.yellow.mp3"
+    },
+    {
+      "id": "colors.orange",
+      "text": "ORANGE",
+      "path": "shared/level_content/audio/en/colors.orange.mp3"
+    },
+    {
+      "id": "colors.purple",
+      "text": "PURPLE",
+      "path": "shared/level_content/audio/en/colors.purple.mp3"
+    },
+    {
+      "id": "colors.pink",
+      "text": "PINK",
+      "path": "shared/level_content/audio/en/colors.pink.mp3"
+    },
+    {
+      "id": "colors.brown",
+      "text": "BROWN",
+      "path": "shared/level_content/audio/en/colors.brown.mp3"
+    },
+    {
+      "id": "colors.black",
+      "text": "BLACK",
+      "path": "shared/level_content/audio/en/colors.black.mp3"
+    },
+    {
+      "id": "colors.white",
+      "text": "WHITE",
+      "path": "shared/level_content/audio/en/colors.white.mp3"
+    },
+    {
+      "id": "fruits.apple",
+      "text": "APPLE",
+      "path": "shared/level_content/audio/en/fruits.apple.mp3"
+    },
+    {
+      "id": "fruits.banana",
+      "text": "BANANA",
+      "path": "shared/level_content/audio/en/fruits.banana.mp3"
+    },
+    {
+      "id": "fruits.grape",
+      "text": "GRAPE",
+      "path": "shared/level_content/audio/en/fruits.grape.mp3"
+    },
+    {
+      "id": "fruits.orange",
+      "text": "ORANGE",
+      "path": "shared/level_content/audio/en/fruits.orange.mp3"
+    },
+    {
+      "id": "fruits.melon",
+      "text": "MELON",
+      "path": "shared/level_content/audio/en/fruits.melon.mp3"
+    },
+    {
+      "id": "fruits.mango",
+      "text": "MANGO",
+      "path": "shared/level_content/audio/en/fruits.mango.mp3"
+    },
+    {
+      "id": "fruits.lemon",
+      "text": "LEMON",
+      "path": "shared/level_content/audio/en/fruits.lemon.mp3"
+    },
+    {
+      "id": "fruits.pear",
+      "text": "PEAR",
+      "path": "shared/level_content/audio/en/fruits.pear.mp3"
+    },
+    {
+      "id": "fruits.peach",
+      "text": "PEACH",
+      "path": "shared/level_content/audio/en/fruits.peach.mp3"
+    },
+    {
+      "id": "fruits.cherry",
+      "text": "CHERRY",
+      "path": "shared/level_content/audio/en/fruits.cherry.mp3"
+    },
+    {
+      "id": "fruits.kiwi",
+      "text": "KIWI",
+      "path": "shared/level_content/audio/en/fruits.kiwi.mp3"
+    },
+    {
+      "id": "fruits.pineapple",
+      "text": "PINEAPPLE",
+      "path": "shared/level_content/audio/en/fruits.pineapple.mp3"
+    },
+    {
+      "id": "animals.cat",
+      "text": "CAT",
+      "path": "shared/level_content/audio/en/animals.cat.mp3"
+    },
+    {
+      "id": "animals.dog",
+      "text": "DOG",
+      "path": "shared/level_content/audio/en/animals.dog.mp3"
+    },
+    {
+      "id": "animals.lion",
+      "text": "LION",
+      "path": "shared/level_content/audio/en/animals.lion.mp3"
+    },
+    {
+      "id": "animals.hippo",
+      "text": "HIPPO",
+      "path": "shared/level_content/audio/en/animals.hippo.mp3"
+    },
+    {
+      "id": "animals.monkey",
+      "text": "MONKEY",
+      "path": "shared/level_content/audio/en/animals.monkey.mp3"
+    },
+    {
+      "id": "animals.zebra",
+      "text": "ZEBRA",
+      "path": "shared/level_content/audio/en/animals.zebra.mp3"
+    },
+    {
+      "id": "animals.rabbit",
+      "text": "RABBIT",
+      "path": "shared/level_content/audio/en/animals.rabbit.mp3"
+    },
+    {
+      "id": "animals.bear",
+      "text": "BEAR",
+      "path": "shared/level_content/audio/en/animals.bear.mp3"
+    },
+    {
+      "id": "animals.fox",
+      "text": "FOX",
+      "path": "shared/level_content/audio/en/animals.fox.mp3"
+    },
+    {
+      "id": "animals.tiger",
+      "text": "TIGER",
+      "path": "shared/level_content/audio/en/animals.tiger.mp3"
+    },
+    {
+      "id": "animals.cow",
+      "text": "COW",
+      "path": "shared/level_content/audio/en/animals.cow.mp3"
+    },
+    {
+      "id": "animals.wolf",
+      "text": "WOLF",
+      "path": "shared/level_content/audio/en/animals.wolf.mp3"
+    },
+    {
+      "id": "food.pizza",
+      "text": "PIZZA",
+      "path": "shared/level_content/audio/en/food.pizza.mp3"
+    },
+    {
+      "id": "food.burger",
+      "text": "BURGER",
+      "path": "shared/level_content/audio/en/food.burger.mp3"
+    },
+    {
+      "id": "food.cake",
+      "text": "CAKE",
+      "path": "shared/level_content/audio/en/food.cake.mp3"
+    },
+    {
+      "id": "food.juice",
+      "text": "JUICE",
+      "path": "shared/level_content/audio/en/food.juice.mp3"
+    },
+    {
+      "id": "food.taco",
+      "text": "TACO",
+      "path": "shared/level_content/audio/en/food.taco.mp3"
+    },
+    {
+      "id": "food.donut",
+      "text": "DONUT",
+      "path": "shared/level_content/audio/en/food.donut.mp3"
+    },
+    {
+      "id": "food.cookie",
+      "text": "COOKIE",
+      "path": "shared/level_content/audio/en/food.cookie.mp3"
+    },
+    {
+      "id": "food.soup",
+      "text": "SOUP",
+      "path": "shared/level_content/audio/en/food.soup.mp3"
+    },
+    {
+      "id": "food.meat",
+      "text": "MEAT",
+      "path": "shared/level_content/audio/en/food.meat.mp3"
+    },
+    {
+      "id": "food.sushi",
+      "text": "SUSHI",
+      "path": "shared/level_content/audio/en/food.sushi.mp3"
+    }
+  ],
+  "ru": [
+    {
+      "id": "letters.a",
+      "text": "А",
+      "path": "shared/level_content/audio/ru/letters.a.mp3"
+    },
+    {
+      "id": "letters.be",
+      "text": "Б",
+      "path": "shared/level_content/audio/ru/letters.be.mp3"
+    },
+    {
+      "id": "letters.ve",
+      "text": "В",
+      "path": "shared/level_content/audio/ru/letters.ve.mp3"
+    },
+    {
+      "id": "letters.ge",
+      "text": "Г",
+      "path": "shared/level_content/audio/ru/letters.ge.mp3"
+    },
+    {
+      "id": "letters.de",
+      "text": "Д",
+      "path": "shared/level_content/audio/ru/letters.de.mp3"
+    },
+    {
+      "id": "letters.ye",
+      "text": "Е",
+      "path": "shared/level_content/audio/ru/letters.ye.mp3"
+    },
+    {
+      "id": "letters.yo",
+      "text": "Ё",
+      "path": "shared/level_content/audio/ru/letters.yo.mp3"
+    },
+    {
+      "id": "letters.zhe",
+      "text": "Ж",
+      "path": "shared/level_content/audio/ru/letters.zhe.mp3"
+    },
+    {
+      "id": "letters.ze",
+      "text": "З",
+      "path": "shared/level_content/audio/ru/letters.ze.mp3"
+    },
+    {
+      "id": "letters.i",
+      "text": "И",
+      "path": "shared/level_content/audio/ru/letters.i.mp3"
+    },
+    {
+      "id": "letters.i_kratkoe",
+      "text": "Й",
+      "path": "shared/level_content/audio/ru/letters.i_kratkoe.mp3"
+    },
+    {
+      "id": "letters.ka",
+      "text": "К",
+      "path": "shared/level_content/audio/ru/letters.ka.mp3"
+    },
+    {
+      "id": "letters.el",
+      "text": "Л",
+      "path": "shared/level_content/audio/ru/letters.el.mp3"
+    },
+    {
+      "id": "letters.em",
+      "text": "М",
+      "path": "shared/level_content/audio/ru/letters.em.mp3"
+    },
+    {
+      "id": "letters.en",
+      "text": "Н",
+      "path": "shared/level_content/audio/ru/letters.en.mp3"
+    },
+    {
+      "id": "letters.o",
+      "text": "О",
+      "path": "shared/level_content/audio/ru/letters.o.mp3"
+    },
+    {
+      "id": "letters.pe",
+      "text": "П",
+      "path": "shared/level_content/audio/ru/letters.pe.mp3"
+    },
+    {
+      "id": "letters.er",
+      "text": "Р",
+      "path": "shared/level_content/audio/ru/letters.er.mp3"
+    },
+    {
+      "id": "letters.es",
+      "text": "С",
+      "path": "shared/level_content/audio/ru/letters.es.mp3"
+    },
+    {
+      "id": "letters.te",
+      "text": "Т",
+      "path": "shared/level_content/audio/ru/letters.te.mp3"
+    },
+    {
+      "id": "letters.u",
+      "text": "У",
+      "path": "shared/level_content/audio/ru/letters.u.mp3"
+    },
+    {
+      "id": "letters.ef",
+      "text": "Ф",
+      "path": "shared/level_content/audio/ru/letters.ef.mp3"
+    },
+    {
+      "id": "letters.kha",
+      "text": "Х",
+      "path": "shared/level_content/audio/ru/letters.kha.mp3"
+    },
+    {
+      "id": "letters.tse",
+      "text": "Ц",
+      "path": "shared/level_content/audio/ru/letters.tse.mp3"
+    },
+    {
+      "id": "letters.che",
+      "text": "Ч",
+      "path": "shared/level_content/audio/ru/letters.che.mp3"
+    },
+    {
+      "id": "letters.sha",
+      "text": "Ш",
+      "path": "shared/level_content/audio/ru/letters.sha.mp3"
+    },
+    {
+      "id": "letters.shcha",
+      "text": "Щ",
+      "path": "shared/level_content/audio/ru/letters.shcha.mp3"
+    },
+    {
+      "id": "letters.tvyordy_znak",
+      "text": "твёрдый знак",
+      "path": "shared/level_content/audio/ru/letters.tvyordy_znak.mp3"
+    },
+    {
+      "id": "letters.y",
+      "text": "Ы",
+      "path": "shared/level_content/audio/ru/letters.y.mp3"
+    },
+    {
+      "id": "letters.myagky_znak",
+      "text": "мягкий знак",
+      "path": "shared/level_content/audio/ru/letters.myagky_znak.mp3"
+    },
+    {
+      "id": "letters.e",
+      "text": "Э",
+      "path": "shared/level_content/audio/ru/letters.e.mp3"
+    },
+    {
+      "id": "letters.yu",
+      "text": "Ю",
+      "path": "shared/level_content/audio/ru/letters.yu.mp3"
+    },
+    {
+      "id": "letters.ya",
+      "text": "Я",
+      "path": "shared/level_content/audio/ru/letters.ya.mp3"
+    },
+    {
+      "id": "numbers.1",
+      "text": "ОДИН",
+      "path": "shared/level_content/audio/ru/numbers.1.mp3"
+    },
+    {
+      "id": "numbers.2",
+      "text": "ДВА",
+      "path": "shared/level_content/audio/ru/numbers.2.mp3"
+    },
+    {
+      "id": "numbers.3",
+      "text": "ТРИ",
+      "path": "shared/level_content/audio/ru/numbers.3.mp3"
+    },
+    {
+      "id": "numbers.4",
+      "text": "ЧЕТЫРЕ",
+      "path": "shared/level_content/audio/ru/numbers.4.mp3"
+    },
+    {
+      "id": "numbers.5",
+      "text": "ПЯТЬ",
+      "path": "shared/level_content/audio/ru/numbers.5.mp3"
+    },
+    {
+      "id": "numbers.6",
+      "text": "ШЕСТЬ",
+      "path": "shared/level_content/audio/ru/numbers.6.mp3"
+    },
+    {
+      "id": "numbers.7",
+      "text": "СЕМЬ",
+      "path": "shared/level_content/audio/ru/numbers.7.mp3"
+    },
+    {
+      "id": "numbers.8",
+      "text": "ВОСЕМЬ",
+      "path": "shared/level_content/audio/ru/numbers.8.mp3"
+    },
+    {
+      "id": "numbers.9",
+      "text": "ДЕВЯТЬ",
+      "path": "shared/level_content/audio/ru/numbers.9.mp3"
+    },
+    {
+      "id": "numbers.10",
+      "text": "ДЕСЯТЬ",
+      "path": "shared/level_content/audio/ru/numbers.10.mp3"
+    },
+    {
+      "id": "numbers.11",
+      "text": "ОДИННАДЦАТЬ",
+      "path": "shared/level_content/audio/ru/numbers.11.mp3"
+    },
+    {
+      "id": "numbers.12",
+      "text": "ДВЕНАДЦАТЬ",
+      "path": "shared/level_content/audio/ru/numbers.12.mp3"
+    },
+    {
+      "id": "numbers.13",
+      "text": "ТРИНАДЦАТЬ",
+      "path": "shared/level_content/audio/ru/numbers.13.mp3"
+    },
+    {
+      "id": "numbers.15",
+      "text": "ПЯТНАДЦАТЬ",
+      "path": "shared/level_content/audio/ru/numbers.15.mp3"
+    },
+    {
+      "id": "numbers.20",
+      "text": "ДВАДЦАТЬ",
+      "path": "shared/level_content/audio/ru/numbers.20.mp3"
+    },
+    {
+      "id": "colors.red",
+      "text": "КРАСНЫЙ",
+      "path": "shared/level_content/audio/ru/colors.red.mp3"
+    },
+    {
+      "id": "colors.blue",
+      "text": "СИНИЙ",
+      "path": "shared/level_content/audio/ru/colors.blue.mp3"
+    },
+    {
+      "id": "colors.green",
+      "text": "ЗЕЛЁНЫЙ",
+      "path": "shared/level_content/audio/ru/colors.green.mp3"
+    },
+    {
+      "id": "colors.yellow",
+      "text": "ЖЁЛТЫЙ",
+      "path": "shared/level_content/audio/ru/colors.yellow.mp3"
+    },
+    {
+      "id": "colors.orange",
+      "text": "ОРАНЖЕВЫЙ",
+      "path": "shared/level_content/audio/ru/colors.orange.mp3"
+    },
+    {
+      "id": "colors.purple",
+      "text": "ФИОЛЕТОВЫЙ",
+      "path": "shared/level_content/audio/ru/colors.purple.mp3"
+    },
+    {
+      "id": "colors.pink",
+      "text": "РОЗОВЫЙ",
+      "path": "shared/level_content/audio/ru/colors.pink.mp3"
+    },
+    {
+      "id": "colors.brown",
+      "text": "КОРИЧНЕВЫЙ",
+      "path": "shared/level_content/audio/ru/colors.brown.mp3"
+    },
+    {
+      "id": "colors.black",
+      "text": "ЧЁРНЫЙ",
+      "path": "shared/level_content/audio/ru/colors.black.mp3"
+    },
+    {
+      "id": "colors.white",
+      "text": "БЕЛЫЙ",
+      "path": "shared/level_content/audio/ru/colors.white.mp3"
+    },
+    {
+      "id": "fruits.apple",
+      "text": "ЯБЛОКО",
+      "path": "shared/level_content/audio/ru/fruits.apple.mp3"
+    },
+    {
+      "id": "fruits.banana",
+      "text": "БАНАН",
+      "path": "shared/level_content/audio/ru/fruits.banana.mp3"
+    },
+    {
+      "id": "fruits.grape",
+      "text": "ВИНОГРАД",
+      "path": "shared/level_content/audio/ru/fruits.grape.mp3"
+    },
+    {
+      "id": "fruits.orange",
+      "text": "АПЕЛЬСИН",
+      "path": "shared/level_content/audio/ru/fruits.orange.mp3"
+    },
+    {
+      "id": "fruits.melon",
+      "text": "ДЫНЯ",
+      "path": "shared/level_content/audio/ru/fruits.melon.mp3"
+    },
+    {
+      "id": "fruits.mango",
+      "text": "МАНГО",
+      "path": "shared/level_content/audio/ru/fruits.mango.mp3"
+    },
+    {
+      "id": "fruits.lemon",
+      "text": "ЛИМОН",
+      "path": "shared/level_content/audio/ru/fruits.lemon.mp3"
+    },
+    {
+      "id": "fruits.pear",
+      "text": "ГРУША",
+      "path": "shared/level_content/audio/ru/fruits.pear.mp3"
+    },
+    {
+      "id": "fruits.peach",
+      "text": "ПЕРСИК",
+      "path": "shared/level_content/audio/ru/fruits.peach.mp3"
+    },
+    {
+      "id": "fruits.cherry",
+      "text": "ВИШНЯ",
+      "path": "shared/level_content/audio/ru/fruits.cherry.mp3"
+    },
+    {
+      "id": "fruits.kiwi",
+      "text": "КИВИ",
+      "path": "shared/level_content/audio/ru/fruits.kiwi.mp3"
+    },
+    {
+      "id": "fruits.pineapple",
+      "text": "АНАНАС",
+      "path": "shared/level_content/audio/ru/fruits.pineapple.mp3"
+    },
+    {
+      "id": "animals.cat",
+      "text": "КОШКА",
+      "path": "shared/level_content/audio/ru/animals.cat.mp3"
+    },
+    {
+      "id": "animals.dog",
+      "text": "СОБАКА",
+      "path": "shared/level_content/audio/ru/animals.dog.mp3"
+    },
+    {
+      "id": "animals.lion",
+      "text": "ЛЕВ",
+      "path": "shared/level_content/audio/ru/animals.lion.mp3"
+    },
+    {
+      "id": "animals.hippo",
+      "text": "БЕГЕМОТ",
+      "path": "shared/level_content/audio/ru/animals.hippo.mp3"
+    },
+    {
+      "id": "animals.monkey",
+      "text": "ОБЕЗЬЯНА",
+      "path": "shared/level_content/audio/ru/animals.monkey.mp3"
+    },
+    {
+      "id": "animals.zebra",
+      "text": "ЗЕБРА",
+      "path": "shared/level_content/audio/ru/animals.zebra.mp3"
+    },
+    {
+      "id": "animals.rabbit",
+      "text": "КРОЛИК",
+      "path": "shared/level_content/audio/ru/animals.rabbit.mp3"
+    },
+    {
+      "id": "animals.bear",
+      "text": "МЕДВЕДЬ",
+      "path": "shared/level_content/audio/ru/animals.bear.mp3"
+    },
+    {
+      "id": "animals.fox",
+      "text": "ЛИСА",
+      "path": "shared/level_content/audio/ru/animals.fox.mp3"
+    },
+    {
+      "id": "animals.tiger",
+      "text": "ТИГР",
+      "path": "shared/level_content/audio/ru/animals.tiger.mp3"
+    },
+    {
+      "id": "animals.cow",
+      "text": "КОРОВА",
+      "path": "shared/level_content/audio/ru/animals.cow.mp3"
+    },
+    {
+      "id": "animals.wolf",
+      "text": "ВОЛК",
+      "path": "shared/level_content/audio/ru/animals.wolf.mp3"
+    },
+    {
+      "id": "food.pizza",
+      "text": "ПИЦЦА",
+      "path": "shared/level_content/audio/ru/food.pizza.mp3"
+    },
+    {
+      "id": "food.burger",
+      "text": "БУРГЕР",
+      "path": "shared/level_content/audio/ru/food.burger.mp3"
+    },
+    {
+      "id": "food.cake",
+      "text": "ТОРТ",
+      "path": "shared/level_content/audio/ru/food.cake.mp3"
+    },
+    {
+      "id": "food.juice",
+      "text": "СОК",
+      "path": "shared/level_content/audio/ru/food.juice.mp3"
+    },
+    {
+      "id": "food.taco",
+      "text": "ТАКО",
+      "path": "shared/level_content/audio/ru/food.taco.mp3"
+    },
+    {
+      "id": "food.donut",
+      "text": "ПОНЧИК",
+      "path": "shared/level_content/audio/ru/food.donut.mp3"
+    },
+    {
+      "id": "food.cookie",
+      "text": "ПЕЧЕНЬЕ",
+      "path": "shared/level_content/audio/ru/food.cookie.mp3"
+    },
+    {
+      "id": "food.soup",
+      "text": "СУП",
+      "path": "shared/level_content/audio/ru/food.soup.mp3"
+    },
+    {
+      "id": "food.meat",
+      "text": "МЯСО",
+      "path": "shared/level_content/audio/ru/food.meat.mp3"
+    },
+    {
+      "id": "food.sushi",
+      "text": "СУШИ",
+      "path": "shared/level_content/audio/ru/food.sushi.mp3"
+    }
+  ]
+}

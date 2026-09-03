@@ -1,5 +1,77 @@
 # Progress Log
 
+## Russian learning-content localization — Phase 4: audio pipeline (in progress, blocked on Azure credentials) (2026-09-03)
+
+**Status: pipeline built and verified end-to-end; no real audio generated
+yet.** `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION` aren't set in this
+environment — the same state AAC's own `en`/`ru` voices are already in
+(configured, never actually generated). Everything up to the actual Azure
+call is done and tested; waiting on credentials to run it for real.
+
+**What changed**
+
+- `tool/export_audio_manifest.dart` — a new Dart script (run via `flutter
+  test tool/export_audio_manifest.dart`, not `dart run`, since it
+  transitively imports `package:flutter/material.dart` through the
+  content-pack files and plain `dart run` can't compile that outside the
+  Flutter toolchain) that reads the real `ContentPack` data — the single
+  source of truth — and writes `shared/level_content/audio_manifest.json`:
+  one `{id, text, path}` entry per item, `text` = `item.spokenText` (so
+  Ь/Ъ get their letter-name pronunciation, not the bare glyph). This
+  bridges the Dart/Python boundary: level content lives in typed Dart,
+  but the actual TTS generator (matching AAC's proven pattern) is Python.
+  Currently 85 `en` items + 92 `ru` items.
+- `tools/generate_level_audio.py` — new, sibling to `generate_aac_audio.py`,
+  reusing its exact `AzureSpeechClient` (stdlib-only, token-then-SSML
+  pattern) and `VOICES` table (`en-US-AnaNeural`, `ru-RU-SvetlanaNeural` —
+  same voices AAC uses). Reads the manifest above instead of AAC's
+  `category_*.json` cards. `python3 tools/generate_level_audio.py` once
+  credentials are set.
+- `lib/services/level_audio_player.dart` — new `LevelAudioPlayer`, mirrors
+  `AacAudioPlayer`'s tiered-fallback pattern (minus its neural-TTS-backend
+  middle tier — no such endpoint exists for level content, out of scope
+  here): tier 1 tries the bundled asset at
+  `shared/level_content/audio/{locale}/{bare id}.mp3`; tier 2 falls back
+  to the existing `TtsService` (live, cached) exactly as every level-
+  content call site already did before this phase. `assetPathFor()` is
+  the one place this path is built — the manifest exporter now calls it
+  directly rather than reimplementing the same logic, so the two can't
+  drift apart.
+- `generic_game_screen.dart` and `letters_stage1_screen.dart`: every
+  `TtsService.instance.speak(...)` call site replaced with
+  `LevelAudioPlayer.instance.speak(item, locale: ...)`. Applied to *every*
+  locale, not gated behind a ru-only flag like Phase 3's changes — unlike
+  a visual/layout change, an asset-first-then-identical-TTS-fallback is
+  not an observable behavior difference when the asset doesn't exist
+  (which is true for every locale right now), and this is what makes the
+  app ready to pick up `en` audio too, whenever that gets generated.
+
+**Tests** (3 new, 326/326 total passing): `assetPathFor` path-convention
+unit tests. No regressions — every existing widget test that exercises
+these two screens still passes, since the tier-2 TTS fallback is
+byte-identical to what those call sites did directly before.
+
+**Deliberately not done yet, and why**
+
+- `pubspec.yaml` doesn't declare `shared/level_content/audio/en/` or
+  `.../ru/` — declaring a nonexistent asset directory fails the Flutter
+  build (the exact same non-recursive-directory lesson from the Uzbek AAC
+  work). Adding it now, before real files exist, would break `flutter
+  build`/`flutter test` for everyone.
+- The build/test-time "every content item has a matching audio asset"
+  coverage test isn't written yet — writing it against zero real files
+  would just fail permanently, which isn't a useful regression guard.
+  Both of these land in the same commit as the real generated audio.
+
+**What's left to do**
+
+1. You provide `AZURE_SPEECH_KEY`/`AZURE_SPEECH_REGION`; I run
+   `tools/generate_level_audio.py` for real, report the generated file
+   count per locale, add the two pubspec asset entries, and add the
+   coverage test — then it'll actually pass, meaningfully.
+2. Manual QA once real audio exists: confirm a spoken word/letter
+   actually matches what's shown, in both `en` and `ru`.
+
 ## Russian learning-content localization — Phase 3: Cyrillic keyboard (2026-09-03)
 
 **What changed**
