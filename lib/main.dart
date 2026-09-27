@@ -31,26 +31,36 @@ import 'features/aac/presentation/aac_home_screen.dart';
 import 'services/user_service.dart';
 import 'services/tts_service.dart';
 import 'services/sound_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'core/network/supabase_config.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: kSupabaseUrl,
+    publishableKey: kSupabaseAnonKey,
+  );
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     ),
   );
+
   final registered = await UserService.isRegistered();
   await UserService.loadNotifiers();
+
   unawaited(TtsService.instance.init().catchError((_) {}));
   unawaited(SoundService.instance.init().catchError((_) {}));
 
   runApp(
-    // ProviderScope makes all Riverpod providers available (mascot, adaptive state, etc.)
     ProviderScope(
       child: FlexiKeysApp(startRegistered: registered),
     ),

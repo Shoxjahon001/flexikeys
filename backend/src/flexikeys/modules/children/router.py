@@ -70,6 +70,7 @@ async def create_child(
         ui_language=body.ui_language,
         birth_year=body.birth_year,
         avatar_id=body.avatar_id,
+        child_id=body.id,
     )
     await db.commit()
     return ChildOut.model_validate(child)

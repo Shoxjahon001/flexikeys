@@ -2,6 +2,7 @@ library api_client;
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import 'secure_token_store.dart';
 
@@ -14,15 +15,16 @@ const String kApiBaseUrl = String.fromEnvironment(
 );
 
 /// Which bearer token a request should carry. Parent-role endpoints
-/// (auth, /me, /children, parent dashboards, teacher dashboards) use the
-/// parent's access token; child-facing endpoints (adaptive, sessions) use
-/// the short-lived child-session token.
+/// (/children, parent dashboards, teacher dashboards, AAC, telemetry,
+/// adaptive sync) use the parent's Supabase access token — this backend
+/// verifies it directly rather than issuing its own; child-facing endpoints
+/// (adaptive, sessions) use the short-lived, backend-issued child-session
+/// token.
 enum TokenKind { parentAccess, childSession }
 
 /// Thin wrapper around [http.Client] that attaches the right bearer token
-/// and retries once on 401 — refreshing the parent access token via
-/// `/auth/refresh`, or reissuing the child-session token via
-/// `/children/{id}/session`, before retrying.
+/// and retries once on 401 — refreshing the Supabase session, or reissuing
+/// the child-session token via `/children/{id}/session`, before retrying.
 class ApiClient {
   ApiClient._();
   static final ApiClient instance = ApiClient._();
@@ -118,7 +120,7 @@ class ApiClient {
   Future<String?> _tokenFor(TokenKind kind) {
     switch (kind) {
       case TokenKind.parentAccess:
-        return _store.getAccessToken();
+        return Future.value(sb.Supabase.instance.client.auth.currentSession?.accessToken);
       case TokenKind.childSession:
         return _store.getChildToken();
     }
@@ -133,27 +135,13 @@ class ApiClient {
     }
   }
 
+  /// The Supabase SDK already refreshes proactively before expiry; a 401
+  /// here usually means the session was revoked elsewhere. Ask it to
+  /// refresh once — if that fails, there's nothing more this client can do.
   Future<bool> _refreshParentAccess() async {
-    final refreshToken = await _store.getRefreshToken();
-    if (refreshToken == null) return false;
     try {
-      final resp = await _client
-          .post(
-            _uri('/auth/refresh'),
-            headers: {'Content-Type': 'application/json'},
-            body: jsonEncode({'refresh_token': refreshToken}),
-          )
-          .timeout(const Duration(seconds: 10));
-      if (resp.statusCode != 200) {
-        await _store.clearAll();
-        return false;
-      }
-      final data = jsonDecode(resp.body) as Map<String, dynamic>;
-      await _store.setSession(
-        accessToken: data['access_token'] as String,
-        refreshToken: data['refresh_token'] as String,
-      );
-      return true;
+      final resp = await sb.Supabase.instance.client.auth.refreshSession();
+      return resp.session != null;
     } catch (_) {
       return false;
     }
@@ -166,10 +154,10 @@ class ApiClient {
     if (childId == null) return false;
 
     try {
-      var resp = await _postChildSession(childId, await _store.getAccessToken());
+      var resp = await _postChildSession(childId, await _tokenFor(TokenKind.parentAccess));
       if (resp.statusCode == 401) {
         if (!await _refreshParentAccess()) return false;
-        resp = await _postChildSession(childId, await _store.getAccessToken());
+        resp = await _postChildSession(childId, await _tokenFor(TokenKind.parentAccess));
       }
       if (resp.statusCode != 200) return false;
 

@@ -14,6 +14,12 @@ class ChildCreate(BaseModel):
     ui_language: str = "en"
     birth_year: int | None = None
     avatar_id: str | None = None
+    # Optional client-supplied id: the Flutter app creates the canonical
+    # child row in Supabase first (RLS-protected parent/child data lives
+    # there now) and mirrors it here with the same id, so this backend's
+    # own child-session minting, consent records, adaptive engine, AAC and
+    # telemetry modules keep a matching local FK target.
+    id: uuid.UUID | None = None
 
 
 class ChildOut(BaseModel):

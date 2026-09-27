@@ -1,0 +1,46 @@
+category,card_id,kind,output_path,text_uz,is_duplicate,recording_number
+dailyActivities,da_bath,direct,shared/aac/audio/uz/da_bath.mp3,Men cho'milmoqchiman.,FALSE,1
+dailyActivities,da_brush_teeth,direct,shared/aac/audio/uz/da_brush_teeth.mp3,Men tishimni yuvmoqchiman.,FALSE,2
+dailyActivities,da_drink,direct,shared/aac/audio/uz/da_drink.mp3,Men ichmoqchiman.,FALSE,3
+dailyActivities,da_eat,direct,shared/aac/audio/uz/da_eat.mp3,Men ovqatlanmoqchiman.,FALSE,4
+dailyActivities,da_sleep,direct,shared/aac/audio/uz/da_sleep.mp3,Men uxlamoqchiman.,FALSE,5
+dailyActivities,da_toilet,direct,shared/aac/audio/uz/da_toilet.mp3,Men hojatxonaga bormoqchiman.,FALSE,6
+dailyActivities,da_wash_hands,direct,shared/aac/audio/uz/da_wash_hands.mp3,Men qo'limni yuvmoqchiman.,FALSE,7
+feelings,fe_angry,direct,shared/aac/audio/uz/fe_angry.mp3,Mening jahlim chiqyapti.,FALSE,8
+feelings,fe_happy,direct,shared/aac/audio/uz/fe_happy.mp3,Men xursandman.,FALSE,9
+feelings,fe_pain,branch,shared/aac/audio/uz/fe_pain.mp3,Og'riq,FALSE,10
+feelings,fe_pain_head,fringe,shared/aac/audio/uz/fe_pain_head.mp3,Bosh,FALSE,11
+feelings,fe_pain_leg,fringe,shared/aac/audio/uz/fe_pain_leg.mp3,Oyoq,FALSE,12
+feelings,fe_pain_stomach,fringe,shared/aac/audio/uz/fe_pain_stomach.mp3,Qorin,FALSE,13
+feelings,fe_pain_tooth,fringe,shared/aac/audio/uz/fe_pain_tooth.mp3,Tish,FALSE,14
+feelings,fe_sad,direct,shared/aac/audio/uz/fe_sad.mp3,Men xafaman.,FALSE,15
+feelings,fe_scared,direct,shared/aac/audio/uz/fe_scared.mp3,Men qo'rqyapman.,FALSE,16
+feelings,fe_tired,direct,shared/aac/audio/uz/fe_tired.mp3,Men charchadim.,FALSE,17
+needs,ne_blanket,direct,shared/aac/audio/uz/ne_blanket.mp3,Menga ko'rpa kerak.,FALSE,18
+needs,ne_break,direct,shared/aac/audio/uz/ne_break.mp3,Menga dam olish kerak.,FALSE,19
+needs,ne_food,branch,shared/aac/audio/uz/ne_food.mp3,Ovqat,FALSE,20
+needs,ne_food_apple,fringe,shared/aac/audio/uz/ne_food_apple.mp3,Olma,FALSE,21
+needs,ne_food_banana,fringe,shared/aac/audio/uz/ne_food_banana.mp3,Banan,FALSE,22
+needs,ne_food_bread,fringe,shared/aac/audio/uz/ne_food_bread.mp3,Non,FALSE,23
+needs,ne_food_rice,fringe,shared/aac/audio/uz/ne_food_rice.mp3,Guruch,FALSE,24
+needs,ne_help,direct,shared/aac/audio/uz/ne_help.mp3,Menga yordam kerak.,FALSE,25
+needs,ne_hug,direct,shared/aac/audio/uz/ne_hug.mp3,Men quchoqlanishni xohlayman.,FALSE,26
+needs,ne_medicine,direct,shared/aac/audio/uz/ne_medicine.mp3,Menga dori kerak.,FALSE,27
+needs,ne_water,direct,shared/aac/audio/uz/ne_water.mp3,Men suv xohlayman.,FALSE,28
+people,pe_dad,direct,shared/aac/audio/uz/pe_dad.mp3,Men otamni xohlayman.,FALSE,29
+people,pe_doctor,direct,shared/aac/audio/uz/pe_doctor.mp3,Men shifokorni xohlayman.,FALSE,30
+people,pe_grandma,direct,shared/aac/audio/uz/pe_grandma.mp3,Men buvimni xohlayman.,FALSE,31
+people,pe_mom,direct,shared/aac/audio/uz/pe_mom.mp3,Men onamni xohlayman.,FALSE,32
+people,pe_teacher,direct,shared/aac/audio/uz/pe_teacher.mp3,Men o'qituvchimni xohlayman.,FALSE,33
+places,pl_bathroom,direct,shared/aac/audio/uz/pl_bathroom.mp3,Men hammomga bormoqchiman.,FALSE,34
+places,pl_bedroom,direct,shared/aac/audio/uz/pl_bedroom.mp3,Men yotoqxonaga bormoqchiman.,FALSE,35
+places,pl_hospital,direct,shared/aac/audio/uz/pl_hospital.mp3,Men shifoxonaga bormoqchiman.,FALSE,36
+places,pl_kitchen,direct,shared/aac/audio/uz/pl_kitchen.mp3,Men oshxonaga bormoqchiman.,FALSE,37
+places,pl_outside,direct,shared/aac/audio/uz/pl_outside.mp3,Men tashqariga chiqmoqchiman.,FALSE,38
+places,pl_school,direct,shared/aac/audio/uz/pl_school.mp3,Men maktabga bormoqchiman.,FALSE,39
+play,pa_ball,direct,shared/aac/audio/uz/pa_ball.mp3,Men to'p bilan o'ynamoqchiman.,FALSE,40
+play,pa_book,direct,shared/aac/audio/uz/pa_book.mp3,Men kitob o'qimoqchiman.,FALSE,41
+play,pa_drawing,direct,shared/aac/audio/uz/pa_drawing.mp3,Men rasm chizmoqchiman.,FALSE,42
+play,pa_music,direct,shared/aac/audio/uz/pa_music.mp3,Men musiqa tinglamoqchiman.,FALSE,43
+play,pa_tablet,direct,shared/aac/audio/uz/pa_tablet.mp3,Men planshetni xohlayman.,FALSE,44
+play,pa_toy,direct,shared/aac/audio/uz/pa_toy.mp3,Men o'yinchog'imni xohlayman.,FALSE,45

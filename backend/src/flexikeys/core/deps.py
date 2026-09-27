@@ -5,9 +5,10 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
-from jose import JWTError
+from jose import JWTError, jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from flexikeys.core.config import get_settings
 from flexikeys.core.db import get_db
 from flexikeys.core.enums import UserRole
 from flexikeys.core.security import decode_token
@@ -20,21 +21,43 @@ async def get_current_user(
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(_bearer)],
     db: Annotated[AsyncSession, Depends(get_db)],
 ) -> User:
+    """Authenticate the parent from a Supabase-issued access token.
+
+    Parent auth (signup/login/refresh/password reset) is owned by Supabase
+    now — this backend only verifies the token's signature and lazily
+    mirrors a local `users` row on first sight, so other modules (children,
+    progress, adaptive, AAC, telemetry, ...) that still live in this
+    backend's own Postgres keep a stable FK target with role/locale
+    metadata attached.
+    """
     if not credentials:
         raise HTTPException(status_code=401, detail="Not authenticated")
+    settings = get_settings()
+    if not settings.supabase_jwt_secret:
+        raise HTTPException(status_code=500, detail="Supabase auth not configured")
     try:
-        claims = decode_token(credentials.credentials)
+        claims = jwt.decode(
+            credentials.credentials,
+            settings.supabase_jwt_secret,
+            algorithms=["HS256"],
+            audience="authenticated",
+        )
     except JWTError as exc:
         raise HTTPException(status_code=401, detail="Invalid or expired token") from exc
-    if claims.get("type") != "access":
-        raise HTTPException(status_code=401, detail="Invalid token type")
+
+    user_id = uuid.UUID(claims["sub"])
 
     from flexikeys.modules.users.repository import UserRepository
 
     repo = UserRepository(db)
-    user = await repo.get_by_id(uuid.UUID(claims["sub"]))
-    if user is None or user.deleted_at is not None:
-        raise HTTPException(status_code=401, detail="User not found")
+    user = await repo.get_by_id(user_id)
+    if user is None:
+        user_metadata = claims.get("user_metadata") or {}
+        user = await repo.create_from_supabase(
+            user_id=user_id,
+            email=claims.get("email"),
+            locale=user_metadata.get("locale", "en"),
+        )
     return user
 
 

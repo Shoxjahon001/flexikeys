@@ -4,12 +4,14 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' as sb;
 
 import '../../../core/network/api_client.dart';
 import '../../../core/network/secure_token_store.dart';
 import '../../../services/progress/progress_repository.dart';
 import '../../../services/sync/sync_service.dart';
 import '../../../services/telemetry/telemetry_service.dart';
+import '../data/children_repository.dart';
 import '../domain/auth_models.dart';
 
 enum AuthStatus {
@@ -59,34 +61,33 @@ class AuthController extends StateNotifier<AuthState> {
     _bootstrap();
   }
 
-  final ApiClient _api = ApiClient.instance;
+  final sb.SupabaseClient _supabase = sb.Supabase.instance.client;
   final SecureTokenStore _store = SecureTokenStore.instance;
+  final ChildrenRepository _childrenRepo = ChildrenRepository.instance;
 
   Future<void> _bootstrap() async {
-    if (!await _store.hasParentSession()) {
+    final session = _supabase.auth.currentSession;
+    if (session == null) {
       state = state.copyWith(status: AuthStatus.unauthenticated);
       return;
     }
     try {
-      final resp = await _api.get('/me');
-      if (resp.statusCode != 200) {
-        // Server actively rejected the session (expired/invalid) — clear it.
-        await _store.clearAll();
-        state = state.copyWith(status: AuthStatus.unauthenticated);
-        return;
-      }
-      final user = AppUser.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
+      final user = await _fetchProfile(session.user.id);
       await loadChildren();
       state = state.copyWith(user: user);
       await _restoreActiveChild();
     } catch (_) {
-      // Network unreachable (offline, backend down, wrong host on a
-      // physical device, etc.) — this is not the same as an invalid
-      // session, so keep the stored tokens for next launch instead of
-      // signing the user out. The child-facing app still works locally;
+      // Network unreachable (offline, Supabase down, etc.) — this is not
+      // the same as an invalid session, so keep it for next launch instead
+      // of signing the user out. The child-facing app still works locally;
       // only parent/AI-dashboard features stay unavailable this session.
       state = state.copyWith(status: AuthStatus.unauthenticated);
     }
+  }
+
+  Future<AppUser> _fetchProfile(String userId) async {
+    final row = await _supabase.from('profiles').select().eq('id', userId).single();
+    return AppUser.fromJson(row);
   }
 
   Future<void> _restoreActiveChild() async {
@@ -106,32 +107,21 @@ class AuthController extends StateNotifier<AuthState> {
     await selectChild(child);
   }
 
-  Future<bool> register(String email, String password, {String locale = 'en'}) {
-    return _authenticate(
-      '/auth/register',
-      {'email': email, 'password': password, 'role': 'parent', 'locale': locale},
-    );
-  }
-
-  Future<bool> login(String email, String password) {
-    return _authenticate('/auth/login', {'email': email, 'password': password});
-  }
-
-  Future<bool> _authenticate(String path, Map<String, dynamic> body) async {
+  Future<bool> register(String email, String password, {String locale = 'en'}) async {
     state = state.copyWith(loading: true, error: null);
     try {
-      final resp = await _api.post(path, body: body);
-      if (resp.statusCode != 200 && resp.statusCode != 201) {
-        state = state.copyWith(loading: false, error: _errorFrom(resp));
+      final resp = await _supabase.auth.signUp(
+        email: email,
+        password: password,
+        data: {'locale': locale},
+      );
+      if (resp.session == null || resp.user == null) {
+        // Supabase project has "Confirm email" enabled — the account was
+        // created but can't be used until the parent verifies their email.
+        state = state.copyWith(loading: false, error: 'email_confirmation_required');
         return false;
       }
-      final data = jsonDecode(resp.body) as Map<String, dynamic>;
-      await _store.setSession(
-        accessToken: data['access_token'] as String,
-        refreshToken: data['refresh_token'] as String,
-      );
-      final meResp = await _api.get('/me');
-      final user = AppUser.fromJson(jsonDecode(meResp.body) as Map<String, dynamic>);
+      final user = await _fetchProfile(resp.user!.id);
       await loadChildren();
       state = state.copyWith(
         status: AuthStatus.authenticatedNoChild,
@@ -139,6 +129,34 @@ class AuthController extends StateNotifier<AuthState> {
         loading: false,
       );
       return true;
+    } on sb.AuthException catch (e) {
+      state = state.copyWith(loading: false, error: e.message);
+      return false;
+    } catch (_) {
+      state = state.copyWith(loading: false, error: 'network_error');
+      return false;
+    }
+  }
+
+  Future<bool> login(String email, String password) async {
+    state = state.copyWith(loading: true, error: null);
+    try {
+      final resp = await _supabase.auth.signInWithPassword(email: email, password: password);
+      if (resp.user == null) {
+        state = state.copyWith(loading: false, error: 'unknown_error');
+        return false;
+      }
+      final user = await _fetchProfile(resp.user!.id);
+      await loadChildren();
+      state = state.copyWith(
+        status: AuthStatus.authenticatedNoChild,
+        user: user,
+        loading: false,
+      );
+      return true;
+    } on sb.AuthException catch (e) {
+      state = state.copyWith(loading: false, error: e.message);
+      return false;
     } catch (_) {
       state = state.copyWith(loading: false, error: 'network_error');
       return false;
@@ -155,36 +173,31 @@ class AuthController extends StateNotifier<AuthState> {
   }
 
   Future<void> loadChildren() async {
-    final resp = await _api.get('/children');
-    if (resp.statusCode != 200) return;
-    final list = jsonDecode(resp.body) as List<dynamic>;
-    state = state.copyWith(
-      children: list.cast<Map<String, dynamic>>().map(ChildProfile.fromJson).toList(),
-    );
+    try {
+      final list = await _childrenRepo.list();
+      state = state.copyWith(children: list);
+    } catch (_) {
+      // Offline — keep whatever children are already cached in state.
+    }
   }
 
   Future<ChildProfile?> createChild(ChildCreateData data) async {
-    final resp = await _api.post('/children', body: data.toJson());
-    if (resp.statusCode != 201) {
-      state = state.copyWith(error: _errorFrom(resp));
+    try {
+      final child = await _childrenRepo.create(data);
+      await loadChildren();
+      return child;
+    } catch (e) {
+      state = state.copyWith(error: e.toString());
       return null;
     }
-    final child = ChildProfile.fromJson(jsonDecode(resp.body) as Map<String, dynamic>);
-    await loadChildren();
-    // Parent explicitly created the profile just now — record required consents.
-    await _api.post(
-      '/children/${child.id}/consent',
-      body: {'consent_type': 'coppa_parent_consent'},
-    );
-    await _api.post(
-      '/children/${child.id}/consent',
-      body: {'consent_type': 'data_processing'},
-    );
-    return child;
   }
 
   Future<bool> selectChild(ChildProfile child) async {
-    final resp = await _api.post('/children/${child.id}/session');
+    // Backend still mints a short-lived child-session token (see
+    // ApiClient/TokenKind.childSession) for adaptive/AAC/telemetry calls —
+    // now authorized by the Supabase parent access token instead of the
+    // old FastAPI-issued one.
+    final resp = await ApiClient.instance.post('/children/${child.id}/session');
     if (resp.statusCode != 200) {
       state = state.copyWith(error: _errorFrom(resp));
       return false;
@@ -195,8 +208,8 @@ class AuthController extends StateNotifier<AuthState> {
 
     await SyncService.instance.init(childId: child.id, language: child.learningLanguage);
     await TelemetryService.instance.init(childId: child.id, language: child.learningLanguage);
-    // Fire-and-forget: reconcile local game progress with the backend now
-    // that a child session is active. Never blocks entering gameplay.
+    // Fire-and-forget: reconcile local game progress with Supabase now that
+    // a child session is active. Never blocks entering gameplay.
     unawaited(ProgressRepository.instance.sync());
 
     state = state.copyWith(
@@ -217,13 +230,10 @@ class AuthController extends StateNotifier<AuthState> {
 
   Future<void> logout() async {
     await TelemetryService.instance.dispose();
-    final refreshToken = await _store.getRefreshToken();
-    if (refreshToken != null) {
-      try {
-        await _api.post('/auth/logout', body: {'refresh_token': refreshToken});
-      } catch (_) {
-        // Best-effort — proceed with local sign-out regardless.
-      }
+    try {
+      await _supabase.auth.signOut();
+    } catch (_) {
+      // Best-effort — proceed with local sign-out regardless.
     }
     await _store.clearAll();
     state = const AuthState(status: AuthStatus.unauthenticated);

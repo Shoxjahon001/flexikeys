@@ -36,9 +36,10 @@ class ChildRepository:
         ui_language: str = "en",
         birth_year: int | None = None,
         avatar_id: str | None = None,
+        child_id: uuid.UUID | None = None,
     ) -> Child:
         child = Child(
-            id=uuid.uuid4(),
+            id=child_id or uuid.uuid4(),
             parent_id=parent_id,
             display_name=display_name,
             learning_language=learning_language,

@@ -28,6 +28,7 @@ class ChildrenService:
         ui_language: str = "en",
         birth_year: int | None = None,
         avatar_id: str | None = None,
+        child_id: uuid.UUID | None = None,
     ) -> Child:
         return await self._repo.create(
             parent_id=parent_id,
@@ -36,6 +37,7 @@ class ChildrenService:
             ui_language=ui_language,
             birth_year=birth_year,
             avatar_id=avatar_id,
+            child_id=child_id,
         )
 
     async def list_children(self, parent_id: uuid.UUID) -> Sequence[Child]:

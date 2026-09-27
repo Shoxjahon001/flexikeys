@@ -4,6 +4,7 @@ import '../design_system/design_system.dart';
 import '../services/user_service.dart';
 import '../services/tts_service.dart';
 import '../services/sound_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../core/network/secure_token_store.dart';
 import '../features/parent/presentation/parent_home_screen.dart';
 
@@ -38,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       UserService.getTimeSpentToday(),
       UserService.getVolume(),
     ]);
-    final hasAccount = await SecureTokenStore.instance.hasParentSession();
+    final hasAccount = Supabase.instance.client.auth.currentSession != null;
     if (mounted) setState(() => _hasBackendAccount = hasAccount);
     if (mounted) {
       setState(() {

@@ -32,6 +32,12 @@ class Settings(BaseSettings):
     jwt_refresh_token_expire_days: int = 30
     child_session_token_expire_hours: int = 8
 
+    # Supabase — parent auth is owned by Supabase; this backend only
+    # verifies the access token it issues. Value is the project's JWT
+    # Secret (Supabase dashboard: Settings -> API -> JWT Settings), not the
+    # anon/publishable key.
+    supabase_jwt_secret: str = ""
+
     # CORS
     # NoDecode: pydantic-settings would otherwise try to json.loads() the raw
     # env string before this validator runs, which breaks on a plain CSV value.
